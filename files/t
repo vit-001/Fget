@@ -1,0 +1,71 @@
+<video class="jw-video jw-reset" x-webkit-airplay="allow" webkit-playsinline=""
+src="http://v6.s2.n10.nl.eprncdn.com/f113e8e3a7c6e62cf1d0468dafd956f5/55e78043c35000/351754.mp4?_=1441227807290"
+style="transform: scale(0.6875, 0.688888888888889);          left: -200px;       right: -200px;       width: 1280px;       height: 720px;      
+bottom: -112px;       top: -112px;      "></video>
+
+$('#moviexxx').html('<div id="mediaspace2" style="width:880px;      height:495px"><div id="mediaspace" itemprop="video"></div></div>');      
+jwplayer.key="RFMdHEd1DTLC35a8P1t6ct/Ms0sKDEa3wf9wUVpw/+8DuBOv";      
+var scrwid=window.screen.width;      
+var force720p=false;      var forcelq=false;      var deflq=false;      var def720p=false;      if(scrwid<1200){deflq=true;      }
+else
+{if(force720p)def720p=true;      if(forcelq)deflq=true;      }
+var INFULLSCR=false;      var BUFFSIZE=15;      var BUFFERED=0;      var BUFFER_START=0;      var BUFFER_END=0;      var BUFFER_DURATION=0;      var BUFFER_BW=0;      var DASH_CURR_BW=0;      var DASH_ENABLED=0;      var DASH_INITIAL_BW=0;      
+var DASH_PLAYED=0;      var PLAYER=null;      var TTS=0;      function set_buff_size(len)
+{if(!DASH_ENABLED)return;      if(len=='max')BUFFSIZE=Math.max(15,Math.round(80/(BUFFER_BW/1024/1024/8)));      else BUFFSIZE=Math.max(15,len);
+PLAYER.configure({'streamBufferSize':BUFFSIZE});      }
+function qual_change(a)
+{DASH_ENABLED=1;      console.log(a);      BUFFER_BW=a.bandwidth;      }
+setInterval(function(){if(!DASH_ENABLED)return;      var lvls=jwplayer('mediaspace').getQualityLevels();      
+if(jwplayer('mediaspace').getCurrentQuality()==lvls.length-1)$('.jw-item-'+(lvls.length-1)+'.jw-active-option').html
+('Auto ('+$('#mediaspace video')[0].videoHeight+'p)');      else $('.jw-item-'+(lvls.length-1)).html('Auto');      
+var currentTime=$('#mediaspace video')[0].currentTime;      
+var buffered=$('#mediaspace video')[0].buffered;      var duration=$('#mediaspace video')[0].duration;      if(buffered.length>1)set_buff_size(15);      for(var i=0;      i<buffered.length;      ++i){if(buffered.start(i)<=currentTime&&buffered.end(i)>=currentTime){ahead=buffered.end(i)-currentTime;      behind=currentTime-buffered.start(i);      var pct_start=(buffered.start(i)/duration)*100;      var pct_end=(buffered.end(i)/duration)*100;      var pct_buff=pct_end-pct_start;      $('.jw-buffer').css('margin-left',pct_start+'%');      $('.jw-buffer').css('width',pct_buff+'%');      BUFFERED=Math.floor(ahead);      break;      }}},100);      function log_curr_bw(bw)
+{bw=Math.floor(bw);      createCookie('userbw',bw,7);      console.log('CURR BW: '+bw);      DASH_CURR_BW=bw;      }
+function getStartupBandwidth()
+{var value=readCookie('userbw');      if(value===null)return 500000;      return value;      }
+DASH_INITIAL_BW=getStartupBandwidth();      var userquality=readCookie('userquality');      if(userquality=='1080p'){deflq=false;      def720p=false;      }
+if(userquality=='720p'){deflq=false;      def720p=true;      }
+if(userquality=='360p'){deflq=true;      def720p=false;      }
+jwplayer("mediaspace").setup(
+{sources:
+[{file:"http://v6.s2.n10.nl.eprncdn.com/3b00b801922a4cb1af56056642ae634a/55e785c6c35000/351754.mp4",label:"720p HD",type:"mp4"},
+{file:"http://v6.s2.n10.nl.eprncdn.com/87ef886c44ac173592280f44f8ef7d96/55e785c6c35000/351754-lq.mp4",label:"360p",type:"mp4","default":deflq}],
+tracks:[{file:"http://static2.eu.eprncdn.com/thumbs/static4/3/35/351/351754/tiles.vtt",kind:"thumbnails"}],height:495,logo:{file:'http://static2.eu.eprncdn.com/new/eplogo.png',link:'http://www.eporner.com/'},startparam:"start",width:880,autostart:true});      var adcnt=0;      var bwcnt=0;      var title=document.title.toString();      document.title=title;      jwplayer('mediaspace').onReady(function(event){$('.jw-slider-time').prependTo('.jw-controlbar');      var $button=$('.jw-icon-fullscreen').clone();      $button.removeClass('jw-icon-fullscreen').addClass('jw-icon-resize');      $button.removeClass('jw-icon-inline').addClass('jw-icon-tooltip');      $('.jw-icon-fullscreen').before($button);      $('.jw-dock').insertAfter('.jw-title');      addbuttons();      $('.jw-icon-resize').click(function(){resizePlayer();      });      large_player();      prepare_inp();      show_inp();      });      function played_incr()
+{DASH_PLAYED++;      setTimeout(function(){played_incr();      },1000);      }
+played_incr();      var range_buffers=1;      function add_buffer_bar()
+{$(".jw-slider-time .jw-buffer:eq(0)").clone().appendTo(".jw-slider-time .jw-slider-container");      }
+function remove_buffer_bar(index)
+{$(".jw-slider-time .jw-buffer:eq("+index+")").remove();      }
+jwplayer('mediaspace').on('levelsChanged',function(event){DASH_PLAYED=0;      curlvlin=jwplayer("mediaspace").getCurrentQuality();      quals=jwplayer('mediaspace').getQualityLevels();      qualsstr=quals[curlvlin].label;      qualsstr=qualsstr.split(" ");      createCookie('userquality',qualsstr[0],7);      if(!DASH_ENABLED)return;      set_buff_size(15);      jwplayer('mediaspace').play(false);      setTimeout(function(){jwplayer('mediaspace').play(true);      },1000);      });      jwplayer('mediaspace').on('fullscreen',function(event){INFULLSCR=event.fullscreen;      });      jwplayer('mediaspace').onPlay(function(event){DASH_PLAYED=0;      setTimeout(function(){$('#mediaspace').addClass('jw-flag-user-inactive');      },2000);      close_inp();      document.title=title;      document.title='\u25B6 '+document.title;      set_buff_size(15);      });      jwplayer('mediaspace').onPause(function(event){set_buff_size('max');      $('.jw-logo').show(500);      show_inp();      document.title=title;      });      jwplayer('mediaspace').onBuffer(function(event){});      jwplayer('mediaspace').onIdle(function(event){document.title=title;      });      jwplayer('mediaspace').onComplete(function(event){sDiv.style.display="none";      document.title=title;      });      jwplayer('mediaspace').onResize(function(event){position_inp();      });      jwplayer('mediaspace').on('seek',function(event){DASH_PLAYED=0;      });      var vreloaded=false;      function DASH_STATUS(DASH_ENABLED,DASH_INITIAL_BW,BUFFSIZE,BUFFERED,BUFFER_BW,buffered_ahead,remaining,DASH_PLAYED)
+{this.detected=false;      this.enabled=DASH_ENABLED;      this.InitBW=Math.floor(DASH_INITIAL_BW/1024);      this.BUFFSIZE=BUFFSIZE;      this.BUFFERED=BUFFERED;      this.QualBW=Math.floor(BUFFER_BW/1024);      this.CurrBW=Math.floor(DASH_CURR_BW/1024);      this.BUFFAHEAD=buffered_ahead;      this.REMAINING=remaining;      this.PLAYED=DASH_PLAYED;      }
+function get_dash_status()
+{var buffered_ahead=BUFFERED;      var remaining=jwplayer('mediaspace').getDuration()-jwplayer('mediaspace').getPosition();      var status=new DASH_STATUS(DASH_ENABLED,DASH_INITIAL_BW,BUFFSIZE,BUFFERED,BUFFER_BW,buffered_ahead,remaining,DASH_PLAYED);      return status;      }
+function send_statistics()
+{if(jwplayer('mediaspace').getState()=='playing')
+{$.ajax({type:"POST",url:"/dash_report/",data:{type:'media|'+jwplayer("mediaspace").getRenderingMode(),string:'',file:'http://v6.s2.n10.nl.eprncdn.com/3b00b801922a4cb1af56056642ae634a/55e785c6c35000/351754.mp4|',dash:get_dash_status()}}).done(function(response){});      }
+setTimeout(function(){send_statistics()},10000);      }
+jwplayer('mediaspace').onError(function(event){if(!vreloaded)
+{vreloaded=true;      curlvlin=jwplayer("mediaspace").getCurrentQuality();      $.ajax({type:"POST",url:"/ajax_report/",data:{type:'media|'+jwplayer("mediaspace").getRenderingMode(),string:event.message,file:'http://v6.s2.n10.nl.eprncdn.com/3b00b801922a4cb1af56056642ae634a/55e785c6c35000/351754.mp4|'+curlvlin,dash:get_dash_status()}}).done(function(response){});      jwplayer('mediaspace').load([{file:"http://188.165.13.227/3b00b801922a4cb1af56056642ae634a/55e785c6c35000/351754.mp4"}]);      jwplayer('mediaspace').play(true);      }
+window.location.replace(window.location.href+"?oldplayer=1");      sDiv.style.display="none";      });      jwplayer('mediaspace').onSetupError(function(event){$.ajax({type:"POST",url:"/ajax_report/",data:{type:'player',string:event.message,file:'http://v6.s2.n10.nl.eprncdn.com/3b00b801922a4cb1af56056642ae634a/55e785c6c35000/351754.mp4',dash:get_dash_status()}}).done(function(response){});      window.location.replace(window.location.href+"?oldplayer=1");      sDiv.style.display="none";      });      function addbuttons()
+{jwplayer('mediaspace').addButton("http://static2.eu.eprncdn.com/new/reddit.png","Reddit this video!",function(){url='http://www.eporner.com/addreddit/351754/';      var win=window.open(url,'_blank');      win.focus();      },"addreddit");      jwplayer('mediaspace').addButton("http://static2.eu.eprncdn.com/new/twitter.png","Tweet this video!",function(){url='http://www.eporner.com/addtwitter/351754/';      var win=window.open(url,'_blank');      win.focus();      },"addtwitter");      }
+setTimeout("sendbw()",10000);      function sendbw()
+{var dataSource='/bwmeter/'+(Math.floor((Math.random()*10000)+1))+'/';      var E_XMLHttpRequestObject=false;      if(window.XMLHttpRequest){E_XMLHttpRequestObject=new XMLHttpRequest();      }else if(window.ActiveXObject){E_XMLHttpRequestObject=new ActiveXObject("Microsoft.XMLHTTP");      }
+if(E_XMLHttpRequestObject){E_XMLHttpRequestObject.open("GET",dataSource);      E_XMLHttpRequestObject.onreadystatechange=function()
+{if(E_XMLHttpRequestObject.readyState==4&&E_XMLHttpRequestObject.status==200){}}
+E_XMLHttpRequestObject.send(null);      }}
+document.onkeydown=function(e){switch(e.keyCode){case 37:jwenavigate(-10);      return false;      break;      case 38:jwevolume(+10);      return false;      break;      case 39:jwenavigate(10);      return false;      break;      case 40:jwevolume(-10);      return false;      break;      case 32:jwplayer('mediaspace').play();      break;      }};      function jwenavigate(len)
+{pos=jwplayer('mediaspace').getPosition();      dur=jwplayer('mediaspace').getDuration();      if(len<0)
+{if((pos+len)<0)jwplayer('mediaspace').seek(0);      else jwplayer('mediaspace').seek(pos+len);      }
+if(len>0)
+if((pos+len)>=dur){}
+else jwplayer('mediaspace').seek(pos+len);      }
+function jwevolume(vol)
+{curvol=jwplayer('mediaspace').getVolume();      if(vol<0)
+{if((curvol+vol)<0)jwplayer('mediaspace').setVolume(0);      else jwplayer('mediaspace').setVolume(curvol+vol);      }
+if(vol>0)
+if((curvol+vol)>=100)jwplayer('mediaspace').setVolume(100);      else jwplayer('mediaspace').setVolume(curvol+vol);      }
+function createCookie(name,value,days){var expires;      if(days){var date=new Date();      date.setTime(date.getTime()+(days*24*60*60*1000));      expires=";       expires="+date.toGMTString();      }else{expires="";      }
+document.cookie=encodeURIComponent(name)+"="+encodeURIComponent(value)+expires+";       path=/";      }
+function readCookie(name){var nameEQ=encodeURIComponent(name)+"=";      var ca=document.cookie.split(';      ');      for(var i=0;      i<ca.length;      i++){var c=ca[i];      while(c.charAt(0)===' ')c=c.substring(1,c.length);      if(c.indexOf(nameEQ)===0)return decodeURIComponent(c.substring(nameEQ.length,c.length));      }
+return null;      }
+function eraseCookie(name){createCookie(name,"",-1);      }
