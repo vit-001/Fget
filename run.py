@@ -36,9 +36,6 @@ if __name__ == "__main__":
     print('http://www.hclips.com/latest-updates/')
     print('http://upornia.com/latest-updates/')
 
-    print('http://gobdsm.com/', 'verifyed')
-
-
     from PyQt5.QtWidgets import QApplication
 
     app = QApplication(sys.argv)
