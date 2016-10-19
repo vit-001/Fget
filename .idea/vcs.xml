@@ -2,8 +2,6 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/../iptv_control" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/../vi" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/../vi_player" vcs="Git" />
   </component>
 </project>

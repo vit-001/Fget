@@ -74,7 +74,7 @@ class MediaData():
         self.alternate=list()
         self.add_alternate(dict(text='DEFAULT',url=self.url))
 
-    def add_alternate(self,txt_url_dict=dict()):
+    def add_alternate(self,txt_url_dict):
         self.alternate.append(txt_url_dict)
 
 class ControlInfo():

@@ -7,10 +7,12 @@ from setting import Setting
 
 from loader import safe_load
 
+import site_models.util as util
 
-class PBvideoSite(BaseSite):
+
+class DCvideoSite(BaseSite):
     def start_button_name(self):
-        return "PBvid"
+        return "DCvid"
 
     def get_start_button_menu_text_url_dict(self):
         return dict(Galleries_Recent=URL('http://www.pornbozz.com/photos/'),
@@ -22,34 +24,37 @@ class PBvideoSite(BaseSite):
                     Videos_Longest=URL('http://www.pornbozz.com/longest/'))
 
     def startpage(self):
-        return URL("http://www.pornbozz.com/videos/")
+        return URL("http://www.deviantclip.com/videos*")
 
     def can_accept_index_file(self, base_url=URL()):
-        return base_url.contain('pornbozz.com/')
+        return base_url.contain('deviantclip.com/')
 
     def get_href(self, txt='', base_url=URL()):
+        txt=txt.strip()
         if not txt.endswith('/'):
             txt=txt+"*"
         if txt.startswith('http://'):
             return txt
         if txt.startswith('/'):
             return base_url.domain() + txt
+        # print(base_url.get() + txt)
+        return base_url.get().rpartition('/')[0]+'/' + txt
 
     def parse_index_file(self, fname, base_url=URL()):
         parser = SiteParser()
 
         startpage_rule = ParserRule()
-        startpage_rule.add_activate_rule_level([('div', 'class', 'item-col col')])
-        startpage_rule.add_process_rule_level('a', {'href'})
-        startpage_rule.add_process_rule_level('img', {'src','alt'})
-        # startpage_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x,base_url) + '*' )
+        startpage_rule.add_activate_rule_level([('span', 'class', 'thumb_container_box short')])
+        startpage_rule.add_process_rule_level('a', {'href','title'})
+        startpage_rule.add_process_rule_level('img', {'src'})
+        startpage_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x,base_url) )
         parser.add_rule(startpage_rule)
 
         startpage_pages_rule = ParserRule()
-        startpage_pages_rule.add_activate_rule_level([('nav', 'class', 'pagination-col col pagination')])
+        startpage_pages_rule.add_activate_rule_level([('div', 'class', 'main-sectionpaging')])
         # startpage_pages_rule.add_activate_rule_level([('a', 'class', 'current')])
         startpage_pages_rule.add_process_rule_level('a', {'href'})
-        startpage_pages_rule.set_attribute_modifier_function('href', lambda x: 'http:/'+base_url.get_path()+ x + '*')
+        startpage_pages_rule.set_attribute_modifier_function('href', lambda x: util.get_href(x,base_url))
         parser.add_rule(startpage_pages_rule)
 
         startpage_hrefs_rule = ParserRule()
@@ -60,11 +65,18 @@ class PBvideoSite(BaseSite):
         parser.add_rule(startpage_hrefs_rule)
         #
         video_rule = ParserRule()
-        video_rule.add_activate_rule_level([('video', 'id', 'thisPlayer')])
-        video_rule.add_process_rule_level('source', {'src'})
+        video_rule.add_activate_rule_level([('video', '', '')])
+        video_rule.add_process_rule_level('source', {'src','id'})
         # video_rule.set_attribute_filter_function('data', lambda text: 'jwplayer' in text)
         video_rule.set_attribute_modifier_function('src',lambda txt:txt+'*')
         parser.add_rule(video_rule)
+
+        video_script_rule = ParserRule()
+        video_script_rule.add_activate_rule_level([('body', '', '')])
+        video_script_rule.add_process_rule_level('script', {})
+        video_script_rule.set_attribute_filter_function('data', lambda text: 'shows:' in text)
+        # video_script_rule.set_attribute_modifier_function('src',lambda txt:txt+'*')
+        parser.add_rule(video_script_rule)
 
         gallery_rule=ParserRule()
         gallery_rule.add_activate_rule_level([('div', 'id', 'galleryImages')])
@@ -76,10 +88,9 @@ class PBvideoSite(BaseSite):
 
         #
         gallery_href_rule = ParserRule()
-        gallery_href_rule.add_activate_rule_level([('div', 'class', 'tags-block'),
-                                                   ('div', 'class', 'submitter-container')])
-        gallery_href_rule.add_process_rule_level('a', {'href','title'})
-        gallery_href_rule.set_attribute_modifier_function('href', lambda x: (self.get_href(x,base_url)))
+        gallery_href_rule.add_activate_rule_level([('div', 'class', 'added')])
+        gallery_href_rule.add_process_rule_level('a', {'href'})
+        gallery_href_rule.set_attribute_modifier_function('href', lambda x: util.get_href(x,base_url))
         parser.add_rule(gallery_href_rule)
 
         # gallery_channel_rule = ParserRule()
@@ -94,26 +105,70 @@ class PBvideoSite(BaseSite):
 
         result = ParseResult(self)
 
-        if video_rule.is_result(): #len(video_rule.get_result()) > 0:
-            file = video_rule.get_result()[0]['src']
-            video = MediaData(URL(file))
+        if video_script_rule.is_result() or video_rule.is_result():
+            files=set()
+
+            script=video_script_rule.get_result()[0]['data'].replace(' ','')
+            streams=script.partition('"streams":[')[2].partition('],')[0]
+            streams=util.decode_text(streams)
+            # print(streams)
+            while '"file":"' in streams:
+                split=streams.partition('"file":"')
+                # print(split)
+                split2=split[2].partition('"')
+                file=split2[0]+'*'
+                streams=split2[2]
+                # print(file)
+                files.add(file)
+            print(files)
+
+            default_vid = None
+            for item in video_rule.get_result():
+                files.add(item['src'])
+                if 'id' not in item:
+                    default_vid = item['src']
+                    print('default=',item['src'])
+
+            print(files)
+
+            if default_vid is None:
+                if len(files)==0: return result
+                default_vid=files.pop()
+            else:
+                files.discard(default_vid)
+
+            video = MediaData(URL(default_vid))
+            for item in files:
+                video.add_alternate(dict(text=item[-5:-1],url=URL(item)))
 
             result.set_type('video')
             result.set_video(video)
 
             for f in gallery_href_rule.get_result(['href']):
                 label=f['data'].strip()
-                if label=='':
-                    label=f['title']
-                if '/user/' in f['href']:
-                    split=f['href'].rpartition('-')
-                    base=split[0].partition('/user/')[0]
-                    # print(split)
-                    # print(base)
-                    result.add_control(ControlInfo(label+' videos', URL(base+'/uploads-by-user/'+split[2])))
-                    result.add_control(ControlInfo(label+' gals', URL(base+'/uploads-by-user/'+split[2]+'?photos=1')))
+
+                result.add_control(ControlInfo(label, URL(f['href'])))
+
+            return result
+
+
+            vids=list()
+            for item in video_rule.get_result():
+                print(item)
+                if 'id' in item:
+                    vids.append(dict(text=item['id'],url=URL(item['src'])))
                 else:
-                    result.add_control(ControlInfo(label, URL(f['href'])))
+                    default_vid=URL(item['src'])
+
+            if default_vid is None:
+                if len(vids)==0: return result
+                default_vid=vids[0]['url']
+
+
+
+
+
+
             return result
 
         if gallery_rule.is_result():
@@ -148,7 +203,7 @@ class PBvideoSite(BaseSite):
             result.set_type('hrefs')
 
             for item in startpage_rule.get_result(['href']):
-                result.add_thumb(ThumbInfo(thumb_url=URL(item['src']), href=URL(item['href']),description=item.get('alt','')))
+                result.add_thumb(ThumbInfo(thumb_url=URL(item['src']), href=URL(item['href']),description=item.get('title','')))
 
             for item in startpage_pages_rule.get_result(['href', 'data']):
                 result.add_page(ControlInfo(item['data'], URL(item['href'])))

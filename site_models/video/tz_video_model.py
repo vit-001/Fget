@@ -10,7 +10,7 @@ from loader import safe_load
 
 class TZvideoSite(BaseSite):
     def start_button_name(self):
-        return "TZvideo"
+        return "TZvid"
 
     def get_start_button_menu_text_url_dict(self):
         return dict(Hottest=URL('https://www.thumbzilla.com/'),
@@ -84,7 +84,7 @@ class TZvideoSite(BaseSite):
         # gallery_channel_rule.set_attribute_modifier_function('href', lambda x: base_url.domain() + x + '*')
         # parser.add_rule(gallery_channel_rule)
 
-        for s in open(fname, encoding='utf-8'):
+        for s in open(fname, encoding='utf-8',errors='ignore'):
             parser.feed(s)  #.replace('</b>','</a>'))
 
         result = ParseResult(self)

@@ -10,7 +10,7 @@ from loader import safe_load
 
 class SKWvideoSite(BaseSite):
     def start_button_name(self):
-        return "SKWvideo"
+        return "SKWvid"
 
     def get_start_button_menu_text_url_dict(self):
         return dict(HD=URL('http://www.spankwire.com/categories/Straight/HD/Submitted/83*'),
@@ -83,7 +83,7 @@ class SKWvideoSite(BaseSite):
         gallery_channel_rule.set_attribute_filter_function('href',lambda x:'/categories/' in x)
         parser.add_rule(gallery_channel_rule)
 
-        for s in open(fname, encoding='utf-8'):
+        for s in open(fname, encoding='utf-8',errors='ignore'):
             parser.feed(s)  #.replace('</b>','</a>'))
 
         result = ParseResult(self)

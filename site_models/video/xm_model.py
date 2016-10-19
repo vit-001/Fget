@@ -7,7 +7,7 @@ from base_classes import URL, ControlInfo
 
 class XMvideoSite(BaseSite):
     def start_button_name(self):
-        return "XMvideo"
+        return "XMvid"
 
     def get_start_button_menu_text_url_dict(self):
         return dict(Photos=URL('http://ru.xhamster.com/photos/'))
@@ -69,7 +69,7 @@ class XMvideoSite(BaseSite):
         picture_rule.set_attribute_modifier_function('src', lambda text: text.replace('_160', '_1000'))
         parser.add_rule(picture_rule)
 
-        for s in open(fname, encoding='utf-8'):
+        for s in open(fname, encoding='utf-8',errors='ignore'):
             # print(s)
             parser.feed(s)
 

@@ -7,7 +7,7 @@ from base_classes import URL, ControlInfo
 
 class TDvideoSite(BaseSite):
     def start_button_name(self):
-        return "TDvideo"
+        return "TDvid"
 
     def startpage(self):
         return URL("http://tubedupe.com/")
@@ -58,7 +58,7 @@ class TDvideoSite(BaseSite):
 
         parser.add_rule(picture_href_rule)
 
-        for s in open(fname):
+        for s in open(fname,encoding='utf-8',errors='ignore'):
             # print(s)
             parser.feed(s)
 

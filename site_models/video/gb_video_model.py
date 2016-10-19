@@ -10,7 +10,7 @@ from loader import safe_load
 
 class GBvideoSite(BaseSite):
     def start_button_name(self):
-        return "GBvideo"
+        return "GBvid"
 
     def get_start_button_menu_text_url_dict(self):
         return dict(Recent=URL('http://gobdsm.com/latest-updates/?from=0*'),
