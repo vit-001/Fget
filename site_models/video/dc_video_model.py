@@ -16,12 +16,12 @@ class DCvideoSite(BaseSite):
 
     def get_start_button_menu_text_url_dict(self):
         return dict(Galleries_Recent=URL('http://www.pornbozz.com/photos/'),
-                    Galleries_Most_Viewed=URL('http://www.pornbozz.com/photos/most-viewed/'),
-                    Galleries_Top_Rated=URL('http://www.pornbozz.com/photos/top-rated/'),
-                    Videos_Recent=URL('http://www.pornbozz.com/videos/'),
-                    Videos_Most_Viewed=URL('http://www.pornbozz.com/most-viewed/'),
-                    Videos_Top_Rated=URL('http://www.pornbozz.com/top-rated/'),
-                    Videos_Longest=URL('http://www.pornbozz.com/longest/'))
+                    Videos_Longest=URL('http://www.deviantclip.com/videos?sort=longest*'),
+                    Videos_Most_Popular=URL('http://www.deviantclip.com/videos?sort=popular*'),
+                    Videos_Recent=URL('http://www.deviantclip.com/videos*'),
+                    Videos_Most_Viewed=URL('http://www.deviantclip.com/videos?sort=viewed*'),
+                    Videos_Top_Rated=URL('http://www.deviantclip.com/videos?sort=rated*'),
+                    Videos_Featured=URL('http://www.deviantclip.com/videos?sort=editorchoice*'))
 
     def startpage(self):
         return URL("http://www.deviantclip.com/videos*")
