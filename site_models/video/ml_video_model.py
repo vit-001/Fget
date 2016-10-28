@@ -10,7 +10,7 @@ from loader import safe_load
 
 class MLvideoSite(BaseSite):
     def start_button_name(self):
-        return "MLvideo"
+        return "MLvid"
 
     def get_start_button_menu_text_url_dict(self):
         return dict(Galleries_Recently_Updated=URL('http://motherless.com/galleries/updated*'),
@@ -86,7 +86,7 @@ class MLvideoSite(BaseSite):
         # gallery_user_rule.set_attribute_filter_function('href',lambda x:'/categories/' in x)
         parser.add_rule(gallery_user_rule)
 
-        for s in open(fname, encoding='utf-8'):
+        for s in open(fname, encoding='utf-8',errors='ignore'):
             parser.feed(s)  #.replace('</b>','</a>'))
 
         result = ParseResult(self)

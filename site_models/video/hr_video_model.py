@@ -10,7 +10,7 @@ from loader import safe_load
 
 class HRvideoSite(BaseSite):
     def start_button_name(self):
-        return "HRvideo"
+        return "HRvid"
 
     def get_start_button_menu_text_url_dict(self):
         return dict(recent=URL('http://www.heavy-r.com/videos/recent/'),
@@ -96,7 +96,7 @@ class HRvideoSite(BaseSite):
         # gallery_user_rule.set_attribute_filter_function('href',lambda x:'/categories/' in x)
         parser.add_rule(gallery_user_rule)
 
-        for s in open(fname, encoding='utf-8'):
+        for s in open(fname, encoding='utf-8',errors='ignore'):
             parser.feed(s)  #.replace('</b>','</a>'))
 
         result = ParseResult(self)

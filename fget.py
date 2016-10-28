@@ -28,16 +28,7 @@ if __name__ == "__main__":
 
     # import os
     # os.spawnl(os.P_DETACH, Setting.uget_path+'uget.exe','-gtk')
-
     print('http://porndoe.com/', 'verifyed')
-    print('http://www.hdzog.com/new/')
-
-    print('http://www.keezmovies.com/videos')
-    print('http://www.hclips.com/latest-updates/')
-    print('http://upornia.com/latest-updates/')
-
-    print('http://gobdsm.com/', 'verifyed')
-
 
     from PyQt5.QtWidgets import QApplication
 

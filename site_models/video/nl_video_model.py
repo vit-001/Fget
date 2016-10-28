@@ -10,7 +10,7 @@ from loader import safe_load
 
 class NLvideoSite(BaseSite):
     def start_button_name(self):
-        return "NLvideo"
+        return "NLvid"
 
     def get_start_button_menu_text_url_dict(self):
         return dict(New=URL('http://www.sextube.nl/videos/nieuw*'),
@@ -73,7 +73,7 @@ class NLvideoSite(BaseSite):
         gallery_href_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x,base_url))
         parser.add_rule(gallery_href_rule)
 
-        for s in open(fname, encoding='utf-8'):
+        for s in open(fname, encoding='utf-8',errors='ignore'):
             parser.feed(s)  #.replace('</b>','</a>'))
 
         result = ParseResult(self)

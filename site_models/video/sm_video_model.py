@@ -10,7 +10,7 @@ from loader import safe_load
 
 class SMvideoSite(BaseSite):
     def start_button_name(self):
-        return "SMvideo"
+        return "SMvid"
 
     def get_start_button_menu_text_url_dict(self):
         return dict(recent=URL('http://shockingmovies.com/most-recent/'),
@@ -103,7 +103,7 @@ class SMvideoSite(BaseSite):
         parser.add_rule(gallery_user_rule)
 
         all=''
-        for s in open(fname, encoding='utf-8'):
+        for s in open(fname, encoding='utf-8',errors='ignore'):
             parser.feed(s)  #.replace('</b>','</a>'))
             all+=s.replace(' ','')
 

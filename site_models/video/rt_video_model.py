@@ -10,7 +10,7 @@ from loader import safe_load
 
 class RTvideoSite(BaseSite):
     def start_button_name(self):
-        return "RTvideo"
+        return "RTvid"
 
     def get_start_button_menu_text_url_dict(self):
         return dict(Recommended=URL('http://www.redtube.com/recommended*'),
@@ -92,7 +92,7 @@ class RTvideoSite(BaseSite):
         # gallery_channel_rule.set_attribute_modifier_function('href', lambda x: base_url.domain() + x + '*')
         # parser.add_rule(gallery_channel_rule)
 
-        for s in open(fname, encoding='utf-8'):
+        for s in open(fname, encoding='utf-8',errors='ignore'):
             parser.feed(s)  #.replace('</b>','</a>'))
 
         result = ParseResult(self)

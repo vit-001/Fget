@@ -10,7 +10,7 @@ from loader import safe_load
 
 class EPvideoSite(BaseSite):
     def start_button_name(self):
-        return "EPvideo"
+        return "EPvid"
 
     def get_start_button_menu_text_url_dict(self):
         return dict(Top_Rated_Video=URL('http://www.eporner.com/top-rated/'),
@@ -62,7 +62,7 @@ class EPvideoSite(BaseSite):
         gallery_href_rule.set_attribute_filter_function('href',lambda x:'/category/'in x or '/search/'in x)
         parser.add_rule(gallery_href_rule)
 
-        for s in open(fname, encoding='utf-8'):
+        for s in open(fname, encoding='utf-8',errors='ignore'):
             # print(s)
             parser.feed(s)
 
