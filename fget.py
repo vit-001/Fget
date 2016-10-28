@@ -29,6 +29,7 @@ if __name__ == "__main__":
     # import os
     # os.spawnl(os.P_DETACH, Setting.uget_path+'uget.exe','-gtk')
     print('http://porndoe.com/', 'verifyed')
+    print('http://pornstreams.eu/')
 
     from PyQt5.QtWidgets import QApplication
 
