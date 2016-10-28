@@ -15,7 +15,10 @@ class DCvideoSite(BaseSite):
         return "DCvid"
 
     def get_start_button_menu_text_url_dict(self):
-        return dict(Galleries_Recent=URL('http://www.pornbozz.com/photos/'),
+        return dict(Galleries_Recent=URL('http://www.deviantclip.com/galleries?sort=recent*'),
+                    Galleries_Most_Pictures=URL('http://www.deviantclip.com/galleries?sort=pictures*'),
+                    Galleries_Top_Rated=URL('http://www.deviantclip.com/galleries?sort=rated*'),
+                    Galleries_Most_Viewed=URL('http://www.deviantclip.com/galleries?sort=viewed*'),
                     Videos_Longest=URL('http://www.deviantclip.com/videos?sort=longest*'),
                     Videos_Most_Popular=URL('http://www.deviantclip.com/videos?sort=popular*'),
                     Videos_Recent=URL('http://www.deviantclip.com/videos*'),
@@ -44,7 +47,8 @@ class DCvideoSite(BaseSite):
         parser = SiteParser()
 
         startpage_rule = ParserRule()
-        startpage_rule.add_activate_rule_level([('span', 'class', 'thumb_container_box short')])
+        startpage_rule.add_activate_rule_level([('span', 'class', 'thumb_container_box short'),
+                                                ('span', 'class', 'thumb_container_box long')])
         startpage_rule.add_process_rule_level('a', {'href','title'})
         startpage_rule.add_process_rule_level('img', {'src'})
         startpage_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x,base_url) )
@@ -79,8 +83,8 @@ class DCvideoSite(BaseSite):
         parser.add_rule(video_script_rule)
 
         gallery_rule=ParserRule()
-        gallery_rule.add_activate_rule_level([('div', 'id', 'galleryImages')])
-        gallery_rule.add_process_rule_level('a', {})
+        gallery_rule.add_activate_rule_level([('div', 'id', 'slideshow')])
+        gallery_rule.add_process_rule_level('a', {'index'})
         gallery_rule.add_process_rule_level('img', {'src'})
         # video_rule.set_attribute_filter_function('data', lambda text: 'jwplayer' in text)
         gallery_rule.set_attribute_modifier_function('src',lambda txt:txt.replace('/thumbs/','/'))
@@ -152,48 +156,22 @@ class DCvideoSite(BaseSite):
             return result
 
 
-            vids=list()
-            for item in video_rule.get_result():
-                print(item)
-                if 'id' in item:
-                    vids.append(dict(text=item['id'],url=URL(item['src'])))
-                else:
-                    default_vid=URL(item['src'])
-
-            if default_vid is None:
-                if len(vids)==0: return result
-                default_vid=vids[0]['url']
-
-
-
-
-
-
-            return result
-
         if gallery_rule.is_result():
             result.set_type('pictures')
             url=URL(gallery_rule.get_result()[0]['src']+'*')
             base_dir=url.get_path(base=Setting.base_dir)
             result.set_gallery_path(base_dir)
             for f in gallery_rule.get_result():
-                picture=FullPictureInfo(abs_href=URL(f['src']+'*'), rel_name=f['src'].rpartition('/')[2])
+                fname=int(f['index'])
+                # print(fname)
+                picture=FullPictureInfo(abs_href=URL(f['src']+'*'), rel_name='pic{0:03d}.jpg'.format(fname))
                 picture.set_base(base_dir)
                 result.add_full(picture)
 
             for f in gallery_href_rule.get_result(['href']):
                 label=f['data'].strip()
-                if label=='':
-                    label=f['title']
-                if '/user/' in f['href']:
-                    split=f['href'].rpartition('-')
-                    base=split[0].partition('/user/')[0]
-                    # print(split)
-                    # print(base)
-                    result.add_control(ControlInfo(label+' videos', URL(base+'/uploads-by-user/'+split[2])))
-                    result.add_control(ControlInfo(label+' gals', URL(base+'/uploads-by-user/'+split[2]+'?photos=1')))
-                else:
-                    result.add_control(ControlInfo(label, URL(f['href'])))
+
+                result.add_control(ControlInfo(label, URL(f['href'])))
 
             return result
 
