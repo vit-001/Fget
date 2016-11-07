@@ -70,11 +70,12 @@ class VPvideoSite(BaseSite):
 
         if len(video_rule.get_result())>0:
             script=video_rule.get_result()[0]['data'].replace(' ','')
+            # print(script)
 
             def get_url_from_script(script='',var=''):
                 data=script.partition('flashvars.'+var+'="')[2].partition('"')[0]
                 # print(var,data)
-                if data.startswith('http://'):return URL(data)
+                if data.startswith('https://'):return URL(data)
 
             videoUrlLow=get_url_from_script(script,'videoUrlLow')
             videoUrlLow2=get_url_from_script(script,'videoUrlLow2')

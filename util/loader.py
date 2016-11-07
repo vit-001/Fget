@@ -6,7 +6,7 @@ if __name__ == "__main__":
 
     print('loading...')
     try:
-        urlretrieve("http://sexu.com/", 'e:/out/2.html')
+        urlretrieve("https://www.vporn.com/mature/horny-mom-enjoys-a-big-black-cock/1515126/?t=1/", 'e:/out/1.html')
         print('1')
         #urlretrieve("http://cdn3.bdsmstreak.com/26397.mp4", 'e:/out/1.mp4')
     except HTTPError as err:
