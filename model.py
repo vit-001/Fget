@@ -31,7 +31,7 @@ from site_models.video.xm_model import XMvideoSite
 from site_models.video.ep_model import EPvideoSite
 from site_models.video.vp_video_model import VPvideoSite
 from site_models.video.pc_video_model import PCvideoSite
-from site_models.video.su_video_model import SUvideoSite
+# from site_models.video.su_video_model import SUvideoSite
 from site_models.video.cbp_video_model import CBPvideoSite
 from site_models.video.px_video_model import PXvideoSite
 from site_models.video.skw_video_model import SKWvideoSite
@@ -56,7 +56,7 @@ class SiteVewerModel(AbstractModel):
         self.controller = controller
         self.debug = Setting.model_debug
         self.models = [RTvideoSite(self),  T8videoSite(self), DCvideoSite(self), HRvideoSite(self),
-                       SMvideoSite(self),GBvideoSite(self), SUvideoSite(self),TZvideoSite(self),
+                       SMvideoSite(self),GBvideoSite(self), TZvideoSite(self),
                        SKWvideoSite(self),PXvideoSite(self),CBPvideoSite(self),
                        PCvideoSite(self),VPvideoSite(self),MLvideoSite(self),
                        PDvideoSite(self),PBvideoSite(self),NLvideoSite(self),

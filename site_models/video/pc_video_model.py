@@ -22,12 +22,6 @@ class PCvideoSite(BaseSite):
     def can_accept_index_file(self, base_url=URL()):
         return base_url.contain('.porn.com/')
 
-    def get_href(self, txt='', base_url=URL()):
-        if txt.startswith('http://'):
-            return txt
-        if txt.startswith('/'):
-            return base_url.domain() + txt
-
     def parse_index_file(self, fname, base_url=URL()):
         parser = SiteParser()
 
@@ -58,11 +52,13 @@ class PCvideoSite(BaseSite):
         parser.add_rule(startpage_pages_rule)
 
         startpage_hrefs_rule = ParserRule()
-        startpage_hrefs_rule.add_activate_rule_level([('div', 'class', 'listFilters left170'),
-                                                      ('div', 'class', 'alpha')])
+        startpage_hrefs_rule.add_activate_rule_level([('ul', 'class', 'sFilters initial'),
+                                                      ('ul', 'class', 'sFilters'),
+                                                      ('div', 'class', 'listSearches searchOption')])
         # startpage_hrefs_rule.add_activate_rule_level([('a', 'class', 'current')])
         startpage_hrefs_rule.add_process_rule_level('a', {'href', 'title'})
-        startpage_hrefs_rule.set_attribute_modifier_function('href', lambda x: base_url.domain() + x + '*')
+        startpage_hrefs_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x,base_url))
+        startpage_hrefs_rule.set_attribute_filter_function('title',lambda x: 'Combine Category' not in x)
         parser.add_rule(startpage_hrefs_rule)
 
         video_rule = ParserRule()
@@ -72,16 +68,17 @@ class PCvideoSite(BaseSite):
         parser.add_rule(video_rule)
 
         gallery_href_rule = ParserRule()
-        gallery_href_rule.add_activate_rule_level([('div', 'class', 'multiTag')])
-        gallery_href_rule.add_process_rule_level('a', {'href', 'title'})
-        gallery_href_rule.set_attribute_modifier_function('href', lambda x: base_url.domain() + x + '*')
+        gallery_href_rule.add_activate_rule_level([('p', 'class', 'source tags'),
+                                                   ('p', 'class', 'source categories')])
+        gallery_href_rule.add_process_rule_level('a', {'href'})
+        gallery_href_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x,base_url))
         parser.add_rule(gallery_href_rule)
 
-        gallery_channel_rule = ParserRule()
-        gallery_channel_rule.add_activate_rule_level([('p', 'class', 'source')])
-        gallery_channel_rule.add_process_rule_level('a', {'href'})
-        gallery_channel_rule.set_attribute_modifier_function('href', lambda x: base_url.domain() + x + '*')
-        parser.add_rule(gallery_channel_rule)
+        # gallery_channel_rule = ParserRule()
+        # gallery_channel_rule.add_activate_rule_level([('p', 'class', 'source')])
+        # gallery_channel_rule.add_process_rule_level('a', {'href'})
+        # gallery_channel_rule.set_attribute_modifier_function('href', lambda x: base_url.domain() + x + '*')
+        # parser.add_rule(gallery_channel_rule)
 
         for s in open(fname, encoding='utf-8',errors='ignore'):
             parser.feed(s)  #.replace('</b>','</a>'))
@@ -119,8 +116,8 @@ class PCvideoSite(BaseSite):
             result.set_type('video')
             result.set_video(video)
 
-            for f in gallery_channel_rule.get_result(['data', 'href']):
-                result.add_control(ControlInfo(f['data'], URL(f['href'])))
+            # for f in gallery_channel_rule.get_result(['data', 'href']):
+            #     result.add_control(ControlInfo(f['data'], URL(f['href'])))
 
             for f in gallery_href_rule.get_result(['data', 'href']):
                 result.add_control(ControlInfo(f['data'], URL(f['href'])))

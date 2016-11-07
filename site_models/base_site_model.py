@@ -63,6 +63,18 @@ class BaseSite():
                                                    url=self.startpage(),
                                                    menu_text_url_dict=self.get_start_button_menu_text_url_dict()))
 
+
+    def get_href(self, txt='', base_url=URL()):
+        txt=txt.strip()
+        if not txt.endswith('/'):
+            txt=txt+"*"
+        if txt.startswith('http://'):
+            return txt
+        if txt.startswith('/'):
+            return base_url.domain() + txt
+        # print(base_url.get() + txt)
+        return base_url.get().rpartition('/')[0]+'/' + txt
+
     def start_button_name(self): return ''
     def get_start_button_menu_text_url_dict(self):return None
     def startpage(self): return URL()
