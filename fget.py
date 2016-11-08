@@ -28,6 +28,11 @@ if __name__ == "__main__":
 
     # import os
     # os.spawnl(os.P_DETACH, Setting.uget_path+'uget.exe','-gtk')
+
+    print('Todo:')
+
+    print('Add user to PCvid')
+
     print('http://porndoe.com/', 'verifyed')
     print('http://pornstreams.eu/')
 

@@ -41,7 +41,8 @@ class T8videoSite(BaseSite):
         #     return txt.partition('(')[2].partition(')')[0]
 
         startpage_rule = ParserRule(debug=False)
-        startpage_rule.add_activate_rule_level([('div', 'class', 'video_box')])
+        startpage_rule.add_activate_rule_level([('div', 'class', 'video_box'),
+                                                ('div', 'class', 'box-thumbnail')])
         startpage_rule.add_process_rule_level('a', {'href'})
         startpage_rule.add_process_rule_level('img', {'src', 'alt'})
         # startpage_rule.set_attribute_modifier_function('href', lambda x: base_url.domain() + x + '*')
@@ -70,16 +71,17 @@ class T8videoSite(BaseSite):
         parser.add_rule(video_rule)
 
         gallery_href_rule = ParserRule()
-        gallery_href_rule.add_activate_rule_level([('li', 'class', 'tag-list')])
+        gallery_href_rule.add_activate_rule_level([('li', 'class', 'tag-list'),
+                                                   ('li','class','video-category')])
         gallery_href_rule.add_process_rule_level('a', {'href'})
         # gallery_href_rule.set_attribute_modifier_function('href', lambda x: base_url.domain() + x + '*')
         parser.add_rule(gallery_href_rule)
 
-        # gallery_channel_rule = ParserRule()
-        # gallery_channel_rule.add_activate_rule_level([('p', 'class', 'source')])
-        # gallery_channel_rule.add_process_rule_level('a', {'href'})
-        # gallery_channel_rule.set_attribute_modifier_function('href', lambda x: base_url.domain() + x + '*')
-        # parser.add_rule(gallery_channel_rule)
+        gallery_user_rule = ParserRule()
+        gallery_user_rule.add_activate_rule_level([('span', 'id', 'videoUsername')])
+        gallery_user_rule.add_process_rule_level('a', {'href'})
+        gallery_user_rule.set_attribute_modifier_function('href', lambda x: x.replace('/user/','/user-videos/'))
+        parser.add_rule(gallery_user_rule)
 
         for s in open(fname, encoding='utf-8',errors='ignore'):
             parser.feed(s)  #.replace('</b>','</a>'))
@@ -124,8 +126,9 @@ class T8videoSite(BaseSite):
             result.set_type('video')
             result.set_video(video)
 
-            # for f in gallery_channel_rule.get_result(['data', 'href']):
-            #     result.add_control(ControlInfo(f['data'], URL(f['href'])))
+            for f in gallery_user_rule.get_result(['data', 'href']):
+                username='"'+f['href'].split('/')[-2]+'"'
+                result.add_control(ControlInfo(username, URL(f['href'])))
 
             for f in gallery_href_rule.get_result(['data', 'href']):
                 result.add_control(ControlInfo(f['data'], URL(f['href'])))

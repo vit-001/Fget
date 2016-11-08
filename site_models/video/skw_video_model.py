@@ -83,6 +83,13 @@ class SKWvideoSite(BaseSite):
         gallery_channel_rule.set_attribute_filter_function('href',lambda x:'/categories/' in x)
         parser.add_rule(gallery_channel_rule)
 
+        gallery_user_rule = ParserRule()
+        gallery_user_rule.add_activate_rule_level([('div', 'class', 'video-info-uploaded float-right')])
+        gallery_user_rule.add_process_rule_level('a', {'href'})
+        gallery_user_rule.set_attribute_modifier_function('href', lambda x: base_url.domain() + x + '*')
+        gallery_user_rule.set_attribute_filter_function('href',lambda x:'/user/' in x)
+        parser.add_rule(gallery_user_rule)
+
         for s in open(fname, encoding='utf-8',errors='ignore'):
             parser.feed(s)  #.replace('</b>','</a>'))
 
@@ -121,6 +128,10 @@ class SKWvideoSite(BaseSite):
 
             result.set_type('video')
             result.set_video(video)
+
+            for f in gallery_user_rule.get_result(['data', 'href']):
+                # print(f)
+                result.add_control(ControlInfo('"'+f['data']+'"', URL(f['href'])))
 
             for f in gallery_channel_rule.get_result(['data', 'href']):
                 result.add_control(ControlInfo(f['data'], URL(f['href'])))

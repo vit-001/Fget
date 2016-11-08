@@ -113,7 +113,7 @@ class HRvideoSite(BaseSite):
                 user=gallery_user_rule.get_result()[0]['href'].rpartition('/')[2]
 
                 # print(user)
-                result.add_control(ControlInfo(user+' videos', URL('http://www.heavy-r.com/user/'+user+'?pro=videos*')))
+                result.add_control(ControlInfo('"'+user+'"', URL('http://www.heavy-r.com/user/'+user+'?pro=videos*')))
                 # result.add_control(ControlInfo(user+' gals', URL('http://motherless.com/galleries/member/'+user+'*')))
 
             for f in gallery_href_rule.get_result(['href']):
