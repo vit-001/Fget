@@ -124,16 +124,16 @@ class DCvideoSite(BaseSite):
                 streams=split2[2]
                 # print(file)
                 files.add(file)
-            print(files)
+            # print(files)
 
             default_vid = None
             for item in video_rule.get_result():
                 files.add(item['src'])
                 if 'id' not in item:
                     default_vid = item['src']
-                    print('default=',item['src'])
+                    # print('default=',item['src'])
 
-            print(files)
+            # print(files)
 
             if default_vid is None:
                 if len(files)==0: return result

@@ -109,7 +109,7 @@ class RTvideoSite(BaseSite):
             def parce(txt):
                 t=txt.partition('":"')
                 label = t[0]
-                file = t[2]
+                file = t[2].strip('/')
                 # print(label,file)
                 return dict(text=label, url=URL(file + '*'))
 

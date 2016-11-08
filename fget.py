@@ -31,7 +31,12 @@ if __name__ == "__main__":
 
     print('Todo:')
 
-    print('Add user to PCvid')
+    print('Add tags and user to PXvid')
+    print('Add user to VPvid')
+    print('Add hidden tags and user to PDvid')
+    print('Reformat tags and user in PBvid')
+    print('Thats all')
+    print('')
 
     print('http://porndoe.com/', 'verifyed')
     print('http://pornstreams.eu/')
