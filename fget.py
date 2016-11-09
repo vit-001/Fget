@@ -35,7 +35,7 @@ if __name__ == "__main__":
     print('')
 
     print('http://porndoe.com/', 'verifyed')
-    print('http://pornstreams.eu/')
+    print('http://porntrex.com/', 'verifyed','See "var video_hd" in script')
 
     from PyQt5.QtWidgets import QApplication
 
