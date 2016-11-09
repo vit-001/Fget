@@ -114,7 +114,7 @@ class GBvideoSite(BaseSite):
                 user=gallery_user_rule.get_result()[0]['href'].rstrip('/').rpartition('/')[2]
 
                 # print(user)
-                result.add_control(ControlInfo(username+' videos', URL('http://gobdsm.com/members/'+user+'/public_videos/')))
+                result.add_control(ControlInfo('"'+username+'"', URL('http://gobdsm.com/members/'+user+'/public_videos/')))
                 # result.add_control(ControlInfo(user+' gals', URL('http://motherless.com/galleries/member/'+user+'*')))
 
 

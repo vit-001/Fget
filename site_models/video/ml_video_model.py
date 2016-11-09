@@ -106,9 +106,9 @@ class MLvideoSite(BaseSite):
             if gallery_user_rule.is_result():
                 user=gallery_user_rule.get_result()[0]['href'].rpartition('/')[2]
 
-                print(user)
-                result.add_control(ControlInfo(user+' uploads', URL('http://motherless.com/u/'+user+'*')))
-                result.add_control(ControlInfo(user+' gals', URL('http://motherless.com/galleries/member/'+user+'*')))
+                # print(user)
+                result.add_control(ControlInfo('"'+user+' uploads"', URL('http://motherless.com/u/'+user+'*')))
+                result.add_control(ControlInfo('"'+user+' gals"', URL('http://motherless.com/galleries/member/'+user+'*')))
 
 
             for f in gallery_href_rule.get_result(['data', 'href']):
@@ -119,7 +119,7 @@ class MLvideoSite(BaseSite):
             result.set_type('hrefs')
 
             for item in startpage_rule.get_result(['href']):
-                print(item)
+                # print(item)
                 result.add_thumb(ThumbInfo(thumb_url=URL(item['src']), href=URL(item['href']),description=item.get('alt','')))
 
             for item in startpage_pages_rule.get_result(['href', 'data']):

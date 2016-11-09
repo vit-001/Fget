@@ -122,7 +122,7 @@ class SMvideoSite(BaseSite):
                 user_number=gallery_user_rule.get_result()[0]['href'].rpartition('-')[2].rstrip('/')
 
                 # print(user_name, user_number)
-                result.add_control(ControlInfo(user_name+' uploads', URL('http://shockingmovies.com/uploads-by-user/'+user_number+'/')))
+                result.add_control(ControlInfo('"'+user_name+'"', URL('http://shockingmovies.com/uploads-by-user/'+user_number+'/')))
                 # result.add_control(ControlInfo(user+' gals', URL('http://motherless.com/galleries/member/'+user+'*')))
 
             for f in gallery_href_rule.get_result(['href']):

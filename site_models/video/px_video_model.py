@@ -25,13 +25,6 @@ class PXvideoSite(BaseSite):
     def can_accept_index_file(self, base_url=URL()):
         return base_url.contain('pornoxo.com/')
 
-    def get_href(self, txt='', base_url=URL()):
-        if txt.startswith('http://'):
-            return txt+'*'
-        if txt.startswith('/'):
-            return base_url.domain() + txt
-        return base_url.get().rpartition('/')[0]+'/'+txt
-
     def parse_index_file(self, fname, base_url=URL()):
         parser = SiteParser()
 
@@ -50,9 +43,10 @@ class PXvideoSite(BaseSite):
         parser.add_rule(startpage_pages_rule)
 
         startpage_hrefs_rule = ParserRule()
-        startpage_hrefs_rule.add_activate_rule_level([('ul', 'class', 'channels')])
+        startpage_hrefs_rule.add_activate_rule_level([('ul', 'class', 'left-menu-box')])
         # startpage_hrefs_rule.add_activate_rule_level([('a', 'class', 'current')])
         startpage_hrefs_rule.add_process_rule_level('a', {'href'})
+        startpage_hrefs_rule.set_attribute_filter_function('href',lambda x: '/videos/' in x)
         startpage_hrefs_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x,base_url))
         parser.add_rule(startpage_hrefs_rule)
         #
@@ -63,17 +57,26 @@ class PXvideoSite(BaseSite):
         parser.add_rule(video_rule)
         #
         gallery_href_rule = ParserRule()
-        gallery_href_rule.add_activate_rule_level([('td', 'class', 'al infoDivs')])
+        gallery_href_rule.add_activate_rule_level([('div', 'class', 'content-tags')])
         # gallery_href_rule.add_activate_rule_level([('div', 'class', 'column second')])
         gallery_href_rule.add_process_rule_level('a', {'href'})
         gallery_href_rule.set_attribute_modifier_function('href', lambda x: base_url.domain() + x)
         parser.add_rule(gallery_href_rule)
-        #
-        # gallery_channel_rule = ParserRule()
-        # gallery_channel_rule.add_activate_rule_level([('p', 'class', 'source')])
-        # gallery_channel_rule.add_process_rule_level('a', {'href'})
-        # gallery_channel_rule.set_attribute_modifier_function('href', lambda x: base_url.domain() + x + '*')
-        # parser.add_rule(gallery_channel_rule)
+
+        gallery_user_rule = ParserRule()
+        gallery_user_rule.add_activate_rule_level([('div', 'class', 'user-card')])
+        gallery_user_rule.add_process_rule_level('a', {'href'})
+        gallery_user_rule.add_process_rule_level('span', {'class'})
+        # gallery_user_rule.set_attribute_filter_function('href',lambda x:'/profile/' in x)
+        gallery_user_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x,base_url))
+        parser.add_rule(gallery_user_rule)
+
+        gallery_user_name_rule = ParserRule()
+        gallery_user_name_rule.add_activate_rule_level([('div', 'class', 'user-data')])
+        gallery_user_name_rule.add_process_rule_level('span', {'class'})
+        # gallery_user_rule.set_attribute_filter_function('href',lambda x:'/profile/' in x)
+        # gallery_user_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x+'/videos',base_url))
+        parser.add_rule(gallery_user_name_rule)
 
         for s in open(fname, encoding='utf-8',errors='ignore'):
             parser.feed(s)  #.replace('</b>','</a>'))
@@ -83,19 +86,30 @@ class PXvideoSite(BaseSite):
         if len(video_rule.get_result()) > 0:
             script = video_rule.get_result()[0]['data'].replace('\t','').replace('\n','')
 
-            #print(video_rule.get_result()[0]['data'])
+            # print(video_rule.get_result()[0]['data'])
             # print('len=',len(video_rule.get_result()))
-            sources=script.partition('sources:')[2].partition(']')[0]
-            print(sources)
-            file = sources.partition('file: "')[2].partition('",')[0].strip('"').replace(' ','%20')
-            print(file)
+
+            file=''
+            if 'sources:' in script:
+                sources=script.partition('sources:')[2].partition(']')[0]
+                # print(sources)
+                file = sources.partition('file: "')[2].partition('",')[0].strip('"').replace(' ','%20')
+            # print(file)
+            elif  "filefallback':" in script:
+                file=script.replace(' ','').partition("filefallback':\"")[2].partition('",')[0]
+                # print(file)
+            else:
+                return result
+
             video = MediaData(URL(file))
 
             result.set_type('video')
             result.set_video(video)
-            #
-            # for f in gallery_channel_rule.get_result(['data', 'href']):
-            #     result.add_control(ControlInfo(f['data'], URL(f['href'])))
+
+            user_url=gallery_user_rule.get_result(['href'])[0]['href']
+            user_name=gallery_user_name_rule.get_result(['data'])[0]['data']
+            # print(user_url,user_name)
+            result.add_control(ControlInfo('"'+user_name+'"', URL(user_url)))
 
             for f in gallery_href_rule.get_result(['data', 'href']):
                 result.add_control(ControlInfo(f['data'], URL(f['href'])))

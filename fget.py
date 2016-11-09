@@ -28,7 +28,14 @@ if __name__ == "__main__":
 
     # import os
     # os.spawnl(os.P_DETACH, Setting.uget_path+'uget.exe','-gtk')
+
+    print('Todo:')
+    print('Add hidden tags and user to PDvid')
+    print('Thats all')
+    print('')
+
     print('http://porndoe.com/', 'verifyed')
+    print('http://porntrex.com/', 'verifyed','See "var video_hd" in script')
 
     from PyQt5.QtWidgets import QApplication
 
