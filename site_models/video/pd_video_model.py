@@ -12,18 +12,18 @@ class PDvideoSite(BaseSite):
     def start_button_name(self):
         return "PDvid"
 
-    # def get_start_button_menu_text_url_dict(self):
-    #     return dict(Galleries_Recently_Updated=URL('http://motherless.com/galleries/updated*'),
-    #                 Galleries_Most_Viewed=URL('http://motherless.com/galleries/viewed*'),
-    #                 Galleries_Most_Favorited=URL('http://motherless.com/galleries/favorited*'),
-    #                 Videos_Recent=URL('http://motherless.com/videos/recent*'),
-    #                 Videos_Most_Viewed=URL('http://motherless.com/videos/viewed*'),
-    #                 Videos_Most_Favoritede=URL('http://motherless.com/videos/favorited*'),
-    #                 Videos_Popular=URL('http://motherless.com/videos/popular*'),
-    #                 Videos_Live=URL('http://motherless.com/live/videos*'),
-    #                 Videos_All_Time_Most_Viewed=URL('http://motherless.com/videos/all/viewed*'),
-    #                 Videos_All_Time_Most_Favorited=URL('http://motherless.com/videos/all/favorited*'),
-    #                 Videos_Archived=URL('http://motherless.com/videos/archives*'))
+    def get_start_button_menu_text_url_dict(self):
+        return dict(Recent=URL('http://www.porndreamer.com/latest-updates/'),
+                    Top_Rated_Today=URL('http://www.porndreamer.com/top-rated/today/'),
+                    Top_Rated_Last_Week=URL('http://www.porndreamer.com/top-rated/week/'),
+                    Top_Rated_Month=URL('http://www.porndreamer.com/top-rated/month/'),
+                    Top_Rated_All_Time=URL('http://www.porndreamer.com/top-rated/'),
+                    Popular_Today=URL('http://www.porndreamer.com/most-popular/today/'),
+                    Popular_Last_Week=URL('http://www.porndreamer.com/most-popular/week/'),
+                    Popular_Month=URL('http://www.porndreamer.com/most-popular/month/'),
+                    Popular_All_Time=URL('http://www.porndreamer.com/most-popular/'),
+                    Longest=URL('http://www.porndreamer.com/longest/')
+                    )
 
     def startpage(self):
         return URL("http://www.porndreamer.com/latest-updates/")
@@ -67,19 +67,20 @@ class PDvideoSite(BaseSite):
         video_rule.set_attribute_filter_function('data', lambda text: 'video_url:' in text)
         parser.add_rule(video_rule)
         #
+        gallery_user_rule = ParserRule()
+        gallery_user_rule.add_activate_rule_level([('div', 'class', 'tools_watch')])
+        gallery_user_rule.add_process_rule_level('a', {'href','title'})
+        gallery_user_rule.set_attribute_modifier_function('href', lambda x: x + 'public_videos/')
+        gallery_user_rule.set_attribute_filter_function('href',lambda x: '/members/' in x)
+        parser.add_rule(gallery_user_rule)
+
         gallery_href_rule = ParserRule()
-        gallery_href_rule.add_activate_rule_level([('div', 'class', 'breadcrumbs')])
-        gallery_href_rule.add_process_rule_level('a', {'href','title'})
+        gallery_href_rule.add_activate_rule_level([('div', 'class', 'tools_watch')])
+        gallery_href_rule.add_process_rule_level('a', {'href'})
         # gallery_href_rule.set_attribute_modifier_function('href', lambda x: base_url.domain() + x + '*')
-        gallery_href_rule.set_attribute_filter_function('href',lambda x: '/categories/' in x)
+        gallery_href_rule.set_attribute_filter_function('href',lambda x: '/categories/' in x or '/tags/' in x)
         parser.add_rule(gallery_href_rule)
 
-        # gallery_channel_rule = ParserRule()
-        # gallery_channel_rule.add_activate_rule_level([('div', 'class', 'video-info-uploaded float-right')])
-        # gallery_channel_rule.add_process_rule_level('a', {'href'})
-        # gallery_channel_rule.set_attribute_modifier_function('href', lambda x: base_url.domain() + x + '*')
-        # gallery_channel_rule.set_attribute_filter_function('href',lambda x:'/categories/' in x)
-        # parser.add_rule(gallery_channel_rule)
 
         for s in open(fname, encoding='utf-8',errors='ignore'):
             parser.feed(s)  #.replace('</b>','</a>'))
@@ -104,8 +105,13 @@ class PDvideoSite(BaseSite):
             # for f in gallery_channel_rule.get_result(['data', 'href']):
             #     result.add_control(ControlInfo(f['data'], URL(f['href'])))
 
-            for f in gallery_href_rule.get_result(['title', 'href']):
-                result.add_control(ControlInfo(f['title'], URL(f['href'])))
+            f=gallery_user_rule.get_result(['href'])[0]
+            # print(f)
+            result.add_control(ControlInfo('"'+f['data']+'"', URL(f['href'])))
+
+            for f in gallery_href_rule.get_result(['href']):
+                # print(f)
+                result.add_control(ControlInfo(f['data'], URL(f['href'])))
             return result
 
         if startpage_rule.is_result(): #len(startpage_rule.get_result()) > 0:
