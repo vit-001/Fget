@@ -23,12 +23,6 @@ class VPvideoSite(BaseSite):
     def can_accept_index_file(self, base_url=URL()):
         return base_url.contain('vporn.com/')
 
-    def get_href(self,txt='',base_url=URL()):
-        if txt.startswith('http://'):
-            return txt
-        if txt.startswith('/'):
-            return base_url.domain()+txt
-
     def parse_index_file(self, fname, base_url=URL()):
         print ('VP parsing')
 
@@ -61,6 +55,13 @@ class VPvideoSite(BaseSite):
         gallery_href_rule.set_attribute_modifier_function('href',lambda x: base_url.domain() + x+'*')
         # gallery_href_rule.set_attribute_filter_function('href',lambda x:'/category/'in x or '/search/'in x)
         parser.add_rule(gallery_href_rule)
+
+        gallery_user_rule = ParserRule()
+        gallery_user_rule.add_activate_rule_level([('div', 'class', 'info')])
+        gallery_user_rule.add_process_rule_level('a', {'href'})
+        # gallery_user_rule.set_attribute_filter_function('href',lambda x:'/profile/' in x)
+        gallery_user_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x.replace('/user/','/submitted/'),base_url))
+        parser.add_rule(gallery_user_rule)
 
         for s in open(fname, encoding='utf-8',errors='ignore'):
             # print(s)
@@ -107,6 +108,10 @@ class VPvideoSite(BaseSite):
 
             result.set_type('video')
             result.set_video(video)
+
+            for f in gallery_user_rule.get_result():
+                # print(f)
+                result.add_control(ControlInfo('"' + f['data'] + '"', URL(f['href'])))
 
             for f in gallery_href_rule.get_result(['data','href']):
                 # print(f)

@@ -110,8 +110,8 @@ class PBvideoSite(BaseSite):
                     base=split[0].partition('/user/')[0]
                     # print(split)
                     # print(base)
-                    result.add_control(ControlInfo(label+' videos', URL(base+'/uploads-by-user/'+split[2])))
-                    result.add_control(ControlInfo(label+' gals', URL(base+'/uploads-by-user/'+split[2]+'?photos=1')))
+                    result.add_control(ControlInfo('"'+label+' videos"', URL(base+'/uploads-by-user/'+split[2])))
+                    result.add_control(ControlInfo('"'+label+' gals"', URL(base+'/uploads-by-user/'+split[2]+'?photos=1')))
                 else:
                     result.add_control(ControlInfo(label, URL(f['href'])))
             return result
@@ -135,8 +135,8 @@ class PBvideoSite(BaseSite):
                     base=split[0].partition('/user/')[0]
                     # print(split)
                     # print(base)
-                    result.add_control(ControlInfo(label+' videos', URL(base+'/uploads-by-user/'+split[2])))
-                    result.add_control(ControlInfo(label+' gals', URL(base+'/uploads-by-user/'+split[2]+'?photos=1')))
+                    result.add_control(ControlInfo('"'+label+' videos"', URL(base+'/uploads-by-user/'+split[2])))
+                    result.add_control(ControlInfo('"'+label+' gals"', URL(base+'/uploads-by-user/'+split[2]+'?photos=1')))
                 else:
                     result.add_control(ControlInfo(label, URL(f['href'])))
 
