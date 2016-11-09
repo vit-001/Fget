@@ -30,7 +30,7 @@ if __name__ == "__main__":
     # os.spawnl(os.P_DETACH, Setting.uget_path+'uget.exe','-gtk')
 
     print('Todo:')
-    print('Add hidden tags and user to PDvid')
+    print('')
     print('Thats all')
     print('')
 
