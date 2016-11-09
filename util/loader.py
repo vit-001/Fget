@@ -6,7 +6,7 @@ if __name__ == "__main__":
 
     print('loading...')
     try:
-        urlretrieve("http://www.porntrex.com/mobile_src.php?id=48059", 'e:/out/2.html')
+        urlretrieve("http://www.porntrex.com/video/48088/sambuca-into-it", 'e:/out/1.html')
         print('1')
         #urlretrieve("http://cdn3.bdsmstreak.com/26397.mp4", 'e:/out/1.mp4')
     except HTTPError as err:

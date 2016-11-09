@@ -107,8 +107,8 @@ class PCvideoSite(BaseSite):
 
             if len(urls) == 1:
                 video = MediaData(urls[0]['url'])
-            elif len(sources) > 1:
-                video = MediaData(urls[len(urls) - 1]['url'])
+            elif len(urls) > 1:
+                video = MediaData(urls[-1]['url'])
                 for item in urls:
                     video.add_alternate(item)
             else:
