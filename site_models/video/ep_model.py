@@ -62,9 +62,7 @@ class EPvideoSite(BaseSite):
         gallery_href_rule.set_attribute_filter_function('href',lambda x:'/category/'in x or '/search/'in x)
         parser.add_rule(gallery_href_rule)
 
-        for s in open(fname, encoding='utf-8',errors='ignore'):
-            # print(s)
-            parser.feed(s)
+        self.proceed_parcing(parser, fname)
 
         result = ParseResult(self)
 

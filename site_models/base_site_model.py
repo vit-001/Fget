@@ -75,6 +75,10 @@ class BaseSite():
         # print(base_url.get() + txt)
         return base_url.get().rpartition('/')[0]+'/' + txt
 
+    def proceed_parcing(self, parser, fname):
+        for s in open(fname, encoding='utf-8', errors='ignore'):
+            parser.feed(s)  # .replace('</b>','</a>'))
+
     def start_button_name(self): return ''
     def get_start_button_menu_text_url_dict(self):return None
     def startpage(self): return URL()

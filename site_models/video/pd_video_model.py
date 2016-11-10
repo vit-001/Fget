@@ -81,9 +81,7 @@ class PDvideoSite(BaseSite):
         gallery_href_rule.set_attribute_filter_function('href',lambda x: '/categories/' in x or '/tags/' in x)
         parser.add_rule(gallery_href_rule)
 
-
-        for s in open(fname, encoding='utf-8',errors='ignore'):
-            parser.feed(s)  #.replace('</b>','</a>'))
+        self.proceed_parcing(parser, fname)
 
         result = ParseResult(self)
 

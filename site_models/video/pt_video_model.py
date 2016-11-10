@@ -73,8 +73,7 @@ class PTvideoSite(BaseSite):
         gallery_user_rule.set_attribute_filter_function('href',lambda x:'/user/' in x)
         parser.add_rule(gallery_user_rule)
 
-        for s in open(fname, encoding='utf-8',errors='ignore'):
-            parser.feed(s)  #.replace('</b>','</a>'))
+        self.proceed_parcing(parser, fname)
 
         result = ParseResult(self)
 
@@ -105,8 +104,8 @@ class PTvideoSite(BaseSite):
             #     result.add_control(ControlInfo(f['data'], URL(f['href'])))
             if gallery_user_rule.is_result():
                 for item in gallery_user_rule.get_result():
-                    print(item)
-                    print('*'+item['data'].strip()+'*')
+                    # print(item)
+                    # print('*'+item['data'].strip()+'*')
                     username=item['data'].strip()
                     if username != '':
                         result.add_control(ControlInfo('"' + username + '"', URL(item['href'])))

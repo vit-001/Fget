@@ -69,9 +69,7 @@ class XMvideoSite(BaseSite):
         picture_rule.set_attribute_modifier_function('src', lambda text: text.replace('_160', '_1000'))
         parser.add_rule(picture_rule)
 
-        for s in open(fname, encoding='utf-8',errors='ignore'):
-            # print(s)
-            parser.feed(s)
+        self.proceed_parcing(parser, fname)
 
         result = ParseResult(self)
 

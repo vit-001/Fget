@@ -92,8 +92,7 @@ class RTvideoSite(BaseSite):
         # gallery_channel_rule.set_attribute_modifier_function('href', lambda x: base_url.domain() + x + '*')
         # parser.add_rule(gallery_channel_rule)
 
-        for s in open(fname, encoding='utf-8',errors='ignore'):
-            parser.feed(s)  #.replace('</b>','</a>'))
+        self.proceed_parcing(parser, fname)
 
         result = ParseResult(self)
 

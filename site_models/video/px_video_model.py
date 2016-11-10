@@ -78,8 +78,7 @@ class PXvideoSite(BaseSite):
         # gallery_user_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x+'/videos',base_url))
         parser.add_rule(gallery_user_name_rule)
 
-        for s in open(fname, encoding='utf-8',errors='ignore'):
-            parser.feed(s)  #.replace('</b>','</a>'))
+        self.proceed_parcing(parser, fname)
 
         result = ParseResult(self)
 
