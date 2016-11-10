@@ -55,6 +55,8 @@ class PHDvideoSite(BaseSite):
         gallery_href_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x,base_url))
         parser.add_rule(gallery_href_rule)
 
+
+
         self.proceed_parcing(parser, fname)
 
         result = ParseResult(self)
@@ -85,6 +87,8 @@ class PHDvideoSite(BaseSite):
             for f in gallery_href_rule.get_result(['data', 'href']):
                 result.add_control(ControlInfo(f['data'].strip(), URL(f['href'])))
             return result
+
+
 
         if startpage_rule.is_result(): #len(startpage_rule.get_result()) > 0:
             result.set_type('hrefs')

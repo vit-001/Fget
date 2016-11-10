@@ -16,7 +16,8 @@ class PTvideoSite(BaseSite):
         return dict(All_Videos=URL('http://www.porntrex.com/videos?t=a*'),
                     Added_Today=URL('http://www.porntrex.com/videos?t=t*'),
                     Added_This_Week=URL('http://www.porntrex.com/videos?t=w*'),
-                    Added_Tis_Month=URL('http://www.porntrex.com/videos?t=m*')
+                    Added_Tis_Month=URL('http://www.porntrex.com/videos?t=m*'),
+                    Photo_Most_Recent=URL('http://www.porntrex.com/albums?o=mr*')
                     )
 
     def startpage(self):
@@ -73,6 +74,13 @@ class PTvideoSite(BaseSite):
         gallery_user_rule.set_attribute_filter_function('href',lambda x:'/user/' in x)
         parser.add_rule(gallery_user_rule)
 
+        photo_rule = ParserRule()
+        photo_rule.add_activate_rule_level([('div', 'class', 'panel-body')])
+        photo_rule.add_process_rule_level('a', {'href'})
+        photo_rule.set_attribute_filter_function('href', lambda text: '/photos/' in text)
+        photo_rule.set_attribute_modifier_function('href',lambda x: self.get_href(x,base_url))
+        parser.add_rule(photo_rule)
+
         self.proceed_parcing(parser, fname)
 
         result = ParseResult(self)
@@ -114,13 +122,27 @@ class PTvideoSite(BaseSite):
                 result.add_control(ControlInfo(f['data'], URL(f['href'])))
             return result
 
+        if photo_rule.is_result():
+            print('Photo')
+            print(photo_rule.get_result())
+            for item in photo_rule.get_result():
+                print(item)
+            return result
+
         if startpage_rule.is_result(): #len(startpage_rule.get_result()) > 0:
             result.set_type('hrefs')
 
             for item in startpage_rule.get_result(['href']):
                 # print(item)
-                t_url=item.get('data-original',item['src'])
-                result.add_thumb(ThumbInfo(thumb_url=URL(t_url), href=URL(item['href']),description=item.get('alt','')))
+                t_url=self.get_href(item.get('data-original',item['src']),base_url)
+                t_href=item['href']
+                # print(t_href)
+                if '/album/' in t_href:
+                    print(t_href)
+                    t_href=t_href.replace('/album/','/album/slideshow/')
+                    print(t_href)
+
+                result.add_thumb(ThumbInfo(thumb_url=URL(t_url), href=URL(t_href),description=item.get('alt','')))
 
             for item in startpage_pages_rule.get_result(['href', 'data']):
                 result.add_page(ControlInfo(item['data'], URL(item['href'])))

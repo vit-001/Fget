@@ -33,13 +33,11 @@ if __name__ == "__main__":
 
     print('Todo:')
     print('Make photos section for PTvid')
-    print('Make print all sites')
     print('Thats all')
     print('')
 
     print('http://www.watchmygf.me/', 'verifyed')
     print('http://pornfun.com/', 'verifyed')
-    print('http://www.pornhd.com/', 'verifyed')
     print('http://www.xvideos.com/', 'verifyed')
 
     from PyQt5.QtWidgets import QApplication
