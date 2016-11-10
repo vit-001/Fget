@@ -32,7 +32,7 @@ if __name__ == "__main__":
     # os.spawnl(os.P_DETACH, Setting.uget_path+'uget.exe','-gtk')
 
     print('Todo:')
-    print('Make photos section for PTvid')
+    print('')
     print('Thats all')
     print('')
 

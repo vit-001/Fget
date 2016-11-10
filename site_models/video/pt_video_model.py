@@ -17,7 +17,10 @@ class PTvideoSite(BaseSite):
                     Added_Today=URL('http://www.porntrex.com/videos?t=t*'),
                     Added_This_Week=URL('http://www.porntrex.com/videos?t=w*'),
                     Added_Tis_Month=URL('http://www.porntrex.com/videos?t=m*'),
-                    Photo_Most_Recent=URL('http://www.porntrex.com/albums?o=mr*')
+                    Photo_Most_Recent=URL('http://www.porntrex.com/albums?o=mr*'),
+                    Photo_Most_Photos=URL('http://www.porntrex.com/albums?o=mp*'),
+                    Photo_Top_Rated = URL('http://www.porntrex.com/albums?o=tr*'),
+                    Photo_Most_Viewed = URL('http://www.porntrex.com/albums?o=mv*')
                     )
 
     def startpage(self):
@@ -123,10 +126,16 @@ class PTvideoSite(BaseSite):
             return result
 
         if photo_rule.is_result():
-            print('Photo')
-            print(photo_rule.get_result())
+            result.set_type('pictures')
+            base_dir=base_url.get_path(base=Setting.base_dir)
+            result.set_gallery_path(base_dir)
+
             for item in photo_rule.get_result():
-                print(item)
+                name=item['href'].rpartition('/')[2].strip('*')
+                picture = FullPictureInfo(abs_href=URL(item['href']), rel_name=name)
+                picture.set_base(base_dir)
+                result.add_full(picture)
+
             return result
 
         if startpage_rule.is_result(): #len(startpage_rule.get_result()) > 0:
@@ -138,9 +147,9 @@ class PTvideoSite(BaseSite):
                 t_href=item['href']
                 # print(t_href)
                 if '/album/' in t_href:
-                    print(t_href)
+                    # print(t_href)
                     t_href=t_href.replace('/album/','/album/slideshow/')
-                    print(t_href)
+                    # print(t_href)
 
                 result.add_thumb(ThumbInfo(thumb_url=URL(t_url), href=URL(t_href),description=item.get('alt','')))
 
