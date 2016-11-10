@@ -30,12 +30,15 @@ if __name__ == "__main__":
     # os.spawnl(os.P_DETACH, Setting.uget_path+'uget.exe','-gtk')
 
     print('Todo:')
-    print('')
+    print('Make photos section for PTvid')
+    print('Make print all sites')
     print('Thats all')
     print('')
 
-    print('http://porndoe.com/', 'verifyed')
-    print('http://porntrex.com/', 'verifyed','See "var video_hd" in script')
+    print('http://www.watchmygf.me/', 'verifyed')
+    print('http://pornfun.com/', 'verifyed')
+    print('http://www.pornhd.com/', 'verifyed')
+    print('http://www.xvideos.com/', 'verifyed')
 
     from PyQt5.QtWidgets import QApplication
 
