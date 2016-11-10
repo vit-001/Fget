@@ -67,6 +67,15 @@ class SiteVewerModel(AbstractModel):
                        DSUSite(self), XUKSite(self), ELSite(self), CCSite(self),
                        XXPSite(self),TDvideoSite(self),EPvideoSite(self)]
 
+        if Setting.show_sites:
+            print('Sites:')
+            sites_list=list()
+            for item in self.models:
+                sites_list.append(item.startpage().__str__())
+            for item in sorted(sites_list):
+                print(item)
+            print('=============================')
+
     def register_site_model(self, control=ControlInfo()):
         self.controller.add_startpage(control)
 

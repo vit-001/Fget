@@ -16,6 +16,8 @@ if __name__ == "__main__":
         if item.startswith('-setting='):
             setting_file=item.partition('=')[2]
             Setting.setting_file=setting_file
+        elif item.startswith('-info'):
+            Setting.show_sites=True
         else:
             print('Unknown argument:',item,', ignoring')
 
