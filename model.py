@@ -49,6 +49,7 @@ from site_models.video.dc_video_model import DCvideoSite
 from site_models.video.pt_video_model import PTvideoSite
 from site_models.video.phd_video_model import PHDvideoSite
 from site_models.video.wmgf_video_model import WMGFvideoSite
+from site_models.video.pfun_video_model import PFUNvideoSite
 
 
 from setting import Setting
@@ -58,10 +59,11 @@ class SiteVewerModel(AbstractModel):
     def __init__(self, controller=ControllerFromModelInterface()):
         self.controller = controller
         self.debug = Setting.model_debug
-        self.models = [RTvideoSite(self),  T8videoSite(self), DCvideoSite(self), HRvideoSite(self),WMGFvideoSite(self),
+        self.models = [RTvideoSite(self),  T8videoSite(self), DCvideoSite(self), HRvideoSite(self),
+                       WMGFvideoSite(self),
                        SMvideoSite(self),GBvideoSite(self), TZvideoSite(self),PTvideoSite(self),
                        SKWvideoSite(self),PXvideoSite(self),CBPvideoSite(self),PHDvideoSite(self),
-                       PCvideoSite(self),VPvideoSite(self),MLvideoSite(self),
+                       PCvideoSite(self),VPvideoSite(self),MLvideoSite(self),PFUNvideoSite(self),
                        PDvideoSite(self),PBvideoSite(self),NLvideoSite(self),
                        BENest(self), VPNest(self), FKSite(self), MXTmultiSite(self),TOPSite(self),
                        TMASite(self), BASSite(self),DSBSite(self),TPSite(self), LISite(self), FATSite(self),
