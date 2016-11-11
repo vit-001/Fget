@@ -60,10 +60,10 @@ class SiteVewerModel(AbstractModel):
         self.controller = controller
         self.debug = Setting.model_debug
         self.models = [RTvideoSite(self),  T8videoSite(self), DCvideoSite(self), HRvideoSite(self),
-                       WMGFvideoSite(self),PFUNvideoSite(self),
+                       WMGFvideoSite(self),
                        SMvideoSite(self),GBvideoSite(self), TZvideoSite(self),PTvideoSite(self),
                        SKWvideoSite(self),PXvideoSite(self),CBPvideoSite(self),PHDvideoSite(self),
-                       PCvideoSite(self),VPvideoSite(self),MLvideoSite(self),
+                       PCvideoSite(self),VPvideoSite(self),MLvideoSite(self),PFUNvideoSite(self),
                        PDvideoSite(self),PBvideoSite(self),NLvideoSite(self),
                        BENest(self), VPNest(self), FKSite(self), MXTmultiSite(self),TOPSite(self),
                        TMASite(self), BASSite(self),DSBSite(self),TPSite(self), LISite(self), FATSite(self),

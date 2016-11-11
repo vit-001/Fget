@@ -42,7 +42,7 @@ class PFUNvideoSite(BaseSite):
         # def star_get_url(txt=''):
         #     return txt.partition('(')[2].partition(')')[0]
 
-        startpage_rule = ParserRule(collect_data=True)
+        startpage_rule = ParserRule()
         startpage_rule.add_activate_rule_level([('ul', 'class', 'thumbs-items'),
                                                 ('ul', 'class', 'thumbs-albums'),
                                                 ('ul', 'class', 'thumbs-categories')])
@@ -110,17 +110,6 @@ class PFUNvideoSite(BaseSite):
             for f in gallery_href_rule.get_result(['data', 'href']):
                 result.add_control(ControlInfo(f['data'], URL(f['href'])))
 
-        def compact_data(txt=''):
-            split=txt.replace('\t',' ').split(' ')
-            res=''
-            for t in split:
-                # print(t.__repr__())
-                t1=t.strip('\n\t ')
-                if t1 != '':
-                    res+=' '+ t1
-            # print(split)
-
-            return res
 
         if video_rule.is_result(): #len(video_rule.get_result()) > 0:
 
@@ -160,11 +149,13 @@ class PFUNvideoSite(BaseSite):
         if startpage_rule.is_result(): #len(startpage_rule.get_result()) > 0:
             result.set_type('hrefs')
 
-
             for item in startpage_rule.get_result(['href','data-original']):
-                # print(compact_data(item['data']))
+                # print(item)
+                href=item['href']
+                label=href.split('/')[-2].upper().replace('-',' ')
+                # print(href,label)
 
-                result.add_thumb(ThumbInfo(thumb_url=URL(item['data-original']), href=URL(item['href']),description=compact_data(item['data'])))
+                result.add_thumb(ThumbInfo(thumb_url=URL(item['data-original']), href=URL(href),description=label))
 
             for item in startpage_pages_rule.get_result(['href', 'data']):
                 result.add_page(ControlInfo(item['data'], URL(item['href'])))
