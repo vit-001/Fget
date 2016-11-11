@@ -69,7 +69,7 @@ class SiteVewerModel(AbstractModel):
                        TMASite(self), BASSite(self),DSBSite(self),TPSite(self), LISite(self), FATSite(self),
                        FPSite(self), HXPSite(self), LENSSite(self), DTSite(self),
                        DSUSite(self), XUKSite(self), ELSite(self), CCSite(self),
-                       XXPSite(self),TDvideoSite(self),EPvideoSite(self)]
+                       XXPSite(self),EPvideoSite(self)]
 
         if Setting.show_sites:
             print('Sites:')
