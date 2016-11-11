@@ -18,9 +18,10 @@ class Attribute:
 
 
 class ParserRule():
-    def __init__(self, debug=False):
+    def __init__(self, debug=False, collect_data=False):
 
         self.debug = debug
+        self.collect_data=collect_data
 
         self.tag_no_end = ['img', 'meta','param']
 
@@ -126,7 +127,10 @@ class ParserRule():
     def scan_data(self, data=''):
         # if self.debug: print('  ' * self.level, data)
         if self.active:
-            self.current_entry['data'] = data
+            if self.collect_data:
+                self.current_entry['data'] = self.current_entry.get('data','')+data
+            else:
+                self.current_entry['data'] = data
 
     def is_result(self, needed_tags=list()):
         return len(self.get_result(needed_tags))>0

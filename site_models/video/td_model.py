@@ -58,9 +58,7 @@ class TDvideoSite(BaseSite):
 
         parser.add_rule(picture_href_rule)
 
-        for s in open(fname,encoding='utf-8',errors='ignore'):
-            # print(s)
-            parser.feed(s)
+        self.proceed_parcing(parser, fname)
 
         result = ParseResult(self)
 

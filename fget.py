@@ -16,6 +16,8 @@ if __name__ == "__main__":
         if item.startswith('-setting='):
             setting_file=item.partition('=')[2]
             Setting.setting_file=setting_file
+        elif item.startswith('-info'):
+            Setting.show_sites=True
         else:
             print('Unknown argument:',item,', ignoring')
 
@@ -34,8 +36,9 @@ if __name__ == "__main__":
     print('Thats all')
     print('')
 
-    print('http://porndoe.com/', 'verifyed')
-    print('http://porntrex.com/', 'verifyed','See "var video_hd" in script')
+    print('http://www.watchmygf.me/', 'verifyed')
+    print('http://pornfun.com/', 'verifyed')
+    print('http://www.xvideos.com/', 'verifyed')
 
     from PyQt5.QtWidgets import QApplication
 

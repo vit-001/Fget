@@ -81,8 +81,7 @@ class PCvideoSite(BaseSite):
         gallery_user_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x+'/videos',base_url))
         parser.add_rule(gallery_user_rule)
 
-        for s in open(fname, encoding='utf-8',errors='ignore'):
-            parser.feed(s)  #.replace('</b>','</a>'))
+        self.proceed_parcing(parser, fname)
 
         result = ParseResult(self)
 
@@ -107,8 +106,8 @@ class PCvideoSite(BaseSite):
 
             if len(urls) == 1:
                 video = MediaData(urls[0]['url'])
-            elif len(sources) > 1:
-                video = MediaData(urls[len(urls) - 1]['url'])
+            elif len(urls) > 1:
+                video = MediaData(urls[-1]['url'])
                 for item in urls:
                     video.add_alternate(item)
             else:

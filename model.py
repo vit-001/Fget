@@ -46,6 +46,9 @@ from site_models.video.hr_video_model import HRvideoSite
 from site_models.video.sm_video_model import SMvideoSite
 from site_models.video.gb_video_model import GBvideoSite
 from site_models.video.dc_video_model import DCvideoSite
+from site_models.video.pt_video_model import PTvideoSite
+from site_models.video.phd_video_model import PHDvideoSite
+from site_models.video.wmgf_video_model import WMGFvideoSite
 
 
 from setting import Setting
@@ -55,9 +58,9 @@ class SiteVewerModel(AbstractModel):
     def __init__(self, controller=ControllerFromModelInterface()):
         self.controller = controller
         self.debug = Setting.model_debug
-        self.models = [RTvideoSite(self),  T8videoSite(self), DCvideoSite(self), HRvideoSite(self),
-                       SMvideoSite(self),GBvideoSite(self), TZvideoSite(self),
-                       SKWvideoSite(self),PXvideoSite(self),CBPvideoSite(self),
+        self.models = [RTvideoSite(self),  T8videoSite(self), DCvideoSite(self), HRvideoSite(self),WMGFvideoSite(self),
+                       SMvideoSite(self),GBvideoSite(self), TZvideoSite(self),PTvideoSite(self),
+                       SKWvideoSite(self),PXvideoSite(self),CBPvideoSite(self),PHDvideoSite(self),
                        PCvideoSite(self),VPvideoSite(self),MLvideoSite(self),
                        PDvideoSite(self),PBvideoSite(self),NLvideoSite(self),
                        BENest(self), VPNest(self), FKSite(self), MXTmultiSite(self),TOPSite(self),
@@ -65,6 +68,15 @@ class SiteVewerModel(AbstractModel):
                        FPSite(self), HXPSite(self), LENSSite(self), DTSite(self),
                        DSUSite(self), XUKSite(self), ELSite(self), CCSite(self),
                        XXPSite(self),TDvideoSite(self),EPvideoSite(self)]
+
+        if Setting.show_sites:
+            print('Sites:')
+            sites_list=list()
+            for item in self.models:
+                sites_list.append(item.startpage().__str__())
+            for item in sorted(sites_list):
+                print(item)
+            print('=============================')
 
     def register_site_model(self, control=ControlInfo()):
         self.controller.add_startpage(control)

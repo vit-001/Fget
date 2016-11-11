@@ -14,6 +14,8 @@ class Setting():
     statistic=True
     video_info=True
 
+    show_sites=False
+
     fav_filename='files/favorites.fav'
     fav_tmp_filename='files/favorites.fav.tmp'
 
