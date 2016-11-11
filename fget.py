@@ -36,7 +36,6 @@ if __name__ == "__main__":
     print('Thats all')
     print('')
 
-    print('http://www.watchmygf.me/', 'verifyed')
     print('http://pornfun.com/', 'verifyed')
     print('http://www.xvideos.com/', 'verifyed')
 
