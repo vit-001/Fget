@@ -22,10 +22,7 @@ class PHDvideoSite(BaseSite):
                     Channels_Alphabetical=URL('http://www.pornhd.com/channel?order=alphabetical*'),
                     Channels_Most_Popular=URL('http://www.pornhd.com/channel?order=most-popular*'),
                     Channels_Most_Videos=URL('http://www.pornhd.com/channel?order=most-videos*'),
-                    Channels_Newest=URL('http://www.pornhd.com/channel?order=newest*'),
-                    Prime_Video_Newest=URL('http://www.pornhd.com/prime?order=newest*'),
-                    Prime_Video_Most_Videos=URL('http://www.pornhd.com/prime?order=most-videos*'),
-                    Prime_Video_Most_Popular=URL('http://www.pornhd.com/prime?order=most-popular*')
+                    Channels_Newest=URL('http://www.pornhd.com/channel?order=newest*')
                     )
 
     def startpage(self):
