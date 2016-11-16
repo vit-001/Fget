@@ -64,7 +64,7 @@ class PDvideoSite(BaseSite):
         video_rule = ParserRule()
         video_rule.add_activate_rule_level([('div', 'class', 'player')])
         video_rule.add_process_rule_level('script', {})
-        video_rule.set_attribute_filter_function('data', lambda text: 'video_url:' in text)
+        video_rule.set_attribute_filter_function('data', lambda text: 'video_url:' in text or 'jwplayer(' in text)
         parser.add_rule(video_rule)
         #
         gallery_user_rule = ParserRule()
@@ -87,13 +87,13 @@ class PDvideoSite(BaseSite):
 
         if video_rule.is_result(): #len(video_rule.get_result()) > 0:
             script = video_rule.get_result()[0]['data'].replace(' ', '')#.replace('\\','')
-
-            #print(video_rule.get_result()[0]['data'])
-            # print('len=',len(video_rule.get_result()))
-            # sources=script.partition('sources:')[2].partition(']')[0]
-            # print(sources)
-            file = script.partition("video_url:'")[2].partition("',")[0]#+'*'
-            print(file)
+            # print(script)
+            file='Not found!!!!'
+            if 'jwplayer(' in script:
+                file = script.partition('file:"')[2].partition('",')[0]  # +'*'
+            elif "video_url:'" in script:
+                file = script.partition("video_url:'")[2].partition("',")[0]#+'*'
+            # print(file)
             video = MediaData(URL(file))
 
             result.set_type('video')
