@@ -49,10 +49,16 @@ class EPvideoSite(BaseSite):
         parser.add_rule(startpage_pages_rule)
 
         video_rule = ParserRule()
-        video_rule.add_activate_rule_level([('div', 'id', 'movieplayer-box')])
+        video_rule.add_activate_rule_level([('div', 'id', 'moviexxx')])
         video_rule.add_process_rule_level('script', {})
-        video_rule.set_attribute_filter_function('data',lambda x:'getScript' in x)
+        video_rule.set_attribute_filter_function('data',lambda x:"videojs('EPvideo'" in x)
         parser.add_rule(video_rule)
+
+        video_fname_rule = ParserRule()
+        video_fname_rule.add_activate_rule_level([('div', 'id', 'hd-porn-dload')])
+        video_fname_rule.add_process_rule_level('a', {'href'})
+        # video_fname_rule.set_attribute_filter_function('data',lambda x:"videojs('EPvideo'" in x)
+        parser.add_rule(video_fname_rule)
 
         gallery_href_rule = ParserRule()
         gallery_href_rule.add_activate_rule_level([('div', 'class', 'tab-1')])
@@ -66,10 +72,22 @@ class EPvideoSite(BaseSite):
 
         result = ParseResult(self)
 
-        if len(video_rule.get_result())>0:
-            script_url=URL(base_url.domain() + (video_rule.get_result()[0]['data'].partition("getScript('")[2].partition("'")[0]))
-            video=EPvideoParser(script_url,self.model)
-            result.set_video(video.get_result())
+        if video_rule.is_result():
+            script=video_rule.get_result()[0]['data'].replace(' ','')
+            # print(script)
+            vid=script.partition("vid:'")[2].partition("',")[0]
+            hash=script.partition("hash:'")[2].partition("',")[0]
+            print(vid,hash)
+
+            for item in video_fname_rule.get_result():
+                print(item)
+                fname=item['href'].rpartition('/')[2]
+                print(fname)
+                # print('http://v1.s1.n10.nl.cdn.eporner.com/3e7475b4b977ffd9649a87353717fc51/582c90c9027c00/310073-720p.mp4'.format(hash,vid,fname))
+                print('http://v1.s1.n10.nl.cdn.eporner.com/{0}/{1}/{2}'.format(hash, vid, fname))
+            # script_url=URL(base_url.domain() + (video_rule.get_result()[0]['data'].partition("getScript('")[2].partition("'")[0]))
+            # video=EPvideoParser(script_url,self.model)
+            # result.set_video(video.get_result())
             result.set_type('video')
 
             for f in gallery_href_rule.get_result(['data','href']):
