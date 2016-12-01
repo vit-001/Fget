@@ -27,13 +27,6 @@ class CBPvideoSite(BaseSite):
     def can_accept_index_file(self, base_url=URL()):
         return base_url.contain('collectionofbestporn.com/')
 
-    def get_href(self, txt='', base_url=URL()):
-        if txt.startswith('http://'):
-            return txt
-        if txt.startswith('/'):
-            return base_url.domain() + txt
-        return base_url.get().rpartition('/')[0]+'/'+txt
-
     def parse_index_file(self, fname, base_url=URL()):
         parser = SiteParser()
 
@@ -41,14 +34,14 @@ class CBPvideoSite(BaseSite):
         startpage_rule.add_activate_rule_level([('div', 'class', 'video-thumb')])
         startpage_rule.add_process_rule_level('a', {'href'})
         startpage_rule.add_process_rule_level('img', {'src','alt'})
-        # startpage_rule.set_attribute_modifier_function('href', lambda x: base_url.domain() + x )
+        startpage_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x,base_url) )
         parser.add_rule(startpage_rule)
 
         startpage_pages_rule = ParserRule()
         startpage_pages_rule.add_activate_rule_level([('ul', 'class', 'pagination')])
         # startpage_pages_rule.add_activate_rule_level([('a', 'class', 'current')])
         startpage_pages_rule.add_process_rule_level('a', {'href'})
-        startpage_pages_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x,base_url) + '*')
+        startpage_pages_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x,base_url))
         parser.add_rule(startpage_pages_rule)
 
         # startpage_hrefs_rule = ParserRule()

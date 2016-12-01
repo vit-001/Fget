@@ -6,9 +6,9 @@ if __name__ == "__main__":
 
     print('loading...')
     try:
-        urlretrieve("https://static-eu-cdn.eporner.com/vjs/vjs.js?cache=20160926", 'e:/out/1.js')
+        urlretrieve("http://toseeporn.com/Movie/vika-lisichkina-hardcode-defloration-416/", 'e:/out/1.html')
         print('1')
-        # urlretrieve("http://cds.t4m5e9q7.hwcdn.net/contents/videos_screenshots/129000/129150/300x225/2.jpg", 'e:/out/1.jpg')
+        # urlretrieve("http://mh.daporn.com/videos/5/8/2/6/9/58269ebcb3673_2.mp4", 'e:/out/1.mp4')
     except HTTPError as err:
         print(err)
         print(err.headers)
