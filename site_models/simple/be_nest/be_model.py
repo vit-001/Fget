@@ -69,7 +69,7 @@ class BESite(BaseSite):
         video_rule = ParserRule()
         video_rule.add_activate_rule_level([('div', 'class', 'player')])
         video_rule.add_process_rule_level('script', {})
-        video_rule.set_attribute_filter_function('data',lambda text:'function playStart()' in text)
+        video_rule.set_attribute_filter_function('data',lambda text:'video_url:' in text)
         parser.add_rule(video_rule)
 
         picture_rule = ParserRule()
@@ -90,7 +90,8 @@ class BESite(BaseSite):
 
         result = ParseResult(self)
 
-        if len(video_rule.get_result())>0:
+        if video_rule.is_result():
+
             video=MediaData(URL(self.get_attr_from_script(video_rule.get_result()[0]['data'])))
             result.set_video(video)
             result.set_type('video')

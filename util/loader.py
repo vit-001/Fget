@@ -6,9 +6,9 @@ if __name__ == "__main__":
 
     print('loading...')
     try:
-        urlretrieve("http://pornfun.com/videos/20404/doing-69-with-a-bbc/", 'e:/out/1.html')
+        urlretrieve("http://toseeporn.com/Movie/vika-lisichkina-hardcode-defloration-416/", 'e:/out/1.html')
         print('1')
-        # urlretrieve("http://videos4.cdn.xvideos.com/videos/mp4/5/c/8/xvideos.com_5c8bb759d09860dc2127e13ef6649760-1.mp4?e=1478776343&ri=1024&rs=85&h=3b90479e23feb08763070ae4d9bfe4dc", 'e:/out/1.mp4')
+        # urlretrieve("http://mh.daporn.com/videos/5/8/2/6/9/58269ebcb3673_2.mp4", 'e:/out/1.mp4')
     except HTTPError as err:
         print(err)
         print(err.headers)

@@ -23,10 +23,7 @@ class TDvideoSite(BaseSite):
     def parse_index_file(self, fname, base_url=URL()):
         parser = SiteParser()
         startpage_rule = ParserRule()
-        startpage_rule.add_activate_rule_level([('div', 'class', 'thumb_300'),
-                                                ('div', 'class', 'thumb'),
-                                                ('div', 'class', 'th'),
-                                                ('div', 'class', 'th_model')])
+        startpage_rule.add_activate_rule_level([('div', 'class', 'block-video')])
         startpage_rule.add_process_rule_level('a', {'href'})
         startpage_rule.add_process_rule_level('img', {'src'})
         # startpage_rule.set_attribute_modifier_function('href', lambda x: base_url.domain() + x)

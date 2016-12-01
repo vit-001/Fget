@@ -59,17 +59,27 @@ class SiteVewerModel(AbstractModel):
     def __init__(self, controller=ControllerFromModelInterface()):
         self.controller = controller
         self.debug = Setting.model_debug
-        self.models = [RTvideoSite(self),  T8videoSite(self), DCvideoSite(self), HRvideoSite(self),
-                       WMGFvideoSite(self),
-                       SMvideoSite(self),GBvideoSite(self), TZvideoSite(self),PTvideoSite(self),
-                       SKWvideoSite(self),PXvideoSite(self),CBPvideoSite(self),PHDvideoSite(self),
-                       PCvideoSite(self),VPvideoSite(self),MLvideoSite(self),PFUNvideoSite(self),
-                       PDvideoSite(self),PBvideoSite(self),NLvideoSite(self),
-                       BENest(self), VPNest(self), FKSite(self), MXTmultiSite(self),TOPSite(self),
-                       TMASite(self), BASSite(self),DSBSite(self),TPSite(self), LISite(self), FATSite(self),
-                       FPSite(self), HXPSite(self), LENSSite(self), DTSite(self),
-                       DSUSite(self), XUKSite(self), ELSite(self), CCSite(self),
-                       XXPSite(self),TDvideoSite(self),EPvideoSite(self)]
+        self.models = [
+            #classic
+            PCvideoSite(self),CBPvideoSite(self), PXvideoSite(self), RTvideoSite(self),  T8videoSite(self),
+            PTvideoSite(self), VPvideoSite(self), NLvideoSite(self), TZvideoSite(self), SKWvideoSite(self),
+            PHDvideoSite(self),
+            # amateur
+            MLvideoSite(self), WMGFvideoSite(self), PFUNvideoSite(self),PBvideoSite(self),
+            # s/m
+            SMvideoSite(self), GBvideoSite(self),
+            # deviant
+            HRvideoSite(self), DCvideoSite(self),
+            # short video
+            PDvideoSite(self),
+            # photo archive
+            BENest(self), VPNest(self), FKSite(self), MXTmultiSite(self),TOPSite(self),
+            TMASite(self), BASSite(self),DSBSite(self),TPSite(self), LISite(self), FATSite(self),
+            FPSite(self), HXPSite(self), LENSSite(self), DTSite(self),
+            DSUSite(self), XUKSite(self), ELSite(self), CCSite(self),
+            # bad, temporally unworked etc
+            XXPSite(self)
+            ]
 
         if Setting.show_sites:
             print('Sites:')
