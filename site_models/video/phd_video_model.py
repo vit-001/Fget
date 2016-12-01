@@ -5,9 +5,6 @@ from site_models.site_parser import SiteParser, ParserRule
 from base_classes import URL, ControlInfo
 from setting import Setting
 
-from loader import safe_load
-
-
 class PHDvideoSite(BaseSite):
     def start_button_name(self):
         return "PHDvid"
