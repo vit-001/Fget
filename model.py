@@ -1,58 +1,50 @@
 __author__ = 'Vit'
 
 from base_classes import *
+from setting import Setting
 from site_models.base_site_model import ParseResult
-
-from site_models.simple.top_model import TOPSite
-from site_models.simple.tma_model import TMASite
-from site_models.simple.bas_model import BASSite
-from site_models.simple.dsb_model import DSBSite
-from site_models.simple.tp_model import TPSite
-from site_models.simple.li_model import LISite
-from site_models.simple.hxp_model import HXPSite
-from site_models.simple.fat_model import FATSite
-from site_models.simple.fp_model import FPSite
-from site_models.simple.lens_model import LENSSite
-from site_models.simple.dt_model import DTSite
-from site_models.simple.dsu_model import DSUSite
-from site_models.simple.xuk_model import XUKSite
-from site_models.simple.cc_model import CCSite
-from site_models.simple.fk_model import FKSite
-
 from site_models.collector.el_model import ELSite
 from site_models.collector.xxp_model import XXPSite
-
 from site_models.multi.mxt_multi_model import MXTmultiSite
+from site_models.simple.bas_model import BASSite
 from site_models.simple.be_nest.be_nest import BENest
+from site_models.simple.cc_model import CCSite
+from site_models.simple.dsb_model import DSBSite
+from site_models.simple.dsu_model import DSUSite
+from site_models.simple.dt_model import DTSite
+from site_models.simple.fat_model import FATSite
+from site_models.simple.fk_model import FKSite
+from site_models.simple.fp_model import FPSite
+from site_models.simple.hxp_model import HXPSite
+from site_models.simple.lens_model import LENSSite
+from site_models.simple.li_model import LISite
+from site_models.simple.tma_model import TMASite
+from site_models.simple.top_model import TOPSite
+from site_models.simple.tp_model import TPSite
 from site_models.simple.vp_nest.vp_nest import VPNest
-
-from site_models.video.td_model import TDvideoSite
-from site_models.video.xm_model import XMvideoSite
-from site_models.video.ep_model import EPvideoSite
-from site_models.video.vp_video_model import VPvideoSite
-from site_models.video.pc_video_model import PCvideoSite
-# from site_models.video.su_video_model import SUvideoSite
+from site_models.simple.xuk_model import XUKSite
 from site_models.video.cbp_video_model import CBPvideoSite
-from site_models.video.px_video_model import PXvideoSite
-from site_models.video.skw_video_model import SKWvideoSite
-from site_models.video.ml_video_model import MLvideoSite
-from site_models.video.pd_video_model import PDvideoSite
-from site_models.video.t8_video_model import T8videoSite
-from site_models.video.rt_video_model import RTvideoSite
-from site_models.video.tz_video_model import TZvideoSite
-from site_models.video.pb_video_model import PBvideoSite
-from site_models.video.nl_video_model import NLvideoSite
-from site_models.video.hr_video_model import HRvideoSite
-from site_models.video.sm_video_model import SMvideoSite
-from site_models.video.gb_video_model import GBvideoSite
 from site_models.video.dc_video_model import DCvideoSite
-from site_models.video.pt_video_model import PTvideoSite
-from site_models.video.phd_video_model import PHDvideoSite
-from site_models.video.wmgf_video_model import WMGFvideoSite
+from site_models.video.gb_video_model import GBvideoSite
+from site_models.video.hr_video_model import HRvideoSite
+from site_models.video.ml_video_model import MLvideoSite
+from site_models.video.nl_video_model import NLvideoSite
+from site_models.video.pb_video_model import PBvideoSite
+from site_models.video.pc_video_model import PCvideoSite
+from site_models.video.pd_video_model import PDvideoSite
 from site_models.video.pfun_video_model import PFUNvideoSite
+from site_models.video.phd_video_model import PHDvideoSite
+from site_models.video.pt_video_model import PTvideoSite
+from site_models.video.px_video_model import PXvideoSite
+from site_models.video.rt_video_model import RTvideoSite
+from site_models.video.skw_video_model import SKWvideoSite
+from site_models.video.sm_video_model import SMvideoSite
+from site_models.video.t8_video_model import T8videoSite
+from site_models.video.tz_video_model import TZvideoSite
+from site_models.video.vp_video_model import VPvideoSite
+from site_models.video.wmgf_video_model import WMGFvideoSite
+from site_models.video.plus_file.tsp_video_model import TSPvideoSite
 
-
-from setting import Setting
 
 
 class SiteVewerModel(AbstractModel):
@@ -63,7 +55,7 @@ class SiteVewerModel(AbstractModel):
             #classic
             PCvideoSite(self),CBPvideoSite(self), PXvideoSite(self), RTvideoSite(self),  T8videoSite(self),
             PTvideoSite(self), VPvideoSite(self), NLvideoSite(self), TZvideoSite(self), SKWvideoSite(self),
-            PHDvideoSite(self),
+            PHDvideoSite(self),TSPvideoSite(self),
             # amateur
             MLvideoSite(self), WMGFvideoSite(self), PFUNvideoSite(self),PBvideoSite(self),
             # s/m

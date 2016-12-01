@@ -8,7 +8,7 @@ from base_classes import *
 from history import HistoryRecord, History, HistoryException
 from favorites import Favorites,FavoriteRecord
 from playlist import PlaylistEntry,Playlist
-from loader import Loader
+from requests_loader import Loader
 
 
 class Controller(AbstractController):

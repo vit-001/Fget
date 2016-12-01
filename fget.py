@@ -37,7 +37,9 @@ if __name__ == "__main__":
     print('')
 
     print('http://www.xvideos.com/', 'verifyed')
-    print('http://shooshtime.com/', 'verifyed')
+    print('http://shooshtime.com/', 'verifyed') #
+    print("Let's go..")
+
 
     from PyQt5.QtWidgets import QApplication
 

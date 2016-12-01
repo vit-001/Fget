@@ -70,14 +70,19 @@ class BaseSite():
             txt=txt+"*"
         if txt.startswith('http://'):
             return txt
+        if txt.startswith('https://'):
+            return txt
         if txt.startswith('/'):
-            return base_url.domain() + txt
+            return 'http://'+base_url.domain() + txt
         # print(base_url.get() + txt)
         return base_url.get().rpartition('/')[0]+'/' + txt
 
     def proceed_parcing(self, parser, fname):
         for s in open(fname, encoding='utf-8', errors='ignore'):
             parser.feed(s)  # .replace('</b>','</a>'))
+
+    def quotes(self,text='',from_lex='',to_lex=''):
+        return text.partition(from_lex)[2].partition(to_lex)[0]
 
     def start_button_name(self): return ''
     def get_start_button_menu_text_url_dict(self):return None
