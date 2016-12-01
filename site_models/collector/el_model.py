@@ -117,5 +117,7 @@ class ELSitePictureCollector(PictureCollector):
         for data in request:
             parser.feed(data.decode('utf-8'))
 
+        # print(picture_rule.get_result()[0]['src'])
+
         return picture_rule.get_result()[0]['src']
 
