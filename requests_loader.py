@@ -37,6 +37,7 @@ def load(url, fname, overwrite=True):
     if overwrite or (not os.path.exists(fname)):
         try:
             response = requests.get(url)
+            response.raise_for_status()
             with open(fname, 'wb') as fd:
                 for chunk in response.iter_content(chunk_size=128):
                     fd.write(chunk)

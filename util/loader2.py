@@ -1,38 +1,42 @@
 # -*- coding: utf-8 -*-
 __author__ = 'Vit'
+import requests
+import requests.exceptions
 
-if __name__ == "__main__":
-    import requests
-    import urllib.error
-    from requests.exceptions import ConnectionError,ConnectTimeout
 
+def load(url, fname):
+    print('Loading',url,'to',fname)
     try:
-        # headers = {'user-agent': 'my-app/0.0.1'}
-        url='http://toseeporn.com/Movie/vika-lisichkina-hardcode-defloration-416/'
-        url1='http://statics.toseeporn.com/toseeporn.com-Vika-Lisichkina-Hardcode-Defloration-416_tb.jpg'
-
-        fname = 'e:/out/1r.html'
-        fname1 = 'e:/out/1.jpg'
-
         response = requests.get(url)
-
-        # i=0
-        #
-        # for line in response.iter_lines():
-        #     print(i,line)
-        #     i+=1
-
-
+        response.raise_for_status()
         with open(fname, 'wb') as fd:
             for chunk in response.iter_content(chunk_size=128):
                 fd.write(chunk)
 
-        print(response.raw)
-        print(response.url)
-    except urllib.error.HTTPError as err:
-        print(err)
-        print(err.headers)
-    except (ConnectionError, ConnectTimeout) as err:
-        print(err)
+    except requests.exceptions.HTTPError as err: #todo Тестировать сообщения об ошибках
+        print('HTTP error: {0}'.format(err.response.status_code))
+
+    except requests.exceptions.ConnectTimeout:
+        print('Connection timeout')
+
+    except requests.exceptions.ReadTimeout:
+        print('Read timeout')
+
+    except requests.exceptions.ConnectionError:
+        print('Connection error')
+
+    except:
+        print('Unknown error in loader')
     else:
-        print('loaded ok.')
+        print('loaded ok!')
+
+if __name__ == "__main__":
+
+        url1='https://httpbin.org/status/500'
+        url2='http://statics.toseeporn.com/toseeporn.com-Vika-Lisichkina-Hardcode-Defloration-416_tb.jpg'
+
+        fname1 = 'e:/out/1a.html'
+        fname2 = 'e:/out/1.jpg'
+
+        load(url1,fname1)
+
