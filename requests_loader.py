@@ -59,6 +59,9 @@ def load(url, fname, overwrite=True):
         except:
             raise LoaderError('Unknown error in loader')
 
+        else:
+            return response
+
 class FLEvent():
     def __init__(self, type='', data=None):
         self.event_type = type

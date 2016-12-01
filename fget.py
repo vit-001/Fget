@@ -38,8 +38,6 @@ if __name__ == "__main__":
 
     print('http://www.xvideos.com/', 'verifyed')
     print('http://shooshtime.com/', 'verifyed') #
-    print('http://toseeporn.com/')
-
     print("Let's go..")
 
 
