@@ -6,9 +6,9 @@ import requests
 import requests.exceptions
 
 from multiprocessing import Process, Queue, Event
-from setting import Setting
-from base_classes import URL
 
+from base_classes import URL
+from setting import Setting
 
 class LoaderError(RuntimeError):
     def __init__(self,txt):
