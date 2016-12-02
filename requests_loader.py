@@ -6,7 +6,7 @@ import requests
 import requests.exceptions
 
 from multiprocessing import Process, Queue, Event
-
+from setting import Setting
 from base_classes import URL
 
 
@@ -27,16 +27,17 @@ def safe_load(url, fname, overwrite=True):
         return None
 
 
-def load(url, fname, overwrite=True):
+def load(url, fname, overwrite=True, cookie=None):
     # print('Loading',url.get(),'to',fname)
     path = os.path.dirname(fname)
+    filename=os.path.split(fname)[1]
 
     if not os.path.exists(path):
         os.makedirs(path)
 
     if overwrite or (not os.path.exists(fname)):
         try:
-            response = requests.get(url)
+            response = requests.get(url, cookies=cookie)
             response.raise_for_status()
             with open(fname, 'wb') as fd:
                 for chunk in response.iter_content(chunk_size=128):
@@ -60,7 +61,26 @@ def load(url, fname, overwrite=True):
             raise LoaderError('Unknown error in loader')
 
         else:
+            if filename=='index.html':
+                c=response.cookies.get_dict()
+                if len(c)>0:
+                    with open(Setting.base_dir+'index.cookie','w') as fd:
+                        for item in c:
+                            # print(item,c[item])
+                            fd.write(item+':'+c[item]+'\n')
+
             return response
+
+def get_last_index_cookie():
+    cookie=dict()
+    print('Getting cookie')
+    with open(Setting.base_dir+'index.cookie','r') as fd:
+        for line in fd:
+            split=line.strip().partition(':')
+            cookie[split[0]]=split[2]
+    return cookie
+
+
 
 class FLEvent():
     def __init__(self, type='', data=None):

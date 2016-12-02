@@ -46,12 +46,13 @@ from site_models.video.wmgf_video_model import WMGFvideoSite
 from site_models.video.plus_file.tsp_video_model import TSPvideoSite
 
 
-
 class SiteVewerModel(AbstractModel):
     def __init__(self, controller=ControllerFromModelInterface()):
         self.controller = controller
         self.debug = Setting.model_debug
         self.models = [
+            #work on
+
             #classic
             PCvideoSite(self),CBPvideoSite(self), PXvideoSite(self), RTvideoSite(self),  T8videoSite(self),
             PTvideoSite(self), VPvideoSite(self), NLvideoSite(self), TZvideoSite(self), SKWvideoSite(self),

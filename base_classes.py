@@ -8,7 +8,11 @@ class URL():
 
     SUFFIXES=['.html','.jpg','.gif','.JPG','.mp4','.flv']
 
-    def __init__(self, url=''):
+    def __init__(self, url='', method='GET', coockies=None, post_data=None):
+        self.method=method
+        self.coockies=coockies
+        self.post_data=post_data
+
         if url == '':
             self.url = ''
             self.no_slash = True
