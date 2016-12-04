@@ -36,7 +36,7 @@ def load(url, fname, cookies=None, headers=None):
 
 if __name__ == "__main__":
 
-        url1='https://beeg.com/4308924'
+        url1='http://yourporn.sexy/post/5843331ab02c7.html'
         url1a = 'http://porndoe.com/video/543033/jacquelyn-gets-fucked-from-behind-with-her-socks-on'
         url2='http://mh.daporn.com/videos/5/8/2/6/7/5826795bcd513.mp4?Referer=http%3A%2F%2Fwww.daporn.com%2Fvideo%2Flucy-doll-is-a-real-flexible-teen-doll-226255.html'
         url3='http://www.drtuber.com/player_config/?h=503093cfbeaa558180554133b2315358%26check_speed=1%26t=1480701894%26vkey=676d54293b2629388734&project_name=drtuber&id=player&javascriptid=player&enablejs=true'

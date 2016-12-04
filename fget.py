@@ -38,9 +38,11 @@ if __name__ == "__main__":
 
     print('http://www.xvideos.com/', 'verifyed, simple, by low res. many rus')
     print('http://shooshtime.com/', 'verifyed') #
+    print('http://yourporn.sexy/', 'in process!!')
     print('http://porndoe.com/', 'verifyed, simple')
     print('http://www.gotporn.com/', 'verifyed')
     print('http://ru.tubepornclassic.com/', 'verifyed')
+    print('http://faapy.com/', 'verifyed, simple')
     print("Let's go..")
 
 

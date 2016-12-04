@@ -44,7 +44,8 @@ from site_models.video.tz_video_model import TZvideoSite
 from site_models.video.vp_video_model import VPvideoSite
 from site_models.video.wmgf_video_model import WMGFvideoSite
 from site_models.video.plus_file.tsp_video_model import TSPvideoSite
-
+from site_models.video.nfl_video_model import NFLvideoSite
+from site_models.video.yp_video_model import YPvideoSite
 
 class SiteVewerModel(AbstractModel):
     def __init__(self, controller=ControllerFromModelInterface()):
@@ -52,8 +53,10 @@ class SiteVewerModel(AbstractModel):
         self.debug = Setting.model_debug
         self.models = [
             #work on
+            YPvideoSite(self),
 
             #classic
+            NFLvideoSite(self),
             PCvideoSite(self),CBPvideoSite(self), PXvideoSite(self), RTvideoSite(self),  T8videoSite(self),
             PTvideoSite(self), VPvideoSite(self), NLvideoSite(self), TZvideoSite(self), SKWvideoSite(self),
             PHDvideoSite(self),TSPvideoSite(self),
