@@ -5,9 +5,6 @@ from site_models.site_parser import SiteParser, ParserRule
 from base_classes import URL, ControlInfo
 from setting import Setting
 
-from loader import safe_load
-
-
 class EPvideoSite(BaseSite):
     def start_button_name(self):
         return "EPvid"
@@ -31,6 +28,7 @@ class EPvideoSite(BaseSite):
 
     def parse_index_file(self, fname, base_url=URL()):
         parser = SiteParser()
+
         startpage_rule = ParserRule()
         startpage_rule.add_activate_rule_level([('div', 'class', 'mb'),
                                                 ('div', 'class', 'mbhd'),

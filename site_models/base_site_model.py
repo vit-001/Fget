@@ -1,8 +1,7 @@
 __author__ = 'Vit'
 
 from base_classes import AbstractModelFromSiteInterface, URL, ControlInfo, MediaData
-from loader import FLData, PictureCollector
-
+from requests_loader import FLData, PictureCollector
 
 class ThumbInfo(FLData):
     def __init__(self, thumb_url=URL(), filename='', href=URL(), description=''):

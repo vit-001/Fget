@@ -28,12 +28,15 @@ from site_models.video.dc_video_model import DCvideoSite
 from site_models.video.gb_video_model import GBvideoSite
 from site_models.video.hr_video_model import HRvideoSite
 from site_models.video.ml_video_model import MLvideoSite
+from site_models.video.nfl_video_model import NFLvideoSite
 from site_models.video.nl_video_model import NLvideoSite
 from site_models.video.pb_video_model import PBvideoSite
 from site_models.video.pc_video_model import PCvideoSite
 from site_models.video.pd_video_model import PDvideoSite
 from site_models.video.pfun_video_model import PFUNvideoSite
 from site_models.video.phd_video_model import PHDvideoSite
+from site_models.video.plus_file.tsp_video_model import TSPvideoSite
+from site_models.video.plus_file.yp_video_model import YPvideoSite
 from site_models.video.pt_video_model import PTvideoSite
 from site_models.video.px_video_model import PXvideoSite
 from site_models.video.rt_video_model import RTvideoSite
@@ -43,8 +46,6 @@ from site_models.video.t8_video_model import T8videoSite
 from site_models.video.tz_video_model import TZvideoSite
 from site_models.video.vp_video_model import VPvideoSite
 from site_models.video.wmgf_video_model import WMGFvideoSite
-from site_models.video.plus_file.tsp_video_model import TSPvideoSite
-
 
 
 class SiteVewerModel(AbstractModel):
@@ -52,7 +53,11 @@ class SiteVewerModel(AbstractModel):
         self.controller = controller
         self.debug = Setting.model_debug
         self.models = [
+            #work on
+            YPvideoSite(self),
+
             #classic
+            NFLvideoSite(self),
             PCvideoSite(self),CBPvideoSite(self), PXvideoSite(self), RTvideoSite(self),  T8videoSite(self),
             PTvideoSite(self), VPvideoSite(self), NLvideoSite(self), TZvideoSite(self), SKWvideoSite(self),
             PHDvideoSite(self),TSPvideoSite(self),
