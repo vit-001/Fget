@@ -37,7 +37,13 @@ def load(url, fname, overwrite=True, cookie=None):
 
     if overwrite or (not os.path.exists(fname)):
         try:
-            response = requests.get(url, cookies=cookie)
+            if url.method=='GET':
+                response = requests.get(url, cookies=cookie)
+            elif url.method=='POST':
+                response = requests.post(url, data=url.post_data)
+            else:
+                raise LoaderError('Unknown method:'+url.method)
+
             response.raise_for_status()
             with open(fname, 'wb') as fd:
                 for chunk in response.iter_content(chunk_size=128):
@@ -264,6 +270,15 @@ class Loader():
 
 
 if __name__ == "__main__":
-    pass
+    data = {'uid': "5a8bac8670e6a662b959bb3a1979aa40", 'source': 'blog', 'hash': '57bcce3d85ef5', 'x': 's9',
+            'oid': '5669adbda0e41', 'pid': '57bcce3d85ef5'}
+    url_txt = 'http://yourporn.sexy/php/get_vlink.php'
+    fname1a = 'e:/out/1a.html'
+
+    url=URL(url_txt,'POST',post_data=data)
+
+    r=load(url,fname1a)
+
+    print(r.text)
 
 
