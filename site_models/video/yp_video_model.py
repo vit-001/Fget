@@ -33,6 +33,8 @@ class YPvideoSite(BaseSite):
     def parse_index_file(self, fname, base_url=URL()):
         parser = SiteParser()
 
+        print('http://yourporn.sexy/post/584483f6898a7.html', '- разобраться')
+
         startpage_rule = ParserRule()
         # startpage_rule.add_activate_rule_level([('div', 'class', 'post_block')])#
         startpage_rule.add_activate_rule_level([('div', 'class', 'vid_container')])
@@ -43,7 +45,7 @@ class YPvideoSite(BaseSite):
         parser.add_rule(startpage_rule)
 
         startpage_pages_rule = ParserRule()
-        startpage_pages_rule.add_activate_rule_level([('ul', 'class', 'pagination')])
+        startpage_pages_rule.add_activate_rule_level([('div', 'id', 'center_control')])
         startpage_pages_rule.add_process_rule_level('a', {'href'})
         startpage_pages_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x,base_url))
         parser.add_rule(startpage_pages_rule)
@@ -62,11 +64,19 @@ class YPvideoSite(BaseSite):
         parser.add_rule(video_rule)
         #
         gallery_href_rule = ParserRule()
-        gallery_href_rule.add_activate_rule_level([('ul', 'class', 'info')])
+        gallery_href_rule.add_activate_rule_level([('div', 'class', 'popular_block_header_rl')])
         gallery_href_rule.add_process_rule_level('a', {'href'})
-        gallery_href_rule.set_attribute_filter_function('href',lambda x: '#' not in x)
+        # gallery_href_rule.set_attribute_filter_function('href',lambda x: '#' not in x)
         gallery_href_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x,base_url))
         parser.add_rule(gallery_href_rule)
+
+        gallery_author_rule = ParserRule()
+        gallery_author_rule.add_activate_rule_level([('div', 'id', 'posts_container')])  # post_block
+        gallery_author_rule.add_activate_rule_level([('div', 'class', 'post_author_name')])#post_block
+        gallery_author_rule.add_process_rule_level('a', {'href'})
+        # gallery_href_rule.set_attribute_filter_function('href',lambda x: '#' not in x)
+        gallery_author_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x,base_url))
+        parser.add_rule(gallery_author_rule)
 
         self.proceed_parcing(parser, fname)
 
@@ -81,7 +91,12 @@ class YPvideoSite(BaseSite):
             result.set_type('video')
             result.set_video(video)
 
+            for f in gallery_author_rule.get_result(['data', 'href']):
+                print(f)
+                result.add_control(ControlInfo('"'+f['data'].strip()+'"', URL(f['href'])))
+
             for f in gallery_href_rule.get_result(['data', 'href']):
+                print(f)
                 result.add_control(ControlInfo(f['data'].strip(), URL(f['href'])))
             return result
 
