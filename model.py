@@ -35,20 +35,21 @@ from site_models.video.pc_video_model import PCvideoSite
 from site_models.video.pd_video_model import PDvideoSite
 from site_models.video.pfun_video_model import PFUNvideoSite
 from site_models.video.phd_video_model import PHDvideoSite
+from site_models.video.plus_file.dfp_video_model import DFPvideoSite
 from site_models.video.plus_file.tsp_video_model import TSPvideoSite
 from site_models.video.plus_file.yp_video_model import YPvideoSite
 from site_models.video.pt_video_model import PTvideoSite
 from site_models.video.px_video_model import PXvideoSite
 from site_models.video.rt_video_model import RTvideoSite
+from site_models.video.simple.p4k_video_model import P4KvideoSite
+from site_models.video.simple.ps_video_model import PSvideoSite
 from site_models.video.skw_video_model import SKWvideoSite
 from site_models.video.sm_video_model import SMvideoSite
 from site_models.video.t8_video_model import T8videoSite
 from site_models.video.tz_video_model import TZvideoSite
 from site_models.video.vp_video_model import VPvideoSite
 from site_models.video.wmgf_video_model import WMGFvideoSite
-from site_models.video.simple.ps_video_model import PSvideoSite
-from site_models.video.simple.p4k_video_model import P4KvideoSite
-from site_models.video.simple.dfp_video_model import DFPvideoSite
+
 
 class SiteVewerModel(AbstractModel):
     def __init__(self, controller=ControllerFromModelInterface()):
@@ -56,13 +57,13 @@ class SiteVewerModel(AbstractModel):
         self.debug = Setting.model_debug
         self.models = [
             #work on
-            DFPvideoSite(self),
+
 
             #classic
             YPvideoSite(self), NFLvideoSite(self),
             PCvideoSite(self),CBPvideoSite(self), PXvideoSite(self), RTvideoSite(self),  T8videoSite(self),
             PTvideoSite(self), VPvideoSite(self), NLvideoSite(self), TZvideoSite(self), SKWvideoSite(self),
-            PHDvideoSite(self),TSPvideoSite(self),
+            PHDvideoSite(self),TSPvideoSite(self),DFPvideoSite(self),
             # amateur
             MLvideoSite(self), WMGFvideoSite(self), PFUNvideoSite(self),PBvideoSite(self),
             # s/m

@@ -100,14 +100,9 @@ if __name__ == '__main__':
 
     app = QApplication(sys.argv)
 
-    url='http://mh.daporn.com/videos/5/8/2/6/7/5826795bcd513.mp4'
+    url='http://37.187.130.100/hls/3rcpaedxctcmj4otnpl4m3ygh7x7zdm5eqoltfzwwiiyiwom5bijzsocib4a/seg-2-v1-a1.ts'
 
     q_url = QUrl(url)
-    query=QUrlQuery('referer=http%3A%2F%2Fwww.daporn.com%2Fvideo%2Flucy-doll-is-a-real-flexible-teen-doll-226255.html')
-
-    q_url.setQuery(query)
-
-    q_url.fromStringList()
 
     player = VideoPlayer(url=q_url)
     player.resize(320, 240)

@@ -27,13 +27,9 @@ def safe_load(url, fname, overwrite=True):
         return None
 
 
-def load(url, fname, overwrite=True, cookie=None):
+def load(url, fname='', overwrite=True, cookie=None):
     # print('Loading',url.get(),'to',fname)
-    path = os.path.dirname(fname)
-    filename=os.path.split(fname)[1]
-
-    if not os.path.exists(path):
-        os.makedirs(path)
+    filename=''
 
     if overwrite or (not os.path.exists(fname)):
         try:
@@ -45,9 +41,17 @@ def load(url, fname, overwrite=True, cookie=None):
                 raise LoaderError('Unknown method:'+url.method)
 
             response.raise_for_status()
-            with open(fname, 'wb') as fd:
-                for chunk in response.iter_content(chunk_size=128):
-                    fd.write(chunk)
+
+            if fname is not '':
+                path = os.path.dirname(fname)
+                filename = os.path.split(fname)[1]
+
+                if not os.path.exists(path):
+                    os.makedirs(path)
+
+                with open(fname, 'wb') as fd:
+                    for chunk in response.iter_content(chunk_size=128):
+                        fd.write(chunk)
 
             # print(fname,'loaded')
 

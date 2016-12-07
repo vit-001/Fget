@@ -35,12 +35,10 @@ if __name__ == "__main__":
     print('')
     print('Thats all')
     print('')
-
-    print('http://donfreeporn.com/', 'verifyed, simple')
+    print('https://www.veronicca.com/', 'verifyed, simple, good')
     print('http://porndoe.com/', 'verifyed, simple, bad')
     print('http://www.gotporn.com/', 'verifyed')
-    print('http://ru.tubepornclassic.com/', 'verifyed, retro')
-    print('http://sexix.net/','good, need to verify')
+    print('http://ru.tubepornclassic.com/', 'verifyed, retro')#
     print("Let's go..")
 
 

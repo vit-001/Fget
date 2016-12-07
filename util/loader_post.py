@@ -35,7 +35,7 @@ def load(url, fname, data=None):
 
 if __name__ == "__main__":
 
-    url1 = 'http://yourporn.sexy/php/get_vlink.php'
+    url1 = 'http://donfreeporn.com/wp-content/themes/detube/Htplugins/Loader.php'
 
     url3 = 'http://toseeporn.com/Media/GetMediaSource?movieId=2&Eposide=0'
     url2 = 'http://statics.toseeporn.com/toseeporn.com-Vika-Lisichkina-Hardcode-Defloration-416_tb.jpg'
@@ -45,9 +45,9 @@ if __name__ == "__main__":
     fname2 = 'e:/out/1.jpg'
     fname3 = 'e:/out/3.json'
 
-    data = {'uid':"5a8bac8670e6a662b959bb3a1979aa40", 'source':'blog', 'hash':'57bcce3d85ef5', 'x':'s9', 'oid':'5669adbda0e41', 'pid':'57bcce3d85ef5'}
+    data = {'data':"JCrtLCbsN7O9XKO7wfXPNhXyDRX24fQoJcbGwROTNRdZLKO1JRntNYiZNhQoLCloDaAGwROTNamyLhZoLhO9N90Zc93tc98obY4jeRppDhn9ct4ELzltcdrSLhnPLROT4FZTL6A="}
 
-    r = load(url1, fname1a, data=data)
+    r = load(url1, fname3, data=data)
 
     for item in r.headers:
         print(item, ':', r.headers[item])
@@ -59,6 +59,4 @@ if __name__ == "__main__":
 
     print(r.text)
 
-    with open(fname1a, 'w') as fd:
-        fd.write(json_chipper(r.text))
 

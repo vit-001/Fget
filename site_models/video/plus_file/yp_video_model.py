@@ -136,9 +136,8 @@ class YPvideoSite(BaseSite):
                     'oid': curr_result['data-oid'], 'pid': curr_result['data-pid']}
 
             url = URL(self.get_href('/php/get_vlink.php',base_url), 'POST', post_data=data)
-            data_file = Setting.base_dir + 'yp_video.dat'
 
-            r = load(url, data_file)
+            r = load(url)
 
             video = MediaData(URL(r.text))
 
