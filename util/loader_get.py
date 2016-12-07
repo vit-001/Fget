@@ -36,13 +36,14 @@ def load(url, fname, cookies=None, headers=None):
 
 if __name__ == "__main__":
 
-        url1='http://pervertslut.com/videos/91449/lovely-couple-of-ebon-lesbian-babes-having-hot-time-in-the-garden/?pqr=155:4172e1fadc7ff77a9069eccbb6c7e3f5:0:91449:1'
-        url1a = 'https://openload.co/embed/hdUgKznKVik/?autoplay=1&wmode=opaque'
-        url2='https://storage.googleapis.com/mypocket-99.appspot.com/kink/20_04_2016_All_Natural_19_Year_Old_Girl_Next_Door_is_Machine_Fucked_Like_a_Whore.mp4'
+        url1='http://donfreeporn.com/my-very-first-time-shane-blair-shane%C2%92s-first-threesome/'
+        url1a = 'http://donfreeporn.com/wp-content/themes/detube/embed.php?f=JCrtLCbsN7O9XKO7wfXPNhXyDRX24fQoJcbGwROTNRdZLKO1JRntNYiZNhQoLCloDaAGwROTNamyLhZoLhO9N90Zc93tc98obY4jeRppDhn9ct4ELzltcdrSLhnPLROT4FZTL6A='
+        url2='http://donfreeporn.com/ziej6ai.bid/88/47/27/8847279f86ec9c47f2baab3f51fa7b0a.js'
         url3='http://www.drtuber.com/player_config/?h=503093cfbeaa558180554133b2315358%26check_speed=1%26t=1480701894%26vkey=676d54293b2629388734&project_name=drtuber&id=player&javascriptid=player&enablejs=true'
 
         fname1 = 'e:/out/1.html'
         fname1a = 'e:/out/1a.html'
+        fname1b = 'e:/out/1b.html'
         fname2 = 'e:/out/1.mp4'
         fname3 = 'e:/out/3.json'
         fname4 = 'e:/out/1.js'
@@ -53,8 +54,9 @@ if __name__ == "__main__":
         # headers={'Referer':'http://www.daporn.com/'}
 
 
-        r=load(url1,fname1)
+        # r=load(url1,fname1)
         # r = load(url1a, fname1a)
+        r = load(url2, fname1b)
         # r = load(url2, fname2)
 
         for item in r.headers:

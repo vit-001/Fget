@@ -47,7 +47,8 @@ from site_models.video.tz_video_model import TZvideoSite
 from site_models.video.vp_video_model import VPvideoSite
 from site_models.video.wmgf_video_model import WMGFvideoSite
 from site_models.video.simple.ps_video_model import PSvideoSite
-
+from site_models.video.simple.p4k_video_model import P4KvideoSite
+from site_models.video.simple.dfp_video_model import DFPvideoSite
 
 class SiteVewerModel(AbstractModel):
     def __init__(self, controller=ControllerFromModelInterface()):
@@ -55,7 +56,7 @@ class SiteVewerModel(AbstractModel):
         self.debug = Setting.model_debug
         self.models = [
             #work on
-
+            DFPvideoSite(self),
 
             #classic
             YPvideoSite(self), NFLvideoSite(self),
@@ -76,7 +77,8 @@ class SiteVewerModel(AbstractModel):
             FPSite(self), HXPSite(self), LENSSite(self), DTSite(self),
             DSUSite(self), XUKSite(self), ELSite(self), CCSite(self),
             # bad, temporally unworked etc
-            XXPSite(self)
+            XXPSite(self),
+            P4KvideoSite(self), #unstable
             ]
 
         if Setting.show_sites:

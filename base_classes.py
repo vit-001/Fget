@@ -6,7 +6,7 @@ from urllib.parse import urlparse
 
 class URL():
 
-    SUFFIXES=['.html','.jpg','.gif','.JPG','.mp4','.flv']
+    SUFFIXES=['.html','.jpg','.gif','.JPG','.mp4','.flv','png']
 
     def __init__(self, url='', method='GET', coockies=None, post_data=None):
         self.method=method
