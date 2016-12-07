@@ -46,6 +46,7 @@ from site_models.video.t8_video_model import T8videoSite
 from site_models.video.tz_video_model import TZvideoSite
 from site_models.video.vp_video_model import VPvideoSite
 from site_models.video.wmgf_video_model import WMGFvideoSite
+from site_models.video.simple.ps_video_model import PSvideoSite
 
 
 class SiteVewerModel(AbstractModel):
@@ -54,10 +55,10 @@ class SiteVewerModel(AbstractModel):
         self.debug = Setting.model_debug
         self.models = [
             #work on
-            YPvideoSite(self),
+
 
             #classic
-            NFLvideoSite(self),
+            YPvideoSite(self), NFLvideoSite(self),
             PCvideoSite(self),CBPvideoSite(self), PXvideoSite(self), RTvideoSite(self),  T8videoSite(self),
             PTvideoSite(self), VPvideoSite(self), NLvideoSite(self), TZvideoSite(self), SKWvideoSite(self),
             PHDvideoSite(self),TSPvideoSite(self),
@@ -66,7 +67,7 @@ class SiteVewerModel(AbstractModel):
             # s/m
             SMvideoSite(self), GBvideoSite(self),
             # deviant
-            HRvideoSite(self), DCvideoSite(self),
+            HRvideoSite(self), DCvideoSite(self),PSvideoSite(self),
             # short video
             PDvideoSite(self),
             # photo archive

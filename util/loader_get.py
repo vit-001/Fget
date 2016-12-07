@@ -36,8 +36,8 @@ def load(url, fname, cookies=None, headers=None):
 
 if __name__ == "__main__":
 
-        url1='http://www.pornhd4k.com/channels/virgin-russian-girl-with-a-slender-body-loves-buttfucked.html'
-        url1a = 'http://porndoe.com/video/543033/jacquelyn-gets-fucked-from-behind-with-her-socks-on'
+        url1='http://pervertslut.com/videos/91449/lovely-couple-of-ebon-lesbian-babes-having-hot-time-in-the-garden/?pqr=155:4172e1fadc7ff77a9069eccbb6c7e3f5:0:91449:1'
+        url1a = 'https://openload.co/embed/hdUgKznKVik/?autoplay=1&wmode=opaque'
         url2='https://storage.googleapis.com/mypocket-99.appspot.com/kink/20_04_2016_All_Natural_19_Year_Old_Girl_Next_Door_is_Machine_Fucked_Like_a_Whore.mp4'
         url3='http://www.drtuber.com/player_config/?h=503093cfbeaa558180554133b2315358%26check_speed=1%26t=1480701894%26vkey=676d54293b2629388734&project_name=drtuber&id=player&javascriptid=player&enablejs=true'
 

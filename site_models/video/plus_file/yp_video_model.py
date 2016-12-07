@@ -100,8 +100,8 @@ class YPvideoSite(BaseSite):
         result = ParseResult(self)
 
         if video_rule.is_result(): #len(video_rule.get_result()) > 0:
-            print('video rule')
-            print(video_rule.get_result())
+            # print('video rule')
+            # print(video_rule.get_result())
 
             video = MediaData(URL(video_rule.get_result()[0]['src']))
 
@@ -166,11 +166,11 @@ class YPvideoSite(BaseSite):
             result.set_type('hrefs')
 
             for item in startpage_combo_rule.get_result():
-                print(item)
+                # print(item)
                 result.add_thumb(ThumbInfo(thumb_url=URL(item['src']), href=URL(item['href']),description=item.get('title','')))
 
             for item in startpage_rule.get_result(['href']):
-                print(item)
+                # print(item)
                 result.add_thumb(ThumbInfo(thumb_url=URL(item['src']), href=URL(item['href']),description=item.get('title','')))
 
             for item in startpage_pages_rule.get_result(['href', 'data']):
