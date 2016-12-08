@@ -43,6 +43,7 @@ from site_models.video.px_video_model import PXvideoSite
 from site_models.video.rt_video_model import RTvideoSite
 from site_models.video.simple.p4k_video_model import P4KvideoSite
 from site_models.video.simple.ps_video_model import PSvideoSite
+from site_models.video.simple.ver_video_model import VERvideoSite
 from site_models.video.skw_video_model import SKWvideoSite
 from site_models.video.sm_video_model import SMvideoSite
 from site_models.video.t8_video_model import T8videoSite
@@ -61,7 +62,7 @@ class SiteVewerModel(AbstractModel):
 
             #classic
             YPvideoSite(self), NFLvideoSite(self),
-            PCvideoSite(self),CBPvideoSite(self), PXvideoSite(self), RTvideoSite(self),  T8videoSite(self),
+            PCvideoSite(self),CBPvideoSite(self), PXvideoSite(self), RTvideoSite(self),  T8videoSite(self),VERvideoSite(self),
             PTvideoSite(self), VPvideoSite(self), NLvideoSite(self), TZvideoSite(self), SKWvideoSite(self),
             PHDvideoSite(self),TSPvideoSite(self),DFPvideoSite(self),
             # amateur

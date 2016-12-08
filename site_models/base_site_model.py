@@ -69,6 +69,8 @@ class BaseSite():
             txt=txt+"*"
         if txt.startswith('http://'):
             return txt
+        if txt.startswith('//'):
+            return 'http:'+ txt
         if txt.startswith('https://'):
             return txt
         if txt.startswith('/'):

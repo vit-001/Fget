@@ -23,7 +23,7 @@ class ParserRule():
         self.debug = debug
         self.collect_data=collect_data
 
-        self.tag_no_end = ['img', 'meta','param']
+        self.tag_no_end = ['img', 'meta','param','source']
 
         self.result = []
 
