@@ -22,6 +22,8 @@ class VideoPlayer(QWidget):
 
         self.ui = Ui_VideoPlayer()
 
+        self.error_handler=lambda txt:None
+
         savecwd = os.getcwd()
         os.chdir('view/ui')
         self.ui.setupUi(self)
@@ -73,6 +75,9 @@ class VideoPlayer(QWidget):
         self.change_position = None
         self.uget_handler = lambda fname='', url='': None
         # self.on_end_of_playing=lambda :None
+
+    def set_error_handler(self, handler):
+        self.error_handler=handler
 
     def icons_set(self, bn, fname_off, fname_on=None):
         icon = QIcon()
@@ -214,7 +219,7 @@ class VideoPlayer(QWidget):
 
     def handleError(self):
         print("Error in " + self.url + ': ' + self.media_player.errorString())
-
+        self.error_handler(self.media_player.errorString())
 
 if __name__ == "__main__":
     fname = 'video_player_widget'

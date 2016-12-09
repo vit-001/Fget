@@ -35,6 +35,7 @@ if __name__ == "__main__":
     print('')
     print('Thats all')
     print('')
+    print('http://pornbraze.com/', 'verifyed, simple jwplayer, good')
     print('http://porndoe.com/', 'verifyed, simple, bad')
     print('http://www.gotporn.com/', 'verifyed')
     print('http://ru.tubepornclassic.com/', 'verifyed, retro')#

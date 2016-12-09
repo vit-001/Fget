@@ -100,7 +100,7 @@ if __name__ == '__main__':
 
     app = QApplication(sys.argv)
 
-    url='http://37.187.130.100/hls/3rcpaedxctcmj4otnpl4m3ygh7x7zdm5eqoltfzwwiiyiwom5bijzsocib4a/seg-2-v1-a1.ts'
+    url='https://redirector.googlevideo.com/videoplayback?requiressl=yes&id=d7186d1009d68503&itag=22&source=webdrive&ttl=transient&app=explorer&ip=2604:a880:800:10::188e:f001&ipbits=32&expire=1481242230&sparams=requiressl,id,itag,source,ttl,ip,ipbits,expire&signature=A4D38F48A008E8759441DE3722E7FA7829C4F84.79C6FCF150C2F329DDCE6CA138529EFD81374B94&key=ck2&mm=31&mn=sn-ab5l6n7y&ms=au&mt=1481227650&mv=m&nh=IgpwcjAzLmxnYTA3KhIyNjA0OmE4ODA6ODAwOjoxMDA&pl=48&title=cloudspro.net'
 
     q_url = QUrl(url)
 

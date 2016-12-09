@@ -50,7 +50,7 @@ from site_models.video.t8_video_model import T8videoSite
 from site_models.video.tz_video_model import TZvideoSite
 from site_models.video.vp_video_model import VPvideoSite
 from site_models.video.wmgf_video_model import WMGFvideoSite
-
+from site_models.video.simple.pbz_video_model import PBZvideoSite
 
 class SiteVewerModel(AbstractModel):
     def __init__(self, controller=ControllerFromModelInterface()):
@@ -58,7 +58,7 @@ class SiteVewerModel(AbstractModel):
         self.debug = Setting.model_debug
         self.models = [
             #work on
-
+            PBZvideoSite(self),
 
             #classic
             YPvideoSite(self), NFLvideoSite(self),

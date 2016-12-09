@@ -36,7 +36,7 @@ def load(url, fname, cookies=None, headers=None):
 
 if __name__ == "__main__":
 
-        url1='https://www.veronicca.com/video/5566/the-helpful-neighbor'
+        url1='http://pornbraze.com/21256/hdlove-victoria-alluring-beauty-full-1080-hd/'
         url1a = 'https://openload.co/embed/J8_8UK3Ge6A/Show_Me_How_You_Jerk_Off_-_Brazzers_-_Abbey_Brooks.mp4'
         url2='http://donfreeporn.com/ziej6ai.bid/88/47/27/8847279f86ec9c47f2baab3f51fa7b0a.js'
         url3='http://www.drtuber.com/player_config/?h=503093cfbeaa558180554133b2315358%26check_speed=1%26t=1480701894%26vkey=676d54293b2629388734&project_name=drtuber&id=player&javascriptid=player&enablejs=true'

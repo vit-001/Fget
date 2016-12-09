@@ -32,6 +32,7 @@ class VideoView(FullView, AbstractVideoView):
         self.video_player.set_minus_handler(self.delete_from_playlist)
 
         self.video_player.set_uget_handler(self.load_video)
+        self.video_player.set_error_handler(self.on_error_handler)
         self.show()
 
         self.prev=lambda:None
@@ -88,6 +89,9 @@ class VideoView(FullView, AbstractVideoView):
         t=urlparse(self.url.get())[2].strip('/').split('/')
         prefix=t[len(t)-1]
         self.controller.uget_file(filename=prefix+'_'+fname,url=URL(url+'*'))
+
+    def on_error_handler(self,eroor_message):
+        print(eroor_message)
 
     def panic(self):
         super().panic()
