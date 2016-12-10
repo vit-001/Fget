@@ -42,6 +42,7 @@ class Controller(AbstractController):
 
         if not self.model.can_accept_url(url):
             print('Rejected url', url.get())
+            self.show_status('Rejected url '+ url.get())
             return
 
         index = Setting.base_dir + 'index.html'
@@ -139,6 +140,9 @@ class Controller(AbstractController):
     def panic(self):
         print('panic')
         self.view.panic()
+
+    def show_status(self, txt=''):
+        self.view.show_status(txt)
 
     def get_favorites(self):
         return self.fav

@@ -164,6 +164,8 @@ class AbstractViewManager():
 
     def add_keyboard_shortcut(self, window, shortcut='',action=lambda:None):pass
 
+    def show_status(self, txt=''):pass
+
 
 class ControllerFromViewInterface():
     def back(self): pass
@@ -189,7 +191,7 @@ class ControllerFromModelInterface():
     def show_video_view(self, page_url=URL(), video=MediaData(), controls=list()): pass
     # def refresh_picture_view(self): pass
     # def load_file(self,url=URL,filename='',on_load=lambda success:None):pass
-
+    def show_status(self,txt=''):pass
 
 class AbstractController(ControllerFromViewInterface, ControllerFromModelInterface):
     pass

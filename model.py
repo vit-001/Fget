@@ -60,10 +60,10 @@ class SiteVewerModel(AbstractModel):
         self.debug = Setting.model_debug
         self.models = [
             #work on
-            V24videoSite(self),
+
 
             #classic
-            YPvideoSite(self), NFLvideoSite(self),
+            YPvideoSite(self), NFLvideoSite(self),V24videoSite(self),
             PCvideoSite(self),CBPvideoSite(self), PXvideoSite(self), RTvideoSite(self),
             VERvideoSite(self),PBZvideoSite(self),
             T8videoSite(self),
@@ -123,6 +123,7 @@ class SiteVewerModel(AbstractModel):
 
         if result.type == 'none':
             print('Parsing has no result')
+            self.controller.show_status('Parsing has no result')
             return
 
         if result.type == 'hrefs':
@@ -172,7 +173,9 @@ class SiteVewerModel(AbstractModel):
             print('Accepted     ', accepted)
             print('Rejected     ', rejected)
             for item in self.domains:
-                print('%4d' % self.domains[item], 'in domain', item)
+                message='  {0} in domain {1}'.format(self.domains[item],item)
+                print(message)
+                self.controller.show_status(message)
             print()
 
         self.controller.show_thumb_view(url=url,

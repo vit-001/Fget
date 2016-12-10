@@ -103,6 +103,9 @@ class QTViewManager(AbstractViewManager):
         self.thumb_view.panic()
         self.tool_box.panic()
 
+    def show_status(self, txt=''):
+        self.thumb_view.show_status(txt)
+
     def on_close_event(self):
         self.picture_view.destroy()
         self.video_view.destroy()

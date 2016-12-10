@@ -91,7 +91,7 @@ class VideoView(FullView, AbstractVideoView):
         self.controller.uget_file(filename=prefix+'_'+fname,url=URL(url+'*'))
 
     def on_error_handler(self,eroor_message):
-        print(eroor_message)
+        # print(eroor_message)
         self.manager.get_thumb_view().show_status(eroor_message)
 
     def panic(self):
