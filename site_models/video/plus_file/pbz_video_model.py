@@ -11,13 +11,13 @@ class PBZvideoSite(BaseSite):
         return "PBZvid"
 
     def get_start_button_menu_text_url_dict(self):
-        return dict(Videos_Most_Recsent=URL('https://www.veronicca.com/videos?o=mr*'),
-                    Videos_Most_Viewed=URL('https://www.veronicca.com/videos?o=mv*'),
-                    Videos_Most_Commented=URL('https://www.veronicca.com/videos?o=md*'),
-                    Videos_Top_Rated=URL('https://www.veronicca.com/videos?o=tr*'),
-                    Videos_Top_Favorited=URL('https://www.veronicca.com/videos?o=tf*'),
-                    Videos_Longest=URL('https://www.veronicca.com/videos?o=lg*'),
-                    Channels=URL('https://www.veronicca.com/channels*')
+        return dict(Videos_Most_Recsent=URL('http://pornbraze.com/recent/'),
+                    Videos_HD=URL('http://pornbraze.com/hd-porn/'),
+                    Videos_Longest=URL('http://pornbraze.com/longest/'),
+                    Videos_Downloaded=URL('http://pornbraze.com/downloaded/'),
+                    Videos_Most_Popular=URL('http://pornbraze.com/popular/'),#
+                    DVDs=URL('http://pornbraze.com/dvd/'),
+                    Channels=URL('http://pornbraze.com/channels/')
                     )
 
     def startpage(self):
@@ -36,6 +36,16 @@ class PBZvideoSite(BaseSite):
         startpage_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x,base_url))
         startpage_rule.set_attribute_modifier_function('src', lambda x: self.get_href(x,base_url))
         parser.add_rule(startpage_rule)
+
+        channels_rule = ParserRule()
+        channels_rule.add_activate_rule_level([('ul', 'class', 'channels')])
+        channels_rule.add_process_rule_level('a', {'href','title'})
+        channels_rule.add_process_rule_level('div', {})
+        channels_rule.add_process_rule_level('img', {'src','alt'})
+        channels_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x,base_url).replace('*','/'))
+        channels_rule.set_attribute_modifier_function('src', lambda x: self.get_href(x,base_url))
+        parser.add_rule(channels_rule)
+
 
         startpage_pages_rule = ParserRule()
         startpage_pages_rule.add_activate_rule_level([('ul', 'class', 'pagination pagination-lg')])
@@ -132,10 +142,13 @@ class PBZvideoSite(BaseSite):
 
             return result
 
-        if startpage_rule.is_result():
+        if startpage_rule.is_result() or channels_rule.is_result():
             result.set_type('hrefs')
 
             for item in startpage_rule.get_result(['href']):
+                result.add_thumb(ThumbInfo(thumb_url=URL(item['src']), href=URL(item['href']),description=item.get('alt',item.get('title',''))))
+
+            for item in channels_rule.get_result(['href']):
                 result.add_thumb(ThumbInfo(thumb_url=URL(item['src']), href=URL(item['href']),description=item.get('alt',item.get('title',''))))
 
             for item in startpage_pages_rule.get_result(['href', 'data']):

@@ -33,7 +33,7 @@ class PictureView(FullView, AbstractPictureView):
         self.max_pics = 0
 
     def test_favorite_item(self, item):
-        return item.is_pix()
+        return item.is_pix() or item.is_thumb()
 
     def get_page_type(self):
         return FavoriteRecord.pix

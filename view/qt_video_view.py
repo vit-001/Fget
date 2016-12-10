@@ -42,7 +42,7 @@ class VideoView(FullView, AbstractVideoView):
         print(info)
 
     def test_favorite_item(self, item):
-        return item.is_video()
+        return item.is_video() or item.is_thumb()
 
     def get_page_type(self):
         return FavoriteRecord.video
@@ -92,6 +92,7 @@ class VideoView(FullView, AbstractVideoView):
 
     def on_error_handler(self,eroor_message):
         print(eroor_message)
+        self.manager.get_thumb_view().show_status(eroor_message)
 
     def panic(self):
         super().panic()

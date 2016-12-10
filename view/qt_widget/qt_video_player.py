@@ -8,7 +8,7 @@ from urllib.parse import urlparse
 
 from PyQt5.QtCore import QDir, Qt, QUrl, QUrlQuery
 from PyQt5.QtGui import QPixmap, QIcon
-from PyQt5.QtMultimedia import QMediaContent, QMediaPlayer
+from PyQt5.QtMultimedia import QMediaContent, QMediaPlayer, QMediaResource
 from PyQt5.QtMultimediaWidgets import QVideoWidget, QGraphicsVideoItem
 from PyQt5.QtWidgets import (QApplication, QFileDialog, QAction, QMenu,
                              QPushButton, QSizePolicy, QSlider, QStyle, QVBoxLayout, QWidget, QMainWindow)
@@ -219,7 +219,7 @@ class VideoPlayer(QWidget):
 
     def handleError(self):
         print("Error in " + self.url + ': ' + self.media_player.errorString())
-        self.error_handler(self.media_player.errorString())
+        self.error_handler('Player error: '+self.media_player.errorString())
 
 if __name__ == "__main__":
     fname = 'video_player_widget'
