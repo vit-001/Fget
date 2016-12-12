@@ -70,18 +70,39 @@ class URL():
         if url2 is None: return False
         return url2.to_save()==self.to_save()
 
-class MediaData():
-    txt='text'
-    url='url'
+
+class UrlList:
+    def __init__(self):
+        self.urls=list()
+
+    def add(self,label='',url=URL()):
+        self.urls.append(dict(text=label,url=url))
+
+    def get_media_data(self,default=0):
+        video=None
+        if len(self.urls) == 1:
+            video = MediaData(self.urls[0]['url'])
+        elif len(self.urls) > 1:
+            video = MediaData(self.urls[default]['url'])
+            for item in self.urls:
+                video.add_alternate(item)
+        return video
+
+class MediaData:
+    # txt='text'
+    # url='url'
     def __init__(self, url=URL()):
         self.url=url
         self.alternate=list()
         self.add_alternate(dict(text='DEFAULT',url=self.url))
 
-    def add_alternate(self,txt_url_dict):
-        self.alternate.append(txt_url_dict)
+    def add_alternate(self,text_url_dict):
+        self.alternate.append(text_url_dict)
 
-class ControlInfo():
+    # @staticmethod
+    # def
+
+class ControlInfo:
     def __init__(self, text='', url=URL(), menu_text_url_dict=None):
         self.text = text
         self.url = url

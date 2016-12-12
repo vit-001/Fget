@@ -83,7 +83,7 @@ class TOPSite(BaseSite):
         result = ParseResult(self)
 
         if len(startpage_rule.get_result()) > 0:
-            result.set_type('hrefs')
+            # result.set_type('hrefs')
             for item in startpage_rule.get_result():
                 result.add_thumb(
                     ThumbInfo(thumb_url=URL(item['src']), href=URL(item['href']), description=item.get('alt', '')))
@@ -92,7 +92,7 @@ class TOPSite(BaseSite):
                 result.add_page(ControlInfo(item['data'], URL(item['href'])))
 
         if len(href_rule.get_result()) > 0:
-            result.set_type('hrefs')
+            # result.set_type('hrefs')
             for item in href_rule.get_result():
                 # print (item)
                 if 'src' in item:
@@ -100,7 +100,7 @@ class TOPSite(BaseSite):
                         ThumbInfo(thumb_url=URL(item['src']), href=URL(item['href']), description=item.get('alt', '')))
 
         if len(picture_rule.get_result()) > 0:
-            result.set_type('pictures')
+            # result.set_type('pictures')
             for f in picture_rule.get_result():
                 result.add_full(FullPictureInfo(rel_name=f['src']))
 

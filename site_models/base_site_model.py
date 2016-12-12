@@ -130,9 +130,9 @@ class BaseNestedSite(BaseSite):
     pass
 
 class ParseResult():
-    def __init__(self, site=BaseSite(), type='none'):
+    def __init__(self, site=BaseSite()):
         # self.site=site
-        self.type = type
+        self._type = 'none'
         self.redirect = URL()
         self.video=MediaData()
         self.thumbs = []
@@ -142,6 +142,18 @@ class ParseResult():
         self.sites=[]
         self.gallery_path = None
         self.picture_collector = None
+
+    def is_no_result(self):
+        return self._type == 'none'
+
+    def is_hrefs(self):
+        return self._type == 'hrefs'
+
+    def is_pictures(self):
+        return self._type == 'pictures'
+
+    def is_video(self):
+        return self._type == 'video'
 
     def set_base(self, base_dir='', base_url=URL()):
         for item in self.thumbs:
@@ -157,12 +169,15 @@ class ParseResult():
 
     def set_video(self,media=MediaData()):
         self.video=media
+        if media is not None:
+            self._type= 'video'
 
     def get_video(self):
         return self.video
 
-    def set_type(self, type):
-        self.type = type
+    def set_type(self, type):  #todo  убрать совсем
+        pass
+        # self._type = type
 
     def set_picture_collector(self, collector=PictureCollector()):
         self.picture_collector = collector
@@ -172,9 +187,11 @@ class ParseResult():
 
     def add_thumb(self, thumb=ThumbInfo()):
         self.thumbs.append(thumb)
+        self._type= 'hrefs'
 
     def add_full(self, full=FullPictureInfo()):
         self.full.append(full)
+        self._type= 'pictures'
 
     def add_control(self, control=ControlInfo()):
         for c in self.controls:
@@ -196,14 +213,14 @@ class ParseResult():
 
     def print_result(self):
         print('==============PARSER RESULT=============')
-        print('Type', self.type)
+        print('Type', self._type)
         if type == 'none': return
 
-        if self.type == 'hrefs':
+        if self._type == 'hrefs':
             for i in self.thumbs:
                 print(i)
 
-        if self.type == 'pictures':
+        if self._type == 'pictures':
             for i in self.full:
                 print(i)
 

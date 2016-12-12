@@ -52,6 +52,9 @@ from site_models.video.tz_video_model import TZvideoSite
 from site_models.video.vp_video_model import VPvideoSite
 from site_models.video.wmgf_video_model import WMGFvideoSite
 from site_models.video.simple.v24_video_model import V24videoSite
+from site_models.video.simple.bmt_video_model import BMTvideoSite
+from site_models.video.simple.cls_video_model import CLSvideoSite
+from site_models.video.plus_file.pdg_video_model import PDGvideoSite
 
 
 class SiteVewerModel(AbstractModel):
@@ -60,13 +63,13 @@ class SiteVewerModel(AbstractModel):
         self.debug = Setting.model_debug
         self.models = [
             #work on
-
+            PDGvideoSite(self),
 
             #classic
             YPvideoSite(self), NFLvideoSite(self),V24videoSite(self),
-            PCvideoSite(self),CBPvideoSite(self), PXvideoSite(self), RTvideoSite(self),
+            PCvideoSite(self),CBPvideoSite(self), PXvideoSite(self), RTvideoSite(self),CLSvideoSite(self),
             VERvideoSite(self),PBZvideoSite(self),
-            T8videoSite(self),
+            T8videoSite(self),BMTvideoSite(self),
             PTvideoSite(self), VPvideoSite(self), NLvideoSite(self), TZvideoSite(self), SKWvideoSite(self),
             PHDvideoSite(self),TSPvideoSite(self),DFPvideoSite(self),
             # amateur
@@ -121,17 +124,17 @@ class SiteVewerModel(AbstractModel):
 
         if self.debug: print('Result type:', result.type)
 
-        if result.type == 'none':
+        if result.is_no_result():
             print('Parsing has no result')
             self.controller.show_status('Parsing has no result')
             return
 
-        if result.type == 'hrefs':
+        if result.is_hrefs():
             if self.debug: print('Generating thumb view')
             result.set_base(Setting.base_dir + 'thumbs/')
             self.generate_thumb_view(url, thumb_list=result)
 
-        if result.type == 'pictures':
+        if result.is_pictures():
             if self.debug: print('Generating full view')
             if result.get_gallery_path() is None:
                 page_dir = url.get_path(base=Setting.base_dir)
@@ -143,11 +146,9 @@ class SiteVewerModel(AbstractModel):
             # result.set_base(page_dir, url)
             self.controller.show_picture_view(url, page_dir, result.controls, result.full, result.picture_collector)
 
-        if result.type=='video':
+        if result.is_video():
             if self.debug: print('Generating video view')
             self.controller.show_video_view(url,result.get_video(),result.controls)
-
-
 
     def generate_thumb_view(self, url=URL(), thumb_list=ParseResult()):
         thumbs = []

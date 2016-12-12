@@ -36,9 +36,9 @@ def load(url, fname, cookies=None, headers=None):
 
 if __name__ == "__main__":
 
-        url1='http://www.24videos.tv/videos/3723/slender-latina-with-sweet-pussy-got-what-she-needed-for-a-long-time/'
-        url1a = 'http://pornbraze.com/modules/video/player/config2.php?id=32429'
-        url2='http://donfreeporn.com/ziej6ai.bid/88/47/27/8847279f86ec9c47f2baab3f51fa7b0a.js'
+        url1='https://www.porndig.com/video/'
+        url1a = 'https://videos.porndig.com/player/index/154510/1035/13798'
+        url2='http://media6.beemtube.com/videos/1016/1721171992/10161721171992.mp4?st=lvZ6iLoYH4VBbfbQ8Uypxw&e=1481719019'
         url3='http://www.drtuber.com/player_config/?h=503093cfbeaa558180554133b2315358%26check_speed=1%26t=1480701894%26vkey=676d54293b2629388734&project_name=drtuber&id=player&javascriptid=player&enablejs=true'
 
         fname1 = 'e:/out/1.html'
@@ -51,13 +51,15 @@ if __name__ == "__main__":
         # coockies={'_gat':'1',
         # '_ga' :'GA1.2.1045758528.1480589656'}
 
-        # headers={'Referer':'http://www.daporn.com/'}
+        headers={'Referer':'https://www.porndig.com/videos/59589/lara-stevens-loves-a-hard-dick-in-her-asshole.html'}
 
 
-        r=load(url1,fname1)
-        # r = load(url1a, fname1a)
+        # r=load(url1,fname1)
+        # r = load(url1a, fname1a,headers=headers)
         # r = load(url2, fname1b)
         # r = load(url2, fname2)
+
+        r=load('https://assets.porndig.com/assets/porndig/js/bundle.js?ver=1481122807','e:/out/bundle.js')
 
         for item in r.headers:
             print(item,':',r.headers[item])

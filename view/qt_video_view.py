@@ -51,7 +51,7 @@ class VideoView(FullView, AbstractVideoView):
         if Setting.video_info:
             print('Now playback',page_url)
             for item in media.alternate:
-                print(item[MediaData.txt], item[MediaData.url].get())
+                print(item['text'], item['url'].get())
             print()
 
         self.player_url = media.url
@@ -61,7 +61,7 @@ class VideoView(FullView, AbstractVideoView):
         self.controls.clear()
 
         for item in media.alternate:
-            self.video_player.add_alternate_url(item[MediaData.txt], item[MediaData.url].get())
+            self.video_player.add_alternate_url(item['text'], item['url'].get())
         if autoplay:
             self.video_player.play()
 
