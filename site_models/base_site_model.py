@@ -195,19 +195,19 @@ class ParseResult():
 
     def add_control(self, control=ControlInfo()):
         for c in self.controls:
-            if control.url.get() == c.url.get():
+            if control.url == c.url:
                 return
         self.controls.append(control)
 
     def add_page(self, control=ControlInfo()):
         for c in self.pages:
-            if control.url.get() == c.url.get():
+            if control.url == c.url:
                 return
         self.pages.append(control)
 
-    def add_site(self,control=ControlInfo):
+    def add_site(self,control=ControlInfo()):
         for c in self.sites:
-            if control.url.get() == c.url.get():
+            if control.url == c.url:
                 return
         self.sites.append(control)
 

@@ -1,19 +1,19 @@
 __author__ = 'Vit'
 
+import json
+
+from setting import Setting
 from site_models.base_site_model import *
 from site_models.site_parser import SiteParser, ParserRule
-from base_classes import URL, ControlInfo
-from setting import Setting
-import json
+
 
 class PDGvideoSite(BaseSite):
     def start_button_name(self):
         return "PDGvid"
 
     def get_start_button_menu_text_url_dict(self):
-        return dict(Pornstars=URL('http://toseeporn.com/Actor*'),
-                    Home=URL('http://toseeporn.com/*'),
-                    Search_Example=URL('http://toseeporn.com/Search=asian%20sex%20diary*')
+        return dict(Videos_Professional=URL('https://www.porndig.com/video/'),
+                    Videos_Amateur=URL('https://www.porndig.com/amateur/videos/')
                     )
 
     def startpage(self):
@@ -27,101 +27,76 @@ class PDGvideoSite(BaseSite):
 
         startpage_rule = ParserRule()
         startpage_rule.add_activate_rule_level([('div', 'class', 'video_item_wrapper video_item_medium')])
-        startpage_rule.add_process_rule_level('a', {'href','class','title'})
-        startpage_rule.add_process_rule_level('img', {'src','alt'})
+        startpage_rule.add_process_rule_level('a', {'href', 'class', 'title'})
+        startpage_rule.add_process_rule_level('img', {'src', 'alt'})
         # startpage_rule.set_attribute_filter_function('class',lambda x: x == 'thumbnail')
-        startpage_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x,base_url))
-        startpage_rule.set_attribute_modifier_function('src',lambda x:self.get_href(x,base_url))
+        startpage_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x, base_url))
+        startpage_rule.set_attribute_modifier_function('src', lambda x: self.get_href(x, base_url))
         parser.add_rule(startpage_rule)
-
-        startpage_pages_rule = ParserRule()
-        startpage_pages_rule.add_activate_rule_level([('div', 'class', 'col-xs-12 content-pagination')])
-        startpage_pages_rule.add_process_rule_level('a', {'href'})
-        startpage_pages_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x,base_url))
-        parser.add_rule(startpage_pages_rule)
-
-        startpage_pages_script_rule = ParserRule()
-        startpage_pages_script_rule.add_activate_rule_level([('body', '', '')])
-        startpage_pages_script_rule.add_process_rule_level('script', {'src'})
-        startpage_pages_script_rule.set_attribute_filter_function('src',lambda x: '/bundle.js' in x)
-        parser.add_rule(startpage_pages_script_rule)
-
-
-        tags_rule = ParserRule()
-        tags_rule.add_activate_rule_level([('section', 'id', 'footer-tag')])
-        tags_rule.add_process_rule_level('a', {'href'})
-        tags_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x,base_url))
-        parser.add_rule(tags_rule)
-
-        categories_rule = ParserRule()
-        categories_rule.add_activate_rule_level([('ul','class','nav navbar-nav')])
-        categories_rule.add_process_rule_level('a', {'href'})
-        categories_rule.set_attribute_filter_function('href',lambda x: '/Category/' in x and "#" not in x)
-        categories_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x,base_url))
-        parser.add_rule(categories_rule)
-
 
         video_rule = ParserRule()
         video_rule.add_activate_rule_level([('div', 'class', 'video_wrapper')])
         video_rule.add_process_rule_level('iframe', {'src'})
         # video_rule.set_attribute_filter_function('data', lambda text: 'angular.' in text)
-        video_rule.set_attribute_modifier_function('src',lambda x: self.get_href(x,base_url))
+        video_rule.set_attribute_modifier_function('src', lambda x: self.get_href(x, base_url))
         parser.add_rule(video_rule)
         #
         video_href_rule = ParserRule()
         video_href_rule.add_activate_rule_level([('div', 'class', 'single_description_item_info')])
         video_href_rule.add_process_rule_level('a', {'href'})
-        video_href_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x,base_url))
+        video_href_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x, base_url))
         parser.add_rule(video_href_rule)
 
-        video_sender_rule = ParserRule()
-        video_sender_rule.add_activate_rule_level([('div', 'class', 'video_description_wrapper js_video_description')])
-        video_sender_rule.add_process_rule_level('a', {'href'})
-        video_sender_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x,base_url))
-        parser.add_rule(video_sender_rule)
+        try:
+            if base_url.method == 'POST':
+                has_more = False
+                first_page = False
 
+                with open(fname, encoding='utf-8', errors='ignore') as fd:
+                    j = json.load(fd)
+                success = j.get('success', False)
+                if success:
+                    next_data = j['data']
+                    content = next_data['content']
+                    if len(content) > 0:
+                        has_more = next_data['has_more']
+                        print('has_more:', has_more)
+                        with open(fname, 'w', encoding='utf-8') as fd:
+                            fd.write(content)
 
-        if base_url.method=='POST':
-            with open(fname, encoding='utf-8', errors='ignore') as fd:
-                j = json.load(fd)
-            success = j.get('success', False)
-            if success:
-                data = j['data']
-                content = data['content']
-                if len(content) > 0:
-                    has_more = data['has_more']
-                    print('has_more:',has_more)
-                    with open(fname, 'w', encoding='utf-8') as fd:
-                        fd.write(content)
-        else:
-            has_more=True
+            else:
+                first_page = True
+                has_more = True
 
-        self.proceed_parcing(parser, fname)
+            self.proceed_parcing(parser, fname)
+
+        except ValueError:
+            return ParseResult(self)
 
         result = ParseResult(self)
 
-        if video_rule.is_result(): #len(video_rule.get_result()) > 0:
+        if video_rule.is_result():  # len(video_rule.get_result()) > 0:
 
             # print(video_rule.get_result())
 
-            frame=URL(video_rule.get_result()[0]['src'])
+            frame = URL(video_rule.get_result()[0]['src'])
             from requests_loader import load, LoaderError, get_last_index_cookie
 
             frame_file = Setting.base_dir + 'frame.html'
-            cookie=get_last_index_cookie()
+            cookie = get_last_index_cookie()
             # print(cookie)
 
-            urls=list()
+            urls = list()
             result.set_type('video')
 
             try:
-                r=load(frame,frame_file, cookie=cookie)
+                r = load(frame, frame_file, cookie=cookie)
 
-                urls=list()
+                urls = list()
 
                 # print(r.text)
 
-                setup = r.text.replace(' ', '').replace('\\/','/').partition('vc.player_setup=')[2].partition(';')[0]
+                setup = r.text.replace(' ', '').replace('\\/', '/').partition('vc.player_setup=')[2].partition(';')[0]
                 playlist = setup.partition('"playlist":')[2]
 
                 split = playlist.split('"file":"')
@@ -132,8 +107,8 @@ class PDGvideoSite(BaseSite):
                         url = part[0]
                         label = part[2].partition('"label":"')[2].partition('"')[0]
                         print(label, url)
-                        data = dict(text=label, url=URL(url + '*'))
-                        urls.append(data)
+                        next_data = dict(text=label, url=URL(url + '*'))
+                        urls.append(next_data)
 
                 if len(urls) == 1:
                     video = MediaData(urls[0]['url'])
@@ -149,72 +124,89 @@ class PDGvideoSite(BaseSite):
             except LoaderError as err:
                 print(err)
 
-            def add_categories(parcer_result,text):
+            def add_categories(parcer_result, text):
                 for f in parcer_result:
                     if text in f['href']:
                         result.add_control(ControlInfo(f['data'].strip(), URL(f['href'])))
 
-            parcer_result=video_href_rule.get_result(['data', 'href'])
+            parcer_result = video_href_rule.get_result(['data', 'href'])
 
-            add_categories(parcer_result,'/studios/')
+            add_categories(parcer_result, '/studios/')
             add_categories(parcer_result, '/pornstars/')
             add_categories(parcer_result, '/channels/')
 
             return result
 
-        if startpage_rule.is_result(): #len(startpage_rule.get_result()) > 0:
-            result.set_type('hrefs')
+        if startpage_rule.is_result():
 
             for item in startpage_rule.get_result(['href']):
-                # print(item)
-                result.add_thumb(ThumbInfo(thumb_url=URL(item['src']), href=URL(item['href']),description=item.get('alt','')))
+                result.add_thumb(
+                    ThumbInfo(thumb_url=URL(item['src']), href=URL(item['href']), description=item.get('alt', '')))
 
+            prev_data = None
+            if first_page:
+                print(base_url.get())
 
-            if base_url.method=='POST':
-                data=base_url.post_data
-                data['offset']=str(int(data['offset'])+100)
-                data['pname'] = str(int(data['pname']) + 1)
+                xhr_data = {'base_url': base_url, 'step': 100}
+                next_data = {'main_category_id': '1', 'type': 'post', 'filters[filter_type]': 'date',
+                             'filters[filter_period]': ''}
+
+                if base_url.contain('/video/'):
+                    next_data['name'] = 'all_videos'
+                if base_url.contain('/amateur/videos/'):
+                    next_data['main_category_id'] = '4'
+                    next_data['name'] = 'all_videos'
+                if base_url.contain('-amateur'):
+                    next_data['main_category_id'] = '4'
+                if base_url.contain('/channels/'):
+                    next_data['name'] = 'category_videos'
+                    next_data['category_id[]'] = self.quotes(base_url.get(), '/channels/', '/')
+                if base_url.contain('/pornstars/'):
+                    next_data['name'] = 'pornstar_related_videos'
+                    next_data['content_id'] = self.quotes(base_url.get(), '/pornstars/', '/')
+                    xhr_data['step'] = 65
+                if base_url.contain('/studios/'):
+                    next_data['name'] = 'studio_related_videos'
+                    next_data['content_id'] = self.quotes(base_url.get(), '/studios/', '/')
+                    xhr_data['step'] = 65
+
+                next_data['offset'] = str(xhr_data['step'])
+
             else:
-                data = {'main_category_id': '1',
-                    'type': 'post',
-                    'name': 'all_videos',
-                    # 'filters[filter_type]': 'ctr',
-                    'filters[filter_period]': '',
-                    'offset': '500',
-                    'blocks_num':'5',
-                    'pname':'2'}
+                next_data = base_url.post_data.copy()
+                xhr_data = base_url.xhr_data.copy()
+                curr = int(base_url.post_data['offset'])
+                next_data['offset'] = str(curr + xhr_data['step'])
+                if curr > 100:
+                    prev_data = base_url.post_data.copy()
+                    prev_data['offset'] = str(curr - xhr_data['step'])
 
-            p_url=URL('https://www.porndig.com/posts/load_more_posts',method='POST',post_data=data)
-            if has_more:
-                result.add_page(ControlInfo(data['pname'],p_url))
+            xhr_href = 'https://www.porndig.com/posts/load_more_posts/'
 
+            result.add_page(ControlInfo('Main', xhr_data['base_url']))
 
-            # for item in startpage_pages_rule.get_result(['href', 'data']):
-            #     label=item['data'].replace(' ','')
-            #     # print(item)
-            #     if len(label)>0:
-            #         result.add_page(ControlInfo(label, URL(item['href'])))
+            sorted_data = next_data.copy()
+            sorted_data['offset'] = '0'
 
-            if categories_rule.is_result(['href']):
-                for item in categories_rule.get_result(['href', 'data']):
-                    result.add_control(ControlInfo(item['data'], URL(item['href'])))
+            for method in ['date', 'views', 'rating', 'duration', 'ctr']:
+                data = sorted_data.copy()
+                data['filters[filter_type]'] = method
+                sorted_url = URL(xhr_href, method='POST', post_data=data, xhr_data=xhr_data)
+                result.add_page(ControlInfo('Sorted by {0}(0)'.format(method), sorted_url))
 
-            if tags_rule.is_result(['href']):
-                for item in tags_rule.get_result(['href', 'data']):
-                    result.add_control(ControlInfo(item['data'], URL(item['href'])))
-
-
-            if startpage_pages_script_rule.is_result():
-                print(startpage_pages_script_rule.get_result())
+                if prev_data is not None:
+                    data = prev_data.copy()
+                    data['filters[filter_type]'] = method
+                    prev_url = URL(xhr_href, method='POST', post_data=data, xhr_data=xhr_data)
+                    result.add_page(ControlInfo('Prev {0}({1})'.format(method, data['offset']), prev_url))
+                if has_more:
+                    data = next_data.copy()
+                    data['filters[filter_type]'] = method
+                    next_url = URL(xhr_href, method='POST', post_data=data, xhr_data=xhr_data)
+                    result.add_page(ControlInfo('Next {0}({1})'.format(method, data['offset']), next_url))
 
         return result
 
 
-
-
 if __name__ == "__main__":
     pass
-
-
-
-

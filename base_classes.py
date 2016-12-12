@@ -8,26 +8,25 @@ class URL():
 
     SUFFIXES=['.html','.jpg','.gif','.JPG','.mp4','.flv','png']
 
-    def __init__(self, url='', method='GET', coockies=None, post_data=None):
+    def __init__(self, url='', method='GET', coockies=None, post_data=None, xhr_data=None):
         self.method=method
         self.coockies=coockies
         self.post_data=post_data
+        self.xhr_data=xhr_data
 
         if url == '':
             self.url = ''
             self.no_slash = True
             return
 
-
         if not (url.startswith('http://') or url.startswith('https://')):
             url = 'http://' + url
 
         self.no_slash = url.endswith('*')
-
         self.url = url.rstrip('*')
 
     def get(self):
-        if self.url == '': return self.url
+        if self.url is '': return self.url
         for suffix in URL.SUFFIXES:
             if self.url.endswith(suffix): return self.url
         if self.no_slash:
@@ -35,9 +34,7 @@ class URL():
         return self.url.rstrip('/') + '/'
 
     def get_short_path(self, base=''):
-        # print(path)
         p = urlparse(self.get())
-        # print(p)
         return base.rstrip('/') + '/' + p[1] + '/' + p[2].strip(' /').replace('/', '..')
 
     def get_path(self, base=''):
@@ -67,8 +64,28 @@ class URL():
         return self.__repr__()
 
     def __eq__(self, url2):
-        if url2 is None: return False
-        return url2.to_save()==self.to_save()
+        # print('Compare', self,url2)
+        if url2 is None:
+            return False
+        if self.method != url2.method:
+            return False
+        if self.method=='GET':
+            return url2.to_save()==self.to_save()
+        elif self.method=='POST':
+            if url2.to_save()!=self.to_save():
+                return False
+            if self.post_data is None:
+                return url2.post_data is None
+            if url2.post_data is None:
+                return False
+            for key in self.post_data:
+                if self.post_data[key] != url2.post_data[key]:
+                    return False
+            for key in url2.post_data:
+                if self.post_data[key] != url2.post_data[key]:
+                    return False
+            return True
+        return False
 
 
 class UrlList:
