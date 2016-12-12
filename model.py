@@ -23,6 +23,7 @@ from site_models.simple.top_model import TOPSite
 from site_models.simple.tp_model import TPSite
 from site_models.simple.vp_nest.vp_nest import VPNest
 from site_models.simple.xuk_model import XUKSite
+from site_models.video.ajax.pdg_video_model import PDGvideoSite
 from site_models.video.cbp_video_model import CBPvideoSite
 from site_models.video.dc_video_model import DCvideoSite
 from site_models.video.gb_video_model import GBvideoSite
@@ -42,8 +43,11 @@ from site_models.video.plus_file.yp_video_model import YPvideoSite
 from site_models.video.pt_video_model import PTvideoSite
 from site_models.video.px_video_model import PXvideoSite
 from site_models.video.rt_video_model import RTvideoSite
+from site_models.video.simple.bmt_video_model import BMTvideoSite
+from site_models.video.simple.cls_video_model import CLSvideoSite
 from site_models.video.simple.p4k_video_model import P4KvideoSite
 from site_models.video.simple.ps_video_model import PSvideoSite
+from site_models.video.simple.v24_video_model import V24videoSite
 from site_models.video.simple.ver_video_model import VERvideoSite
 from site_models.video.skw_video_model import SKWvideoSite
 from site_models.video.sm_video_model import SMvideoSite
@@ -51,10 +55,6 @@ from site_models.video.t8_video_model import T8videoSite
 from site_models.video.tz_video_model import TZvideoSite
 from site_models.video.vp_video_model import VPvideoSite
 from site_models.video.wmgf_video_model import WMGFvideoSite
-from site_models.video.simple.v24_video_model import V24videoSite
-from site_models.video.simple.bmt_video_model import BMTvideoSite
-from site_models.video.simple.cls_video_model import CLSvideoSite
-from site_models.video.plus_file.pdg_video_model import PDGvideoSite
 
 
 class SiteVewerModel(AbstractModel):

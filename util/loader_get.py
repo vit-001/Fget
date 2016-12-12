@@ -54,7 +54,7 @@ if __name__ == "__main__":
         headers={'Referer':'https://www.porndig.com/videos/59589/lara-stevens-loves-a-hard-dick-in-her-asshole.html'}
 
 
-        # r=load(url1,fname1)
+        r=load(url1,fname1)
         # r = load(url1a, fname1a,headers=headers)
         # r = load(url2, fname1b)
         # r = load(url2, fname2)

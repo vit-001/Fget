@@ -78,7 +78,7 @@ class BaseSite():
         # print(base_url.get() + txt)
         return base_url.get().rpartition('/')[0]+'/' + txt
 
-    def proceed_parcing(self, parser, fname):
+    def proceed_parcing(self, parser, fname):  # todo переписать через with open
         for s in open(fname, encoding='utf-8', errors='ignore'):
             parser.feed(s)  # .replace('</b>','</a>'))
 

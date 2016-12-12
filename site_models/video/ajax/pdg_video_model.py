@@ -4,6 +4,7 @@ from site_models.base_site_model import *
 from site_models.site_parser import SiteParser, ParserRule
 from base_classes import URL, ControlInfo
 from setting import Setting
+import json
 
 class PDGvideoSite(BaseSite):
     def start_button_name(self):
@@ -80,20 +81,35 @@ class PDGvideoSite(BaseSite):
         parser.add_rule(video_sender_rule)
 
 
+        if base_url.method=='POST':
+            with open(fname, encoding='utf-8', errors='ignore') as fd:
+                j = json.load(fd)
+            success = j.get('success', False)
+            if success:
+                data = j['data']
+                content = data['content']
+                if len(content) > 0:
+                    has_more = data['has_more']
+                    print('has_more:',has_more)
+                    with open(fname, 'w', encoding='utf-8') as fd:
+                        fd.write(content)
+        else:
+            has_more=True
+
         self.proceed_parcing(parser, fname)
 
         result = ParseResult(self)
 
         if video_rule.is_result(): #len(video_rule.get_result()) > 0:
 
-            print(video_rule.get_result())
+            # print(video_rule.get_result())
 
             frame=URL(video_rule.get_result()[0]['src'])
             from requests_loader import load, LoaderError, get_last_index_cookie
 
             frame_file = Setting.base_dir + 'frame.html'
             cookie=get_last_index_cookie()
-            print(cookie)
+            # print(cookie)
 
             urls=list()
             result.set_type('video')
@@ -103,7 +119,9 @@ class PDGvideoSite(BaseSite):
 
                 urls=list()
 
-                setup = r.text.replace(' ', '').partition('vc.player_setup=')[2].partition(';')[0]
+                # print(r.text)
+
+                setup = r.text.replace(' ', '').replace('\\/','/').partition('vc.player_setup=')[2].partition(';')[0]
                 playlist = setup.partition('"playlist":')[2]
 
                 split = playlist.split('"file":"')
@@ -151,11 +169,31 @@ class PDGvideoSite(BaseSite):
                 # print(item)
                 result.add_thumb(ThumbInfo(thumb_url=URL(item['src']), href=URL(item['href']),description=item.get('alt','')))
 
-            for item in startpage_pages_rule.get_result(['href', 'data']):
-                label=item['data'].replace(' ','')
-                # print(item)
-                if len(label)>0:
-                    result.add_page(ControlInfo(label, URL(item['href'])))
+
+            if base_url.method=='POST':
+                data=base_url.post_data
+                data['offset']=str(int(data['offset'])+100)
+                data['pname'] = str(int(data['pname']) + 1)
+            else:
+                data = {'main_category_id': '1',
+                    'type': 'post',
+                    'name': 'all_videos',
+                    # 'filters[filter_type]': 'ctr',
+                    'filters[filter_period]': '',
+                    'offset': '500',
+                    'blocks_num':'5',
+                    'pname':'2'}
+
+            p_url=URL('https://www.porndig.com/posts/load_more_posts',method='POST',post_data=data)
+            if has_more:
+                result.add_page(ControlInfo(data['pname'],p_url))
+
+
+            # for item in startpage_pages_rule.get_result(['href', 'data']):
+            #     label=item['data'].replace(' ','')
+            #     # print(item)
+            #     if len(label)>0:
+            #         result.add_page(ControlInfo(label, URL(item['href'])))
 
             if categories_rule.is_result(['href']):
                 for item in categories_rule.get_result(['href', 'data']):

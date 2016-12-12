@@ -11,7 +11,7 @@ def load(url, fname, data=None):
         response.raise_for_status()
         with open(fname, 'wb') as fd:
             for chunk in response.iter_content(chunk_size=128):
-                print(chunk)
+                # print(chunk)
                 fd.write(chunk)
 
     except requests.exceptions.HTTPError as err:  # todo Тестировать сообщения об ошибках

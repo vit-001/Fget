@@ -37,7 +37,10 @@ class Controller(AbstractController):
         self.add_button_on_view(self.thumb_view.add_site_button,control)
 
     def goto_url(self, url=URL()):
-        print('goto:', url.to_save())
+        if url.method=='GET':
+            print('goto:', url.to_save())
+        elif url.method=='POST':
+            print('goto:', url.to_save(), url.post_data)
         self.thumb_view.show_status('Goto url: '+url.get())
 
         if not self.model.can_accept_url(url):
