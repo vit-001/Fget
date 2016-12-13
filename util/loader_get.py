@@ -36,7 +36,7 @@ def load(url, fname, cookies=None, headers=None):
 
 if __name__ == "__main__":
 
-        url1='https://www.porndig.com/video/'
+        url1='http://faapy.com/videos/7191/confession-of-love-and-lust/'
         url1a = 'https://videos.porndig.com/player/index/154510/1035/13798'
         url2='http://media6.beemtube.com/videos/1016/1721171992/10161721171992.mp4?st=lvZ6iLoYH4VBbfbQ8Uypxw&e=1481719019'
         url3='http://www.drtuber.com/player_config/?h=503093cfbeaa558180554133b2315358%26check_speed=1%26t=1480701894%26vkey=676d54293b2629388734&project_name=drtuber&id=player&javascriptid=player&enablejs=true'
@@ -59,7 +59,7 @@ if __name__ == "__main__":
         # r = load(url2, fname1b)
         # r = load(url2, fname2)
 
-        r=load('https://assets.porndig.com/assets/porndig/js/bundle.js?ver=1481122807','e:/out/bundle.js')
+        # r=load('https://assets.porndig.com/assets/porndig/js/bundle.js?ver=1481122807','e:/out/bundle.js')
 
         for item in r.headers:
             print(item,':',r.headers[item])
