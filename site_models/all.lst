@@ -1,16 +1,16 @@
- 1. Porn.com                http://www.porn.com/videos?o=f7/   - accepted
- 2. xHamster                http://xhamster.com/               
- 3. PornHub                 http://www.pornhub.com/            
+ 1. Porn.com                http://www.porn.com/videos?o=f7    - accepted
+ 2. xHamster                http://xhamster.com/               - blocked
+ 3. PornHub                 http://www.pornhub.com/            - blocked
  4. PornHD                  http://www.pornhd.com/             - accepted
- 5. PornTube                http://porntube.com/               
+ 5. PornTube                http://porntube.com/               ----
  6. Motherless              http://www.motherless.com/         - accepted
- 7. ePorner                 https://www.eporner.com/           
+ 7. ePorner                 https://www.eporner.com/           ----
  8. PornDig                 https://www.porndig.com/           - accepted
- 9. GotPorn                 http://www.gotporn.com/            
- 10. RedTube                http://www.redtube.com/            - accepted
- 11. PornBurst              http://www.pornburst.xxx/          
+ 9. GotPorn                 http://www.gotporn.com/            -short video
+ 10. RedTube                http://www.redtube.com             - accepted
+ 11. PornBurst              http://www.pornburst.xxx/          - simple (video id="player-videojs" ; source src=)  low res content
  12. Vporn                  http://www.vporn.com/              - accepted
- 13. xVideos                http://www.xvideos.com/            
+ 13. xVideos                http://www.xvideos.com/            - verifyed, simple, html5player.setVideoUrl
  14. DrTuber                http://drtuber.com/                
  15. YouPorn                http://www.youporn.com/            
  16. CollectionOfPorn       http://collectionofbestporn.com/   - accepted
@@ -20,7 +20,7 @@
  20. DaPorn                 http://www.daporn.com/             
  21. NudeVista              http://nudevista.com/              
  22. Beeg                   http://beeg.com/                   
- 23. Faapy                  http://faapy.com/                  
+ 23. Faapy                  http://faapy.com/                  - verifyed, simple, HD, flashvars, video_url
  24. FlyingJizz             http://www.flyingjizz.com/         
  25. MyPorn                 https://myporn.com/                
  26. PerfectGirls           http://www.perfectgirls.net/       
