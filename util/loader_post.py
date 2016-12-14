@@ -35,7 +35,7 @@ def load(url, fname, data=None):
 
 if __name__ == "__main__":
 
-    url1 = 'http://donfreeporn.com/wp-content/themes/detube/Htplugins/Loader.php'
+    url1 = 'http://tkn.4tube.com/801009097/embeds/720+480+360+240'
 
     url3 = 'http://toseeporn.com/Media/GetMediaSource?movieId=2&Eposide=0'
     url2 = 'http://statics.toseeporn.com/toseeporn.com-Vika-Lisichkina-Hardcode-Defloration-416_tb.jpg'
@@ -45,7 +45,7 @@ if __name__ == "__main__":
     fname2 = 'e:/out/1.jpg'
     fname3 = 'e:/out/3.json'
 
-    data = {'data':"JCrtLCbsN7O9XKO7wfXPNhXyDRX24fQoJcbGwROTNRdZLKO1JRntNYiZNhQoLCloDaAGwROTNamyLhZoLhO9N90Zc93tc98obY4jeRppDhn9ct4ELzltcdrSLhnPLROT4FZTL6A="}
+    data = {'ORIGIN': 'http://www.4tube.com', 'Referer': 'http://www.4tube.com/embed/418252'}
 
     r = load(url1, fname3, data=data)
 
