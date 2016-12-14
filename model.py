@@ -55,6 +55,7 @@ from site_models.video.t8_video_model import T8videoSite
 from site_models.video.tz_video_model import TZvideoSite
 from site_models.video.vp_video_model import VPvideoSite
 from site_models.video.wmgf_video_model import WMGFvideoSite
+from site_models.other.dude_model import DudeSite
 
 
 class SiteVewerModel(AbstractModel):
@@ -63,6 +64,7 @@ class SiteVewerModel(AbstractModel):
         self.debug = Setting.model_debug
         self.models = [
             #work on
+            DudeSite(self),
             PDGvideoSite(self),
 
             #classic
