@@ -103,7 +103,7 @@ class QTThumbViewer(QMainWindow, AbstractThumbView):
         self.timer.timeout.connect(handler)
         self.timer.start(100)
 
-    def prepare(self, url=URL()):
+    def prepare(self, url=URL(), show_caption=False):
         context=None
         if self.back_page is None or self.back_page.data!=url:
             if self.url is not None:
@@ -118,6 +118,7 @@ class QTThumbViewer(QMainWindow, AbstractThumbView):
         self.setWindowTitle(url.get())
         self.ui.combo_history.insertItem(0,self.url.to_save())
         self.ui.combo_history.setCurrentIndex(0)
+        self.thumbs.set_thumb_text_visible(show_caption)
         self.update()
 
         self.thumbs.context=context

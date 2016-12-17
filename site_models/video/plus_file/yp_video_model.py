@@ -173,7 +173,10 @@ class YPvideoSite(BaseSite):
                 result.add_thumb(ThumbInfo(thumb_url=URL(item['src']), href=URL(item['href']),description=item.get('title','')))
 
             for item in startpage_pages_rule.get_result(['href', 'data']):
-                result.add_page(ControlInfo(item['data'], URL(item['href'])))
+                href=item['href']
+                data=item['data']
+                n=href.rpartition('/')[2].partition('.')[0]
+                result.add_page(ControlInfo('{1}'.format(data,n), URL(href)))
 
             for item in startpage_hrefs_rule.get_result(['href', 'data']):
                 result.add_control(ControlInfo(item['data'], URL(item['href'])))

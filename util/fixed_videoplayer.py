@@ -100,7 +100,7 @@ if __name__ == '__main__':
 
     app = QApplication(sys.argv)
 
-    url='http://www.24videos.tv/get_file/14/c987649679bcf9df741b3f35cdedf5cd/3000/3723/3723_720p.mp4/'
+    url='https://lh3.googleusercontent.com/eaxgTIHt1CyX4AvTrrtquBI5RM_GbRxQgRS48hvYtXL11YFPPCGZOzeS3YJPn62OYCoyJ_BGdqA=m22'
 
     q_url = QUrl(url)
 

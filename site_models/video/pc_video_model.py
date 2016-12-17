@@ -10,8 +10,8 @@ class PCvideoSite(BaseSite):
         return "PCvid"
 
     def get_start_button_menu_text_url_dict(self):
-        return dict(Channels=URL('http://www.porn.com/channels'),
-                    Stars=URL('http://www.porn.com/pornstars'))
+        return dict(Channels=URL('http://www.porn.com/channels*'),
+                    Stars=URL('http://www.porn.com/pornstars?o=n*'))
 
     def startpage(self):
         return URL("http://www.porn.com/")
@@ -28,6 +28,7 @@ class PCvideoSite(BaseSite):
         startpage_rule = ParserRule(debug=False)
         startpage_rule.add_activate_rule_level([('div', 'class', 'main l170'),
                                                 ('div', 'class', 'main l200'),
+                                                ('div', 'class', 'main'),
                                                 ('div', 'class', 'profileRight'),
                                                 ('div', 'class', 'main l200 r300')])
         startpage_rule.add_activate_rule_level([('ul', 'class', 'listThumbs'),
@@ -51,7 +52,9 @@ class PCvideoSite(BaseSite):
         startpage_hrefs_rule = ParserRule()
         startpage_hrefs_rule.add_activate_rule_level([('ul', 'class', 'sFilters initial'),
                                                       ('ul', 'class', 'sFilters'),
-                                                      ('div', 'class', 'listSearches searchOption')])
+                                                      ('div', 'class', 'listSearches searchOption'),
+                                                      ('div', 'class', 'alpha')
+                                                      ])
         # startpage_hrefs_rule.add_activate_rule_level([('a', 'class', 'current')])
         startpage_hrefs_rule.add_process_rule_level('a', {'href', 'title'})
         startpage_hrefs_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x,base_url))
@@ -77,6 +80,13 @@ class PCvideoSite(BaseSite):
         gallery_user_rule.set_attribute_filter_function('href',lambda x:'/profile/' in x)
         gallery_user_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x+'/videos',base_url))
         parser.add_rule(gallery_user_rule)
+
+        gallery_actor_rule = ParserRule()
+        gallery_actor_rule.add_activate_rule_level([('p', 'class', 'source')])
+        gallery_actor_rule.add_process_rule_level('a', {'href'})
+        gallery_actor_rule.set_attribute_filter_function('href',lambda x:'/pornstars/' in x)
+        gallery_actor_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x+'/videos',base_url))
+        parser.add_rule(gallery_actor_rule)
 
         self.proceed_parcing(parser, fname)
 
@@ -117,33 +127,32 @@ class PCvideoSite(BaseSite):
                 # print(f)
                 result.add_control(ControlInfo('"'+f['data']+'"', URL(f['href'])))
 
+            for f in gallery_actor_rule.get_result(['href']):
+                # print(f)
+                result.add_control(ControlInfo(f['data'], URL(f['href'])))
+
             for f in gallery_href_rule.get_result(['data', 'href']):
                 result.add_control(ControlInfo(f['data'], URL(f['href'])))
             return result
 
-        if len(startpage_rule.get_result()) > 0:
-            result.set_type('hrefs')
+        if startpage_rule.is_result():
+            #
+            # for item in startpage_rule.get_result():
+            #     print(item)
 
-            if len(startpage_rule.get_result(['href', 'style'])) > 0:
-                if Setting.site_debug: print('HREF with STYLE')
-                for item in startpage_rule.get_result(['href', 'style']):
-                    if Setting.site_debug: print(item['href'], item['style'])
-                    result.add_thumb(ThumbInfo(thumb_url=URL(item['style']), href=URL(item['href'])))
-            else:
-                if Setting.site_debug: print('HREF with SRC')
-                for item in startpage_rule.get_result(['href', 'src']):
-                    if Setting.site_debug: print(item['href'], item['src'])
-                    result.add_thumb(ThumbInfo(thumb_url=URL(item['src']), href=URL(item['href'])))
+            for item in startpage_rule.get_result(['href', 'src']):
+                caption=''
+                href=item['href']
+                if '/channels/' in href or '/pornstars/' in href:
+                    result.set_caption_visible(True)
+                    caption=item.get('alt',href.rpartition('/')[2].strip('*').replace('-',' ').title())
+                result.add_thumb(ThumbInfo(thumb_url=URL(item['src']), href=URL(item['href']),description=caption))
 
             for item in startpage_pages_rule.get_result(['href', 'data']):
                 result.add_page(ControlInfo(item['data'], URL(item['href'])))
 
-            if len(startpage_hrefs_rule.get_result(['href', 'title'])) > 0:
-                for item in startpage_hrefs_rule.get_result(['href', 'title']):
-                    result.add_control(ControlInfo(item['title'], URL(item['href'])))
-            else:
-                for item in startpage_hrefs_rule.get_result(['href', 'data']):
-                    result.add_control(ControlInfo(item['data'], URL(item['href'])))
+            for item in startpage_hrefs_rule.get_result(['href']):
+                result.add_control(ControlInfo(item.get('title',item.get('data','')), URL(item['href'])))
 
         return result
 

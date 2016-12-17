@@ -56,6 +56,10 @@ from site_models.video.tz_video_model import TZvideoSite
 from site_models.video.vp_video_model import VPvideoSite
 from site_models.video.wmgf_video_model import WMGFvideoSite
 from site_models.other.dude_model import DudeSite
+from site_models.video.plus_file.sxx_video_model import SXXvideoSite
+# from site_models.video.plus_file.fst_video_model import FSTvideoSite
+from site_models.video.plus_file.h69_video_model import H69videoSite
+from site_models.video.simple.hdep_video_model import HDEPvideoSite
 
 
 class SiteVewerModel(AbstractModel):
@@ -64,16 +68,19 @@ class SiteVewerModel(AbstractModel):
         self.debug = Setting.model_debug
         self.models = [
             #work on
-            DudeSite(self),
-            PDGvideoSite(self),
+            HDEPvideoSite(self),
+
+
 
             #classic
-            YPvideoSite(self), NFLvideoSite(self),V24videoSite(self),
+            YPvideoSite(self), SXXvideoSite(self),PDGvideoSite(self), NFLvideoSite(self),V24videoSite(self),
             PCvideoSite(self),CBPvideoSite(self), PXvideoSite(self), RTvideoSite(self),CLSvideoSite(self),
             VERvideoSite(self),PBZvideoSite(self),
             T8videoSite(self),BMTvideoSite(self),
             PTvideoSite(self), VPvideoSite(self), NLvideoSite(self), TZvideoSite(self), SKWvideoSite(self),
             PHDvideoSite(self),TSPvideoSite(self),DFPvideoSite(self),
+            H69videoSite(self),
+
             # amateur
             MLvideoSite(self), WMGFvideoSite(self), PFUNvideoSite(self),PBvideoSite(self),
             # s/m
@@ -90,6 +97,9 @@ class SiteVewerModel(AbstractModel):
             # bad, temporally unworked etc
             XXPSite(self),
             P4KvideoSite(self), #unstable
+
+            # info
+            DudeSite(self),
             ]
 
         if Setting.show_sites:
@@ -185,5 +195,6 @@ class SiteVewerModel(AbstractModel):
                                         controls=thumb_list.controls,
                                         pages=thumb_list.pages,
                                         thumbs=thumbs,
-                                        sites=thumb_list.sites)
+                                        sites=thumb_list.sites,
+                                        caption_visible=thumb_list.caption_visible)
 

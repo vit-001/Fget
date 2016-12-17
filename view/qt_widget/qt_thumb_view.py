@@ -2,7 +2,7 @@ __author__ = 'Vit'
 
 __all__=['QThumbViewVS']
 
-from PyQt5.QtCore import QPoint, QRect, QSize
+from PyQt5.QtCore import QPoint, QRect, QSize, Qt
 from PyQt5.QtGui import QPixmap, QIcon
 from PyQt5.QtWidgets import *
 
@@ -17,6 +17,7 @@ class QThumbView(QWidget):
         self.spacing = self.thumb_size + self.space
         self.coloumns = 1
         self.thumbs = list()
+        self.text_visible=False
         self.speed = self.spacing // 2
         self.saved_scroll=None
         self.scroller = scroller
@@ -26,6 +27,13 @@ class QThumbView(QWidget):
     def add(self, pix_fname='', action=lambda: None, popup=''):
         button = QToolButton(self)
         button.setAutoRaise(True)
+        if self.text_visible:
+            button.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
+            thumb_h=self.thumb_size*87/100
+        else:
+            button.setToolButtonStyle(Qt.ToolButtonIconOnly)
+            thumb_h=self.thumb_size
+        button.setText(popup.partition('\n')[2])
         button.clicked.connect(action)
         button.setFixedSize(self.thumb_size, self.thumb_size)
 
@@ -33,7 +41,7 @@ class QThumbView(QWidget):
         icon = QIcon()
         icon.addPixmap(pixmap, QIcon.Normal, QIcon.Off)
         button.setIcon(icon)
-        button.setIconSize(QSize(self.thumb_size, self.thumb_size))
+        button.setIconSize(QSize(self.thumb_size, thumb_h))
         button.setToolTip(popup)
 
         self.thumbs.append(button)
@@ -105,6 +113,10 @@ class QThumbView(QWidget):
             self.scroller.setValue(new_scroll_value)
             self._place()
 
+    def set_thumb_text_visible(self, visible=False):
+        self.text_visible=visible
+
+
 
 class QThumbViewVS(QWidget):
     def __init__(self, parent=None, Qt_WindowFlags_flags=0, size=200, space=2):
@@ -134,3 +146,6 @@ class QThumbViewVS(QWidget):
     def context(self,value):
         if value is not None:
             self.thumbs.saved_scroll=value
+
+    def set_thumb_text_visible(self, visible=False):
+        self.thumbs.set_thumb_text_visible(visible)

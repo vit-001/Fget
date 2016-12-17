@@ -81,9 +81,9 @@ class Controller(AbstractController):
         self.thumb_view.progress_stop()
         self.model.accept_index(url, fname)
 
-    def show_thumb_view(self, url=URL(), controls=list(), pages=list(), thumbs=list(), sites=list()):
+    def show_thumb_view(self, url=URL(), controls=list(), pages=list(), thumbs=list(), sites=list(), caption_visible=False):
         self.thumb_loader.abort()
-        self.thumb_view.prepare(url)
+        self.thumb_view.prepare(url,caption_visible)
 
         for item in sites:
             self.add_button_on_view(self.thumb_view.add_site_nested,item)

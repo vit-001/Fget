@@ -136,6 +136,7 @@ class ParseResult():
         self.redirect = URL()
         self.video=MediaData()
         self.thumbs = []
+        self.caption_visible=False
         self.full = []
         self.controls = []
         self.pages = []
@@ -210,6 +211,9 @@ class ParseResult():
             if control.url == c.url:
                 return
         self.sites.append(control)
+
+    def set_caption_visible(self, visible=False):
+        self.caption_visible=visible
 
     def print_result(self):
         print('==============PARSER RESULT=============')

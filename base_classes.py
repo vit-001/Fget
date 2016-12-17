@@ -142,7 +142,7 @@ class AbstractThumbView():
     def add_control(self, text='', action=lambda: 0, menu_items=dict(),tooltip=''): pass
     def add_page(self, text='', action=lambda: 0, menu_items=dict(),tooltip=''): pass
 
-    def prepare(self,url=URL()):pass
+    def prepare(self,url=URL(), show_caption=False):pass
 
     def panic(self):pass
 
@@ -224,7 +224,7 @@ class ControllerFromViewInterface():
 class ControllerFromModelInterface():
     def add_cycle_handler(self, handler=lambda: None): pass
     def add_startpage(self, control_info): pass
-    def show_thumb_view(self, url=URL(), controls=list(), pages=list(), thumbs=list(), sites=list()): pass
+    def show_thumb_view(self, url=URL(), controls=list(), pages=list(), thumbs=list(), sites=list(), caption_visible=False): pass
     def show_picture_view(self, url=URL(), page_dir='', controls=list(), full_list=list(), picture_collector=None): pass
     def show_video_view(self, page_url=URL(), video=MediaData(), controls=list()): pass
     # def refresh_picture_view(self): pass
