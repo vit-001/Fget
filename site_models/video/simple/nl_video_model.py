@@ -2,7 +2,7 @@ __author__ = 'Vit'
 
 from site_models.base_site_model import *
 from site_models.site_parser import SiteParser, ParserRule
-from base_classes import URL, ControlInfo
+from base_classes import URL, ControlInfo, UrlList
 from setting import Setting
 
 class NLvideoSite(BaseSite):
@@ -20,16 +20,6 @@ class NLvideoSite(BaseSite):
 
     def can_accept_index_file(self, base_url=URL()):
         return base_url.contain('sextube.nl/')
-
-    def get_href(self, txt='', base_url=URL()):
-        # print(txt,base_url)
-        if not txt.endswith('/'):
-            txt=txt+"*"
-        if txt.startswith('http://'):
-            return txt
-        if txt.startswith('/'):
-            return base_url.domain() + txt
-        return ''
 
     def parse_index_file(self, fname, base_url=URL()):
         parser = SiteParser()
@@ -74,22 +64,18 @@ class NLvideoSite(BaseSite):
 
         result = ParseResult(self)
 
-        if video_rule.is_result(): #len(video_rule.get_result()) > 0:
-            file = video_rule.get_result()[0]['src']
-            video = MediaData(URL(file))
-
-            result.set_type('video')
-            result.set_video(video)
+        if video_rule.is_result():
+            urls=UrlList()
+            for item in video_rule.get_result():
+                urls.add('default',URL(item['src']))
+            result.set_video(urls.get_media_data())
 
             for f in gallery_href_rule.get_result(['href']):
-                label=f['title']
-                result.add_control(ControlInfo(label, URL(f['href'])))
+                result.add_control(ControlInfo(f['title'], URL(f['href'])))
             return result
 
 
-        if startpage_rule.is_result(): #len(startpage_rule.get_result()) > 0:
-            result.set_type('hrefs')
-
+        if startpage_rule.is_result():
             for item in startpage_rule.get_result(['href']):
                 result.add_thumb(ThumbInfo(thumb_url=URL(item['src']), href=URL(item['href']),description=item.get('alt','')))
 
@@ -101,9 +87,8 @@ class NLvideoSite(BaseSite):
                 txt=txt.replace('insexfilms','').replace('sexfilms','').replace('inhd','HD')
                 return txt
 
-            if len(startpage_hrefs_rule.get_result(['href'])) > 0:
-                for item in startpage_hrefs_rule.get_result(['href', 'data']):
-                    result.add_control(ControlInfo(href_simple(item.get('title','')), URL(item['href']+'*')))
+            for item in startpage_hrefs_rule.get_result(['href', 'data']):
+                result.add_control(ControlInfo(href_simple(item.get('title','')), URL(item['href']+'*')))
 
         return result
 

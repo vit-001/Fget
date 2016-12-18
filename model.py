@@ -6,6 +6,7 @@ from site_models.base_site_model import ParseResult
 from site_models.collector.el_model import ELSite
 from site_models.collector.xxp_model import XXPSite
 from site_models.multi.mxt_multi_model import MXTmultiSite
+from site_models.other.dude_model import DudeSite
 from site_models.simple.bas_model import BASSite
 from site_models.simple.be_nest.be_nest import BENest
 from site_models.simple.cc_model import CCSite
@@ -24,30 +25,33 @@ from site_models.simple.tp_model import TPSite
 from site_models.simple.vp_nest.vp_nest import VPNest
 from site_models.simple.xuk_model import XUKSite
 from site_models.video.ajax.pdg_video_model import PDGvideoSite
-from site_models.video.cbp_video_model import CBPvideoSite
-from site_models.video.dc_video_model import DCvideoSite
-from site_models.video.gb_video_model import GBvideoSite
-from site_models.video.hr_video_model import HRvideoSite
-from site_models.video.ml_video_model import MLvideoSite
 from site_models.video.nfl_video_model import NFLvideoSite
-from site_models.video.nl_video_model import NLvideoSite
-from site_models.video.pb_video_model import PBvideoSite
-from site_models.video.pc_video_model import PCvideoSite
 from site_models.video.pd_video_model import PDvideoSite
 from site_models.video.pfun_video_model import PFUNvideoSite
 from site_models.video.phd_video_model import PHDvideoSite
 from site_models.video.plus_file.dfp_video_model import DFPvideoSite
+from site_models.video.plus_file.h69_video_model import H69videoSite
 from site_models.video.plus_file.pbz_video_model import PBZvideoSite
+from site_models.video.plus_file.sxx_video_model import SXXvideoSite
 from site_models.video.plus_file.tsp_video_model import TSPvideoSite
 from site_models.video.plus_file.yp_video_model import YPvideoSite
 from site_models.video.pt_video_model import PTvideoSite
 from site_models.video.px_video_model import PXvideoSite
-from site_models.video.rt_video_model import RTvideoSite
+from site_models.video.script.cls_video_model import CLSvideoSite
+from site_models.video.script.dc_video_model import DCvideoSite
+from site_models.video.script.pc_video_model import PCvideoSite
+from site_models.video.script.rt_video_model import RTvideoSite
+from site_models.video.script.v24_video_model import V24videoSite
 from site_models.video.simple.bmt_video_model import BMTvideoSite
-from site_models.video.simple.cls_video_model import CLSvideoSite
+from site_models.video.simple.cbp_video_model import CBPvideoSite
+from site_models.video.simple.gb_video_model import GBvideoSite
+from site_models.video.simple.hdep_video_model import HDEPvideoSite
+from site_models.video.simple.hr_video_model import HRvideoSite
+from site_models.video.simple.ml_video_model import MLvideoSite
+from site_models.video.simple.nl_video_model import NLvideoSite
 from site_models.video.simple.p4k_video_model import P4KvideoSite
+from site_models.video.simple.pb_video_model import PBvideoSite
 from site_models.video.simple.ps_video_model import PSvideoSite
-from site_models.video.simple.v24_video_model import V24videoSite
 from site_models.video.simple.ver_video_model import VERvideoSite
 from site_models.video.skw_video_model import SKWvideoSite
 from site_models.video.sm_video_model import SMvideoSite
@@ -55,11 +59,8 @@ from site_models.video.t8_video_model import T8videoSite
 from site_models.video.tz_video_model import TZvideoSite
 from site_models.video.vp_video_model import VPvideoSite
 from site_models.video.wmgf_video_model import WMGFvideoSite
-from site_models.other.dude_model import DudeSite
-from site_models.video.plus_file.sxx_video_model import SXXvideoSite
-# from site_models.video.plus_file.fst_video_model import FSTvideoSite
-from site_models.video.plus_file.h69_video_model import H69videoSite
-from site_models.video.simple.hdep_video_model import HDEPvideoSite
+from site_models.video.ajax.ext_video_model import EXTvideoSite
+
 
 
 class SiteVewerModel(AbstractModel):
@@ -68,6 +69,8 @@ class SiteVewerModel(AbstractModel):
         self.debug = Setting.model_debug
         self.models = [
             #work on
+            EXTvideoSite(self),
+
             HDEPvideoSite(self),
 
 

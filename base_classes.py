@@ -233,3 +233,7 @@ class ControllerFromModelInterface():
 
 class AbstractController(ControllerFromViewInterface, ControllerFromModelInterface):
     pass
+
+
+if __name__ == "__main__":
+    pass

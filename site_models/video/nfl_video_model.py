@@ -20,8 +20,6 @@ class NFLvideoSite(BaseSite):
                     Recently_Added_Video=URL('http://www.nudeflix.com/featured/recently-added*'),
                     Trending_Video=URL('http://www.nudeflix.com/featured/trending/25*'),
                     Hot_List_Video=URL('http://www.nudeflix.com/featured/hot-list*'),
-                    #
-
                     )
 
     def startpage(self):
@@ -74,11 +72,10 @@ class NFLvideoSite(BaseSite):
         result = ParseResult(self)
 
         if video_rule.is_result(): #len(video_rule.get_result()) > 0:
-
             source=''
             n=1
-
             for item in video_rule.get_result():
+                print(item)
                 scene='Scene {0}'.format(n)
                 if base_url.contain(item['href']):
                     source=item['data-src']
@@ -88,21 +85,15 @@ class NFLvideoSite(BaseSite):
                 n+=1
 
             video = MediaData(URL(source))
-
-            result.set_type('video')
             result.set_video(video)
 
             for f in gallery_href_rule.get_result(['data', 'href']):
                 result.add_control(ControlInfo(f['data'].strip(), URL(f['href'])))
             return result
 
-        if startpage_rule.is_result(): #len(startpage_rule.get_result()) > 0:
-            result.set_type('hrefs')
-
+        if startpage_rule.is_result():
             for item in startpage_rule.get_result(['href']):
-                # print(item)
-                t_url=item['src']
-                result.add_thumb(ThumbInfo(thumb_url=URL(t_url), href=URL(item['href']),description=item.get('alt','')))
+                result.add_thumb(ThumbInfo(thumb_url=URL(item['src']), href=URL(item['href']),description=item.get('alt','')))
 
             for item in startpage_pages_rule.get_result(['href', 'data']):
                 result.add_page(ControlInfo(item['data'], URL(item['href'])))

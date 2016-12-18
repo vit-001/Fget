@@ -86,8 +86,6 @@ class HDEPvideoSite(BaseSite):
 
             return result
 
-
-
         if startpage_rule.is_result():
 
             for item in startpage_rule.get_result(['href']):

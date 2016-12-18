@@ -2,8 +2,9 @@ __author__ = 'Vit'
 
 from site_models.base_site_model import *
 from site_models.site_parser import SiteParser, ParserRule
-from base_classes import URL, ControlInfo
+from base_classes import URL, ControlInfo, UrlList
 from setting import Setting
+import urllib.parse as up
 
 import site_models.util as util
 
@@ -95,59 +96,44 @@ class DCvideoSite(BaseSite):
         gallery_href_rule.set_attribute_modifier_function('href', lambda x: util.get_href(x,base_url))
         parser.add_rule(gallery_href_rule)
 
-        # gallery_channel_rule = ParserRule()
-        # gallery_channel_rule.add_activate_rule_level([('div', 'class', 'video-info-uploaded float-right')])
-        # gallery_channel_rule.add_process_rule_level('a', {'href'})
-        # gallery_channel_rule.set_attribute_modifier_function('href', lambda x: base_url.domain() + x + '*')
-        # gallery_channel_rule.set_attribute_filter_function('href',lambda x:'/categories/' in x)
-        # parser.add_rule(gallery_channel_rule)
-
         self.proceed_parcing(parser, fname)
 
         result = ParseResult(self)
 
         if video_script_rule.is_result() or video_rule.is_result():
             files=set()
-
-            script=video_script_rule.get_result()[0]['data'].replace(' ','')
-            streams=script.partition('"streams":[')[2].partition('],')[0]
-            streams=util.decode_text(streams)
-            # print(streams)
-            while '"file":"' in streams:
-                split=streams.partition('"file":"')
-                # print(split)
-                split2=split[2].partition('"')
-                file=split2[0]+'*'
-                streams=split2[2]
-                # print(file)
-                files.add(file)
-            # print(files)
-
             default_vid = None
+
+            for item in video_script_rule.get_result():
+                script = item['data'].replace(' ', '')
+                streams = up.unquote(self.quotes(script,'"streams":[',']'))
+                while '"file":"' in streams:
+                    split = streams.partition('"file":"')[2].partition('"')
+                    streams = split[2]
+                    files.add(split[0] + '*')
+
             for item in video_rule.get_result():
                 files.add(item['src'])
                 if 'id' not in item:
                     default_vid = item['src']
-                    # print('default=',item['src'])
 
-            # print(files)
+            if len(files)==0:
+                return result
 
             if default_vid is None:
-                if len(files)==0: return result
-                default_vid=files.pop()
+                default_vid = files.pop()
             else:
                 files.discard(default_vid)
 
-            video = MediaData(URL(default_vid))
+            urls = UrlList()
+            urls.add('Default',URL(default_vid))
             for item in files:
-                video.add_alternate(dict(text=item[-5:-1],url=URL(item)))
+                urls.add(item[-5:-1],URL(item))
 
-            result.set_type('video')
-            result.set_video(video)
+            result.set_video(urls.get_media_data())
 
             for f in gallery_href_rule.get_result(['href']):
                 label=f['data'].strip()
-
                 result.add_control(ControlInfo(label, URL(f['href'])))
 
             return result
@@ -167,16 +153,11 @@ class DCvideoSite(BaseSite):
 
             for f in gallery_href_rule.get_result(['href']):
                 label=f['data'].strip()
-
                 result.add_control(ControlInfo(label, URL(f['href'])))
 
             return result
 
-
-
         if startpage_rule.is_result(): #len(startpage_rule.get_result()) > 0:
-            result.set_type('hrefs')
-
             for item in startpage_rule.get_result(['href']):
                 result.add_thumb(ThumbInfo(thumb_url=URL(item['src']), href=URL(item['href']),description=item.get('title','')))
 

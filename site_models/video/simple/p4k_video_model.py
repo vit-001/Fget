@@ -2,7 +2,7 @@ __author__ = 'Vit'
 
 from site_models.base_site_model import *
 from site_models.site_parser import SiteParser, ParserRule
-from base_classes import URL, ControlInfo
+from base_classes import URL, ControlInfo, UrlList
 from setting import Setting
 
 class P4KvideoSite(BaseSite):
@@ -61,19 +61,13 @@ class P4KvideoSite(BaseSite):
 
         result = ParseResult(self)
 
-        if video_rule.is_result(): #len(video_rule.get_result()) > 0:
+        if video_rule.is_result():
+            urls=UrlList()
+            for item in video_rule.get_result():
+                file=self.quotes(item['data'].replace(' ', ''),"file:'","'")
+                urls.add('default',URL(file+'*'))
 
-            # for item in video_rule.get_result():
-            #     print(item)
-
-            script = video_rule.get_result()[0]['data'].replace(' ', '')
-            video_url=self.quotes(script,"file:'","'")+'*'
-            # print(video_url)
-
-            video = MediaData(URL(video_url))
-
-            result.set_type('video')
-            result.set_video(video)
+            result.set_video(urls.get_media_data())
 
             for f in gallery_href_rule.get_result(['data', 'href']):
                 result.add_control(ControlInfo(f['data'], URL(f['href'])))

@@ -2,7 +2,7 @@ __author__ = 'Vit'
 
 from site_models.base_site_model import *
 from site_models.site_parser import SiteParser, ParserRule
-from base_classes import URL, ControlInfo
+from base_classes import URL, ControlInfo, UrlList
 from setting import Setting
 
 class PCvideoSite(BaseSite):
@@ -92,43 +92,23 @@ class PCvideoSite(BaseSite):
 
         result = ParseResult(self)
 
-        if len(video_rule.get_result()) > 0:
-            script = video_rule.get_result()[0]['data'].replace(' ', '')
-            sources = script.partition('streams:[{')[2].partition('}]')[0].split('},{')
-            #print(sources)
+        if video_rule.is_result():
 
-            def parce(txt):
-                label = txt.partition('id:"')[2].partition('"')[0]
-                file = txt.partition('url:"')[2].partition('"')[0]
-                print(label,file)
-                return dict(text=label, url=URL(file + '*'))
+            urls = UrlList()
+            for item in video_rule.get_result():
+                script = item['data'].replace(' ', '')
+                sources = self.quotes(script,'streams:[{','}]').split('},{')
+                for f in sources:
+                    label=self.quotes(f,'id:"','"')
+                    file = self.quotes(f,'url:"','"')
+                    urls.add(label, URL(file+'*'))
 
-            urls=list()
-            for item in sources:
-                data=parce(item)
-                if data['url']!=URL('*'):
-                    urls.append(data)
-
-            #print(urls)
-
-            if len(urls) == 1:
-                video = MediaData(urls[0]['url'])
-            elif len(urls) > 1:
-                video = MediaData(urls[-1]['url'])
-                for item in urls:
-                    video.add_alternate(item)
-            else:
-                return result
-
-            result.set_type('video')
-            result.set_video(video)
+            result.set_video(urls.get_media_data(-1))
 
             for f in gallery_user_rule.get_result(['href']):
-                # print(f)
                 result.add_control(ControlInfo('"'+f['data']+'"', URL(f['href'])))
 
             for f in gallery_actor_rule.get_result(['href']):
-                # print(f)
                 result.add_control(ControlInfo(f['data'], URL(f['href'])))
 
             for f in gallery_href_rule.get_result(['data', 'href']):

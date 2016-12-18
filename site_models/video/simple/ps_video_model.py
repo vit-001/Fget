@@ -2,7 +2,7 @@ __author__ = 'Vit'
 
 from site_models.base_site_model import *
 from site_models.site_parser import SiteParser, ParserRule
-from base_classes import URL, ControlInfo
+from base_classes import URL, ControlInfo, UrlList
 from setting import Setting
 
 class PSvideoSite(BaseSite):
@@ -66,24 +66,19 @@ class PSvideoSite(BaseSite):
 
         result = ParseResult(self)
 
-        if video_rule.is_result(): #len(video_rule.get_result()) > 0:
+        if video_rule.is_result():
+            urls=UrlList()
+            for item in video_rule.get_result():
+                file=self.quotes(item['data'].replace(' ', ''),"video_url:'","'")
+                urls.add('default',URL(file))
 
-            script = video_rule.get_result()[0]['data'].replace(' ', '')
-            video_url=self.quotes(script,"video_url:'","'")
-            # print(video_url)
-
-            video = MediaData(URL(video_url))
-
-            result.set_type('video')
-            result.set_video(video)
+            result.set_video(urls.get_media_data())
 
             for f in gallery_href_rule.get_result(['data', 'href']):
                 result.add_control(ControlInfo(f['data'], URL(f['href'])))
             return result
 
-        if startpage_rule.is_result(): #len(startpage_rule.get_result()) > 0:
-            result.set_type('hrefs')
-
+        if startpage_rule.is_result():
             for item in startpage_rule.get_result(['href']):
                 result.add_thumb(ThumbInfo(thumb_url=URL(item['src']), href=URL(item['href']),description=item.get('alt','')))
 

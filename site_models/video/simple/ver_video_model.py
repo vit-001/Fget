@@ -2,7 +2,7 @@ __author__ = 'Vit'
 
 from site_models.base_site_model import *
 from site_models.site_parser import SiteParser, ParserRule
-from base_classes import URL, ControlInfo
+from base_classes import URL, ControlInfo , UrlList
 from setting import Setting
 
 class VERvideoSite(BaseSite):
@@ -76,25 +76,12 @@ class VERvideoSite(BaseSite):
 
         result = ParseResult(self)
 
-        if video_rule.is_result(): #len(video_rule.get_result()) > 0:
-
-            urls=list()
+        if video_rule.is_result():
+            urls=UrlList()
             for item in video_rule.get_result():
-                # print(item)
-                data = dict(text=item['res'], url=URL(item['src']))
-                urls.append(data)
+                urls.add(item['res'],URL(item['src']))
 
-            if len(urls) == 1:
-                video = MediaData(urls[0]['url'])
-            elif len(urls) > 1:
-                video = MediaData(urls[-1]['url'])
-                for item in urls:
-                    video.add_alternate(item)
-            else:
-                return result
-
-            result.set_type('video')
-            result.set_video(video)
+            result.set_video(urls.get_media_data(-1))
 
             for f in gallery_user_rule.get_result(['data', 'href']):
                 result.add_control(ControlInfo('"'+f['data'].strip()+'"', URL(f['href'])))
@@ -104,18 +91,14 @@ class VERvideoSite(BaseSite):
 
             return result
 
-        if startpage_rule.is_result(): #len(startpage_rule.get_result()) > 0:
-            result.set_type('hrefs')
-
+        if startpage_rule.is_result():
             for item in startpage_rule.get_result(['href']):
-                # print(item)
                 result.add_thumb(ThumbInfo(thumb_url=URL(item['src']), href=URL(item['href']),description=item.get('alt',item.get('title',''))))
 
             for item in startpage_pages_rule.get_result(['href', 'data']):
                 result.add_page(ControlInfo(item['data'], URL(item['href'])))
 
             for item in startpage_hrefs_rule.get_result(['href', 'data']):
-                # print(item)
                 label=item['href'].strip('*').rpartition('/')[2]
                 result.add_control(ControlInfo(label, URL(item['href'])))
 
