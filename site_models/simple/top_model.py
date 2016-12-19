@@ -1,8 +1,8 @@
 __author__ = 'Vit'
 
+from base_classes import URL, ControlInfo
 from site_models.base_site_model import *
 from site_models.site_parser import SiteParser, ParserRule
-from base_classes import URL, ControlInfo
 
 
 def get_href(txt):
@@ -29,14 +29,12 @@ class TOPSite(BaseSite):
     def can_accept_index_file(self, base_url=URL()):
         return base_url.contain('tomorrowporn.com/')
 
-
     def get_start_button_menu_text_url_dict(self):
         return dict(Movies=URL('http://www.tomorrowporn.com/porn-movies/'),
                     Stars=URL('http://www.tomorrowporn.com/porn-stars/'),
                     Pics=URL('http://www.tomorrowporn.com/'),
                     LatestUpdates=URL('http://www.tomorrowporn.com/latest_updates.html'),
-        )
-
+                    )
 
     def parse_index_file(self, fname, base_url=URL()):
         parser = SiteParser()
@@ -109,4 +107,3 @@ class TOPSite(BaseSite):
                 result.add_control(ControlInfo(f['title'], URL(f['href'])))
 
         return result
-

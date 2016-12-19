@@ -12,8 +12,10 @@ class EXTvideoSite(BaseSite):
         return "EXTvid"
 
     def get_start_button_menu_text_url_dict(self):
-        return dict(Videos_Professional=URL('https://www.porndig.com/video/'),
-                    Videos_Amateur=URL('https://www.porndig.com/amateur/videos/')
+        return dict(Most_Popular=URL('http://www.extremetube.com/videos?o=mv*'),
+                    Higest_Rating=URL('http://www.extremetube.com/videos?o=tr*'),
+                    Longest=URL('http://www.extremetube.com/videos?o=lg*'),
+                    New=URL('http://www.extremetube.com/videos*')
                     )
 
     def startpage(self):
@@ -47,7 +49,7 @@ class EXTvideoSite(BaseSite):
         video_href_rule = ParserRule()
         video_href_rule.add_activate_rule_level([('div', 'class', 'ibInfo js_ibInfo')])
         video_href_rule.add_process_rule_level('a', {'href'})
-        video_href_rule.set_attribute_filter_function('href',lambda x: 'javascript' not in x)
+        video_href_rule.set_attribute_filter_function('href', lambda x: 'javascript' not in x)
         video_href_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x, base_url))
         parser.add_rule(video_href_rule)
 
@@ -77,7 +79,7 @@ class EXTvideoSite(BaseSite):
             result.set_video(urls.get_media_data(-1))
 
             for f in video_user_rule.get_result(['data', 'href']):
-                result.add_control(ControlInfo('"'+f['data']+'"', URL(f['href'])))
+                result.add_control(ControlInfo('"' + f['data'] + '"', URL(f['href'])))
 
             for f in video_href_rule.get_result(['data', 'href']):
                 result.add_control(ControlInfo(f['data'], URL(f['href'])))
@@ -91,7 +93,7 @@ class EXTvideoSite(BaseSite):
                 items = data[items_name]
                 nav = data['navigation']
                 last_page = nav['lastPage']
-                if last_page is None: last_page=1
+                if last_page is None: last_page = 1
                 curr_page = int(base_url.get().rpartition('page=')[2])
                 pattern = nav['urlPattern'].replace('[%pageId%]', '{}') + '*'
 
@@ -122,19 +124,18 @@ class EXTvideoSite(BaseSite):
 
                 return buttons_added
 
-
             with open(fname) as fp:
                 try:
                     json_data = json.load(fp)
                     buttons_added = False
                     if base_url.contain('/keyword/'):
                         for i in json_data:
-                            buttons_added=parce_data(i, buttons_added, base_url)
+                            buttons_added = parce_data(i, buttons_added, base_url)
                     elif base_url.contain('/users/'):
-                        parce_data(json_data['response'],buttons_added,base_url, items_name='videos')
+                        parce_data(json_data['response'], buttons_added, base_url, items_name='videos')
                     else:
                         for i in json_data:
-                            buttons_added=parce_data(json_data[i],buttons_added,base_url)
+                            buttons_added = parce_data(json_data[i], buttons_added, base_url)
                 except ValueError:
                     pass
             return result
@@ -147,8 +148,8 @@ class EXTvideoSite(BaseSite):
 
             xhr_data = {'base_url': base_url}
 
-            next_url = URL(base_url.get()+'*', xhr_data=xhr_data)#+'?format=json&number_pages=1&page=2*'
-            next_url.add_query([('format','json'),('number_pages','1'),('page','2')])
+            next_url = URL(base_url.get() + '*', xhr_data=xhr_data)  # +'?format=json&number_pages=1&page=2*'
+            next_url.add_query([('format', 'json'), ('number_pages', '1'), ('page', '2')])
             result.add_page(ControlInfo('next', next_url))
 
         return result

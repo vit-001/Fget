@@ -2,24 +2,23 @@ __author__ = 'Vit'
 
 import os
 
-from setting import Setting
 from base_classes import *
-# from qt_view import QTThumbViewer
-from history import HistoryRecord, History, HistoryException
-from favorites import Favorites,FavoriteRecord
-from playlist import PlaylistEntry,Playlist
+from favorites import Favorites, FavoriteRecord
+from history import History, HistoryException
+from playlist import PlaylistEntry, Playlist
 from requests_loader import Loader
+from setting import Setting
 
 
 class Controller(AbstractController):
-    def __init__(self,view_manager_class,model_class):
-        self.fav=Favorites(open(Setting.fav_filename))
-        self.playlist=Playlist(open(Setting.playlist_filename))
+    def __init__(self, view_manager_class, model_class):
+        self.fav = Favorites(open(Setting.fav_filename))
+        self.playlist = Playlist(open(Setting.playlist_filename))
 
         self.view = view_manager_class(controller=self)
-        self.thumb_view=self.view.get_thumb_view()
-        self.picture_view=self.view.get_picture_view()
-        self.video_view=self.view.get_video_view()
+        self.thumb_view = self.view.get_thumb_view()
+        self.picture_view = self.view.get_picture_view()
+        self.video_view = self.view.get_video_view()
 
         self.model = model_class(self)
         self.history = History()
@@ -34,18 +33,20 @@ class Controller(AbstractController):
         self.loader.update()
 
     def add_startpage(self, control=ControlInfo()):
-        self.add_button_on_view(self.thumb_view.add_site_button,control)
+        self.add_button_on_view(self.thumb_view.add_site_button, control)
 
     def goto_url(self, url=URL()):
-        if url.method=='GET':
+        if url.get() is '':
+            return
+        if url.method == 'GET':
             print('goto:', url.to_save())
-        elif url.method=='POST':
+        elif url.method == 'POST':
             print('goto:', url.to_save(), url.post_data)
-        self.thumb_view.show_status('Goto url: '+url.get())
+        self.thumb_view.show_status('Goto url: ' + url.get())
 
         if not self.model.can_accept_url(url):
             print('Rejected url', url.get())
-            self.show_status('Rejected url '+ url.get())
+            self.show_status('Rejected url ' + url.get())
             return
 
         index = Setting.base_dir + 'index.html'
@@ -54,43 +55,43 @@ class Controller(AbstractController):
         self.loader.load_file(url, index, self.on_index_load)
 
     def uget_file(self, filename='', url=URL()):
-        if Setting.controller_debug: print('Controller: uGet file ',url.get(), 'to',filename)
-        if Setting.download_method=='uget':
-            fname=' --filename="'+filename+'" '
-            folder='--folder="'+Setting.download_dir+'"'
-            os.spawnl(os.P_DETACH,Setting.uget(),'-gtk','--quiet',folder,fname,'"'+url.get()+'"')
-        elif Setting.download_method=='server':
-            self.load_server_integration(filename,url.get())
+        if Setting.controller_debug: print('Controller: uGet file ', url.get(), 'to', filename)
+        if Setting.download_method == 'uget':
+            fname = ' --filename="' + filename + '" '
+            folder = '--folder="' + Setting.download_dir + '"'
+            os.spawnl(os.P_DETACH, Setting.uget(), '-gtk', '--quiet', folder, fname, '"' + url.get() + '"')
+        elif Setting.download_method == 'server':
+            self.load_server_integration(filename, url.get())
 
-    def load_server_integration(self,filename='',url=''):
-        i=1
+    def load_server_integration(self, filename='', url=''):
+        i = 1
         while True:
-            fname=Setting.exchange_path+'fget%d.lsf'%i
+            fname = Setting.exchange_path + 'fget%d.lsf' % i
             if os.path.exists(fname):
-                i+=1
+                i += 1
                 print(i)
                 continue
             else:
                 break
-        print('Writing',fname)
-        file=open(fname,'w')
-        file.write(filename+' '+url+'\n')
-
+        print('Writing', fname)
+        file = open(fname, 'w')
+        file.write(filename + ' ' + url + '\n')
 
     def on_index_load(self, url=URL(), fname=''):
         self.thumb_view.progress_stop()
         self.model.accept_index(url, fname)
 
-    def show_thumb_view(self, url=URL(), controls=list(), pages=list(), thumbs=list(), sites=list(), caption_visible=False):
+    def show_thumb_view(self, url=URL(), controls=list(), pages=list(), thumbs=list(), sites=list(),
+                        caption_visible=False):
         self.thumb_loader.abort()
-        self.thumb_view.prepare(url,caption_visible)
+        self.thumb_view.prepare(url, caption_visible)
 
         for item in sites:
-            self.add_button_on_view(self.thumb_view.add_site_nested,item)
+            self.add_button_on_view(self.thumb_view.add_site_nested, item)
         for item in controls:
-            self.add_button_on_view(self.thumb_view.add_control,item)
+            self.add_button_on_view(self.thumb_view.add_control, item)
         for item in pages:
-            self.add_button_on_view(self.thumb_view.add_page,item)
+            self.add_button_on_view(self.thumb_view.add_page, item)
 
         self.thumb_view.progress_init(len(thumbs))
         self.curr_loading_thumb = 0
@@ -115,30 +116,33 @@ class Controller(AbstractController):
 
         for item in controls:
             self.picture_view.add_control(item.text, self.get_goto_url_handler(item.url))
-        self.current_full_view=self.picture_view
+        self.current_full_view = self.picture_view
 
     def show_video_view(self, page_url=URL(), video=MediaData(), controls=list()):
         self.video_view.playback(video, page_url, autoplay=True)
         self.view.show_full_view(self.video_view)
         for item in controls:
             self.video_view.add_control(item.text, self.get_goto_url_handler(item.url))
-        self.current_full_view=self.video_view
+        self.current_full_view = self.video_view
 
-    def add_button_on_view(self,view_add_function,button_data=ControlInfo()):
+    def add_button_on_view(self, view_add_function, button_data=ControlInfo()):
         if button_data.menu_text_url_dict is not None:
-            menu_items=dict()
+            menu_items = dict()
             for key in button_data.menu_text_url_dict:
-                menu_items[key]=self.get_goto_url_handler(button_data.menu_text_url_dict[key])
+                menu_items[key] = self.get_goto_url_handler(button_data.menu_text_url_dict[key])
         else:
-            menu_items=None
+            menu_items = None
 
-        view_add_function(button_data.text, self.get_goto_url_handler(button_data.url),menu_items,button_data.url.get())
+        view_add_function(button_data.text, self.get_goto_url_handler(button_data.url), menu_items,
+                          button_data.url.get(), bold=button_data.bold, underline=button_data.underline,
+                          autoraise=button_data.autorise)
 
     def get_goto_url_handler(self, url):
         def handler(url):
             self.video_view.playlist_disconnect()
             self.goto_url(url)
-        return lambda:handler(url)
+
+        return lambda: handler(url)
 
     def panic(self):
         print('panic')
@@ -154,14 +158,15 @@ class Controller(AbstractController):
         return self.playlist
 
     def add_thumb_page_to_fav(self, category=''):
-        url=self.thumb_view.get_url()
-        if Setting.fav_debug: print('Adding thumb',url.get(),'to',category)
-        self.fav.add(FavoriteRecord(url,category,FavoriteRecord.thumb,url.get()))
+        url = self.thumb_view.get_url()
+        if Setting.fav_debug: print('Adding thumb', url.get(), 'to', category)
+        self.fav.add(FavoriteRecord(url, category, FavoriteRecord.thumb, url.get()))
 
     def add_full_page_to_fav(self, category=''):
-        url=self.current_full_view.get_url()
-        if Setting.fav_debug: print('Adding full',url.get(),'to',category,', type ',self.current_full_view.get_page_type())
-        self.fav.add(FavoriteRecord(url,category,self.current_full_view.get_page_type(),url.get()))
+        url = self.current_full_view.get_url()
+        if Setting.fav_debug: print('Adding full', url.get(), 'to', category, ', type ',
+                                    self.current_full_view.get_page_type())
+        self.fav.add(FavoriteRecord(url, category, self.current_full_view.get_page_type(), url.get()))
 
     def back(self):
         try:
@@ -179,23 +184,24 @@ class Controller(AbstractController):
         pass
 
     def on_exit(self):
-        def saving(filename,proc):
+        def saving(filename, proc):
             try:
-                os.replace(filename, filename+'.old')
+                os.replace(filename, filename + '.old')
             except OSError as err:
-                print('Saving',filename,err)
+                print('Saving', filename, err)
             try:
                 file = open(filename, 'w')
                 proc(file)
                 file.close()
             except OSError as err:
-                print('Saving',filename,err)
+                print('Saving', filename, err)
 
-        saving(Setting.fav_filename,self.fav.save)
-        saving(Setting.playlist_filename,self.playlist.save)
-        saving(Setting.setting_file,Setting.save_setting)
+        saving(Setting.fav_filename, self.fav.save)
+        saving(Setting.playlist_filename, self.playlist.save)
+        saving(Setting.setting_file, Setting.save_setting)
 
         self.loader.terminate_all()
+
 
 if __name__ == "__main__":
     pass

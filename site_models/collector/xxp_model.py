@@ -1,8 +1,8 @@
 __author__ = 'Vit'
 
+from base_classes import URL, ControlInfo
 from site_models.base_site_model import *
 from site_models.site_parser import SiteParser, ParserRule
-from base_classes import URL, ControlInfo
 
 
 class XXPSite(BaseSite):
@@ -116,4 +116,3 @@ class XXPSitePictureCollector(PictureCollector):
             parser.feed(data.decode(encoding="utf-8", errors="ignore"))
 
         return picture_rule.get_result()[0]['src']
-

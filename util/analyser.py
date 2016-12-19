@@ -46,5 +46,3 @@ if __name__ == "__main__":
         parser.feed(s)
 
     a = {'a', 'b', 'c'}
-
-

@@ -34,8 +34,7 @@ with open(dir + 'post100.bin.html') as inp:
             fd.write(line)
 
 with open(dir + 'post100.json') as fd:
-    j=json.load(fd)
-
+    j = json.load(fd)
 
 for item in j:
     print(item)
@@ -46,17 +45,17 @@ print('========')
 
 print(j['message'])
 
-success=j.get('success',False)
+success = j.get('success', False)
 if success:
-    data=j['data']
+    data = j['data']
 
-    content=data['content']
+    content = data['content']
     # print(content)
-    if len(content) >0:
-        has_more=data['has_more']
+    if len(content) > 0:
+        has_more = data['has_more']
 
         print(len(content))
         print(has_more)
 
-        with open(dir + 'post100.html','w') as fd:
+        with open(dir + 'post100.html', 'w') as fd:
             fd.write(content)

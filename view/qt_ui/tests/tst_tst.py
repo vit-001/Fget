@@ -2,8 +2,6 @@ __author__ = 'Nikitin'
 
 import sys
 
-from PyQt5 import QtWidgets
-
 from view.qt_ui.tst import *
 
 
@@ -12,6 +10,7 @@ class MyWin(QtWidgets.QMainWindow):
         QtWidgets.QWidget.__init__(self, parent)
         self.ui = Ui_Form()
         self.ui.setupUi(self)
+
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)

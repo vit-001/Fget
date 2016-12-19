@@ -1,8 +1,8 @@
 __author__ = 'Vit'
 
+from base_classes import URL, ControlInfo
 from site_models.base_site_model import *
 from site_models.site_parser import SiteParser, ParserRule
-from base_classes import URL, ControlInfo
 
 
 class FKSite(BaseSite):
@@ -19,7 +19,7 @@ class FKSite(BaseSite):
         if txt.startswith('http://') or txt.startswith('https://'):
             return txt
         if txt.startswith('/'):
-            return 'http://'+base_url.domain() + txt
+            return 'http://' + base_url.domain() + txt
         return ''
 
     def parse_index_file(self, fname, base_url=URL()):
@@ -30,8 +30,8 @@ class FKSite(BaseSite):
         # startpage_rule.add_process_rule_level('div', {})
         startpage_rule.add_process_rule_level('a', {'href'})
         startpage_rule.add_process_rule_level('img', {'src', 'alt'})
-        startpage_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x,base_url) + '*')
-        startpage_rule.set_attribute_modifier_function('src', lambda x: self.get_href(x,base_url) + '*')
+        startpage_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x, base_url) + '*')
+        startpage_rule.set_attribute_modifier_function('src', lambda x: self.get_href(x, base_url) + '*')
         parser.add_rule(startpage_rule)
 
         tags_rule = ParserRule()
@@ -49,13 +49,13 @@ class FKSite(BaseSite):
         picture_base_addr_rule = ParserRule()
         picture_base_addr_rule.add_activate_rule_level([('div', 'class', 'imagelinks')])
         picture_base_addr_rule.add_process_rule_level('script', {})
-        picture_base_addr_rule.set_attribute_filter_function('data',lambda x:'unescape' in x)
+        picture_base_addr_rule.set_attribute_filter_function('data', lambda x: 'unescape' in x)
         parser.add_rule(picture_base_addr_rule)
 
         picture_rule = ParserRule()
         picture_rule.add_activate_rule_level([('div', 'class', 'imagelinks')])
         picture_rule.add_process_rule_level('script', {})
-        picture_rule.set_attribute_filter_function('data',lambda x:"'src'" in x)
+        picture_rule.set_attribute_filter_function('data', lambda x: "'src'" in x)
         parser.add_rule(picture_rule)
 
         for s in open(fname):
@@ -65,15 +65,16 @@ class FKSite(BaseSite):
 
         if len(picture_base_addr_rule.get_result()) > 0:
             result.set_type('pictures')
-            base=picture_base_addr_rule.get_result()[0]['data'].replace('%2f','/').partition("unescape('//")[2].partition("'")[0]
+            base = \
+            picture_base_addr_rule.get_result()[0]['data'].replace('%2f', '/').partition("unescape('//")[2].partition(
+                "'")[0]
             # print(base)
-            i=1
+            i = 1
             for f in picture_rule.get_result():
-                picname=f['data'].partition("+'")[2].partition("'")[0]
+                picname = f['data'].partition("+'")[2].partition("'")[0]
                 # print(picname)
-                result.add_full(FullPictureInfo(abs_href=URL(base+picname+'*'), rel_name='%03d.jpg' % i))
-                i+=1
-
+                result.add_full(FullPictureInfo(abs_href=URL(base + picname + '*'), rel_name='%03d.jpg' % i))
+                i += 1
 
             for item in tags_rule.get_result(['href', 'data']):
                 result.add_control(ControlInfo(item['data'], URL(item['href'])))

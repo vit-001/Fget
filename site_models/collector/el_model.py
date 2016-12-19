@@ -1,8 +1,8 @@
 __author__ = 'Vit'
 
+from base_classes import URL, ControlInfo
 from site_models.base_site_model import *
 from site_models.site_parser import SiteParser, ParserRule
-from base_classes import URL, ControlInfo
 
 
 class ELSite(BaseSite):
@@ -21,7 +21,7 @@ class ELSite(BaseSite):
                     Channels=URL('http://www.ero-lust.com/videos/channels/'),
                     Top_rated=URL('http://www.ero-lust.com/videos/top-rated/'),
                     Most_viewed=URL('http://www.ero-lust.com/videos/most-popular/')
-        )
+                    )
 
     def parse_index_file(self, fname, base_url=URL()):
         parser = SiteParser()
@@ -42,7 +42,7 @@ class ELSite(BaseSite):
         video_rule = ParserRule()
         video_rule.add_activate_rule_level([('div', 'class', 'main')])
         video_rule.add_process_rule_level('script', {})
-        video_rule.set_attribute_filter_function('data',lambda text:'function getEmbed()' in text)
+        video_rule.set_attribute_filter_function('data', lambda text: 'function getEmbed()' in text)
         parser.add_rule(video_rule)
 
         picture_rule = ParserRule()
@@ -55,7 +55,7 @@ class ELSite(BaseSite):
         picture_tags_rule = ParserRule()
         picture_tags_rule.add_activate_rule_level([('div', 'class', 'main')])
         picture_tags_rule.add_process_rule_level('a', {'href'})
-        picture_tags_rule.set_attribute_filter_function('href',lambda txt:'/categories/' in txt or '/model/' in txt)
+        picture_tags_rule.set_attribute_filter_function('href', lambda txt: '/categories/' in txt or '/model/' in txt)
         parser.add_rule(picture_tags_rule)
 
         for s in open(fname, encoding='utf-8'):
@@ -63,7 +63,7 @@ class ELSite(BaseSite):
 
         result = ParseResult(self)
 
-        if len(video_rule.get_result())>0:
+        if len(video_rule.get_result()) > 0:
             result.set_video(MediaData(URL(self.get_attr_from_script(video_rule.get_result()[0]['data']))))
             result.set_type('video')
 
@@ -95,9 +95,9 @@ class ELSite(BaseSite):
 
         return result
 
-    def get_attr_from_script(self,txt=''):
-        t=txt.partition('var flashvars = {')[2].partition('}')[0]
-        t1=t.split(',')
+    def get_attr_from_script(self, txt=''):
+        t = txt.partition('var flashvars = {')[2].partition('}')[0]
+        t1 = t.split(',')
         for i in t1:
             if i.strip().startswith('video_url:'):
                 return i.partition(':')[2].strip(" '")
@@ -120,4 +120,3 @@ class ELSitePictureCollector(PictureCollector):
         # print(picture_rule.get_result()[0]['src'])
 
         return picture_rule.get_result()[0]['src']
-

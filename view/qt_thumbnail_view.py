@@ -3,30 +3,26 @@ __author__ = 'Vit'
 from PyQt5 import QtCore
 from PyQt5.QtWidgets import *
 
-from base_classes import (ControllerFromViewInterface, AbstractThumbView, URL, AbstractViewManager)
-from setting import Setting
-
-from view.qt_ui.thumb_viewer_ui import Ui_MainWindow
-
-from view.qt_widget.qt_progress_line import QProgressHLine
-from view.qt_widget.qt_button_line import QButtonLine
-from view.qt_widget.qt_thumb_view import QThumbViewVS
-
+from base_classes import (AbstractThumbView, URL, AbstractViewManager)
 from history import History, HistoryRecord, HistoryException
+from view.qt_ui.thumb_viewer_ui import Ui_MainWindow
+from view.qt_widget.qt_button_line import QButtonLine
+from view.qt_widget.qt_progress_line import QProgressHLine
+from view.qt_widget.qt_thumb_view import QThumbViewVS
 
 
 class QTThumbViewer(QMainWindow, AbstractThumbView):
     def __init__(self, parent=None, Qt_WindowFlags_flags=0, view_manager=AbstractViewManager):
         QMainWindow.__init__(self, parent)
-        self.manager=view_manager
+        self.manager = view_manager
         self.controller = view_manager.get_controller()
 
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
 
         self.url = None
-        self.history=History(self.on_history_changed)
-        self.back_page=None
+        self.history = History(self.on_history_changed)
+        self.back_page = None
 
         self.make_widget()
 
@@ -61,36 +57,45 @@ class QTThumbViewer(QMainWindow, AbstractThumbView):
         sizePolicy.setHeightForWidth(self.thumbs.sizePolicy().hasHeightForWidth())
         self.thumbs.setSizePolicy(sizePolicy)
 
-        #Binding
+        # Binding
         self.ui.bn_back.clicked.connect(self.go_back)
-        self.ui.bn_go.clicked.connect(lambda:self.controller.goto_url(URL(self.ui.combo_history.currentText())))
+        self.ui.bn_go.clicked.connect(lambda: self.controller.goto_url(URL(self.ui.combo_history.currentText())))
         self.ui.bn_playlist.clicked.connect(self.manager.toggle_playlist_view)
         self.ui.bn_toolbox.clicked.connect(self.manager.toggle_tool_view)
 
     def panic(self):
         self.showMinimized()
 
-    def add_site_button(self, text='', action=lambda: 0,menu_items=None,tooltip=''):
-        self.add_button_with_menu(self.sites,text,action,menu_items,tooltip)
+    def add_site_button(self, text='', action=lambda: 0, menu_items=None, tooltip='', bold=False, underline=False,
+                        autoraise=False):
+        self.add_button_with_menu(self.sites, text, action, menu_items, tooltip, bold=bold, underline=underline,
+                                  autoraise=autoraise)
 
-    def add_site_nested(self, text='', action=lambda: 0, menu_items=dict(),tooltip=''):
-        self.add_button_with_menu(self.nested_sites,text,action,menu_items,tooltip)
+    def add_site_nested(self, text='', action=lambda: 0, menu_items=dict(), tooltip='', bold=False, underline=False,
+                        autoraise=False):
+        self.add_button_with_menu(self.nested_sites, text, action, menu_items, tooltip, bold=bold, underline=underline,
+                                  autoraise=autoraise)
 
-    def add_control(self, text='', action=lambda: 0,menu_items=None,tooltip=''):
-        self.add_button_with_menu(self.controls,text,action,menu_items,tooltip)
+    def add_control(self, text='', action=lambda: 0, menu_items=None, tooltip='', bold=False, underline=False,
+                    autoraise=False):
+        self.add_button_with_menu(self.controls, text, action, menu_items, tooltip, bold=bold, underline=underline,
+                                  autoraise=autoraise)
 
-    def add_page(self, text='', action=lambda: 0,menu_items=None,tooltip=''):
-        self.add_button_with_menu(self.pages,text,action,menu_items,tooltip)
+    def add_page(self, text='', action=lambda: 0, menu_items=None, tooltip='', bold=False, underline=False,
+                 autoraise=False):
+        self.add_button_with_menu(self.pages, text, action, menu_items, tooltip, bold=bold, underline=underline,
+                                  autoraise=autoraise)
 
-    def add_button_with_menu(self,button_line, text='', action=lambda: 0,menu_items=None,tooltip=''):
+    def add_button_with_menu(self, button_line, text='', action=lambda: 0, menu_items=None, tooltip='', bold=False,
+                             underline=False, autoraise=False):
         if menu_items is not None:
             menu = QMenu(self)
             for key in sorted(menu_items):
-                menu_action=QAction(key, self, triggered=menu_items[key])
+                menu_action = QAction(key, self, triggered=menu_items[key])
                 menu.addAction(menu_action)
         else:
-            menu=None
-        button_line.add_button(text, action, menu, tooltip)
+            menu = None
+        button_line.add_button(text, action, menu, tooltip, bold=bold, underline=underline, autoraise=autoraise)
 
     def add_preview(self, picture_fname='', action=lambda: 0, popup_text=''):
         self.thumbs.add(picture_fname, action, popup_text)
@@ -104,29 +109,29 @@ class QTThumbViewer(QMainWindow, AbstractThumbView):
         self.timer.start(100)
 
     def prepare(self, url=URL(), show_caption=False):
-        context=None
-        if self.back_page is None or self.back_page.data!=url:
+        context = None
+        if self.back_page is None or self.back_page.data != url:
             if self.url is not None:
-                self.history.put(HistoryRecord(self.url,self.thumbs.context))
+                self.history.put(HistoryRecord(self.url, self.thumbs.context))
         else:
-            context=self.back_page.context
+            context = self.back_page.context
         self.thumbs.clear()
         self.pages.clear()
         self.controls.clear()
         self.nested_sites.clear()
         self.url = url
         self.setWindowTitle(url.get())
-        self.ui.combo_history.insertItem(0,self.url.to_save())
+        self.ui.combo_history.insertItem(0, self.url.to_save())
         self.ui.combo_history.setCurrentIndex(0)
         self.thumbs.set_thumb_text_visible(show_caption)
         self.update()
 
-        self.thumbs.context=context
-        self.back_page=None
+        self.thumbs.context = context
+        self.back_page = None
 
     def go_back(self):
         try:
-            self.back_page=self.history.pop()
+            self.back_page = self.history.pop()
             self.controller.goto_url(self.back_page.data)
         except HistoryException:
             pass
@@ -134,7 +139,7 @@ class QTThumbViewer(QMainWindow, AbstractThumbView):
     def on_history_changed(self):
         self.ui.combo_history.clear()
         for item in self.history.get_last_data(20):
-            self.ui.combo_history.insertItem(0,item.to_save())
+            self.ui.combo_history.insertItem(0, item.to_save())
 
     def get_url(self):
         return self.url
@@ -151,7 +156,7 @@ class QTThumbViewer(QMainWindow, AbstractThumbView):
         self.pl.show()
 
     def show_status(self, txt=''):
-        self.ui.statusbar.showMessage(txt,3000)
+        self.ui.statusbar.showMessage(txt, 3000)
 
     def closeEvent(self, *args, **kwargs):
         self.manager.on_close_event()

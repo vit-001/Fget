@@ -21,9 +21,9 @@ class ParserRule():
     def __init__(self, debug=False, collect_data=False):
 
         self.debug = debug
-        self.collect_data=collect_data
+        self.collect_data = collect_data
 
-        self.tag_no_end = ['img', 'meta','param','source']
+        self.tag_no_end = ['img', 'meta', 'param', 'source']
 
         self.result = []
 
@@ -35,7 +35,7 @@ class ParserRule():
         self.getting_entry = False
 
         self.modifiers = dict()
-        self.filters=dict()
+        self.filters = dict()
 
         self.tags = set()
         self.level = 0
@@ -52,8 +52,8 @@ class ParserRule():
     def set_attribute_modifier_function(self, attr='', function=lambda text: text):
         self.modifiers[attr] = function
 
-    def set_attribute_filter_function(self,attr='',function=lambda text:True):
-        self.filters[attr]=function
+    def set_attribute_filter_function(self, attr='', function=lambda text: True):
+        self.filters[attr] = function
 
     def process_attrs(self, attrs=Attribute(), attr_set=set()):
         for attribute in attr_set:
@@ -123,29 +123,28 @@ class ParserRule():
                 self.activate_level = 0
                 if self.debug: print('...........Deactivate............')
 
-
     def scan_data(self, data=''):
         # if self.debug: print('  ' * self.level, data)
         if self.active:
             if self.collect_data:
-                self.current_entry['data'] = self.current_entry.get('data','')+data
+                self.current_entry['data'] = self.current_entry.get('data', '') + data
             else:
                 self.current_entry['data'] = data
 
     def is_result(self, needed_tags=list()):
-        return len(self.get_result(needed_tags))>0
+        return len(self.get_result(needed_tags)) > 0
 
     def get_result(self, needed_tags=list()):
 
-        filtered_result=list()
-        if len(self.filters)==0:
-            filtered_result=self.result
+        filtered_result = list()
+        if len(self.filters) == 0:
+            filtered_result = self.result
         else:
             for item in self.result:
-                flag=True
+                flag = True
                 for filter_tag in self.filters:
-                    if not self.filters[filter_tag](item.get(filter_tag,'')):
-                        flag=False
+                    if not self.filters[filter_tag](item.get(filter_tag, '')):
+                        flag = False
                 if flag:
                     filtered_result.append(item)
 
@@ -182,6 +181,7 @@ class SiteParser(HTMLParser):
         # print(data)
         for rule in self.rules:
             rule.scan_data(data)
+
 
 if __name__ == "__main__":
 

@@ -1,8 +1,8 @@
 __author__ = 'Vit'
 
+from base_classes import URL, ControlInfo
 from site_models.base_site_model import *
 from site_models.site_parser import SiteParser, ParserRule
-from base_classes import URL, ControlInfo
 
 
 class XMvideoSite(BaseSite):
@@ -18,11 +18,11 @@ class XMvideoSite(BaseSite):
     def can_accept_index_file(self, base_url=URL()):
         return base_url.contain('xhamster.com/')
 
-    def get_href(self,txt='',base_url=URL()):
+    def get_href(self, txt='', base_url=URL()):
         if txt.startswith('http://'):
             return txt
         if txt.startswith('/'):
-            return base_url.domain()+txt
+            return base_url.domain() + txt
 
     def parse_index_file(self, fname, base_url=URL()):
         parser = SiteParser()
@@ -30,22 +30,22 @@ class XMvideoSite(BaseSite):
         startpage_rule.add_activate_rule_level([('div', 'class', 'boxC videoList clearfix'),
                                                 ('div', 'class', 'gallery')])
         startpage_rule.add_process_rule_level('a', {'href'})
-        startpage_rule.add_process_rule_level('img', {'src','alt'})
+        startpage_rule.add_process_rule_level('img', {'src', 'alt'})
         # startpage_rule.set_attribute_modifier_function('href', lambda x: base_url.domain() + x)
         parser.add_rule(startpage_rule)
 
         startpage_pages_rule = ParserRule()
         startpage_pages_rule.add_activate_rule_level([('div', 'class', 'pager')])
         startpage_pages_rule.add_process_rule_level('a', {'href'})
-        startpage_pages_rule.set_attribute_modifier_function('href',lambda x: self.get_href(x,base_url))
+        startpage_pages_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x, base_url))
         parser.add_rule(startpage_pages_rule)
 
         startpage_hrefs_rule = ParserRule()
         startpage_hrefs_rule.add_activate_rule_level([('div', 'id', 'menuLeft')])
         startpage_hrefs_rule.add_process_rule_level('a', {'href'})
-        startpage_hrefs_rule.set_attribute_modifier_function('href',lambda x: self.get_href(x,base_url))
-        startpage_hrefs_rule.set_attribute_filter_function('href',lambda text:'/channels/' in text or
-                                                                            '/photos/niches/'in text)
+        startpage_hrefs_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x, base_url))
+        startpage_hrefs_rule.set_attribute_filter_function('href', lambda text: '/channels/' in text or
+                                                                                '/photos/niches/' in text)
         parser.add_rule(startpage_hrefs_rule)
 
         video_rule = ParserRule()
@@ -58,8 +58,8 @@ class XMvideoSite(BaseSite):
         gallery_href_rule.add_activate_rule_level([('div', 'id', 'videoInfoBox'),
                                                    ('div', 'id', 'galleryInfoBox')])
         gallery_href_rule.add_activate_rule_level([('td', 'class', 'btnList')])
-        gallery_href_rule.add_process_rule_level('a', {'href','title'})
-        gallery_href_rule.set_attribute_modifier_function('href',lambda x: self.get_href(x,base_url))
+        gallery_href_rule.add_process_rule_level('a', {'href', 'title'})
+        gallery_href_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x, base_url))
         parser.add_rule(gallery_href_rule)
 
         picture_rule = ParserRule()  # gallery rule
@@ -73,8 +73,8 @@ class XMvideoSite(BaseSite):
 
         result = ParseResult(self)
 
-        if len(video_rule.get_result())>0:
-            result.set_video(MediaData(URL(video_rule.get_result()[0]['file']+'*')))
+        if len(video_rule.get_result()) > 0:
+            result.set_video(MediaData(URL(video_rule.get_result()[0]['file'] + '*')))
             result.set_type('video')
 
             for f in gallery_href_rule.get_result():
@@ -84,11 +84,11 @@ class XMvideoSite(BaseSite):
 
         if len(picture_rule.get_result()) > 0:
             result.set_type('pictures')
-            i=1
+            i = 1
             for f in picture_rule.get_result():
-                x = FullPictureInfo(abs_href=URL(f['src']), rel_name='%03d.jpg'%i)
+                x = FullPictureInfo(abs_href=URL(f['src']), rel_name='%03d.jpg' % i)
                 result.add_full(x)
-                i+=1
+                i += 1
                 # print(f['src'])
 
             for f in gallery_href_rule.get_result():
@@ -99,7 +99,7 @@ class XMvideoSite(BaseSite):
             result.set_type('hrefs')
             for item in startpage_rule.get_result():
                 result.add_thumb(
-                    ThumbInfo(thumb_url=URL(item['src']), href=URL(item['href']),description=item['alt']))
+                    ThumbInfo(thumb_url=URL(item['src']), href=URL(item['href']), description=item['alt']))
 
             for item in startpage_pages_rule.get_result(['href', 'data']):
                 result.add_page(ControlInfo(item['data'], URL(item['href'])))
@@ -109,9 +109,9 @@ class XMvideoSite(BaseSite):
 
         return result
 
-    def get_attr_from_script(self,txt=''):
-        t=txt.partition('var flashvars = {')[2].partition('}')[0]
-        t1=t.split(',')
+    def get_attr_from_script(self, txt=''):
+        t = txt.partition('var flashvars = {')[2].partition('}')[0]
+        t1 = t.split(',')
         for i in t1:
             if i.strip().startswith('video_url:'):
                 return i.partition(':')[2].strip(" '")
@@ -119,9 +119,5 @@ class XMvideoSite(BaseSite):
 
 
 if __name__ == "__main__":
-    t=TDvideoSite()
+    t = TDvideoSite()
     t.parse_index_file('E:/Dropbox/Hobby/PRG/PyWork/FGet/files/index1.html')
-
-
-
-

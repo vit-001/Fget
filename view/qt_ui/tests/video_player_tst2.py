@@ -1,15 +1,13 @@
 __author__ = 'Vit'
-#!/usr/bin/env python
+# !/usr/bin/env python
 
-from PyQt5.QtCore import QDir, Qt, QUrl
+from PyQt5.QtCore import QUrl
 from PyQt5.QtMultimedia import QMediaContent, QMediaPlayer
 from PyQt5.QtMultimediaWidgets import QVideoWidget
-from PyQt5.QtWidgets import (QApplication, QFileDialog, QHBoxLayout, QLabel,
-        QPushButton, QSizePolicy, QSlider, QStyle, QVBoxLayout, QWidget)
+from PyQt5.QtWidgets import (QApplication, QVBoxLayout, QWidget)
 
 
 class VideoPlayer(QWidget):
-
     def __init__(self, parent=None):
         super(VideoPlayer, self).__init__(parent)
 
@@ -21,13 +19,13 @@ class VideoPlayer(QWidget):
         self.setLayout(layout)
 
         self.mediaPlayer.setVideoOutput(videoWidget)
-        fileName="E:/Dropbox/Hobby/PRG/PyWork/FGet/view/qt_ui/files/1.mp4"
+        fileName = "E:/Dropbox/Hobby/PRG/PyWork/FGet/view/qt_ui/files/1.mp4"
         self.mediaPlayer.setMedia(QMediaContent(QUrl.fromLocalFile(fileName)))
 
         self.mediaPlayer.play()
 
-if __name__ == '__main__':
 
+if __name__ == '__main__':
     import sys
 
     app = QApplication(sys.argv)

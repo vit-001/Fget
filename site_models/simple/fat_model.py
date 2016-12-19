@@ -1,8 +1,8 @@
 __author__ = 'Vit'
 
+from base_classes import URL, ControlInfo
 from site_models.base_site_model import *
 from site_models.site_parser import SiteParser, ParserRule
-from base_classes import URL, ControlInfo
 
 
 def get_href(txt):
@@ -106,7 +106,3 @@ class FATSite(BaseSite):
                     result.add_control(ControlInfo(text=f['alt'], url=URL(base_url.domain() + f['href'])))
 
         return result
-
-
-
-

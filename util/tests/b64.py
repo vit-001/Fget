@@ -52,5 +52,5 @@ if __name__ == "__main__":
 
     import base64
 
-    bs=base64.b64decode(base64.b64decode(txt))
+    bs = base64.b64decode(base64.b64decode(txt))
     print(bs.decode())

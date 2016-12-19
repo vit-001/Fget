@@ -9,6 +9,7 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+
 class Ui_FullView(object):
     def setupUi(self, FullView):
         FullView.setObjectName("FullView")
@@ -92,4 +93,3 @@ class Ui_FullView(object):
     def retranslateUi(self, FullView):
         _translate = QtCore.QCoreApplication.translate
         FullView.setWindowTitle(_translate("FullView", "full_view"))
-

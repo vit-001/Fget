@@ -1,9 +1,9 @@
 __author__ = 'Vit'
 
+from base_classes import URL, ControlInfo, UrlList
 from site_models.base_site_model import *
 from site_models.site_parser import SiteParser, ParserRule
-from base_classes import URL, ControlInfo , UrlList
-from setting import Setting
+
 
 class VERvideoSite(BaseSite):
     def start_button_name(self):
@@ -30,18 +30,18 @@ class VERvideoSite(BaseSite):
 
         startpage_rule = ParserRule()
         startpage_rule.add_activate_rule_level([('div', 'class', 'well well-sm hover'),
-                                                ('div','class','channelContainer')])
-        startpage_rule.add_process_rule_level('a', {'href','title'})
-        startpage_rule.add_process_rule_level('img', {'src','alt'})
-        startpage_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x,base_url))
-        startpage_rule.set_attribute_modifier_function('src', lambda x: self.get_href(x,base_url))
+                                                ('div', 'class', 'channelContainer')])
+        startpage_rule.add_process_rule_level('a', {'href', 'title'})
+        startpage_rule.add_process_rule_level('img', {'src', 'alt'})
+        startpage_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x, base_url))
+        startpage_rule.set_attribute_modifier_function('src', lambda x: self.get_href(x, base_url))
         parser.add_rule(startpage_rule)
 
         startpage_pages_rule = ParserRule()
         startpage_pages_rule.add_activate_rule_level([('ul', 'class', 'pagination')])
         # startpage_pages_rule.add_activate_rule_level([('a', 'class', 'current')])
         startpage_pages_rule.add_process_rule_level('a', {'href'})
-        startpage_pages_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x,base_url))
+        startpage_pages_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x, base_url))
         parser.add_rule(startpage_pages_rule)
 
         startpage_hrefs_rule = ParserRule()
@@ -49,27 +49,27 @@ class VERvideoSite(BaseSite):
         # startpage_hrefs_rule.add_activate_rule_level([('a', 'class', 'current')])
         startpage_hrefs_rule.add_process_rule_level('a', {'href'})
         # startpage_hrefs_rule.set_attribute_filter_function('href',lambda x: '/videos/' in x)
-        startpage_hrefs_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x,base_url))
+        startpage_hrefs_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x, base_url))
         parser.add_rule(startpage_hrefs_rule)
         #
         video_rule = ParserRule()
         video_rule.add_activate_rule_level([('div', 'class', 'video-container')])
-        video_rule.add_process_rule_level('source', {'src','label','res'})
+        video_rule.add_process_rule_level('source', {'src', 'label', 'res'})
         # video_rule.set_attribute_filter_function('data', lambda text: 'video_url' in text)
-        video_rule.set_attribute_modifier_function('src',lambda x:self.get_href(x,base_url))
+        video_rule.set_attribute_modifier_function('src', lambda x: self.get_href(x, base_url))
         parser.add_rule(video_rule)
         #
         gallery_href_rule = ParserRule()
         gallery_href_rule.add_activate_rule_level([('div', 'class', 'm-t-10 overflow-hidden')])
         gallery_href_rule.add_process_rule_level('a', {'href'})
-        gallery_href_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x,base_url))
+        gallery_href_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x, base_url))
         parser.add_rule(gallery_href_rule)
 
         gallery_user_rule = ParserRule(collect_data=True)
         gallery_user_rule.add_activate_rule_level([('div', 'class', 'pull-left user-container')])
         gallery_user_rule.add_process_rule_level('a', {'href'})
-        gallery_user_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x,base_url))
-        gallery_user_rule.set_attribute_filter_function('href',lambda x:'#' not in x)
+        gallery_user_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x, base_url))
+        gallery_user_rule.set_attribute_filter_function('href', lambda x: '#' not in x)
         parser.add_rule(gallery_user_rule)
 
         self.proceed_parcing(parser, fname)
@@ -77,14 +77,14 @@ class VERvideoSite(BaseSite):
         result = ParseResult(self)
 
         if video_rule.is_result():
-            urls=UrlList()
+            urls = UrlList()
             for item in video_rule.get_result():
-                urls.add(item['res'],URL(item['src']))
+                urls.add(item['res'], URL(item['src']))
 
             result.set_video(urls.get_media_data(-1))
 
             for f in gallery_user_rule.get_result(['data', 'href']):
-                result.add_control(ControlInfo('"'+f['data'].strip()+'"', URL(f['href'])))
+                result.add_control(ControlInfo('"' + f['data'].strip() + '"', URL(f['href'])))
 
             for f in gallery_href_rule.get_result(['data', 'href']):
                 result.add_control(ControlInfo(f['data'], URL(f['href'])))
@@ -93,13 +93,14 @@ class VERvideoSite(BaseSite):
 
         if startpage_rule.is_result():
             for item in startpage_rule.get_result(['href']):
-                result.add_thumb(ThumbInfo(thumb_url=URL(item['src']), href=URL(item['href']),description=item.get('alt',item.get('title',''))))
+                result.add_thumb(ThumbInfo(thumb_url=URL(item['src']), href=URL(item['href']),
+                                           description=item.get('alt', item.get('title', ''))))
 
             for item in startpage_pages_rule.get_result(['href', 'data']):
                 result.add_page(ControlInfo(item['data'], URL(item['href'])))
 
             for item in startpage_hrefs_rule.get_result(['href', 'data']):
-                label=item['href'].strip('*').rpartition('/')[2]
+                label = item['href'].strip('*').rpartition('/')[2]
                 result.add_control(ControlInfo(label, URL(item['href'])))
 
         return result
@@ -107,7 +108,3 @@ class VERvideoSite(BaseSite):
 
 if __name__ == "__main__":
     pass
-
-
-
-

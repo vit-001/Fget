@@ -1,8 +1,9 @@
 __author__ = 'Vit'
 
+from base_classes import URL, ControlInfo, UrlList
 from site_models.base_site_model import *
 from site_models.site_parser import SiteParser, ParserRule
-from base_classes import URL, ControlInfo, UrlList
+
 
 class CBPvideoSite(BaseSite):
     def start_button_name(self):
@@ -28,21 +29,20 @@ class CBPvideoSite(BaseSite):
         startpage_rule = ParserRule()
         startpage_rule.add_activate_rule_level([('div', 'class', 'video-thumb')])
         startpage_rule.add_process_rule_level('a', {'href'})
-        startpage_rule.add_process_rule_level('img', {'src','alt'})
-        startpage_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x,base_url) )
+        startpage_rule.add_process_rule_level('img', {'src', 'alt'})
+        startpage_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x, base_url))
         parser.add_rule(startpage_rule)
 
         startpage_pages_rule = ParserRule()
         startpage_pages_rule.add_activate_rule_level([('ul', 'class', 'pagination')])
         # startpage_pages_rule.add_activate_rule_level([('a', 'class', 'current')])
         startpage_pages_rule.add_process_rule_level('a', {'href'})
-        startpage_pages_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x,base_url))
+        startpage_pages_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x, base_url))
         parser.add_rule(startpage_pages_rule)
-
 
         video_rule = ParserRule()
         video_rule.add_activate_rule_level([('video', '', '')])
-        video_rule.add_process_rule_level('source', {'src','label','res'})
+        video_rule.add_process_rule_level('source', {'src', 'label', 'res'})
         # video_rule.set_attribute_filter_function('data', lambda text: 'jwplayer' in text)
         parser.add_rule(video_rule)
 
@@ -53,32 +53,31 @@ class CBPvideoSite(BaseSite):
         # gallery_href_rule.set_attribute_modifier_function('href', lambda x: base_url.domain() + x + '*')
         parser.add_rule(gallery_href_rule)
 
-
         self.proceed_parcing(parser, fname)
 
         result = ParseResult(self)
 
         if video_rule.is_result():
 
-            urls=UrlList()
-            for item in video_rule.get_result(['src','res']):
-                urls.add(item['res'],URL(item['src']))
+            urls = UrlList()
+            for item in video_rule.get_result(['src', 'res']):
+                urls.add(item['res'], URL(item['src']))
 
             result.set_video(urls.get_media_data(-1))
 
             for f in gallery_href_rule.get_result(['data', 'href']):
-                result.add_control(ControlInfo(f['data'], URL(f['href']+'*')))
+                result.add_control(ControlInfo(f['data'], URL(f['href'] + '*')))
             return result
 
         if startpage_rule.is_result():
             # for item in startpage_rule.get_result():
             #     print(item)
 
-            for item in startpage_rule.get_result(['href','src']):
-                href=item['href']
+            for item in startpage_rule.get_result(['href', 'src']):
+                href = item['href']
                 if '/category/' in href:
                     result.set_caption_visible(True)
-                result.add_thumb(ThumbInfo(thumb_url=URL(item['src']), href=URL(href),description=item.get('alt','')))
+                result.add_thumb(ThumbInfo(thumb_url=URL(item['src']), href=URL(href), description=item.get('alt', '')))
 
             for item in startpage_pages_rule.get_result(['href', 'data']):
                 result.add_page(ControlInfo(item['data'], URL(item['href'])))
@@ -88,7 +87,3 @@ class CBPvideoSite(BaseSite):
 
 if __name__ == "__main__":
     pass
-
-
-
-

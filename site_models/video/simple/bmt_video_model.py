@@ -1,9 +1,9 @@
 __author__ = 'Vit'
 
+from base_classes import URL, ControlInfo, UrlList
 from site_models.base_site_model import *
 from site_models.site_parser import SiteParser, ParserRule
-from base_classes import URL, ControlInfo, UrlList
-from setting import Setting
+
 
 class BMTvideoSite(BaseSite):
     def start_button_name(self):
@@ -31,17 +31,17 @@ class BMTvideoSite(BaseSite):
 
         startpage_rule = ParserRule()
         startpage_rule.add_activate_rule_level([('div', 'class', 'contents videos')])
-        startpage_rule.add_process_rule_level('a', {'href','title'})
-        startpage_rule.add_process_rule_level('img', {'src','alt'})
-        startpage_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x,base_url))
-        startpage_rule.set_attribute_modifier_function('src', lambda x: self.get_href(x,base_url))
+        startpage_rule.add_process_rule_level('a', {'href', 'title'})
+        startpage_rule.add_process_rule_level('img', {'src', 'alt'})
+        startpage_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x, base_url))
+        startpage_rule.set_attribute_modifier_function('src', lambda x: self.get_href(x, base_url))
         parser.add_rule(startpage_rule)
 
         startpage_pages_rule = ParserRule()
         startpage_pages_rule.add_activate_rule_level([('div', 'id', 'pagination')])
         # startpage_pages_rule.add_activate_rule_level([('a', 'class', 'current')])
         startpage_pages_rule.add_process_rule_level('a', {'href'})
-        startpage_pages_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x,base_url))
+        startpage_pages_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x, base_url))
         parser.add_rule(startpage_pages_rule)
         #
         video_rule = ParserRule()
@@ -55,15 +55,17 @@ class BMTvideoSite(BaseSite):
         gallery_href_rule.add_activate_rule_level([('div', 'class', 'info_holder')])
         gallery_href_rule.add_activate_rule_level([('div', 'class', 'l')])
         gallery_href_rule.add_process_rule_level('a', {'href'})
-        gallery_href_rule.set_attribute_filter_function('href',lambda x:'/profiles/' not in x)
-        gallery_href_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x,base_url))
+        gallery_href_rule.set_attribute_filter_function('href', lambda x: '/profiles/' not in x)
+        gallery_href_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x, base_url))
         parser.add_rule(gallery_href_rule)
 
         gallery_user_rule = ParserRule()
         gallery_user_rule.add_activate_rule_level([('div', 'class', 'info_holder')])
         gallery_user_rule.add_process_rule_level('a', {'href'})
-        gallery_user_rule.set_attribute_filter_function('href',lambda x:'/profiles/' in x)
-        gallery_user_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x.replace('.html','/videos/'),base_url))
+        gallery_user_rule.set_attribute_filter_function('href', lambda x: '/profiles/' in x)
+        gallery_user_rule.set_attribute_modifier_function('href',
+                                                          lambda x: self.get_href(x.replace('.html', '/videos/'),
+                                                                                  base_url))
         parser.add_rule(gallery_user_rule)
 
         self.proceed_parcing(parser, fname)
@@ -72,15 +74,15 @@ class BMTvideoSite(BaseSite):
 
         if video_rule.is_result():
 
-            urls=UrlList()
+            urls = UrlList()
             for item in video_rule.get_result():
-                file=self.quotes(item['data'],'file:',',').strip(' "')
-                urls.add('default',URL(file+'*'))
+                file = self.quotes(item['data'], 'file:', ',').strip(' "')
+                urls.add('default', URL(file + '*'))
 
             result.set_video(urls.get_media_data())
 
             for f in gallery_user_rule.get_result(['data', 'href']):
-                result.add_control(ControlInfo('"'+f['data'].strip()+'"', URL(f['href'])))
+                result.add_control(ControlInfo('"' + f['data'].strip() + '"', URL(f['href'])))
 
             for f in gallery_href_rule.get_result(['data', 'href']):
                 result.add_control(ControlInfo(f['data'], URL(f['href'])))
@@ -89,7 +91,8 @@ class BMTvideoSite(BaseSite):
 
         if startpage_rule.is_result():
             for item in startpage_rule.get_result(['href']):
-                result.add_thumb(ThumbInfo(thumb_url=URL(item['src']), href=URL(item['href']),description=item.get('alt',item.get('title',''))))
+                result.add_thumb(ThumbInfo(thumb_url=URL(item['src']), href=URL(item['href']),
+                                           description=item.get('alt', item.get('title', ''))))
 
             for item in startpage_pages_rule.get_result(['href', 'data']):
                 result.add_page(ControlInfo(item['data'], URL(item['href'])))
@@ -99,7 +102,3 @@ class BMTvideoSite(BaseSite):
 
 if __name__ == "__main__":
     pass
-
-
-
-

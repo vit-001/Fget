@@ -1,9 +1,9 @@
 __author__ = 'Vit'
 
+from base_classes import URL, ControlInfo, UrlList
 from site_models.base_site_model import *
 from site_models.site_parser import SiteParser, ParserRule
-from base_classes import URL, ControlInfo, UrlList
-from setting import Setting
+
 
 class PSvideoSite(BaseSite):
     def start_button_name(self):
@@ -31,23 +31,23 @@ class PSvideoSite(BaseSite):
 
         startpage_rule = ParserRule()
         startpage_rule.add_activate_rule_level([('div', 'class', 'item  ')])
-        startpage_rule.add_process_rule_level('a', {'href','title'})
-        startpage_rule.add_process_rule_level('img', {'src','alt'})
-        startpage_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x,base_url))
+        startpage_rule.add_process_rule_level('a', {'href', 'title'})
+        startpage_rule.add_process_rule_level('img', {'src', 'alt'})
+        startpage_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x, base_url))
         parser.add_rule(startpage_rule)
 
         startpage_pages_rule = ParserRule()
         startpage_pages_rule.add_activate_rule_level([('div', 'class', 'pagination-holder')])
         # startpage_pages_rule.add_activate_rule_level([('a', 'class', 'current')])
         startpage_pages_rule.add_process_rule_level('a', {'href'})
-        startpage_pages_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x,base_url))
+        startpage_pages_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x, base_url))
         parser.add_rule(startpage_pages_rule)
 
         startpage_hrefs_rule = ParserRule()
         startpage_hrefs_rule.add_activate_rule_level([('ul', 'class', 'list')])
         # startpage_hrefs_rule.add_activate_rule_level([('a', 'class', 'current')])
         startpage_hrefs_rule.add_process_rule_level('a', {'href'})
-        startpage_hrefs_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x,base_url))
+        startpage_hrefs_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x, base_url))
         parser.add_rule(startpage_hrefs_rule)
         #
         video_rule = ParserRule()
@@ -59,7 +59,7 @@ class PSvideoSite(BaseSite):
         gallery_href_rule = ParserRule()
         gallery_href_rule.add_activate_rule_level([('div', 'class', 'item')])
         gallery_href_rule.add_process_rule_level('a', {'href'})
-        gallery_href_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x,base_url))
+        gallery_href_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x, base_url))
         parser.add_rule(gallery_href_rule)
 
         self.proceed_parcing(parser, fname)
@@ -67,10 +67,10 @@ class PSvideoSite(BaseSite):
         result = ParseResult(self)
 
         if video_rule.is_result():
-            urls=UrlList()
+            urls = UrlList()
             for item in video_rule.get_result():
-                file=self.quotes(item['data'].replace(' ', ''),"video_url:'","'")
-                urls.add('default',URL(file))
+                file = self.quotes(item['data'].replace(' ', ''), "video_url:'", "'")
+                urls.add('default', URL(file))
 
             result.set_video(urls.get_media_data())
 
@@ -80,14 +80,15 @@ class PSvideoSite(BaseSite):
 
         if startpage_rule.is_result():
             for item in startpage_rule.get_result(['href']):
-                result.add_thumb(ThumbInfo(thumb_url=URL(item['src']), href=URL(item['href']),description=item.get('alt','')))
+                result.add_thumb(
+                    ThumbInfo(thumb_url=URL(item['src']), href=URL(item['href']), description=item.get('alt', '')))
 
             for item in startpage_pages_rule.get_result(['href', 'data']):
                 result.add_page(ControlInfo(item['data'], URL(item['href'])))
 
             for item in startpage_hrefs_rule.get_result(['href']):
-                href=item['href']
-                label=href.split('/')[-2]
+                href = item['href']
+                label = href.split('/')[-2]
                 # print(label,href)
                 result.add_control(ControlInfo(label, URL(href)))
 
@@ -96,7 +97,3 @@ class PSvideoSite(BaseSite):
 
 if __name__ == "__main__":
     pass
-
-
-
-

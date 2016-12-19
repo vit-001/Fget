@@ -46,11 +46,11 @@ class ProgressLine(Frame):
         self._redraw()
 
     def _redraw(self):
-        if self.max!=0:
+        if self.max != 0:
             x = self.canvas.winfo_width() * self.value // self.max
             x2 = self.canvas.winfo_width() * self.value2 // self.max
         else:
-            x=x2=0
+            x = x2 = 0
         self.canvas.coords(self.rectangle, 0, 0, x, self.height)
         self.canvas.coords(self.rectangle2, 0, 0, x2, self.height)
 

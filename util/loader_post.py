@@ -52,11 +52,11 @@ if __name__ == "__main__":
     for item in r.headers:
         print(item, ':', r.headers[item])
 
+
     def json_chipper(txt=''):
-        t1=txt.replace('\\"',"\0")
-        t2=t1.partition('"content":"')[2].partition('"')[0]
-        return t2.replace('\\/','/').replace('\0','"').replace('>','>\n')
+        t1 = txt.replace('\\"', "\0")
+        t2 = t1.partition('"content":"')[2].partition('"')[0]
+        return t2.replace('\\/', '/').replace('\0', '"').replace('>', '>\n')
+
 
     print(r.text)
-
-

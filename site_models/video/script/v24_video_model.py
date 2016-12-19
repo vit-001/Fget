@@ -1,9 +1,9 @@
 __author__ = 'Vit'
 
+from base_classes import URL, ControlInfo, UrlList
 from site_models.base_site_model import *
 from site_models.site_parser import SiteParser, ParserRule
-from base_classes import URL, ControlInfo, UrlList
-from setting import Setting
+
 
 class V24videoSite(BaseSite):
     def start_button_name(self):
@@ -26,17 +26,17 @@ class V24videoSite(BaseSite):
 
         startpage_rule = ParserRule()
         startpage_rule.add_activate_rule_level([('div', 'class', 'item  ')])
-        startpage_rule.add_process_rule_level('a', {'href','title'})
-        startpage_rule.add_process_rule_level('img', {'data-original','alt'})
-        startpage_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x,base_url))
-        startpage_rule.set_attribute_modifier_function('src', lambda x: self.get_href(x,base_url))
+        startpage_rule.add_process_rule_level('a', {'href', 'title'})
+        startpage_rule.add_process_rule_level('img', {'data-original', 'alt'})
+        startpage_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x, base_url))
+        startpage_rule.set_attribute_modifier_function('src', lambda x: self.get_href(x, base_url))
         parser.add_rule(startpage_rule)
 
         startpage_pages_rule = ParserRule()
         startpage_pages_rule.add_activate_rule_level([('div', 'class', 'pagination-holder')])
         # startpage_pages_rule.add_activate_rule_level([('a', 'class', 'current')])
         startpage_pages_rule.add_process_rule_level('a', {'href'})
-        startpage_pages_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x,base_url))
+        startpage_pages_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x, base_url))
         parser.add_rule(startpage_pages_rule)
 
         video_rule = ParserRule()
@@ -49,7 +49,7 @@ class V24videoSite(BaseSite):
         gallery_href_rule = ParserRule()
         gallery_href_rule.add_activate_rule_level([('div', 'class', 'info')])
         gallery_href_rule.add_process_rule_level('a', {'href'})
-        gallery_href_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x,base_url))
+        gallery_href_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x, base_url))
         parser.add_rule(gallery_href_rule)
 
         self.proceed_parcing(parser, fname)
@@ -58,22 +58,23 @@ class V24videoSite(BaseSite):
 
         if video_rule.is_result():
 
-            urls=UrlList()
+            urls = UrlList()
             for item in video_rule.get_result():
-                flashvars=self.quotes(item['data'].replace(' ','').replace('\n','').replace('\t',''),'flashvars={','};').split(',')
-                fv=dict()
+                flashvars = self.quotes(item['data'].replace(' ', '').replace('\n', '').replace('\t', ''),
+                                        'flashvars={', '};').split(',')
+                fv = dict()
                 for flashvar in flashvars:
-                    split=flashvar.partition(':')
-                    fv[split[0]]=split[2].strip("'\"")
-                files=dict()
+                    split = flashvar.partition(':')
+                    fv[split[0]] = split[2].strip("'\"")
+                files = dict()
                 for f in fv:
-                    if fv[f].startswith('http://') and fv[f].rpartition('.')[2].strip('/')=='mp4':
-                        file=fv[f]
-                        label=fv.get(f+'_text',f)
-                        files[label]=file
+                    if fv[f].startswith('http://') and fv[f].rpartition('.')[2].strip('/') == 'mp4':
+                        file = fv[f]
+                        label = fv.get(f + '_text', f)
+                        files[label] = file
 
-                for key in sorted(files.keys(),reverse=True):
-                    urls.add(key,URL(files[key]))
+                for key in sorted(files.keys(), reverse=True):
+                    urls.add(key, URL(files[key]))
 
             result.set_video(urls.get_media_data())
 
@@ -85,7 +86,8 @@ class V24videoSite(BaseSite):
         if startpage_rule.is_result():
 
             for item in startpage_rule.get_result(['href']):
-                result.add_thumb(ThumbInfo(thumb_url=URL(item['data-original']), href=URL(item['href']),description=item.get('alt',item.get('title',''))))
+                result.add_thumb(ThumbInfo(thumb_url=URL(item['data-original']), href=URL(item['href']),
+                                           description=item.get('alt', item.get('title', ''))))
 
             for item in startpage_pages_rule.get_result(['href', 'data']):
                 result.add_page(ControlInfo(item['data'], URL(item['href'])))
@@ -95,7 +97,3 @@ class V24videoSite(BaseSite):
 
 if __name__ == "__main__":
     pass
-
-
-
-

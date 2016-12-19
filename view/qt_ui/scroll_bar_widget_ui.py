@@ -7,7 +7,8 @@
 #
 # WARNING! All changes made in this file will be lost!
 
-from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5 import QtCore, QtWidgets
+
 
 class Ui_ScrollBarWidget(object):
     def setupUi(self, ScrollBarWidget):
@@ -37,4 +38,3 @@ class Ui_ScrollBarWidget(object):
     def retranslateUi(self, ScrollBarWidget):
         _translate = QtCore.QCoreApplication.translate
         ScrollBarWidget.setWindowTitle(_translate("ScrollBarWidget", "Form"))
-

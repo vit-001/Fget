@@ -7,7 +7,8 @@
 #
 # WARNING! All changes made in this file will be lost!
 
-from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5 import QtCore, QtWidgets
+
 
 class Ui_ConfigDialog(object):
     def setupUi(self, ConfigDialog):
@@ -197,7 +198,8 @@ class Ui_ConfigDialog(object):
         self.verticalLayout_2.addWidget(self.tabs)
         self.buttonBox = QtWidgets.QDialogButtonBox(self.frame)
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
-        self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Apply|QtWidgets.QDialogButtonBox.Close|QtWidgets.QDialogButtonBox.Discard)
+        self.buttonBox.setStandardButtons(
+            QtWidgets.QDialogButtonBox.Apply | QtWidgets.QDialogButtonBox.Close | QtWidgets.QDialogButtonBox.Discard)
         self.buttonBox.setObjectName("buttonBox")
         self.verticalLayout_2.addWidget(self.buttonBox)
         self.verticalLayout.addWidget(self.frame)
@@ -233,4 +235,3 @@ class Ui_ConfigDialog(object):
         self.chk_video_info.setText(_translate("ConfigDialog", "Show video information"))
         self.bn_recompile.setText(_translate("ConfigDialog", "Recompile interfaces"))
         self.tabs.setTabText(self.tabs.indexOf(self.tab_debug), _translate("ConfigDialog", "Debug"))
-

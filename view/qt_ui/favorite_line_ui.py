@@ -7,7 +7,8 @@
 #
 # WARNING! All changes made in this file will be lost!
 
-from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5 import QtCore, QtWidgets
+
 
 class Ui_favorite_line(object):
     def setupUi(self, favorite_line):
@@ -62,4 +63,3 @@ class Ui_favorite_line(object):
         self.bn_add.setText(_translate("favorite_line", "+"))
         self.bn_del.setText(_translate("favorite_line", "-"))
         self.bn_go.setText(_translate("favorite_line", "   GO   "))
-

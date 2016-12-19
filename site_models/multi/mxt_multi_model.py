@@ -2,9 +2,9 @@ __author__ = 'Vit'
 
 from urllib.parse import urlparse
 
+from base_classes import URL, ControlInfo
 from site_models.base_site_model import *
 from site_models.site_parser import SiteParser, ParserRule
-from base_classes import URL, ControlInfo
 
 
 def get_href(txt):
@@ -132,7 +132,3 @@ if __name__ == "__main__":
     # print('http://www.bravoerotica.com/go/torrid-art/')
     # load("http://www.bravoerotica.com/go/torrid-art/", 'e:/out/index.html')
     # model.parse_index_file('e:/out/index.html')
-
-
-
-

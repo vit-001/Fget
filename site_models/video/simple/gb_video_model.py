@@ -1,6 +1,6 @@
 __author__ = 'Vit'
 
-from base_classes import URL, ControlInfo, UrlList
+from base_classes import UrlList
 from site_models.base_site_model import *
 from site_models.site_parser import SiteParser, ParserRule
 
@@ -91,7 +91,8 @@ class GBvideoSite(BaseSite):
             if gallery_user_rule.is_result():
                 username = gallery_user_rule.get_result()[0].get('data', '***')
                 user = gallery_user_rule.get_result()[0]['href'].rstrip('/').rpartition('/')[2]
-                result.add_control(ControlInfo('"' + username + '"', URL('http://gobdsm.com/members/' + user + '/public_videos/')))
+                result.add_control(
+                    ControlInfo('"' + username + '"', URL('http://gobdsm.com/members/' + user + '/public_videos/')))
 
             for f in gallery_href_rule.get_result(['data', 'href']):
                 result.add_control(ControlInfo(f['data'], URL(f['href'])))

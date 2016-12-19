@@ -7,6 +7,7 @@ from site_models.collector.el_model import ELSite
 from site_models.collector.xxp_model import XXPSite
 from site_models.multi.mxt_multi_model import MXTmultiSite
 from site_models.other.dude_model import DudeSite
+from site_models.other.space_model import SpaceSite
 from site_models.simple.bas_model import BASSite
 from site_models.simple.be_nest.be_nest import BENest
 from site_models.simple.cc_model import CCSite
@@ -24,6 +25,7 @@ from site_models.simple.top_model import TOPSite
 from site_models.simple.tp_model import TPSite
 from site_models.simple.vp_nest.vp_nest import VPNest
 from site_models.simple.xuk_model import XUKSite
+from site_models.video.ajax.ext_video_model import EXTvideoSite
 from site_models.video.ajax.pdg_video_model import PDGvideoSite
 from site_models.video.nfl_video_model import NFLvideoSite
 from site_models.video.pd_video_model import PDvideoSite
@@ -59,8 +61,6 @@ from site_models.video.t8_video_model import T8videoSite
 from site_models.video.tz_video_model import TZvideoSite
 from site_models.video.vp_video_model import VPvideoSite
 from site_models.video.wmgf_video_model import WMGFvideoSite
-from site_models.video.ajax.ext_video_model import EXTvideoSite
-
 
 
 class SiteVewerModel(AbstractModel):
@@ -68,46 +68,59 @@ class SiteVewerModel(AbstractModel):
         self.controller = controller
         self.debug = Setting.model_debug
         self.models = [
-            #work on
-            EXTvideoSite(self),
+            # work on
 
+
+
+
+
+
+            # classic
+            SpaceSite(self, text='Classic:'),
             HDEPvideoSite(self),
-
-
-
-            #classic
-            YPvideoSite(self), SXXvideoSite(self),PDGvideoSite(self), NFLvideoSite(self),V24videoSite(self),
-            PCvideoSite(self),CBPvideoSite(self), PXvideoSite(self), RTvideoSite(self),CLSvideoSite(self),
-            VERvideoSite(self),PBZvideoSite(self),
-            T8videoSite(self),BMTvideoSite(self),
+            YPvideoSite(self), SXXvideoSite(self), PDGvideoSite(self), NFLvideoSite(self), V24videoSite(self),
+            PCvideoSite(self), CBPvideoSite(self), PXvideoSite(self), RTvideoSite(self), CLSvideoSite(self),
+            VERvideoSite(self), PBZvideoSite(self),
+            T8videoSite(self), BMTvideoSite(self),
             PTvideoSite(self), VPvideoSite(self), NLvideoSite(self), TZvideoSite(self), SKWvideoSite(self),
-            PHDvideoSite(self),TSPvideoSite(self),DFPvideoSite(self),
+            PHDvideoSite(self), TSPvideoSite(self), DFPvideoSite(self),
             H69videoSite(self),
 
             # amateur
-            MLvideoSite(self), WMGFvideoSite(self), PFUNvideoSite(self),PBvideoSite(self),
+            SpaceSite(self, text='Amateur:'),
+            MLvideoSite(self), WMGFvideoSite(self), PFUNvideoSite(self), PBvideoSite(self),
+
             # s/m
-            SMvideoSite(self), GBvideoSite(self),
+            SpaceSite(self, text='Deviant:'),
+            SMvideoSite(self), GBvideoSite(self), EXTvideoSite(self),
+
             # deviant
-            HRvideoSite(self), DCvideoSite(self),PSvideoSite(self),
+            HRvideoSite(self), DCvideoSite(self), PSvideoSite(self),
+
             # short video
+            SpaceSite(self, text='Short:'),
             PDvideoSite(self),
+
             # photo archive
-            BENest(self), VPNest(self), FKSite(self), MXTmultiSite(self),TOPSite(self),
-            TMASite(self), BASSite(self),DSBSite(self),TPSite(self), LISite(self), FATSite(self),
+            SpaceSite(self, text='Photo:'),
+            BENest(self), VPNest(self), FKSite(self), MXTmultiSite(self), TOPSite(self),
+            TMASite(self), BASSite(self), DSBSite(self), TPSite(self), LISite(self), FATSite(self),
             FPSite(self), HXPSite(self), LENSSite(self), DTSite(self),
             DSUSite(self), XUKSite(self), ELSite(self), CCSite(self),
+
             # bad, temporally unworked etc
+            SpaceSite(self, text='Non working:'),
             XXPSite(self),
-            P4KvideoSite(self), #unstable
+            P4KvideoSite(self),  # unstable
 
             # info
+            SpaceSite(self, text='Info:'),
             DudeSite(self),
-            ]
+        ]
 
         if Setting.show_sites:
             print('Sites:')
-            sites_list=list()
+            sites_list = list()
             for item in self.models:
                 sites_list.append(item.startpage().__str__())
             for item in sorted(sites_list):
@@ -163,7 +176,7 @@ class SiteVewerModel(AbstractModel):
 
         if result.is_video():
             if self.debug: print('Generating video view')
-            self.controller.show_video_view(url,result.get_video(),result.controls)
+            self.controller.show_video_view(url, result.get_video(), result.controls)
 
     def generate_thumb_view(self, url=URL(), thumb_list=ParseResult()):
         thumbs = []
@@ -189,7 +202,7 @@ class SiteVewerModel(AbstractModel):
             print('Accepted     ', accepted)
             print('Rejected     ', rejected)
             for item in self.domains:
-                message='  {0} in domain {1}'.format(self.domains[item],item)
+                message = '  {0} in domain {1}'.format(self.domains[item], item)
                 print(message)
                 self.controller.show_status(message)
             print()
@@ -200,4 +213,3 @@ class SiteVewerModel(AbstractModel):
                                         thumbs=thumbs,
                                         sites=thumb_list.sites,
                                         caption_visible=thumb_list.caption_visible)
-

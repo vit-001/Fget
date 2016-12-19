@@ -1,8 +1,8 @@
 __author__ = 'Vit'
 
 import os
-from urllib.request import URLError, HTTPError, urlretrieve, urlopen
 from multiprocessing import Process, Queue, Event
+from urllib.request import URLError, HTTPError, urlretrieve, urlopen
 
 from base_classes import URL
 
@@ -210,5 +210,3 @@ class Loader():
 
 if __name__ == "__main__":
     pass
-
-

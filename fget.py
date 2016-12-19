@@ -1,6 +1,5 @@
 __author__ = 'Nikitin'
 
-
 if __name__ == "__main__":
 
     from model import SiteVewerModel
@@ -10,19 +9,19 @@ if __name__ == "__main__":
     from controller import Controller
     from setting import Setting
 
-    setting_file=Setting.setting_file #default config
+    setting_file = Setting.setting_file  # default config
 
     for item in sys.argv[1:]:
         if item.startswith('-setting='):
-            setting_file=item.partition('=')[2]
-            Setting.setting_file=setting_file
+            setting_file = item.partition('=')[2]
+            Setting.setting_file = setting_file
         elif item.startswith('-info'):
-            Setting.show_sites=True
+            Setting.show_sites = True
         else:
-            print('Unknown argument:',item,', ignoring')
+            print('Unknown argument:', item, ', ignoring')
 
     try:
-        file=open(setting_file)
+        file = open(setting_file)
         Setting.load_setting(file)
         file.close()
     except OSError:
@@ -39,9 +38,8 @@ if __name__ == "__main__":
     print('http://www.gotporn.com/', 'verifyed')
     print("Let's go..")
 
-
     from PyQt5.QtWidgets import QApplication
 
     app = QApplication(sys.argv)
-    controller=Controller(QTViewManager,SiteVewerModel)
+    controller = Controller(QTViewManager, SiteVewerModel)
     sys.exit(app.exec_())

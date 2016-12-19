@@ -1,9 +1,9 @@
 __author__ = 'Vit'
 
+from base_classes import URL, ControlInfo
 from site_models.base_site_model import *
 from site_models.site_parser import SiteParser, ParserRule
-from base_classes import URL, ControlInfo
-from setting import Setting
+
 
 class T8videoSite(BaseSite):
     def start_button_name(self):
@@ -69,7 +69,7 @@ class T8videoSite(BaseSite):
 
         gallery_href_rule = ParserRule()
         gallery_href_rule.add_activate_rule_level([('li', 'class', 'tag-list'),
-                                                   ('li','class','video-category')])
+                                                   ('li', 'class', 'video-category')])
         gallery_href_rule.add_process_rule_level('a', {'href'})
         # gallery_href_rule.set_attribute_modifier_function('href', lambda x: base_url.domain() + x + '*')
         parser.add_rule(gallery_href_rule)
@@ -77,7 +77,7 @@ class T8videoSite(BaseSite):
         gallery_user_rule = ParserRule()
         gallery_user_rule.add_activate_rule_level([('span', 'id', 'videoUsername')])
         gallery_user_rule.add_process_rule_level('a', {'href'})
-        gallery_user_rule.set_attribute_modifier_function('href', lambda x: x.replace('/user/','/user-videos/'))
+        gallery_user_rule.set_attribute_modifier_function('href', lambda x: x.replace('/user/', '/user-videos/'))
         parser.add_rule(gallery_user_rule)
 
         self.proceed_parcing(parser, fname)
@@ -85,8 +85,8 @@ class T8videoSite(BaseSite):
         result = ParseResult(self)
 
         if len(video_rule.get_result()) > 0:
-            script = video_rule.get_result()[0]['data'].replace(' ','').replace('\\','')
-            flashvars=script.partition('flashvars={')[2].partition('};')[0]
+            script = video_rule.get_result()[0]['data'].replace(' ', '').replace('\\', '')
+            flashvars = script.partition('flashvars={')[2].partition('};')[0]
             # print(flashvars)
 
             # def parce(txt):
@@ -95,18 +95,18 @@ class T8videoSite(BaseSite):
             #     print(label,file)
             #     return dict(text=label, url=URL(file + '*'))
 
-            urls=list()
+            urls = list()
 
             while '"quality_' in flashvars:
-                nxt=flashvars.partition('"quality_')[2]
+                nxt = flashvars.partition('"quality_')[2]
 
-                t=nxt.partition('":"')
-                label=t[0]
-                file=t[2].partition('",')[0]
+                t = nxt.partition('":"')
+                label = t[0]
+                file = t[2].partition('",')[0]
                 # print (label, file)
                 if file.startswith('http://'):
                     urls.append(dict(text=label, url=URL(file + '*')))
-                flashvars=nxt
+                flashvars = nxt
 
             # print(urls)
 
@@ -123,7 +123,7 @@ class T8videoSite(BaseSite):
             result.set_video(video)
 
             for f in gallery_user_rule.get_result(['data', 'href']):
-                username='"'+f['href'].split('/')[-2]+'"'
+                username = '"' + f['href'].split('/')[-2] + '"'
                 result.add_control(ControlInfo(username, URL(f['href'])))
 
             for f in gallery_href_rule.get_result(['data', 'href']):
@@ -134,11 +134,11 @@ class T8videoSite(BaseSite):
             result.set_type('hrefs')
 
             for item in startpage_rule.get_result(['href']):
-                result.add_thumb(ThumbInfo(thumb_url=URL(item['src']), href=URL(item['href']),description=item.get('alt','')))
+                result.add_thumb(
+                    ThumbInfo(thumb_url=URL(item['src']), href=URL(item['href']), description=item.get('alt', '')))
 
             for item in startpage_pages_rule.get_result(['href', 'data']):
                 result.add_page(ControlInfo(item['data'], URL(item['href'])))
-
 
             for item in startpage_hrefs_rule.get_result(['href', 'data']):
                 result.add_control(ControlInfo(item['data'], URL(item['href'])))
@@ -148,7 +148,3 @@ class T8videoSite(BaseSite):
 
 if __name__ == "__main__":
     pass
-
-
-
-

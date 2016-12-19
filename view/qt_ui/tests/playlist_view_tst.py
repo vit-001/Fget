@@ -1,27 +1,20 @@
 __author__ = 'Nikitin'
 
-import os
-
-from PyQt5.QtWidgets import *
-from PyQt5 import QtCore
-from PyQt5.QtMultimedia import QMediaContent, QMediaPlayer
 from PyQt5.QtGui import QPixmap, QIcon
+from PyQt5.QtWidgets import *
 
+from base_classes import AbstractPlaylistView
+from setting import Setting
 from view.qt_ui.playlist_tst_ui import Ui_Playlist
 
-from view.qt_widget.qt_dialog_base import DialogBase
 
-from base_classes import AbstractPlaylistView,ControllerFromViewInterface
-from setting import Setting
-from playlist import PlaylistEntry
-
-class QTPlaylistView(QMainWindow,AbstractPlaylistView):
+class QTPlaylistView(QMainWindow, AbstractPlaylistView):
     def __init__(self, parent=None):
-        QMainWindow.__init__(self)#, parent,QtCore.Qt.Tool | QtCore.Qt.WindowStaysOnTopHint)
-        Setting.desktop=QApplication.desktop().screenGeometry()
-        self.ui=Ui_Playlist()
+        QMainWindow.__init__(self)  # , parent,QtCore.Qt.Tool | QtCore.Qt.WindowStaysOnTopHint)
+        Setting.desktop = QApplication.desktop().screenGeometry()
+        self.ui = Ui_Playlist()
 
-        savecwd=os.getcwd()
+        savecwd = os.getcwd()
         os.chdir('../../ui')
         self.ui.setupUi(self)
         os.chdir(savecwd)
@@ -33,7 +26,7 @@ class QTPlaylistView(QMainWindow,AbstractPlaylistView):
         self.binding()
         # self.load_playlist()
 
-        self.small=False
+        self.small = False
         self.ui.bn_size.setIcon(QIcon(QPixmap('../../qt_ui/files/icons/basic-application/minimize3.png')))
         # self.set_small_view(self.small)
 
@@ -43,7 +36,6 @@ class QTPlaylistView(QMainWindow,AbstractPlaylistView):
         # self.ui.bn_next.clicked.connect(self.on_next_clicked)
         # self.ui.bn_prev.clicked.connect(self.on_prev_clicked)
         self.ui.bn_size.clicked.connect(self.toggle_small_view)
-
 
     # def load_playlist(self):
     #     for item in self.playlist.list:
@@ -84,14 +76,14 @@ class QTPlaylistView(QMainWindow,AbstractPlaylistView):
         self.small = not self.small
         self.set_small_view(self.small)
 
-    def set_small_view(self,small=True):
+    def set_small_view(self, small=True):
         if small:
             self.ui.mid_frame.hide()
             self.ui.top_frame.hide()
             self.up
             self.ui.bn_size.setIcon(QIcon(QPixmap('../../qt_ui/files/icons/basic-application/maximize.png')))
-            self.saved_geometry=self.saveGeometry()
-            self.setGeometry(100,100,0,0)
+            self.saved_geometry = self.saveGeometry()
+            self.setGeometry(100, 100, 0, 0)
             # self.resize(0,0)
             self.setWindowOpacity(1)
             # self.setWindowFlags(QtCore.Qt.FramelessWindowHint | QtCore.Qt.WindowStaysOnTopHint)
@@ -105,50 +97,50 @@ class QTPlaylistView(QMainWindow,AbstractPlaylistView):
             # self.setWindowFlags(QtCore.Qt.Window | QtCore.Qt.WindowStaysOnTopHint)
             self.show()
 
-        # self.setGeometry(Setting.playlist_geometry(small))
-
+            # self.setGeometry(Setting.playlist_geometry(small))
 
 
 import os
 
+
 class InterfaceCompiler():
-    def __init__(self,test_compile=False):
+    def __init__(self, test_compile=False):
 
-        self.test_compile=test_compile
+        self.test_compile = test_compile
 
-        self.interfaces=['playlist_tst_ui']
+        self.interfaces = ['playlist_tst_ui']
 
-        self.test_interfaces=[]
+        self.test_interfaces = []
 
         if self.test_compile:
             self.interfaces.extend(self.test_interfaces)
 
-        self.base_dir='E:/Dropbox/Hobby/PRG/PyWork/FGet'
-        self.source_dir=self.base_dir+'/view/ui/'
-        self.dest_dir=self.base_dir+'/view/qt_ui/'
+        self.base_dir = 'E:/Dropbox/Hobby/PRG/PyWork/FGet'
+        self.source_dir = self.base_dir + '/view/ui/'
+        self.dest_dir = self.base_dir + '/view/qt_ui/'
 
-        self.pyuic5='C:/Python34/Lib/site-packages/PyQt5/pyuic5.bat '
-
+        self.pyuic5 = 'C:/Python34/Lib/site-packages/PyQt5/pyuic5.bat '
 
     def compile_interfaces(self):
 
         for fname in self.interfaces:
-            source=self.source_dir+fname+'.ui'
-            dest=self.dest_dir+fname+'.py'
-            command=self.pyuic5+source+' -o '+dest
+            source = self.source_dir + fname + '.ui'
+            dest = self.dest_dir + fname + '.py'
+            command = self.pyuic5 + source + ' -o ' + dest
             print(command)
             os.system(command)
 
     def run_all(self):
         for fname in self.interfaces:
-            os.system('C:/Python34/pythonw '+self.dest_dir+'tests/'+fname+'_tst.py')
+            os.system('C:/Python34/pythonw ' + self.dest_dir + 'tests/' + fname + '_tst.py')
 
 
 if __name__ == "__main__":
-    ic=InterfaceCompiler()
+    ic = InterfaceCompiler()
     ic.compile_interfaces()
 
     import sys
+
     app = QApplication(sys.argv)
     myapp = QTPlaylistView()
     myapp.show()

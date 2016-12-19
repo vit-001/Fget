@@ -1,8 +1,9 @@
 from PyQt5 import QtCore
 from PyQt5.QtWidgets import QMainWindow, QAction, QMenu
+
 from base_classes import AbstractViewManager
-from view.qt_ui.tool_box_ui import Ui_ToolBox
 from view.qt_fav_change_dlg import FavoriteChangeDialog
+from view.qt_ui.tool_box_ui import Ui_ToolBox
 
 __author__ = 'Vit'
 
@@ -10,14 +11,14 @@ __author__ = 'Vit'
 class ToolBox(QMainWindow):
     def __init__(self, parent=None, view_manager=AbstractViewManager):
         QMainWindow.__init__(self, parent)
-        self.manager=view_manager
+        self.manager = view_manager
         self.controller = view_manager.get_controller()
         self.favorites = self.controller.get_favorites()
         self.favorites.add_listener(self.on_fav_changed)
         self.ui = Ui_ToolBox()
         self.ui.setupUi(self)
         self.setWindowFlags(QtCore.Qt.Tool | QtCore.Qt.WindowStaysOnTopHint)
-        self.edit=None
+        self.edit = None
 
         self.move(40, 985)
         self.bind_all()
@@ -66,10 +67,10 @@ class ToolBox(QMainWindow):
         # self.edit.addAction(self.panic_action)
         self.edit.show()
 
-    def on_fav_changed(self,record):
+    def on_fav_changed(self, record):
         if record is None:
-            save_cat_index=self.ui.combo_category.currentIndex()
-            save_url_index=self.ui.combo_url.currentIndex()
+            save_cat_index = self.ui.combo_category.currentIndex()
+            save_url_index = self.ui.combo_url.currentIndex()
 
             self.category_combo_load()
             self.ui.combo_category.setCurrentIndex(save_cat_index)
@@ -105,7 +106,7 @@ class ToolBox(QMainWindow):
                 self.ui.combo_url.addItem(item.combo_view)
                 self.curr_urls.append(item)
 
-    def url_filter(self,item):
+    def url_filter(self, item):
         if self.action_thumb_filter.isChecked():
             if item.is_thumb(): return True
         if self.action_pix_filter.isChecked():
@@ -116,8 +117,4 @@ class ToolBox(QMainWindow):
 
     def addAction(self, action):
         super().addAction(action)
-        self.panic_action=action
-
-
-
-
+        self.panic_action = action

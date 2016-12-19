@@ -1,11 +1,9 @@
 __author__ = 'Nikitin'
 
 from PyQt5.QtWidgets import *
-from PyQt5 import QtCore
 from PyQt5.QtWidgets import QDialog
 
 from base_classes import AbstractViewManager
-
 from setting import Setting
 from view.qt_ui.setting_ui import Ui_ConfigDialog
 
@@ -22,7 +20,6 @@ class ConfigDialog(QDialog):
 
         self.load_setting()
         self.binding()
-
 
     def load_setting(self):
         self.ui.chk_controller_debug.setChecked(Setting.controller_debug)
@@ -44,9 +41,9 @@ class ConfigDialog(QDialog):
 
         self.ui.chk_download_simultaneously.setChecked(Setting.download_simultaneously)
 
-        if Setting.download_method=='uget':
+        if Setting.download_method == 'uget':
             self.ui.radio_use_uget.setChecked(True)
-        elif Setting.download_method=='server':
+        elif Setting.download_method == 'server':
             self.ui.radio_use_dropbox.setChecked(True)
 
     def binding(self):
@@ -71,7 +68,6 @@ class ConfigDialog(QDialog):
         self.ui.bn_exchange_folder.clicked.connect(lambda: self.ui.input_exchange_folder.setText(
             QFileDialog.getExistingDirectory(self, 'Server exchange folder', self.ui.input_exchange_folder.text())))
 
-
         self.ui.bn_recompile.clicked.connect(self.manager.recompile_interfaces)
         self.ui.bn_download_now.clicked.connect(self.manager.get_controller().download_now)
 
@@ -85,24 +81,21 @@ class ConfigDialog(QDialog):
         Setting.statistic = self.ui.chk_statistic.isChecked()
         Setting.video_info = self.ui.chk_video_info.isChecked()
 
-        Setting.fav_filename=self.ui.input_fav_file.text()
-        Setting.playlist_filename=self.ui.input_playlist_file.text()
-        Setting.base_dir=self.ui.input_base_folder.text().rstrip('/')+'/'
-        Setting.download_dir=self.ui.input_dest_folder.text().rstrip('/')+'/'
-        Setting.uget_path=self.ui.input_uget_folder.text().rstrip('/')+'/'
-        Setting.exchange_path=self.ui.input_exchange_folder.text().rstrip('/')+'/'
+        Setting.fav_filename = self.ui.input_fav_file.text()
+        Setting.playlist_filename = self.ui.input_playlist_file.text()
+        Setting.base_dir = self.ui.input_base_folder.text().rstrip('/') + '/'
+        Setting.download_dir = self.ui.input_dest_folder.text().rstrip('/') + '/'
+        Setting.uget_path = self.ui.input_uget_folder.text().rstrip('/') + '/'
+        Setting.exchange_path = self.ui.input_exchange_folder.text().rstrip('/') + '/'
 
-        Setting.download_simultaneously=self.ui.chk_download_simultaneously.isChecked()
+        Setting.download_simultaneously = self.ui.chk_download_simultaneously.isChecked()
 
         if self.ui.radio_use_uget.isChecked():
-            Setting.download_method="uget"
+            Setting.download_method = "uget"
         elif self.ui.radio_use_dropbox.isChecked():
-            Setting.download_method='server'
+            Setting.download_method = 'server'
 
     def accept(self):
         if Setting.view_debug: print('ConfigDialog: Accept')
         self.save_setting()
         super().accept()
-
-
-

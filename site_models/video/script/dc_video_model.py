@@ -1,12 +1,12 @@
 __author__ = 'Vit'
 
-from site_models.base_site_model import *
-from site_models.site_parser import SiteParser, ParserRule
-from base_classes import URL, ControlInfo, UrlList
-from setting import Setting
 import urllib.parse as up
 
 import site_models.util as util
+from base_classes import URL, ControlInfo, UrlList
+from setting import Setting
+from site_models.base_site_model import *
+from site_models.site_parser import SiteParser, ParserRule
 
 
 class DCvideoSite(BaseSite):
@@ -32,15 +32,15 @@ class DCvideoSite(BaseSite):
         return base_url.contain('deviantclip.com/')
 
     def get_href(self, txt='', base_url=URL()):
-        txt=txt.strip()
+        txt = txt.strip()
         if not txt.endswith('/'):
-            txt=txt+"*"
+            txt = txt + "*"
         if txt.startswith('http://'):
             return txt
         if txt.startswith('/'):
             return base_url.domain() + txt
         # print(base_url.get() + txt)
-        return base_url.get().rpartition('/')[0]+'/' + txt
+        return base_url.get().rpartition('/')[0] + '/' + txt
 
     def parse_index_file(self, fname, base_url=URL()):
         parser = SiteParser()
@@ -48,30 +48,30 @@ class DCvideoSite(BaseSite):
         startpage_rule = ParserRule()
         startpage_rule.add_activate_rule_level([('span', 'class', 'thumb_container_box short'),
                                                 ('span', 'class', 'thumb_container_box long')])
-        startpage_rule.add_process_rule_level('a', {'href','title'})
+        startpage_rule.add_process_rule_level('a', {'href', 'title'})
         startpage_rule.add_process_rule_level('img', {'src'})
-        startpage_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x,base_url) )
+        startpage_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x, base_url))
         parser.add_rule(startpage_rule)
 
         startpage_pages_rule = ParserRule()
         startpage_pages_rule.add_activate_rule_level([('div', 'class', 'main-sectionpaging')])
         # startpage_pages_rule.add_activate_rule_level([('a', 'class', 'current')])
         startpage_pages_rule.add_process_rule_level('a', {'href'})
-        startpage_pages_rule.set_attribute_modifier_function('href', lambda x: util.get_href(x,base_url))
+        startpage_pages_rule.set_attribute_modifier_function('href', lambda x: util.get_href(x, base_url))
         parser.add_rule(startpage_pages_rule)
 
         startpage_hrefs_rule = ParserRule()
         startpage_hrefs_rule.add_activate_rule_level([('ul', 'class', 'simple-list simple-list--channels')])
         # startpage_hrefs_rule.add_activate_rule_level([('a', 'class', 'current')])
-        startpage_hrefs_rule.add_process_rule_level('a', {'href','title'})
+        startpage_hrefs_rule.add_process_rule_level('a', {'href', 'title'})
         # startpage_hrefs_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x,base_url) + '*')
         parser.add_rule(startpage_hrefs_rule)
         #
         video_rule = ParserRule()
         video_rule.add_activate_rule_level([('video', '', '')])
-        video_rule.add_process_rule_level('source', {'src','id'})
+        video_rule.add_process_rule_level('source', {'src', 'id'})
         # video_rule.set_attribute_filter_function('data', lambda text: 'jwplayer' in text)
-        video_rule.set_attribute_modifier_function('src',lambda txt:txt+'*')
+        video_rule.set_attribute_modifier_function('src', lambda txt: txt + '*')
         parser.add_rule(video_rule)
 
         video_script_rule = ParserRule()
@@ -81,19 +81,19 @@ class DCvideoSite(BaseSite):
         # video_script_rule.set_attribute_modifier_function('src',lambda txt:txt+'*')
         parser.add_rule(video_script_rule)
 
-        gallery_rule=ParserRule()
+        gallery_rule = ParserRule()
         gallery_rule.add_activate_rule_level([('div', 'id', 'slideshow')])
         gallery_rule.add_process_rule_level('a', {'index'})
         gallery_rule.add_process_rule_level('img', {'src'})
         # video_rule.set_attribute_filter_function('data', lambda text: 'jwplayer' in text)
-        gallery_rule.set_attribute_modifier_function('src',lambda txt:txt.replace('/thumbs/','/'))
+        gallery_rule.set_attribute_modifier_function('src', lambda txt: txt.replace('/thumbs/', '/'))
         parser.add_rule(gallery_rule)
 
         #
         gallery_href_rule = ParserRule()
         gallery_href_rule.add_activate_rule_level([('div', 'class', 'added')])
         gallery_href_rule.add_process_rule_level('a', {'href'})
-        gallery_href_rule.set_attribute_modifier_function('href', lambda x: util.get_href(x,base_url))
+        gallery_href_rule.set_attribute_modifier_function('href', lambda x: util.get_href(x, base_url))
         parser.add_rule(gallery_href_rule)
 
         self.proceed_parcing(parser, fname)
@@ -101,12 +101,12 @@ class DCvideoSite(BaseSite):
         result = ParseResult(self)
 
         if video_script_rule.is_result() or video_rule.is_result():
-            files=set()
+            files = set()
             default_vid = None
 
             for item in video_script_rule.get_result():
                 script = item['data'].replace(' ', '')
-                streams = up.unquote(self.quotes(script,'"streams":[',']'))
+                streams = up.unquote(self.quotes(script, '"streams":[', ']'))
                 while '"file":"' in streams:
                     split = streams.partition('"file":"')[2].partition('"')
                     streams = split[2]
@@ -117,7 +117,7 @@ class DCvideoSite(BaseSite):
                 if 'id' not in item:
                     default_vid = item['src']
 
-            if len(files)==0:
+            if len(files) == 0:
                 return result
 
             if default_vid is None:
@@ -126,54 +126,50 @@ class DCvideoSite(BaseSite):
                 files.discard(default_vid)
 
             urls = UrlList()
-            urls.add('Default',URL(default_vid))
+            urls.add('Default', URL(default_vid))
             for item in files:
-                urls.add(item[-5:-1],URL(item))
+                urls.add(item[-5:-1], URL(item))
 
             result.set_video(urls.get_media_data())
 
             for f in gallery_href_rule.get_result(['href']):
-                label=f['data'].strip()
+                label = f['data'].strip()
                 result.add_control(ControlInfo(label, URL(f['href'])))
 
             return result
 
-
         if gallery_rule.is_result():
             result.set_type('pictures')
-            url=URL(gallery_rule.get_result()[0]['src']+'*')
-            base_dir=url.get_path(base=Setting.base_dir)
+            url = URL(gallery_rule.get_result()[0]['src'] + '*')
+            base_dir = url.get_path(base=Setting.base_dir)
             result.set_gallery_path(base_dir)
             for f in gallery_rule.get_result():
-                fname=int(f['index'])
+                fname = int(f['index'])
                 # print(fname)
-                picture=FullPictureInfo(abs_href=URL(f['src']+'*'), rel_name='pic{0:03d}.jpg'.format(fname))
+                picture = FullPictureInfo(abs_href=URL(f['src'] + '*'), rel_name='pic{0:03d}.jpg'.format(fname))
                 picture.set_base(base_dir)
                 result.add_full(picture)
 
             for f in gallery_href_rule.get_result(['href']):
-                label=f['data'].strip()
+                label = f['data'].strip()
                 result.add_control(ControlInfo(label, URL(f['href'])))
 
             return result
 
-        if startpage_rule.is_result(): #len(startpage_rule.get_result()) > 0:
+        if startpage_rule.is_result():  # len(startpage_rule.get_result()) > 0:
             for item in startpage_rule.get_result(['href']):
-                result.add_thumb(ThumbInfo(thumb_url=URL(item['src']), href=URL(item['href']),description=item.get('title','')))
+                result.add_thumb(
+                    ThumbInfo(thumb_url=URL(item['src']), href=URL(item['href']), description=item.get('title', '')))
 
             for item in startpage_pages_rule.get_result(['href', 'data']):
                 result.add_page(ControlInfo(item['data'], URL(item['href'])))
 
             if len(startpage_hrefs_rule.get_result(['href'])) > 0:
                 for item in startpage_hrefs_rule.get_result(['href', 'data']):
-                    result.add_control(ControlInfo(item.get('title',item.get('data','')), URL(item['href'])))
+                    result.add_control(ControlInfo(item.get('title', item.get('data', '')), URL(item['href'])))
 
         return result
 
 
 if __name__ == "__main__":
     pass
-
-
-
-
