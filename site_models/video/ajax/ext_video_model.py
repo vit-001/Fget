@@ -147,7 +147,8 @@ class EXTvideoSite(BaseSite):
 
             xhr_data = {'base_url': base_url}
 
-            next_url = URL(base_url.get()+'?format=json&number_pages=1&page=2*', xhr_data=xhr_data)
+            next_url = URL(base_url.get()+'*', xhr_data=xhr_data)#+'?format=json&number_pages=1&page=2*'
+            next_url.add_query([('format','json'),('number_pages','1'),('page','2')])
             result.add_page(ControlInfo('next', next_url))
 
         return result

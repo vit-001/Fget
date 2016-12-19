@@ -1,6 +1,7 @@
 __author__ = 'Vit'
 
-from urllib.parse import urlparse
+from urllib.parse import urlparse,urlsplit
+import urllib.parse as up
 # from favorites import FavoritesNEW
 
 
@@ -50,6 +51,30 @@ class URL():
 
     def contain(self, text=''):
         return text in self.url
+
+    def add_query(self,pair_list):
+        split=up.urlsplit(self.url)
+        qs=up.parse_qs(split[3]).keys()
+        qsl=up.parse_qsl(split[3])
+
+        added=set()
+        for (add_name,add_value) in pair_list:
+            if add_name not in qs:
+                added.add(add_name)
+
+        new_qsl=list()
+        for (name,value) in qsl:
+            for (add_name,add_value) in pair_list:
+                if add_name==name:
+                    value=add_value
+            new_qsl.append(tuple([name,value]))
+        for (add_name,add_value) in pair_list:
+            if add_name in added:
+                new_qsl.append(tuple([add_name, add_value]))
+
+        new_query=up.urlencode(new_qsl)
+        self.url=up.urlunsplit(up.SplitResult(scheme=split[0],netloc=split[1],path=split[2],query=new_query,fragment=split[4]))
+
 
     def to_save(self):
         if self.no_slash:
@@ -236,4 +261,7 @@ class AbstractController(ControllerFromViewInterface, ControllerFromModelInterfa
 
 
 if __name__ == "__main__":
-    pass
+    url=URL('http://www.extremetube.com/videos?format=json&number_pages=1&page=2*')
+    print(url.get())
+    url.add_query([('qqq','1'),('page','5')])
+    print(url.get())

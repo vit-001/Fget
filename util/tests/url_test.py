@@ -18,5 +18,6 @@ print(up.urlencode(qp))
 
 print(up.urlunsplit(p))
 
+print(up.unquote(up.urlencode({'page': ['2'], 'format': ['json'], 'number_pages': ['1']})))
 
 #http://www.extremetube.com/videos?format=%5B%27json%27%5D&number_pages=%5B%271%27%5D&page=%5B%272%27%5D
