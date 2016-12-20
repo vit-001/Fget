@@ -244,7 +244,7 @@ class AbstractViewManager():
 
     def get_video_view(self): return AbstractVideoView()
 
-    def get_controller(self): return ControllerFromViewInterface()
+    def get_controller(self): return PresenterFromViewInterface()
 
     def toggle_tool_view(self): pass
 
@@ -265,7 +265,7 @@ class AbstractViewManager():
     def show_status(self, txt=''): pass
 
 
-class ControllerFromViewInterface():
+class PresenterFromViewInterface():
     def back(self): pass
 
     def goto_url(self, url=URL()): pass
@@ -287,7 +287,7 @@ class ControllerFromViewInterface():
     def on_exit(self): pass
 
 
-class ControllerFromModelInterface():
+class PresenterFromModelInterface():
     def add_cycle_handler(self, handler=lambda: None): pass
 
     def add_startpage(self, control_info): pass
@@ -304,7 +304,7 @@ class ControllerFromModelInterface():
     def show_status(self, txt=''): pass
 
 
-class AbstractController(ControllerFromViewInterface, ControllerFromModelInterface):
+class AbstractPresenter(PresenterFromViewInterface, PresenterFromModelInterface):
     pass
 
 

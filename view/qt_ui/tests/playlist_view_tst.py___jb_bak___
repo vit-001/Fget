@@ -11,7 +11,7 @@ from view.qt_ui.playlist_tst_ui import Ui_Playlist
 
 from view.qt_widget.qt_dialog_base import DialogBase
 
-from base_classes import AbstractPlaylistView,ControllerFromViewInterface
+from base_classes import AbstractPlaylistView,PresenterFromViewInterface
 from setting import Setting
 from playlist import PlaylistEntry
 

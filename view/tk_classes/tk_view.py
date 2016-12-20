@@ -4,7 +4,7 @@ from tkinter import *
 from tkinter.messagebox import askokcancel
 from tkinter.ttk import *
 
-from base_classes import ControllerFromViewInterface, AbstractPictureView, AbstractThumbView, URL
+from base_classes import PresenterFromViewInterface, AbstractPictureView, AbstractThumbView, URL
 from view.tk_classes.widgets.button_line import HScrolledButtonLine
 from view.tk_classes.widgets.dir_viewer import DirViewer
 from view.tk_classes.widgets.progress_line import ProgressLine
@@ -38,7 +38,7 @@ class HistoryCombobox(Combobox):
 
 
 class ThumbViewer(Tk, AbstractThumbView):
-    def __init__(self, controller=ControllerFromViewInterface()):
+    def __init__(self, controller=PresenterFromViewInterface()):
         Tk.__init__(self)
         self.geometry('440x895+41+92')
         self.title('SViewer')
@@ -188,7 +188,7 @@ class ThumbViewer(Tk, AbstractThumbView):
 
 
 class FavoriteSelectorCombo(Frame):
-    def __init__(self, master=None, controller=ControllerFromViewInterface):
+    def __init__(self, master=None, controller=PresenterFromViewInterface):
         Frame.__init__(self, master)
 
         self.controller = controller
@@ -265,7 +265,7 @@ class FavoriteSelectorCombo(Frame):
 
 
 class FullView(Toplevel, AbstractPictureView):
-    def __init__(self, master=None, controller=ControllerFromViewInterface()):
+    def __init__(self, master=None, controller=PresenterFromViewInterface()):
         Toplevel.__init__(self, master)
         self.controller = controller
         self.make_widgets()

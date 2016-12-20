@@ -10,7 +10,7 @@ from requests_loader import Loader
 from setting import Setting
 
 
-class Controller(AbstractController):
+class Presenter(AbstractPresenter):
     def __init__(self, view_manager_class, model_class):
         self.fav = Favorites(open(Setting.fav_filename))
         self.playlist = Playlist(open(Setting.playlist_filename))
@@ -55,7 +55,7 @@ class Controller(AbstractController):
         self.loader.load_file(url, index, self.on_index_load)
 
     def uget_file(self, filename='', url=URL()):
-        if Setting.controller_debug: print('Controller: uGet file ', url.get(), 'to', filename)
+        if Setting.controller_debug: print('Presenter: uGet file ', url.get(), 'to', filename)
         if Setting.download_method == 'uget':
             fname = ' --filename="' + filename + '" '
             folder = '--folder="' + Setting.download_dir + '"'

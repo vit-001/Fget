@@ -6,7 +6,7 @@ if __name__ == "__main__":
     import sys
 
     from view.view_manager import QTViewManager
-    from controller import Controller
+    from presenter import Presenter
     from setting import Setting
 
     setting_file = Setting.setting_file  # default config
@@ -41,5 +41,5 @@ if __name__ == "__main__":
     from PyQt5.QtWidgets import QApplication
 
     app = QApplication(sys.argv)
-    controller = Controller(QTViewManager, SiteVewerModel)
+    controller = Presenter(QTViewManager, SiteVewerModel)
     sys.exit(app.exec_())

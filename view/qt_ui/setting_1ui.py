@@ -225,7 +225,7 @@ class Ui_ConfigDialog(object):
         self.toolButton_2.setText(_translate("ConfigDialog", "..."))
         self.tabs.setTabText(self.tabs.indexOf(self.tab_folders), _translate("ConfigDialog", "Folders"))
         self.groupBox.setTitle(_translate("ConfigDialog", "Degug flags"))
-        self.chk_controller_debug.setText(_translate("ConfigDialog", "Controller"))
+        self.chk_controller_debug.setText(_translate("ConfigDialog", "Presenter"))
         self.chk_view_debug.setText(_translate("ConfigDialog", "View"))
         self.chk_model_debug.setText(_translate("ConfigDialog", "Model"))
         self.chk_site_debug.setText(_translate("ConfigDialog", "Site"))

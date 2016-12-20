@@ -6,7 +6,7 @@ from PyQt5 import QtCore
 from PyQt5.QtGui import QGuiApplication, QKeySequence
 from PyQt5.QtWidgets import *
 
-from base_classes import AbstractViewManager, ControllerFromViewInterface, AbstractFullView
+from base_classes import AbstractViewManager, PresenterFromViewInterface, AbstractFullView
 from setting import Setting
 from view.config_dialog import ConfigDialog
 from view.qt_picture_view import PictureView
@@ -17,7 +17,7 @@ from view.qt_video_view import VideoView
 
 
 class QTViewManager(AbstractViewManager):
-    def __init__(self, controller=ControllerFromViewInterface()):
+    def __init__(self, controller=PresenterFromViewInterface()):
         self.controller = controller
 
         Setting.desktop = QApplication.desktop().screenGeometry()

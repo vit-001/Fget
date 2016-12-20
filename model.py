@@ -64,7 +64,7 @@ from site_models.video.wmgf_video_model import WMGFvideoSite
 
 
 class SiteVewerModel(AbstractModel):
-    def __init__(self, controller=ControllerFromModelInterface()):
+    def __init__(self, controller=PresenterFromModelInterface()):
         self.controller = controller
         self.debug = Setting.model_debug
         self.models = [
