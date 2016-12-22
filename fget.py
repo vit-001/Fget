@@ -34,7 +34,7 @@ if __name__ == "__main__":
     print('')
     print('Thats all')
     print('')
-    print('http://porndoe.com/', 'verifyed, simple, bad')
+    print('http://www.hubetubex.com/', '????')
     print('http://www.gotporn.com/', 'verifyed')
     print("Let's go..")
 
