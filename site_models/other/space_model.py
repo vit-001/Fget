@@ -4,7 +4,7 @@ from site_models.base_site_model import *
 
 
 class SpaceSite(BaseSite):
-    def __init__(self, model=AbstractModelFromSiteInterface(), base_addr='e:/out/', text=''):
+    def __init__(self, model: AbstractModelFromSiteInterface, base_addr='e:/out/', text=''):
         self.text = text
         super().__init__(model, base_addr)
 

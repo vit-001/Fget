@@ -66,7 +66,7 @@ class QTThumbViewer(QMainWindow, AbstractThumbView):
     def panic(self):
         self.showMinimized()
 
-    def add_site_button(self, text='', action=lambda: 0, menu_items=None, tooltip='', bold=False, underline=False,
+    def add_site_button(self, text:str, action=lambda: 0, menu_items:dict=None, tooltip='', bold=False, underline=False,
                         autoraise=False):
         self.add_button_with_menu(self.sites, text, action, menu_items, tooltip, bold=bold, underline=underline,
                                   autoraise=autoraise)
@@ -97,7 +97,7 @@ class QTThumbViewer(QMainWindow, AbstractThumbView):
             menu = None
         button_line.add_button(text, action, menu, tooltip, bold=bold, underline=underline, autoraise=autoraise)
 
-    def add_preview(self, picture_fname='', action=lambda: 0, popup_text=''):
+    def add_preview(self, picture_fname:str, action=lambda: 0, popup_text=''):
         self.thumbs.add(picture_fname, action, popup_text)
         self.setWindowTitle(self.url.get() + ' (' + str(self.thumbs.count) + ' thumbs)')
         QtCore.QEventLoop().processEvents(QtCore.QEventLoop.AllEvents)
@@ -108,7 +108,7 @@ class QTThumbViewer(QMainWindow, AbstractThumbView):
         self.timer.timeout.connect(handler)
         self.timer.start(100)
 
-    def prepare(self, url=URL(), show_caption=False):
+    def prepare(self, url:URL, show_caption=False):
         context = None
         if self.back_page is None or self.back_page.data != url:
             if self.url is not None:
@@ -148,7 +148,7 @@ class QTThumbViewer(QMainWindow, AbstractThumbView):
         self.pl.set_value('blue', 0)
         self.pl.hide()
 
-    def progress_set(self, value):
+    def progress_set(self, value:int):
         self.pl.set_value('blue', value)
 
     def progress_init(self, maximum=100):

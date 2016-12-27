@@ -127,16 +127,16 @@ class SiteVewerModel(AbstractModel):
                 print(item)
             print('=============================')
 
-    def register_site_model(self, control=ControlInfo()):
+    def register_site_model(self, control:ControlInfo):
         self.controller.add_startpage(control)
 
-    def can_accept_url(self, url):
+    def can_accept_url(self, url: URL):
         for s in self.models:
             if s.can_accept_index_file(url):
                 return True
         return False
 
-    def accept_index(self, url=URL(), index_fname=''):
+    def accept_index(self, url:URL, index_fname:str):
         if self.debug: print('accept index file, URL:', url.get(), 'index:', index_fname)
 
         site = None

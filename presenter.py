@@ -32,10 +32,10 @@ class Presenter(AbstractPresenter):
     def cycle_handler(self):
         self.loader.update()
 
-    def add_startpage(self, control=ControlInfo()):
+    def add_startpage(self, control:ControlInfo):
         self.add_button_on_view(self.thumb_view.add_site_button, control)
 
-    def goto_url(self, url=URL()):
+    def goto_url(self, url:URL):
         if url.get() is '':
             return
         if url.method == 'GET':
@@ -118,14 +118,14 @@ class Presenter(AbstractPresenter):
             self.picture_view.add_control(item.text, self.get_goto_url_handler(item.url))
         self.current_full_view = self.picture_view
 
-    def show_video_view(self, page_url=URL(), video=MediaData(), controls=list()):
+    def show_video_view(self, page_url:URL, video:MediaData, controls=list()):
         self.video_view.playback(video, page_url, autoplay=True)
         self.view.show_full_view(self.video_view)
         for item in controls:
             self.video_view.add_control(item.text, self.get_goto_url_handler(item.url))
         self.current_full_view = self.video_view
 
-    def add_button_on_view(self, view_add_function, button_data=ControlInfo()):
+    def add_button_on_view(self, view_add_function, button_data:ControlInfo):
         if button_data.menu_text_url_dict is not None:
             menu_items = dict()
             for key in button_data.menu_text_url_dict:

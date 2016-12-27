@@ -120,7 +120,7 @@ class BaseNest(BaseSite, AbstractModelFromSiteInterface):
     def add_site(self, site=BaseSite()):
         self.sites.append(site)
 
-    def register_site_model(self, control=ControlInfo()):
+    def register_site_model(self, control:ControlInfo):
         self.controls.append(control)
 
     def can_accept_index_file(self, url=URL()):
@@ -156,7 +156,7 @@ class ParseResult():
         # self.site=site
         self._type = 'none'
         self.redirect = URL()
-        self.video = MediaData()
+        self.video = None
         self.thumbs = []
         self.caption_visible = False
         self.full = []
@@ -190,7 +190,7 @@ class ParseResult():
     def get_gallery_path(self):
         return self.gallery_path
 
-    def set_video(self, media=MediaData()):
+    def set_video(self, media:MediaData):
         self.video = media
         if media is not None:
             self._type = 'video'
@@ -216,19 +216,19 @@ class ParseResult():
         self.full.append(full)
         self._type = 'pictures'
 
-    def add_control(self, control=ControlInfo()):
+    def add_control(self, control:ControlInfo):
         for c in self.controls:
             if control.url == c.url:
                 return
         self.controls.append(control)
 
-    def add_page(self, control=ControlInfo()):
+    def add_page(self, control:ControlInfo):
         for c in self.pages:
             if control.url == c.url:
                 return
         self.pages.append(control)
 
-    def add_site(self, control=ControlInfo()):
+    def add_site(self, control:ControlInfo):
         for c in self.sites:
             if control.url == c.url:
                 return

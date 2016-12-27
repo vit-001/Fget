@@ -41,7 +41,7 @@ class VideoView(FullView, AbstractVideoView):
     def get_page_type(self):
         return FavoriteRecord.video
 
-    def playback(self, media=MediaData(), page_url=URL(), autoplay=False):
+    def playback(self, media:MediaData, page_url=URL(), autoplay=False):
         if Setting.video_info:
             print('Now playback', page_url)
             for item in media.alternate:
