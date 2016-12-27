@@ -89,7 +89,7 @@ class SKWvideoSite(BaseSite):
 
         self.proceed_parcing(parser, fname)
 
-        result = ParseResult(self)
+        result = ParseResult()
 
         if video_rule.is_result():  # len(video_rule.get_result()) > 0:
             script = video_rule.get_result()[0]['data'].replace(' ', '')  # .replace('\\','')

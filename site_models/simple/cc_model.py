@@ -45,7 +45,7 @@ class CCSite(BaseSite):
         for s in open(fname):
             parser.feed(s)
 
-        result = ParseResult(self)
+        result = ParseResult()
 
         pictures = False
         for item in picture_trigger_rule.get_result(['name']):

@@ -63,7 +63,7 @@ class EXTvideoSite(BaseSite):
         if not xhr_page:
             self.proceed_parcing(parser, fname)
 
-        result = ParseResult(self)
+        result = ParseResult()
 
         if video_rule.is_result():
             urls = UrlList()

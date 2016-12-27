@@ -93,7 +93,7 @@ class PFUNvideoSite(BaseSite):
 
         self.proceed_parcing(parser, fname)
 
-        result = ParseResult(self)
+        result = ParseResult()
 
         def add_href_and_user_to_result():
             if gallery_user_rule.is_result(['href']):

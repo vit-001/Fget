@@ -98,7 +98,7 @@ class DCvideoSite(BaseSite):
 
         self.proceed_parcing(parser, fname)
 
-        result = ParseResult(self)
+        result = ParseResult()
 
         if video_script_rule.is_result() or video_rule.is_result():
             files = set()

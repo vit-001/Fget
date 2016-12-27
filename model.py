@@ -178,7 +178,7 @@ class SiteVewerModel(AbstractModel):
             if self.debug: print('Generating video view')
             self.controller.show_video_view(url, result.get_video(), result.controls)
 
-    def generate_thumb_view(self, url=URL(), thumb_list=ParseResult()):
+    def generate_thumb_view(self, url:URL, thumb_list:ParseResult):
         thumbs = []
         accepted = 0
         rejected = 0

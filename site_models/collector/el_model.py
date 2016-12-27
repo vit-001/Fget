@@ -61,7 +61,7 @@ class ELSite(BaseSite):
         for s in open(fname, encoding='utf-8'):
             parser.feed(s)
 
-        result = ParseResult(self)
+        result = ParseResult()
 
         if len(video_rule.get_result()) > 0:
             result.set_video(MediaData(URL(self.get_attr_from_script(video_rule.get_result()[0]['data']))))

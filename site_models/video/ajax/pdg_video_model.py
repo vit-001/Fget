@@ -71,9 +71,9 @@ class PDGvideoSite(BaseSite):
             self.proceed_parcing(parser, fname)
 
         except ValueError:
-            return ParseResult(self)
+            return ParseResult()
 
-        result = ParseResult(self)
+        result = ParseResult()
 
         if video_rule.is_result():  # len(video_rule.get_result()) > 0:
 

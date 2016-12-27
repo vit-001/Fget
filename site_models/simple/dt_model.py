@@ -90,7 +90,7 @@ class DTSite(BaseSite):
         for s in open(fname):
             parser.feed(s)
 
-        result = ParseResult(self)
+        result = ParseResult()
 
         if len(startpage_rule.get_result()) > 0:
             result.set_type('hrefs')

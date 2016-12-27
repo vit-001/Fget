@@ -105,7 +105,7 @@ class SMvideoSite(BaseSite):
             parser.feed(s)  # .replace('</b>','</a>'))
             all += s.replace(' ', '')
 
-        result = ParseResult(self)
+        result = ParseResult()
 
         if 'urls.push({' in all:
             video_url = all.partition('urls.push({')[2].partition('"});')[0].partition('file:"')[2]

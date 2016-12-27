@@ -52,7 +52,7 @@ class SXXvideoSite(BaseSite):
 
         self.proceed_parcing(parser, fname)
 
-        result = ParseResult(self)
+        result = ParseResult()
 
         if video_rule.is_result():
             urls = UrlList()

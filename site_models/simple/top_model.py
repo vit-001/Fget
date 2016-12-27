@@ -78,7 +78,7 @@ class TOPSite(BaseSite):
         for s in open(fname, encoding='utf-8'):
             parser.feed(s)
 
-        result = ParseResult(self)
+        result = ParseResult()
 
         if len(startpage_rule.get_result()) > 0:
             # result.set_type('hrefs')

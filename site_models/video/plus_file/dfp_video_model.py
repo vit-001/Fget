@@ -67,7 +67,7 @@ class DFPvideoSite(BaseSite):
 
         self.proceed_parcing(parser, fname)
 
-        result = ParseResult(self)
+        result = ParseResult()
 
         if video_rule.is_result():  # len(video_rule.get_result()) > 0:
             # for item in video_rule.get_result():

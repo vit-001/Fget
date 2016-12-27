@@ -88,7 +88,7 @@ class BESite(BaseSite):
         for s in open(fname):
             parser.feed(s)
 
-        result = ParseResult(self)
+        result = ParseResult()
 
         if video_rule.is_result():
 

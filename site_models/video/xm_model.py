@@ -71,7 +71,7 @@ class XMvideoSite(BaseSite):
 
         self.proceed_parcing(parser, fname)
 
-        result = ParseResult(self)
+        result = ParseResult()
 
         if len(video_rule.get_result()) > 0:
             result.set_video(MediaData(URL(video_rule.get_result()[0]['file'] + '*')))

@@ -39,7 +39,7 @@ class DudeSite(BaseSite):
 
         self.proceed_parcing(parser, fname)
 
-        result = ParseResult(self)
+        result = ParseResult()
 
         if startpage_rule.is_result():
             # result.set_type('hrefs')

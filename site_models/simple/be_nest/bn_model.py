@@ -74,7 +74,7 @@ class BEPSite(BaseSite):
         for s in open(fname):
             parser.feed(s)
 
-        result = ParseResult(self)
+        result = ParseResult()
 
         if len(picture_rule.get_result()) > 0:
             result.set_type('pictures')

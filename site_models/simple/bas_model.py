@@ -79,7 +79,7 @@ class BASSite(BaseSite):
         for s in open(fname):
             parser.feed(s)
 
-        result = ParseResult(self)
+        result = ParseResult()
 
         if len(video_rule.get_result()) > 0:
             result.set_video(MediaData(URL(video_rule.get_result()[0]['src'] + '*')))

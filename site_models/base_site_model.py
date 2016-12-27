@@ -5,12 +5,12 @@ from requests_loader import FLData, PictureCollector
 
 
 class ThumbInfo(FLData):
-    def __init__(self, thumb_url=URL(), filename='', href=URL(), description=''):
+    def __init__(self, thumb_url:URL, filename:str='', href:URL=URL(), description=''):
         FLData.__init__(self, url=thumb_url, filename=filename)
         self.href = href
         self.description = description
 
-    def set_base_dir(self, base_dir):
+    def set_base_dir(self, base_dir:str):
         self.base_dir = base_dir
 
     def get_href(self):
@@ -42,11 +42,11 @@ class FullPictureInfo(FLData):
         self.base_dir = base_dir
         self.base_url = base_url
 
-    def get_url(self):
+    def get_url(self)->URL:
         if self.abs_href.get() != '': return self.abs_href
         return URL(self.base_url.get() + self.rel_name)
 
-    def get_filename(self):
+    def get_filename(self)->str:
         if self.abs_name != '': return self.abs_name
         return self.base_dir + self.rel_name
 
@@ -55,7 +55,7 @@ class FullPictureInfo(FLData):
 
 
 class BaseSite():
-    def __init__(self, model=AbstractModelFromSiteInterface(), base_addr='e:/out/'):
+    def __init__(self, model:AbstractModelFromSiteInterface, base_addr='e:/out/'):
         self.model = model
         self.base_addr = base_addr
         self.model.register_site_model(ControlInfo(text=self.start_button_name(),
@@ -73,7 +73,7 @@ class BaseSite():
     def autoraise(self):
         return False
 
-    def get_href(self, txt='', base_url=URL()):
+    def get_href(self, txt:str, base_url:URL):
         txt = txt.strip()
         if not txt.endswith('/'):
             txt = txt + "*"
@@ -117,7 +117,7 @@ class BaseNest(BaseSite, AbstractModelFromSiteInterface):
         self.sites = list()
         self.controls = list()
 
-    def add_site(self, site=BaseSite()):
+    def add_site(self, site:BaseSite):
         self.sites.append(site)
 
     def register_site_model(self, control:ControlInfo):
@@ -152,7 +152,7 @@ class BaseNestedSite(BaseSite):
 
 
 class ParseResult():
-    def __init__(self, site=BaseSite()):
+    def __init__(self):#, site=BaseSite()):
         # self.site=site
         self._type = 'none'
         self.redirect = URL()
@@ -208,7 +208,7 @@ class ParseResult():
     def set_redirect(self, url=URL()):
         self.redirect = url
 
-    def add_thumb(self, thumb=ThumbInfo()):
+    def add_thumb(self, thumb:ThumbInfo):
         self.thumbs.append(thumb)
         self._type = 'hrefs'
 
