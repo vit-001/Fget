@@ -27,7 +27,7 @@ def safe_load(url, fname:str, overwrite=True):
         return None
 
 
-def load(url, fname:str, overwrite=True, cookie=None):
+def load(url, fname:str='', overwrite=True, cookie=None):
     # print('Loading',url.get(),'to',fname)
     filename = ''
 
