@@ -165,7 +165,7 @@ class SiteParser(HTMLParser):
         HTMLParser.__init__(self)
         self.rules = []
 
-    def add_rule(self, rule=ParserRule()):
+    def add_rule(self, rule:ParserRule):
         self.rules.append(rule)
 
     def handle_starttag(self, tag, attrs):

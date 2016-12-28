@@ -18,7 +18,7 @@ class LoaderError(RuntimeError):
         return self.txt
 
 
-def safe_load(url, fname, overwrite=True):
+def safe_load(url, fname:str, overwrite=True):
     try:
         load(url, fname, overwrite)
         return fname
@@ -27,7 +27,7 @@ def safe_load(url, fname, overwrite=True):
         return None
 
 
-def load(url, fname='', overwrite=True, cookie=None):
+def load(url, fname:str, overwrite=True, cookie=None):
     # print('Loading',url.get(),'to',fname)
     filename = ''
 
@@ -93,7 +93,7 @@ def get_last_index_cookie():
 
 
 class FLEvent():
-    def __init__(self, type='', data=None):
+    def __init__(self, type:str, data=None):
         self.event_type = type
         self.event_data = data
 
@@ -105,7 +105,7 @@ class FLEvent():
 
 
 class FLData():
-    def __init__(self, url=URL(), filename=''):
+    def __init__(self, url:URL, filename:str):
         self.url = url
         self.filename = filename
 

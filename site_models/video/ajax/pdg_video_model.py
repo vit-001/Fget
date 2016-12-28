@@ -87,7 +87,7 @@ class PDGvideoSite(BaseSite):
             # print(cookie)
 
             urls = list()
-            result.set_type('video')
+            # result.set_type('video')
 
             try:
                 r = load(frame, frame_file, cookie=cookie)

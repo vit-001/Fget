@@ -88,11 +88,15 @@ class BaseSite():
         # print(base_url.get() + txt)
         return base_url.get().rpartition('/')[0] + '/' + txt
 
-    def proceed_parcing(self, parser, fname):  # todo переписать через with open
-        for s in open(fname, encoding='utf-8', errors='ignore'):
-            parser.feed(s)  # .replace('</b>','</a>'))
+    def proceed_parcing(self, parser, fname):
+        # for s in open(fname, encoding='utf-8', errors='ignore'):
+        #     parser.feed(s)  # .replace('</b>','</a>'))
 
-    def quotes(self, text='', from_lex='', to_lex=''):
+        with open(fname,encoding='utf-8', errors='ignore') as fd:
+            for s in fd:
+                parser.feed(s)
+
+    def quotes(self, text:str, from_lex:str, to_lex:str):
         return text.partition(from_lex)[2].partition(to_lex)[0]
 
     def start_button_name(self):
@@ -104,15 +108,15 @@ class BaseSite():
     def startpage(self):
         return URL()
 
-    def parse_index_file(self, fname, base_url=URL()):
+    def parse_index_file(self, fname:str, base_url:URL):
         pass
 
-    def can_accept_index_file(self, base_url=URL()):
+    def can_accept_index_file(self, base_url:URL):
         return False
 
 
 class BaseNest(BaseSite, AbstractModelFromSiteInterface):
-    def __init__(self, model=AbstractModelFromSiteInterface(), base_addr='e:/out/'):
+    def __init__(self, model:AbstractModelFromSiteInterface, base_addr='e:/out/'):
         BaseSite.__init__(self, model, base_addr)
         self.sites = list()
         self.controls = list()
@@ -123,13 +127,13 @@ class BaseNest(BaseSite, AbstractModelFromSiteInterface):
     def register_site_model(self, control:ControlInfo):
         self.controls.append(control)
 
-    def can_accept_index_file(self, url=URL()):
+    def can_accept_index_file(self, url:URL):
         for s in self.sites:
             if s.can_accept_index_file(url):
                 return True
         return False
 
-    def parse_index_file(self, fname, url=URL()):
+    def parse_index_file(self, fname:str, url:URL):
         site = None
         for s in self.sites:
             if s.can_accept_index_file(url):
@@ -152,8 +156,7 @@ class BaseNestedSite(BaseSite):
 
 
 class ParseResult():
-    def __init__(self):#, site=BaseSite()):
-        # self.site=site
+    def __init__(self):
         self._type = 'none'
         self.redirect = URL()
         self.video = None
@@ -200,19 +203,19 @@ class ParseResult():
 
     def set_type(self, type):  # todo  убрать совсем
         pass
-        # self._type = type
+    #     # self._type = type
 
-    def set_picture_collector(self, collector=PictureCollector()):
+    def set_picture_collector(self, collector:PictureCollector):
         self.picture_collector = collector
 
-    def set_redirect(self, url=URL()):
+    def set_redirect(self, url:URL):
         self.redirect = url
 
     def add_thumb(self, thumb:ThumbInfo):
         self.thumbs.append(thumb)
         self._type = 'hrefs'
 
-    def add_full(self, full=FullPictureInfo()):
+    def add_full(self, full:FullPictureInfo):
         self.full.append(full)
         self._type = 'pictures'
 

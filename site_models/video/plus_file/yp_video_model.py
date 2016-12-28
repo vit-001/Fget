@@ -105,7 +105,7 @@ class YPvideoSite(BaseSite):
 
             video = MediaData(URL(video_rule.get_result()[0]['src']))
 
-            result.set_type('video')
+            # result.set_type('video')
             result.set_video(video)
 
             for f in gallery_author_rule.get_result(['data', 'href']):
@@ -162,7 +162,7 @@ class YPvideoSite(BaseSite):
             return result
 
         if startpage_rule.is_result() or startpage_combo_rule.is_result():  # len(startpage_rule.get_result()) > 0:
-            result.set_type('hrefs')
+            # result.set_type('hrefs')
 
             for item in startpage_combo_rule.get_result():
                 # print(item)
