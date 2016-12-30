@@ -65,14 +65,14 @@ class PDvideoSite(BaseSite):
         parser.add_rule(video_rule)
         #
         gallery_user_rule = ParserRule()
-        gallery_user_rule.add_activate_rule_level([('div', 'class', 'tools_watch')])
+        gallery_user_rule.add_activate_rule_level([('div', 'class', 'descrow')])
         gallery_user_rule.add_process_rule_level('a', {'href', 'title'})
         gallery_user_rule.set_attribute_modifier_function('href', lambda x: x + 'public_videos/')
         gallery_user_rule.set_attribute_filter_function('href', lambda x: '/members/' in x)
         parser.add_rule(gallery_user_rule)
 
         gallery_href_rule = ParserRule()
-        gallery_href_rule.add_activate_rule_level([('div', 'class', 'tools_watch')])
+        gallery_href_rule.add_activate_rule_level([('div', 'class', 'descrow')])
         gallery_href_rule.add_process_rule_level('a', {'href'})
         # gallery_href_rule.set_attribute_modifier_function('href', lambda x: base_url.domain() + x + '*')
         gallery_href_rule.set_attribute_filter_function('href', lambda x: '/categories/' in x or '/tags/' in x)
@@ -100,9 +100,10 @@ class PDvideoSite(BaseSite):
             # for f in gallery_channel_rule.get_result(['data', 'href']):
             #     result.add_control(ControlInfo(f['data'], URL(f['href'])))
 
-            f = gallery_user_rule.get_result(['href'])[0]
-            # print(f)
-            result.add_control(ControlInfo('"' + f['data'] + '"', URL(f['href'])))
+            if gallery_user_rule.is_result():
+                f = gallery_user_rule.get_result(['href'])[0]
+                print(f)
+                result.add_control(ControlInfo('"' + f['data'] + '"', URL(f['href'])))
 
             for f in gallery_href_rule.get_result(['href']):
                 # print(f)

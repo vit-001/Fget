@@ -88,7 +88,7 @@ class SiteVewerModel(AbstractModel):
 
             # amateur
             SpaceSite(self, text='Amateur:'),
-            MLvideoSite(self), WMGFvideoSite(self), PFUNvideoSite(self), PBvideoSite(self),
+            MLvideoSite(self),  PFUNvideoSite(self), PBvideoSite(self),
 
             # s/m
             SpaceSite(self, text='Deviant:'),
