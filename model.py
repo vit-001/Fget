@@ -43,6 +43,7 @@ from site_models.video.script.cls_video_model import CLSvideoSite
 from site_models.video.script.dc_video_model import DCvideoSite
 from site_models.video.script.pc_video_model import PCvideoSite
 from site_models.video.script.rt_video_model import RTvideoSite
+from site_models.video.script.syf_video_model import SYFPvideoSite
 from site_models.video.script.v24_video_model import V24videoSite
 from site_models.video.simple.bmt_video_model import BMTvideoSite
 from site_models.video.simple.cbp_video_model import CBPvideoSite
@@ -60,7 +61,6 @@ from site_models.video.sm_video_model import SMvideoSite
 from site_models.video.t8_video_model import T8videoSite
 from site_models.video.tz_video_model import TZvideoSite
 from site_models.video.vp_video_model import VPvideoSite
-from site_models.video.wmgf_video_model import WMGFvideoSite
 
 
 class SiteVewerModel(AbstractModel):
@@ -69,7 +69,7 @@ class SiteVewerModel(AbstractModel):
         self.debug = Setting.model_debug
         self.models = [
             # work on
-
+            SYFPvideoSite(self),
 
 
 
