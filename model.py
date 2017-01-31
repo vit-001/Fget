@@ -61,7 +61,7 @@ from site_models.video.sm_video_model import SMvideoSite
 from site_models.video.t8_video_model import T8videoSite
 from site_models.video.tz_video_model import TZvideoSite
 from site_models.video.vp_video_model import VPvideoSite
-
+from site_models.video.script.xtub_video_model import XTUBvideoSite
 
 class SiteVewerModel(AbstractModel):
     def __init__(self, controller=PresenterFromModelInterface()):
@@ -69,9 +69,9 @@ class SiteVewerModel(AbstractModel):
         self.debug = Setting.model_debug
         self.models = [
             # work on
-            SYFPvideoSite(self),
 
 
+            XTUBvideoSite(self),
 
 
 
@@ -88,7 +88,7 @@ class SiteVewerModel(AbstractModel):
 
             # amateur
             SpaceSite(self, text='Amateur:'),
-            MLvideoSite(self),  PFUNvideoSite(self), PBvideoSite(self),
+            MLvideoSite(self),  PFUNvideoSite(self), PBvideoSite(self),SYFPvideoSite(self),
 
             # s/m
             SpaceSite(self, text='Deviant:'),

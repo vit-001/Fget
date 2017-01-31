@@ -10,11 +10,11 @@ class SYFPvideoSite(BaseSite):
         return "SYFvid"
 
     def get_start_button_menu_text_url_dict(self):
-        return dict(Videos_Newest=URL('http://www.hd-easyporn.com/?o=n*'),
-                    Videos_Most_Viewed=URL('http://www.hd-easyporn.com/?o=v*'),
-                    Videos_Top_Rated=URL('http://www.hd-easyporn.com/?o=r*'),
-                    Videos_Longest=URL('http://www.hd-easyporn.com/?o=d*'),
-                    Categories=URL('http://www.hd-easyporn.com/categories/')
+        return dict(Videos_Newest_Short=URL('http://www.submityourflicks.com//?duration=short*'),
+                    Videos_Newest_Medium=URL('http://www.submityourflicks.com//?duration=medium*'),
+                    Videos_Newest_Long=URL('http://www.submityourflicks.com//?duration=long*'),
+                    Videos_Most_Viewed=URL('http://www.submityourflicks.com/most-viewed/'),
+                    Videos_Top_Rated=URL('http://www.submityourflicks.com/top-rated/')
                     )
 
     def startpage(self):
@@ -35,26 +35,11 @@ class SYFPvideoSite(BaseSite):
         startpage_rule.set_attribute_modifier_function('src', lambda x: self.get_href(x, base_url))
         parser.add_rule(startpage_rule)
 
-        categories_rule = ParserRule()
-        # categories_rule.add_activate_rule_level([('section', '', '')])
-        categories_rule.add_activate_rule_level([('div', 'class', 'catbox')])
-        categories_rule.add_process_rule_level('a', {'href'})
-        categories_rule.add_process_rule_level('img', {'data-src', 'alt'})
-        categories_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x, base_url))
-        categories_rule.set_attribute_modifier_function('data-src', lambda x: self.get_href(x, base_url))
-        parser.add_rule(categories_rule)
-
         startpage_pages_rule = ParserRule()
         startpage_pages_rule.add_activate_rule_level([('div', 'id', 'pagination')])
         startpage_pages_rule.add_process_rule_level('a', {'href'})
         startpage_pages_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x, base_url))
         parser.add_rule(startpage_pages_rule)
-
-        startpage_tags_rule = ParserRule()
-        startpage_tags_rule.add_activate_rule_level([('ul', 'class', 'tags cf')])
-        startpage_tags_rule.add_process_rule_level('a', {'href'})
-        startpage_tags_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x, base_url))
-        parser.add_rule(startpage_tags_rule)
 
         video_rule = ParserRule()
         video_rule.add_activate_rule_level([('div', 'class', 'stage-video')])
@@ -63,7 +48,7 @@ class SYFPvideoSite(BaseSite):
         parser.add_rule(video_rule)
         #
         gallery_href_rule = ParserRule()
-        gallery_href_rule.add_activate_rule_level([('div', 'class', 'video_header')])
+        gallery_href_rule.add_activate_rule_level([('ul', 'class', 'stats-list stats-list--plain')])
         gallery_href_rule.add_process_rule_level('a', {'href'})
         gallery_href_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x, base_url))
         parser.add_rule(gallery_href_rule)
@@ -83,7 +68,12 @@ class SYFPvideoSite(BaseSite):
             result.set_video(urls.get_media_data())
 
             for f in gallery_href_rule.get_result(['data', 'href']):
-                result.add_control(ControlInfo(f['data'], URL(f['href'])))
+                if '/user/' in f['href']:
+                    form='"{0}"'
+                else:
+                    form = '{0}'
+
+                result.add_control(ControlInfo(form.format(f['data']), URL(f['href'])))
 
             return result
 
@@ -96,25 +86,8 @@ class SYFPvideoSite(BaseSite):
             for item in startpage_pages_rule.get_result(['href', 'data']):
                 result.add_page(ControlInfo(item['data'], URL(item['href'])))
 
-            for item in startpage_tags_rule.get_result(['href', 'data']):
-                result.add_control(ControlInfo(item['data'], URL(item['href'])))
-
-            if base_url.contain('/categories/'):
-                result.set_caption_visible(True)
-
-            return result
-
-        if categories_rule.is_result():
-            urls = list()
-            for item in categories_rule.get_result(['href']):
-                if item['href'] in urls:
-                    continue
-                result.add_thumb(
-                    ThumbInfo(thumb_url=URL(item['data-src']), href=URL(item['href']), description=item.get('alt''')))
-                urls.append(item['href'])
-
-            result.set_caption_visible(True)
         return result
+
 
 
 if __name__ == "__main__":
