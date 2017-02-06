@@ -80,17 +80,20 @@ class PDGvideoSite(BaseSite):
             # print(video_rule.get_result())
 
             frame = URL(video_rule.get_result()[0]['src'])
+            print(frame)
+
             from requests_loader import load, LoaderError, get_last_index_cookie
 
             frame_file = Setting.base_dir + 'frame.html'
             cookie = get_last_index_cookie()
             # print(cookie)
 
-            urls = list()
+            # urls = list()
             # result.set_type('video')
 
             try:
                 r = load(frame, frame_file, cookie=cookie)
+                print(r.text)
 
                 urls = list()
 

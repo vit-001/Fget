@@ -118,8 +118,8 @@ class PFUNvideoSite(BaseSite):
             script = video_rule.get_result()[0]['data'].replace(' ', '')
             # print(script)
 
-            url = script.partition("video_url:'")[2].partition("'")[0]
-            # print(url)
+            url = script.partition("video_url:'")[2].partition("'")[0].rstrip('/')
+            print(url)
 
             video = MediaData(URL(url))
             result.set_type('video')

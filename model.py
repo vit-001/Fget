@@ -62,6 +62,7 @@ from site_models.video.t8_video_model import T8videoSite
 from site_models.video.tz_video_model import TZvideoSite
 from site_models.video.vp_video_model import VPvideoSite
 from site_models.video.script.xtub_video_model import XTUBvideoSite
+from site_models.video.script.rgf_video_model import RGFvideoSite
 
 class SiteVewerModel(AbstractModel):
     def __init__(self, controller=PresenterFromModelInterface()):
@@ -70,15 +71,12 @@ class SiteVewerModel(AbstractModel):
         self.models = [
             # work on
 
-
-            XTUBvideoSite(self),
-
-
+            RGFvideoSite(self),
 
             # classic
             SpaceSite(self, text='Classic:'),
             HDEPvideoSite(self),
-            YPvideoSite(self), SXXvideoSite(self), PDGvideoSite(self), NFLvideoSite(self), V24videoSite(self),
+            YPvideoSite(self), SXXvideoSite(self),  NFLvideoSite(self), V24videoSite(self),
             PCvideoSite(self), CBPvideoSite(self), PXvideoSite(self), RTvideoSite(self), CLSvideoSite(self),
             VERvideoSite(self), PBZvideoSite(self),
             T8videoSite(self), BMTvideoSite(self),
