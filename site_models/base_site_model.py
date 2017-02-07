@@ -88,6 +88,9 @@ class BaseSite():
         # print(base_url.get() + txt)
         return base_url.get().rpartition('/')[0] + '/' + txt
 
+    def get_url(self, txt:str, base_url:URL):
+        return URL(self.get_href(txt,base_url))
+
     def proceed_parcing(self, parser, fname):
         # for s in open(fname, encoding='utf-8', errors='ignore'):
         #     parser.feed(s)  # .replace('</b>','</a>'))
