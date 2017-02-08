@@ -7,6 +7,7 @@ from PyQt5.QtGui import QPixmap, QIcon
 from PyQt5.QtWidgets import *
 
 from view.qt_ui.scroll_bar_widget_ui import Ui_ScrollBarWidget
+from view.qt_widget.qt_annotated_button import QAnnotatedButton
 
 
 class QThumbView(QWidget):
@@ -24,16 +25,17 @@ class QThumbView(QWidget):
         self.scroller.valueChanged.connect(self.on_scroll)
         self._scroller_setup()
 
-    def add(self, pix_fname='', action=lambda: None, popup='',label=''):
-        button = QToolButton(self)
+    def add(self, pix_fname='', action=lambda: None, popup='',label_top='',label_bottom=''):
+        button = QAnnotatedButton(self)
         button.setAutoRaise(True)
-        if self.text_visible:
-            button.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
-            thumb_h = self.thumb_size * 87 / 100
-        else:
-            button.setToolButtonStyle(Qt.ToolButtonIconOnly)
-            thumb_h = self.thumb_size
-        button.setText(label)
+        # if self.text_visible:
+        #     button.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
+        #     thumb_h = self.thumb_size * 87 / 100
+        # else:
+        #     button.setToolButtonStyle(Qt.ToolButtonIconOnly)
+        #     thumb_h = self.thumb_size
+        button.setTextBottom(label_bottom)
+        button.setTextTop(label_top)
         button.clicked.connect(action)
         button.setFixedSize(self.thumb_size, self.thumb_size)
 
@@ -41,7 +43,7 @@ class QThumbView(QWidget):
         icon = QIcon()
         icon.addPixmap(pixmap, QIcon.Normal, QIcon.Off)
         button.setIcon(icon)
-        button.setIconSize(QSize(self.thumb_size, thumb_h))
+        button.setIconSize(QSize(self.thumb_size, self.thumb_size))
         button.setToolTip(popup)
 
         self.thumbs.append(button)
@@ -127,8 +129,8 @@ class QThumbViewVS(QWidget):
         self.thumbs = QThumbView(parent=self.ui.area, scroller=self.ui.scroll_bar, thumb_size=size, space=space)
         self.ui.area_layout.addWidget(self.thumbs)
 
-    def add(self, pix_fname='', action=lambda: None, popup='',label=''):
-        self.thumbs.add(pix_fname, action, popup, label)
+    def add(self, pix_fname='', action=lambda: None, popup='',label_top='',label_bottom=''):
+        self.thumbs.add(pix_fname, action, popup, label_top,label_bottom)
 
     def clear(self):
         self.thumbs.clear()

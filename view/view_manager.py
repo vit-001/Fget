@@ -20,6 +20,8 @@ class QTViewManager(AbstractViewManager):
     def __init__(self, controller=PresenterFromViewInterface()):
         self.controller = controller
 
+        print('PyQt version: '+QtCore.qVersion())
+
         Setting.desktop = QApplication.desktop().screenGeometry()
         if Setting.view_debug: print('Running view on display: ', Setting.desktop)
 

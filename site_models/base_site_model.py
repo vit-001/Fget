@@ -5,11 +5,12 @@ from requests_loader import FLData, PictureCollector
 
 
 class ThumbInfo(FLData):
-    def __init__(self, thumb_url:URL, filename:str='', href:URL=URL(), description='', duration=''):
+    def __init__(self, thumb_url:URL, filename:str='', href:URL=URL(), description='', duration='', show_description=False):
         FLData.__init__(self, url=thumb_url, filename=filename)
         self.href = href
         self.description = description
         self.duration=duration
+        self.show_description=show_description
 
     def set_base_dir(self, base_dir:str):
         self.base_dir = base_dir
@@ -17,18 +18,25 @@ class ThumbInfo(FLData):
     def get_href(self):
         return self.href
 
-    def get_description(self):
-        return self.description
+    def get_description(self,width=35):
+        if self.show_description:
+            if len(self.description) > width - 3:
+                return self.description[:width - 3] + '...'
+            else:
+                return self.description
+        else:
+            return ''
 
-    def get_label(self, width=35):
-        if len(self.description)>width-3:
-            short=self.description[:width-3]+'...'
-        else:
-            short=self.description
-        if self.duration is '':
-            return short
-        else:
-            return self.duration+'\n'+short
+    def get_duration(self):
+        return self.duration
+
+    def get_popup(self):
+        popup_text = self.get_href().get()
+        alt = self.description
+        if alt != '':
+            popup_text += '\n' + alt
+
+        return popup_text
 
     def get_filename(self):
         if self.filename == '':

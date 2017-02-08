@@ -62,7 +62,7 @@ from site_models.video.sm_video_model import SMvideoSite
 from site_models.video.t8_video_model import T8videoSite
 from site_models.video.tz_video_model import TZvideoSite
 from site_models.video.vp_video_model import VPvideoSite
-
+from site_models.soup.video.simple.ml_soup_video_model import MLvideoSoupSite
 
 class SiteVewerModel(AbstractModel):
     def __init__(self, controller=PresenterFromModelInterface()):
@@ -71,7 +71,7 @@ class SiteVewerModel(AbstractModel):
         self.models = [
             # work on
 
-
+            MLvideoSoupSite(self),
 
             RGFvideoSite(self),
 

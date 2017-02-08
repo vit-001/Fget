@@ -247,6 +247,7 @@ class Loader():
         self.threads = []
         self.single_thread = SingleFileLoadThread()
         self.on_result = lambda url, fname: None
+        print('Requests version: '+requests.__version__)
 
     def get_new_thread(self, on_load_handler=lambda x: None, on_end_handler=lambda: None):
         thread = LoadThread(on_load_handler, on_end_handler)

@@ -50,7 +50,8 @@ class VERvideoSoupSite(BaseSite):
                     for item in tags:
                         hrefs=item.find_all('a')
                         for href in hrefs:
-                            result.add_control(ControlInfo(str(href.string), self.get_url(href.attrs['href'],base_url)))
+                            if href.string is not None:
+                                result.add_control(ControlInfo(str(href.string), self.get_url(href.attrs['href'],base_url)))
                 return result
 
             for thumbnail in soup.find_all('div',{'class':['well well-sm hover', 'channelContainer']}):
@@ -63,7 +64,7 @@ class VERvideoSoupSite(BaseSite):
                 if duration is not None:
                     dur_time=duration.stripped_strings.__next__()
 
-                result.add_thumb(ThumbInfo(thumb_url=thumb_url,href=href,description=description, duration=dur_time))
+                result.add_thumb(ThumbInfo(thumb_url=thumb_url,href=href,description=description, duration=dur_time, show_description=True))
 
             tags=soup.find('ul', {'class': 'drop2 hidden-xs'})
             if tags is not None:
