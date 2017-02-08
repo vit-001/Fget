@@ -97,8 +97,8 @@ class QTThumbViewer(QMainWindow, AbstractThumbView):
             menu = None
         button_line.add_button(text, action, menu, tooltip, bold=bold, underline=underline, autoraise=autoraise)
 
-    def add_preview(self, picture_fname:str, action=lambda: 0, popup_text=''):
-        self.thumbs.add(picture_fname, action, popup_text)
+    def add_preview(self, picture_fname:str, action=lambda: 0, popup_text='', label=''):
+        self.thumbs.add(picture_fname, action, popup_text, label)
         self.setWindowTitle(self.url.get() + ' (' + str(self.thumbs.count) + ' thumbs)')
         QtCore.QEventLoop().processEvents(QtCore.QEventLoop.AllEvents)
         self.update()

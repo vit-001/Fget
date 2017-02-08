@@ -5,10 +5,11 @@ from requests_loader import FLData, PictureCollector
 
 
 class ThumbInfo(FLData):
-    def __init__(self, thumb_url:URL, filename:str='', href:URL=URL(), description=''):
+    def __init__(self, thumb_url:URL, filename:str='', href:URL=URL(), description='', duration=''):
         FLData.__init__(self, url=thumb_url, filename=filename)
         self.href = href
         self.description = description
+        self.duration=duration
 
     def set_base_dir(self, base_dir:str):
         self.base_dir = base_dir
@@ -18,6 +19,16 @@ class ThumbInfo(FLData):
 
     def get_description(self):
         return self.description
+
+    def get_label(self, width=35):
+        if len(self.description)>width-3:
+            short=self.description[:width-3]+'...'
+        else:
+            short=self.description
+        if self.duration is '':
+            return short
+        else:
+            return self.duration+'\n'+short
 
     def get_filename(self):
         if self.filename == '':
@@ -53,8 +64,24 @@ class FullPictureInfo(FLData):
     def __str__(self):
         return 'full: HREF ' + self.get_url().get() + '  FNAME ' + self.get_filename()
 
+class AbstractSite:
+    def start_button_name(self):
+        return ''
 
-class BaseSite():
+    def get_start_button_menu_text_url_dict(self):
+        return None
+
+    def startpage(self):
+        return URL()
+
+    def parse_index_file(self, fname:str, base_url:URL):
+        pass
+
+    def can_accept_index_file(self, base_url:URL):
+        return False
+
+
+class BaseSite(AbstractSite):
     def __init__(self, model:AbstractModelFromSiteInterface, base_addr='e:/out/'):
         self.model = model
         self.base_addr = base_addr
@@ -101,22 +128,6 @@ class BaseSite():
 
     def quotes(self, text:str, from_lex:str, to_lex:str):
         return text.partition(from_lex)[2].partition(to_lex)[0]
-
-    def start_button_name(self):
-        return ''
-
-    def get_start_button_menu_text_url_dict(self):
-        return None
-
-    def startpage(self):
-        return URL()
-
-    def parse_index_file(self, fname:str, base_url:URL):
-        pass
-
-    def can_accept_index_file(self, base_url:URL):
-        return False
-
 
 class BaseNest(BaseSite, AbstractModelFromSiteInterface):
     def __init__(self, model:AbstractModelFromSiteInterface, base_addr='e:/out/'):

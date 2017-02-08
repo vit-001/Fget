@@ -152,7 +152,6 @@ class ControlInfo:
         self.underline = underline
         self.autorise = autoraise
 
-
 class AbstractModelFromControllerInterface():
     def can_accept_url(self, url:URL): pass
 

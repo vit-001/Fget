@@ -25,8 +25,8 @@ from site_models.simple.top_model import TOPSite
 from site_models.simple.tp_model import TPSite
 from site_models.simple.vp_nest.vp_nest import VPNest
 from site_models.simple.xuk_model import XUKSite
+from site_models.soup.video.simple.ver_soup_video_model import VERvideoSoupSite
 from site_models.video.ajax.ext_video_model import EXTvideoSite
-from site_models.video.ajax.pdg_video_model import PDGvideoSite
 from site_models.video.nfl_video_model import NFLvideoSite
 from site_models.video.pd_video_model import PDvideoSite
 from site_models.video.pfun_video_model import PFUNvideoSite
@@ -42,6 +42,7 @@ from site_models.video.px_video_model import PXvideoSite
 from site_models.video.script.cls_video_model import CLSvideoSite
 from site_models.video.script.dc_video_model import DCvideoSite
 from site_models.video.script.pc_video_model import PCvideoSite
+from site_models.video.script.rgf_video_model import RGFvideoSite
 from site_models.video.script.rt_video_model import RTvideoSite
 from site_models.video.script.syf_video_model import SYFPvideoSite
 from site_models.video.script.v24_video_model import V24videoSite
@@ -61,9 +62,7 @@ from site_models.video.sm_video_model import SMvideoSite
 from site_models.video.t8_video_model import T8videoSite
 from site_models.video.tz_video_model import TZvideoSite
 from site_models.video.vp_video_model import VPvideoSite
-from site_models.video.script.xtub_video_model import XTUBvideoSite
-from site_models.video.script.rgf_video_model import RGFvideoSite
-from site_models.soup.video.ver_soup_video_model import VERvideoSoupSite
+
 
 class SiteVewerModel(AbstractModel):
     def __init__(self, controller=PresenterFromModelInterface()):
@@ -72,7 +71,7 @@ class SiteVewerModel(AbstractModel):
         self.models = [
             # work on
 
-            VERvideoSoupSite(self),
+
 
             RGFvideoSite(self),
 
@@ -81,7 +80,7 @@ class SiteVewerModel(AbstractModel):
             HDEPvideoSite(self),
             YPvideoSite(self), SXXvideoSite(self),  NFLvideoSite(self), V24videoSite(self),
             PCvideoSite(self), CBPvideoSite(self), PXvideoSite(self), RTvideoSite(self), CLSvideoSite(self),
-            VERvideoSite(self), PBZvideoSite(self),
+            VERvideoSoupSite(self), PBZvideoSite(self),
             T8videoSite(self), BMTvideoSite(self),
             PTvideoSite(self), VPvideoSite(self), NLvideoSite(self), TZvideoSite(self), SKWvideoSite(self),
             PHDvideoSite(self), TSPvideoSite(self), DFPvideoSite(self),

@@ -103,7 +103,7 @@ class Presenter(AbstractPresenter):
         alt = data.get_description()
         if alt != '':
             popup_text += '\n' + alt
-        self.thumb_view.add_preview(data.get_filename(), lambda: self.goto_url(data.get_href()), popup_text)
+        self.thumb_view.add_preview(data.get_filename(), lambda: self.goto_url(data.get_href()), popup_text, data.get_label())
         self.curr_loading_thumb += 1
         self.thumb_view.progress_set(self.curr_loading_thumb)
 

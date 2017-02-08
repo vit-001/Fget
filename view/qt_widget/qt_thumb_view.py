@@ -24,7 +24,7 @@ class QThumbView(QWidget):
         self.scroller.valueChanged.connect(self.on_scroll)
         self._scroller_setup()
 
-    def add(self, pix_fname='', action=lambda: None, popup=''):
+    def add(self, pix_fname='', action=lambda: None, popup='',label=''):
         button = QToolButton(self)
         button.setAutoRaise(True)
         if self.text_visible:
@@ -33,7 +33,7 @@ class QThumbView(QWidget):
         else:
             button.setToolButtonStyle(Qt.ToolButtonIconOnly)
             thumb_h = self.thumb_size
-        button.setText(popup.partition('\n')[2])
+        button.setText(label)
         button.clicked.connect(action)
         button.setFixedSize(self.thumb_size, self.thumb_size)
 
@@ -127,8 +127,8 @@ class QThumbViewVS(QWidget):
         self.thumbs = QThumbView(parent=self.ui.area, scroller=self.ui.scroll_bar, thumb_size=size, space=space)
         self.ui.area_layout.addWidget(self.thumbs)
 
-    def add(self, pix_fname='', action=lambda: None, popup=''):
-        self.thumbs.add(pix_fname, action, popup)
+    def add(self, pix_fname='', action=lambda: None, popup='',label=''):
+        self.thumbs.add(pix_fname, action, popup, label)
 
     def clear(self):
         self.thumbs.clear()
