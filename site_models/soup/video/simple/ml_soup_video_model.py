@@ -29,14 +29,6 @@ class MLvideoSoupSite(BaseSite):
     def can_accept_index_file(self, base_url=URL()):
         return base_url.contain('motherless.com/')
 
-    # def get_href(self, txt='', base_url=URL()):
-    #     # print(txt)
-    #     if txt.startswith('http://'):
-    #         return txt
-    #     if txt.startswith('/'):
-    #         return base_url.domain() + txt
-    #     return ''
-
     def parse_index_file(self, fname, base_url=URL()):
         result = ParseResult()
 
@@ -45,27 +37,35 @@ class MLvideoSoupSite(BaseSite):
 
             video = soup.find('div',{'id':'content'})
             if video is not None:
-                print(video)
                 urls = UrlList()
-                for source in video.find_all('source'):
-                    urls.add(source.attrs['res'], self.get_url(source.attrs['src'],base_url))
-                result.set_video(urls.get_media_data(-1))
+                is_video=False
+                for script in video.find_all('script', text=lambda x: 'jwplayer(' in x):
+                    data=str(script.string).replace(' ','')
+                    file=self.quotes(data, '"file":"','"')
+                    urls.add('DEFAULT', self.get_url(file,base_url))
+                    is_video=True
+                result.set_video(urls.get_media_data())
 
-                user=soup.find('div', {'class':'pull-left user-container'})
-                if user is not None:
-                    user_strings = [string for string in user.stripped_strings]
-                    label='"{0} {1}"'.format(user_strings[0],user_strings[1])
-                    href=user.find('a', href=lambda x: '#' not in x)
-                    result.add_control(ControlInfo(label, self.get_url(href.attrs['href']+'/videos',base_url)))
+                if is_video:
+                    user=soup.find('div', {'class':'thumb-member-username'})
+                    if user is not None:
+                        href=user.find('a').attrs['href']
+                        username=href.rpartition('/')[2]
 
-                tags=soup.find_all('div', {'class':'m-t-10 overflow-hidden'})
-                if tags is not None:
-                    for item in tags:
-                        hrefs=item.find_all('a')
-                        for href in hrefs:
-                            if href.string is not None:
-                                result.add_control(ControlInfo(str(href.string), self.get_url(href.attrs['href'],base_url)))
-                # return result
+                        result.add_control(ControlInfo('"'+username+' uploads"', URL('http://motherless.com/u/' + username + '*')))
+                        result.add_control(ControlInfo('"'+username+' gals"', URL('http://motherless.com/galleries/member/' + username + '*')))
+
+
+                    tags=soup.find_all('div', {'id':'media-tags-container'})
+                    if tags is not None:
+                        for item in tags:
+                            hrefs=item.find_all('a')
+                            for href in hrefs:
+                                # print(href)
+                                if href.string is not None:
+                                    result.add_control(ControlInfo(str(href.string), self.get_url(href.attrs['href'],base_url)))
+
+                    return result
 
             content=soup.find_all('div',{'class':['content-inner']})
             if content is not None:
@@ -85,35 +85,16 @@ class MLvideoSoupSite(BaseSite):
                 for tag in tags.find_all('a'):
                     result.add_control(ControlInfo(str(tag.string).strip(), self.get_url(tag.attrs['href'],base_url)))
 
-            pagination=soup.find('ul', {'class': 'pagination'})
+            pagination=soup.find('div', {'class': 'pagination_link'})
             if pagination is not None:
                 for page in pagination.find_all('a'):
+                    # print(page)
                     if page.string.isdigit():
                         result.add_page(ControlInfo(page.string, self.get_url(page.attrs['href'],base_url)))
 
         result.set_caption_visible(True)
         return result
 
-
-
-
-
-
-        parser = SiteParser()
-
-        startpage_rule = ParserRule()
-        startpage_rule.add_activate_rule_level([('div', 'class', 'content-inner')])
-        startpage_rule.add_process_rule_level('a', {'href'})
-        startpage_rule.add_process_rule_level('img', {'src', 'alt'})
-        startpage_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x, base_url) + '*')
-        parser.add_rule(startpage_rule)
-
-        startpage_pages_rule = ParserRule()
-        startpage_pages_rule.add_activate_rule_level([('div', 'class', 'pagination_link')])
-        # startpage_pages_rule.add_activate_rule_level([('a', 'class', 'current')])
-        startpage_pages_rule.add_process_rule_level('a', {'href'})
-        startpage_pages_rule.set_attribute_modifier_function('href', lambda x: base_url.domain() + x + '*')
-        parser.add_rule(startpage_pages_rule)
 
         startpage_hrefs_rule = ParserRule()
         startpage_hrefs_rule.add_activate_rule_level([('div', 'class', 'sub_menu dark-menu'),
@@ -122,25 +103,6 @@ class MLvideoSoupSite(BaseSite):
         startpage_hrefs_rule.add_process_rule_level('a', {'href', 'title'})
         startpage_hrefs_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x, base_url) + '*')
         parser.add_rule(startpage_hrefs_rule)
-        #
-        video_rule = ParserRule()
-        video_rule.add_activate_rule_level([('div', 'id', 'content')])
-        video_rule.add_process_rule_level('script', {})
-        video_rule.set_attribute_filter_function('data', lambda text: 'jwplayer' in text)
-        parser.add_rule(video_rule)
-        #
-        gallery_href_rule = ParserRule()
-        gallery_href_rule.add_activate_rule_level([('div', 'id', 'media-tags-container')])
-        gallery_href_rule.add_process_rule_level('a', {'href'})
-        gallery_href_rule.set_attribute_modifier_function('href', lambda x: base_url.domain() + x + '*')
-        parser.add_rule(gallery_href_rule)
-
-        gallery_user_rule = ParserRule()
-        gallery_user_rule.add_activate_rule_level([('div', 'class', 'thumb-member-username')])
-        gallery_user_rule.add_process_rule_level('a', {'href'})
-        # gallery_user_rule.set_attribute_modifier_function('href', lambda x: base_url.domain() + x + '*')
-        # gallery_user_rule.set_attribute_filter_function('href',lambda x:'/categories/' in x)
-        parser.add_rule(gallery_user_rule)
 
         self.proceed_parcing(parser, fname)
 
