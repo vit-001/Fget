@@ -153,7 +153,7 @@ class PFUNvideoSite(BaseSite):
                 label = href.split('/')[-2].upper().replace('-', ' ')
                 # print(href,label)
 
-                result.add_thumb(ThumbInfo(thumb_url=URL(item['data-original']), href=URL(href), description=label))
+                result.add_thumb(ThumbInfo(thumb_url=URL(item['data-original']), href=URL(href), popup=label))
 
             for item in startpage_pages_rule.get_result(['href', 'data']):
                 result.add_page(ControlInfo(item['data'], URL(item['href'])))

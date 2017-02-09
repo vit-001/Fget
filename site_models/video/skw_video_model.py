@@ -152,7 +152,7 @@ class SKWvideoSite(BaseSite):
                     print('New key found. Need rewrite "startpage_rule"')
                     continue
                 # print(src,item.get('src',''),item.get('data-src',''))
-                result.add_thumb(ThumbInfo(thumb_url=URL(src), href=URL(item['href']), description=item.get('alt', '')))
+                result.add_thumb(ThumbInfo(thumb_url=URL(src), href=URL(item['href']), popup=item.get('alt', '')))
 
             for item in startpage_pages_rule.get_result(['href', 'data']):
                 result.add_page(ControlInfo(item['data'], URL(item['href'])))

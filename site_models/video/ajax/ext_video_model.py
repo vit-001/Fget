@@ -101,7 +101,7 @@ class EXTvideoSite(BaseSite):
                     thumb_url = item['thumb_url']
                     title = item['specialchars_title']
                     url = item['video_link']
-                    result.add_thumb(ThumbInfo(thumb_url=URL(thumb_url), href=URL(url + '*'), description=title))
+                    result.add_thumb(ThumbInfo(thumb_url=URL(thumb_url), href=URL(url + '*'), popup=title))
 
                 # print('Page {} of {}'.format(curr_page, last_page), pattern.format(curr_page))
                 if not buttons_added:
@@ -144,7 +144,7 @@ class EXTvideoSite(BaseSite):
 
             for item in startpage_rule.get_result(['href']):
                 result.add_thumb(ThumbInfo(thumb_url=URL(item['data-srcmedium']), href=URL(item['href']),
-                                           description=item.get('alt', '')))
+                                           popup=item.get('alt', '')))
 
             xhr_data = {'base_url': base_url}
 

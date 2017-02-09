@@ -25,6 +25,7 @@ from site_models.simple.top_model import TOPSite
 from site_models.simple.tp_model import TPSite
 from site_models.simple.vp_nest.vp_nest import VPNest
 from site_models.simple.xuk_model import XUKSite
+from site_models.soup.video.script.ml_soup_video_model import MLvideoSoupSite
 from site_models.soup.video.simple.ver_soup_video_model import VERvideoSoupSite
 from site_models.video.ajax.ext_video_model import EXTvideoSite
 from site_models.video.nfl_video_model import NFLvideoSite
@@ -56,13 +57,12 @@ from site_models.video.simple.nl_video_model import NLvideoSite
 from site_models.video.simple.p4k_video_model import P4KvideoSite
 from site_models.video.simple.pb_video_model import PBvideoSite
 from site_models.video.simple.ps_video_model import PSvideoSite
-from site_models.video.simple.ver_video_model import VERvideoSite
 from site_models.video.skw_video_model import SKWvideoSite
 from site_models.video.sm_video_model import SMvideoSite
 from site_models.video.t8_video_model import T8videoSite
 from site_models.video.tz_video_model import TZvideoSite
 from site_models.video.vp_video_model import VPvideoSite
-from site_models.soup.video.simple.ml_soup_video_model import MLvideoSoupSite
+
 
 class SiteVewerModel(AbstractModel):
     def __init__(self, controller=PresenterFromModelInterface()):
@@ -71,7 +71,7 @@ class SiteVewerModel(AbstractModel):
         self.models = [
             # work on
 
-            MLvideoSoupSite(self),
+
 
             RGFvideoSite(self),
 
@@ -88,7 +88,7 @@ class SiteVewerModel(AbstractModel):
 
             # amateur
             SpaceSite(self, text='Amateur:'),
-            MLvideoSite(self),  PFUNvideoSite(self), PBvideoSite(self),SYFPvideoSite(self),
+            MLvideoSoupSite(self),  PFUNvideoSite(self), PBvideoSite(self),SYFPvideoSite(self),
 
             # s/m
             SpaceSite(self, text='Deviant:'),

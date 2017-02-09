@@ -100,7 +100,7 @@ class CLSvideoSite(BaseSite):
         if startpage_rule.is_result():
             for item in startpage_rule.get_result(['href']):
                 result.add_thumb(ThumbInfo(thumb_url=URL(item['data-original']), href=URL(item['href']),
-                                           description=item.get('alt', item.get('title', ''))))
+                                           popup=item.get('alt', item.get('title', ''))))
 
             for item in startpage_pages_rule.get_result(['href', 'data-query']):
                 result.add_page(ControlInfo(item['data-query'], URL(item['href'])))

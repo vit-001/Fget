@@ -1,9 +1,9 @@
 __author__ = 'Vit'
+from bs4 import BeautifulSoup
 
 from base_classes import URL, ControlInfo, UrlList
 from site_models.base_site_model import *
-from site_models.site_parser import SiteParser, ParserRule
-from bs4 import BeautifulSoup
+from site_models.util import get_href,_iter,get_url,quotes
 
 class VERvideoSoupSite(BaseSite):
     def start_button_name(self):
@@ -31,11 +31,12 @@ class VERvideoSoupSite(BaseSite):
         with open(fname,encoding='utf-8', errors='ignore') as fd:
             soup=BeautifulSoup(fd, "html.parser")
 
+            # parce video page
             video = soup.find('div',{'class':'video-container'})
             if video is not None:
                 urls = UrlList()
-                for source in video.find_all('source'):
-                    urls.add(source.attrs['res'], self.get_url(source.attrs['src'],base_url))
+                for source in _iter(video.find_all('source')):
+                    urls.add(source.attrs['res'], get_url(source.attrs['src'],base_url))
                 result.set_video(urls.get_media_data(-1))
 
                 user=soup.find('div', {'class':'pull-left user-container'})
@@ -43,39 +44,37 @@ class VERvideoSoupSite(BaseSite):
                     user_strings = [string for string in user.stripped_strings]
                     label='"{0} {1}"'.format(user_strings[0],user_strings[1])
                     href=user.find('a', href=lambda x: '#' not in x)
-                    result.add_control(ControlInfo(label, self.get_url(href.attrs['href']+'/videos',base_url)))
+                    result.add_control(ControlInfo(label, get_url(href.attrs['href']+'/videos',base_url)))
 
-                tags=soup.find_all('div', {'class':'m-t-10 overflow-hidden'})
-                if tags is not None:
-                    for item in tags:
-                        hrefs=item.find_all('a')
-                        for href in hrefs:
-                            if href.string is not None:
-                                result.add_control(ControlInfo(str(href.string), self.get_url(href.attrs['href'],base_url)))
+                for tag_container in _iter(soup.find_all('div', {'class':'m-t-10 overflow-hidden'})):
+                    for href in _iter(tag_container.find_all('a')):
+                        if href.string is not None:
+                            result.add_control(ControlInfo(str(href.string), get_url(href.attrs['href'],base_url)))
                 return result
 
+            # parce thumbnail page
             for thumbnail in soup.find_all('div',{'class':['well well-sm hover', 'channelContainer']}):
-                href=self.get_url(thumbnail.a.attrs['href'],base_url)
+                href=get_url(thumbnail.a.attrs['href'],base_url)
                 description=thumbnail.a.img.attrs['alt']
-                thumb_url = self.get_url(thumbnail.img.attrs['src'], base_url)
+                thumb_url = get_url(thumbnail.img.attrs['src'], base_url)
 
                 duration = thumbnail.find('div', {'class': "duration"})
                 dur_time=''
                 if duration is not None:
                     dur_time=duration.stripped_strings.__next__()
 
-                result.add_thumb(ThumbInfo(thumb_url=thumb_url,href=href,description=description, duration=dur_time, show_description=True))
+                result.add_thumb(ThumbInfo(thumb_url=thumb_url, href=href, popup=description, labels=dur_time))
 
             tags=soup.find('ul', {'class': 'drop2 hidden-xs'})
             if tags is not None:
                 for tag in tags.find_all('a'):
-                    result.add_control(ControlInfo(str(tag.string).strip(), self.get_url(tag.attrs['href'],base_url)))
+                    result.add_control(ControlInfo(str(tag.string).strip(), get_url(tag.attrs['href'],base_url)))
 
             pagination=soup.find('ul', {'class': 'pagination'})
             if pagination is not None:
                 for page in pagination.find_all('a'):
                     if page.string.isdigit():
-                        result.add_page(ControlInfo(page.string, self.get_url(page.attrs['href'],base_url)))
+                        result.add_page(ControlInfo(page.string, get_url(page.attrs['href'],base_url)))
 
         result.set_caption_visible(True)
         return result

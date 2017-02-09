@@ -81,7 +81,7 @@ class LISite(BaseSite):
             for item in startpage_rule.get_result():
                 result.add_thumb(
                     ThumbInfo(thumb_url=URL(item['src']), href=URL("http://lustimages.com" + item['href']),
-                              description=item.get('alt', '')))
+                              popup=item.get('alt', '')))
 
             for item in menu_rule.get_result(['href', 'data']):
                 result.add_control(ControlInfo(item['data'], URL(item['href'])))

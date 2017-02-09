@@ -89,7 +89,7 @@ class HDEPvideoSite(BaseSite):
 
             for item in startpage_rule.get_result(['href']):
                 result.add_thumb(
-                    ThumbInfo(thumb_url=URL(item['data-src']), href=URL(item['href']), description=item.get('alt''')))
+                    ThumbInfo(thumb_url=URL(item['data-src']), href=URL(item['href']), popup=item.get('alt''')))
 
             for item in startpage_pages_rule.get_result(['href', 'data']):
                 result.add_page(ControlInfo(item['data'], URL(item['href'])))
@@ -108,7 +108,7 @@ class HDEPvideoSite(BaseSite):
                 if item['href'] in urls:
                     continue
                 result.add_thumb(
-                    ThumbInfo(thumb_url=URL(item['data-src']), href=URL(item['href']), description=item.get('alt''')))
+                    ThumbInfo(thumb_url=URL(item['data-src']), href=URL(item['href']), popup=item.get('alt''')))
                 urls.append(item['href'])
 
             result.set_caption_visible(True)

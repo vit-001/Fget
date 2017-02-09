@@ -144,7 +144,7 @@ class PDGvideoSite(BaseSite):
 
             for item in startpage_rule.get_result(['href']):
                 result.add_thumb(
-                    ThumbInfo(thumb_url=URL(item['src']), href=URL(item['href']), description=item.get('alt', '')))
+                    ThumbInfo(thumb_url=URL(item['src']), href=URL(item['href']), popup=item.get('alt', '')))
 
             prev_data = None
             if first_page:

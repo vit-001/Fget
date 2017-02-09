@@ -149,7 +149,7 @@ class PTvideoSite(BaseSite):
                     t_href = t_href.replace('/album/', '/album/slideshow/')
                     # print(t_href)
 
-                result.add_thumb(ThumbInfo(thumb_url=URL(t_url), href=URL(t_href), description=item.get('alt', '')))
+                result.add_thumb(ThumbInfo(thumb_url=URL(t_url), href=URL(t_href), popup=item.get('alt', '')))
 
             for item in startpage_pages_rule.get_result(['href', 'data']):
                 result.add_page(ControlInfo(item['data'], URL(item['href'])))

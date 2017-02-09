@@ -92,7 +92,7 @@ class FPSite(BaseSite):
             result.set_type('hrefs')
             for item in startpage_rule.get_result(['href', 'src']):
                 result.add_thumb(ThumbInfo(thumb_url=URL(item['src']), href=URL(item['href'] + '*'),
-                                           description=item.get('alt', '')))
+                                           popup=item.get('alt', '')))
 
             for item in startpage_href_rule.get_result(['href', 'data']):
                 if item['href'].startswith('/'):

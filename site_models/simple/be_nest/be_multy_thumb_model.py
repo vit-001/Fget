@@ -100,7 +100,7 @@ class BEmultiThumbSite(BaseSite):
             result.set_type('hrefs')
             for item in startpage_rule.get_result():
                 result.add_thumb(
-                    ThumbInfo(thumb_url=URL(item['src']), href=URL(item['href']), description=item.get('alt', '')))
+                    ThumbInfo(thumb_url=URL(item['src']), href=URL(item['href']), popup=item.get('alt', '')))
         else:
             print(base_url.get(), ' not parsed by BEmultiThumbSite. Add rule.')
 

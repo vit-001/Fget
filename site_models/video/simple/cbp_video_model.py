@@ -77,7 +77,7 @@ class CBPvideoSite(BaseSite):
                 href = item['href']
                 if '/category/' in href:
                     result.set_caption_visible(True)
-                result.add_thumb(ThumbInfo(thumb_url=URL(item['src']), href=URL(href), description=item.get('alt', '')))
+                result.add_thumb(ThumbInfo(thumb_url=URL(item['src']), href=URL(href), popup=item.get('alt', '')))
 
             for item in startpage_pages_rule.get_result(['href', 'data']):
                 result.add_page(ControlInfo(item['data'], URL(item['href'])))

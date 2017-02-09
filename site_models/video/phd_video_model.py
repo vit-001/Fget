@@ -140,7 +140,7 @@ class PHDvideoSite(BaseSite):
             for item in channels_rule.get_result():
                 # print(item)
                 info = item['href'].rpartition('/')[2].strip('*')
-                result.add_thumb(ThumbInfo(thumb_url=URL(item['src']), href=URL(item['href']), description=info))
+                result.add_thumb(ThumbInfo(thumb_url=URL(item['src']), href=URL(item['href']), popup=info))
 
             add_pages_info_to_result(channel_categories_rule, description_key='data')
 
@@ -156,7 +156,7 @@ class PHDvideoSite(BaseSite):
                 # print(item)
                 t_url = item.get('data-original', item['src'])
                 result.add_thumb(
-                    ThumbInfo(thumb_url=URL(t_url), href=URL(item['href']), description=item.get('alt', '')))
+                    ThumbInfo(thumb_url=URL(t_url), href=URL(item['href']), popup=item.get('alt', '')))
 
             add_pages_info_to_result(startpage_pages_rule)
 

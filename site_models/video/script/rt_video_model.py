@@ -149,7 +149,7 @@ class RTvideoSite(BaseSite):
             result.set_caption_visible(True)
             for item in pornstars_rule.get_result():
                 result.add_thumb(
-                    ThumbInfo(thumb_url=URL(item['src']), href=URL(item['href']), description=item.get('alt', '')))
+                    ThumbInfo(thumb_url=URL(item['src']), href=URL(item['href']), popup=item.get('alt', '')))
 
             for item in startpage_pages_rule.get_result(['href', 'data']):
                 result.add_page(ControlInfo(item['data'], URL(item['href'])))
@@ -163,7 +163,7 @@ class RTvideoSite(BaseSite):
             for item in channels_rule.get_result(['href']):
                 thumb_href = item.get('data-src', item.get('src'))
                 descr = item.get('alt', '').title()
-                result.add_thumb(ThumbInfo(thumb_url=URL(thumb_href), href=URL(item['href']), description=descr))
+                result.add_thumb(ThumbInfo(thumb_url=URL(thumb_href), href=URL(item['href']), popup=descr))
 
             for item in startpage_pages_rule.get_result(['href', 'data']):
                 result.add_page(ControlInfo(item['data'], URL(item['href'])))
@@ -176,7 +176,7 @@ class RTvideoSite(BaseSite):
             for item in startpage_rule.get_result(['href']):
                 thumb_href = item.get('data-src', item.get('src'))
                 descr = item.get('title', item.get('alt', ''))
-                result.add_thumb(ThumbInfo(thumb_url=URL(thumb_href), href=URL(item['href']), description=descr))
+                result.add_thumb(ThumbInfo(thumb_url=URL(thumb_href), href=URL(item['href']), popup=descr))
 
             for item in startpage_pages_rule.get_result(['href', 'data']):
                 result.add_page(ControlInfo(item['data'], URL(item['href'])))

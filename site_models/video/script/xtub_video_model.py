@@ -102,7 +102,7 @@ class XTUBvideoSite(BaseSite):
             for item in startpage_rule.get_result(['href']):
                 # print(item)
                 result.add_thumb(
-                    ThumbInfo(thumb_url=URL(item.get('data-lazysrc',item['src'])), href=URL(item['href']), description=item.get('alt''')))
+                    ThumbInfo(thumb_url=URL(item.get('data-lazysrc',item['src'])), href=URL(item['href']), popup=item.get('alt''')))
 
             for item in startpage_pages_rule.get_result(['href', 'data']):
                 # print(item)

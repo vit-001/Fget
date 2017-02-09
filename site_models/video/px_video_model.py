@@ -116,7 +116,7 @@ class PXvideoSite(BaseSite):
 
             for item in startpage_rule.get_result(['href', 'src']):
                 result.add_thumb(ThumbInfo(thumb_url=URL(item['src'].replace(' ', '%20')), href=URL(item['href']),
-                                           description=item.get('alt', '')))
+                                           popup=item.get('alt', '')))
 
             for item in startpage_pages_rule.get_result(['href', 'data']):
                 result.add_page(ControlInfo(item['data'], URL(item['href'])))

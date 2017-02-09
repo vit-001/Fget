@@ -3,18 +3,32 @@ __author__ = 'Nikitin'
 
 from base_classes import URL
 
-
-def get_href(txt='', base_url=URL()):
+def get_href( txt:str, base_url:URL):
     txt = txt.strip()
     if not txt.endswith('/'):
         txt = txt + "*"
     if txt.startswith('http://'):
         return txt
+    if txt.startswith('//'):
+        return 'http:' + txt
+    if txt.startswith('https://'):
+        return txt
     if txt.startswith('/'):
-        return base_url.domain() + txt
+        return 'http://' + base_url.domain() + txt
     # print(base_url.get() + txt)
     return base_url.get().rpartition('/')[0] + '/' + txt
 
+def get_url(txt:str, base_url:URL):
+    return URL(get_href(txt,base_url))
+
+def quotes(text:str, from_lex:str, to_lex:str):
+    return text.partition(from_lex)[2].partition(to_lex)[0]
+
+def _iter(source):
+    if source is None:
+        return []
+    else:
+        return source
 
 decode_table = dict()
 decode_table['%3A'] = ':'

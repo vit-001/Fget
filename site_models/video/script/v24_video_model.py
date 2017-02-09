@@ -87,7 +87,7 @@ class V24videoSite(BaseSite):
 
             for item in startpage_rule.get_result(['href']):
                 result.add_thumb(ThumbInfo(thumb_url=URL(item['data-original']), href=URL(item['href']),
-                                           description=item.get('alt', item.get('title', ''))))
+                                           popup=item.get('alt', item.get('title', ''))))
 
             for item in startpage_pages_rule.get_result(['href', 'data']):
                 result.add_page(ControlInfo(item['data'], URL(item['href'])))

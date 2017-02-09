@@ -5,36 +5,41 @@ from PyQt5.QtCore import QPoint, QRect, QSize, Qt
 from PyQt5.QtGui import QPixmap, QIcon
 from PyQt5.QtWidgets import QToolButton,QWidget,QPushButton,QLayout,QSizePolicy,QApplication,QVBoxLayout,QLabel
 
+from bs4 import BeautifulStoneSoup
+
+def get_align(align_string='top'):
+    s=align_string.upper().split(' ')
+    print(s)
+    align=Qt.AlignAbsolute
+    print(align)
+    for item in s:
+        if item == 'LEFT': align |=Qt.AlignLeft
+        if item == 'RIGHT': align |= Qt.AlignRight
+        if item == 'CENTER': align |= Qt.AlignHCenter
+        if item == 'JUSTIFY': align |= Qt.AlignJustify
+        if item == 'TOP': align |= Qt.AlignTop
+        if item == 'BOTTOM': align |= Qt.AlignBottom
+    print(align)
+    return align
+
 class QAnnotatedButton(QToolButton):
 
-    def __init__(self, QWidget_parent=None):
+    def __init__(self, QWidget_parent=None, labels:list=tuple()):
         super().__init__(QWidget_parent)
 
-        label1=QLabel(self)
-        label1.setText('')
-        label1.setAlignment(Qt.AlignTop | Qt.AlignRight)
-        label1.setMargin(5)
-        self.label_top=label1
+        self.labels=list()
 
-        label2=QLabel(self)
-        label2.setText('')
-        label2.setAlignment(Qt.AlignBottom | Qt.AlignCenter)
-        label2.setMargin(5)
-        self.label_bottom=label2
-
-
+        for item in labels:
+            label=QLabel(self)
+            label.setText(item['text'])
+            label.setAlignment(get_align(item.get('align','bottom')) )
+            label.setMargin(5)
+            self.labels.append(label)
 
     def setFixedSize(self, *__args):
         super().setFixedSize(*__args)
-        self.label_top.setFixedSize(*__args)
-        self.label_bottom.setFixedSize(*__args)
-
-    def setTextTop(self, p_str):
-        self.label_top.setText(p_str)
-
-    def setTextBottom(self, p_str):
-        self.label_bottom.setText(p_str)
-
+        for item in self.labels:
+            item.setFixedSize(*__args)
 
 if __name__ == "__main__":
 
