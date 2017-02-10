@@ -6,29 +6,27 @@ from site_models.base_site_model import ParseResult,ControlInfo, ThumbInfo
 from site_models.soup.base_soup_model import BaseSoupSite,_iter
 from site_models.util import get_href,get_url,quotes
 
-class VERvideoSoupSite(BaseSoupSite):
+class CBPvideoSoupSite(BaseSoupSite):
     def start_button_name(self):
-        return "VERvid"
+        return "CBPvid"
 
     def get_start_button_menu_text_url_dict(self):
-        return dict(Videos_Most_Recsent=URL('https://www.veronicca.com/videos?o=mr*'),
-                    Videos_Most_Viewed=URL('https://www.veronicca.com/videos?o=mv*'),
-                    Videos_Most_Commented=URL('https://www.veronicca.com/videos?o=md*'),
-                    Videos_Top_Rated=URL('https://www.veronicca.com/videos?o=tr*'),
-                    Videos_Top_Favorited=URL('https://www.veronicca.com/videos?o=tf*'),
-                    Videos_Longest=URL('https://www.veronicca.com/videos?o=lg*'),
-                    Channels=URL('https://www.veronicca.com/channels*')
-                    )
+        return dict(HD=URL('http://collectionofbestporn.com/tag/hd-porn*'),
+                    Latest=URL('http://collectionofbestporn.com/most-recent*'),
+                    TopRated=URL('http://collectionofbestporn.com/top-rated*'),
+                    MostViewed=URL('http://collectionofbestporn.com/most-viewed*'),
+                    Categories=URL('http://collectionofbestporn.com/channels/'),
+                    Longest=URL('http://collectionofbestporn.com/longest*'))
 
     def startpage(self):
-        return URL("https://www.veronicca.com/videos?o=mr*")
+        return URL("http://collectionofbestporn.com/most-recent*")
 
     def can_accept_index_file(self, base_url=URL()):
-        return base_url.contain('veronicca.com/')
+        return base_url.contain('collectionofbestporn.com/')
 
     def parse_soup(self, soup: BeautifulSoup, result: ParseResult, base_url: URL):
         # parce video page
-        video = soup.find('div',{'class':'video-container'})
+        video = soup.find('video')
         if video is not None:
             urls = UrlList()
             for source in _iter(video.find_all('source')):
@@ -42,23 +40,28 @@ class VERvideoSoupSite(BaseSoupSite):
                 href=user.find('a', href=lambda x: '#' not in x)
                 result.add_control(ControlInfo(label, get_url(href.attrs['href']+'/videos',base_url)))
 
-            for tag_container in _iter(soup.find_all('div', {'class':'m-t-10 overflow-hidden'})):
+            for tag_container in _iter(soup.find_all('div', {'class':'tags-container'})):
                 for href in _iter(tag_container.find_all('a')):
                     if href.string is not None:
                         result.add_control(ControlInfo(str(href.string), get_url(href.attrs['href'],base_url)))
             return result
 
         # parce thumbnail page
-        for thumbnail in soup.find_all('div',{'class':['well well-sm hover', 'channelContainer']}):
+        for thumbnail in soup.find_all('div',{'class':'video-thumb'}):
             href=get_url(thumbnail.a.attrs['href'],base_url)
             description=thumbnail.a.img.attrs['alt']
             thumb_url = get_url(thumbnail.img.attrs['src'], base_url)
 
-            duration = thumbnail.find('div', {'class': "duration"})
-            dur_time= '' if duration is None else duration.stripped_strings.__next__()
+            duration = thumbnail.find('span', {'class': "time"})
+            dur_time= '' if duration is None else str(duration.string)
+
+            quality = thumbnail.find('span', {'class': "quality"})
+            qual = '' if quality is None else str(quality.string)
 
             result.add_thumb(ThumbInfo(thumb_url=thumb_url, href=href, popup=description,
-                                       labels=[{'text':dur_time, 'align':'top right'},{'text':description, 'align':'bottom center'}]))
+                                       labels=[{'text':dur_time, 'align':'top right'},
+                                               {'text':description, 'align':'bottom center'},
+                                               {'text':qual,'align':'top left'}]))
 
         tags=soup.find('ul', {'class': 'drop2 hidden-xs'})
         if tags is not None:

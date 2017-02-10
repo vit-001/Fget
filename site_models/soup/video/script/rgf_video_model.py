@@ -56,29 +56,15 @@ class RGFvideoSite(BaseSoupSite):
 
                 return result
 
-        # # parce categories page
-        # categories = set()
-        # for category in _iter(soup.find_all('div', {'class': 'catbox'})):
-        #     href = get_url(category.a.attrs['href'], base_url)
-        #     thumb_url = get_url(category.img.attrs['data-src'], base_url)
-        #     title = str(category.find('div', {'class': 'title'}).string)
-        #
-        #     if title not in categories:
-        #         result.add_thumb(ThumbInfo(thumb_url=thumb_url, href=href, popup=title,
-        #                                    labels=[{'text': title, 'align': 'top right'}]))
-        #         categories.add(title)
-
         # parce thumbnail page
         for thumbnail in _iter(soup.find_all('div',{'class':'post'})):
             href=get_url(thumbnail.a.attrs['href'],base_url)
             description=thumbnail.a.img.attrs['alt']
             thumb_url = get_url(thumbnail.img.attrs['src'], base_url)
-            print(description,thumb_url)
+
             duration=thumbnail.find('b',{'class':'post-duration'})
-            if duration is not None:
-                dur_time = str(duration.string)
-            else:
-                dur_time=''
+            dur_time= '' if duration is None else str(duration.string)
+
             result.add_thumb(ThumbInfo(thumb_url=thumb_url, href=href, popup=description,
                                        labels=[{'text':dur_time, 'align':'top right'},{'text':description, 'align':'bottom center'}]))
 
@@ -92,9 +78,6 @@ class RGFvideoSite(BaseSoupSite):
             for page in _iter(pagination.find_all('a')):
                 if page.string is not None and page.string.isdigit():
                     result.add_page(ControlInfo(page.string, get_url(page.attrs['href'],base_url)))
-        return result
-
-
         return result
 
 if __name__ == "__main__":

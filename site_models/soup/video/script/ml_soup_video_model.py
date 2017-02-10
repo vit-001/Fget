@@ -66,15 +66,23 @@ class MLvideoSoupSite(BaseSoupSite):
         # parce thumbnail page
         for item in _iter(soup.find_all('div', {'class': ['content-inner']})):
             for thumbnail in _iter(item.find_all('div', {'class': 'thumb'})):
-                captions = [s for s in thumbnail.stripped_strings]
-                description = captions[0]
-                dur_time = captions[1]
                 href = get_url(thumbnail.a.attrs['href'], base_url)
                 thumb_url = get_url(thumbnail.img.attrs['src'], base_url)
 
+                duration = thumbnail.find('div', {'class': 'caption left'})
+                dur_time = '' if duration is None else str(duration.string)
+
+                caption = thumbnail.find('h2', {'class': 'caption title'})
+                label = '' if caption is None else str(caption.string)
+
+                user = thumbnail.find('a', {'class': 'caption left'})
+                username = '' if user is None else str(user.string)
+
                 if not 'x' in dur_time:
-                    result.add_thumb(ThumbInfo(thumb_url=thumb_url, href=href, popup=description,
-                                               labels=[{'text':dur_time, 'align':'top right'},{'text':description, 'align':'bottom center'}]))
+                    result.add_thumb(ThumbInfo(thumb_url=thumb_url, href=href, popup=label,
+                                               labels=[{'text':dur_time, 'align':'top right'},
+                                                       {'text':label, 'align':'bottom center'},
+                                                       {'text': username, 'align': 'top left'}]))
         #adding tags to thumbs
         tags = soup.find('div', {'class': 'dark-menu'})
         if tags is not None:
