@@ -17,8 +17,10 @@ class QButtonLine(QWidget):
         self.speed = 40
 
     def add_button(self, text='', action=lambda: None, menu=None, tooltip='', bold=False, underline=False,
-                   autoraise=False):
+                   autoraise=False, text_color:str=None):
         button = QToolButton(self)
+        if text_color is not None:
+            button.setStyleSheet('QToolButton {color: '+text_color+';}')
         button.setText(text)
         font = QFont()
         font.setBold(bold)

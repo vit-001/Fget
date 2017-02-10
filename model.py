@@ -26,6 +26,8 @@ from site_models.simple.tp_model import TPSite
 from site_models.simple.vp_nest.vp_nest import VPNest
 from site_models.simple.xuk_model import XUKSite
 from site_models.soup.video.script.ml_soup_video_model import MLvideoSoupSite
+from site_models.soup.video.script.rgf_video_model import RGFvideoSite
+from site_models.soup.video.simple.hdep_soup_video_model import HDEPvideoSoupSite
 from site_models.soup.video.simple.ver_soup_video_model import VERvideoSoupSite
 from site_models.video.ajax.ext_video_model import EXTvideoSite
 from site_models.video.nfl_video_model import NFLvideoSite
@@ -43,16 +45,13 @@ from site_models.video.px_video_model import PXvideoSite
 from site_models.video.script.cls_video_model import CLSvideoSite
 from site_models.video.script.dc_video_model import DCvideoSite
 from site_models.video.script.pc_video_model import PCvideoSite
-from site_models.video.script.rgf_video_model import RGFvideoSite
 from site_models.video.script.rt_video_model import RTvideoSite
 from site_models.video.script.syf_video_model import SYFPvideoSite
 from site_models.video.script.v24_video_model import V24videoSite
 from site_models.video.simple.bmt_video_model import BMTvideoSite
 from site_models.video.simple.cbp_video_model import CBPvideoSite
 from site_models.video.simple.gb_video_model import GBvideoSite
-from site_models.video.simple.hdep_video_model import HDEPvideoSite
 from site_models.video.simple.hr_video_model import HRvideoSite
-from site_models.video.simple.ml_video_model import MLvideoSite
 from site_models.video.simple.nl_video_model import NLvideoSite
 from site_models.video.simple.p4k_video_model import P4KvideoSite
 from site_models.video.simple.pb_video_model import PBvideoSite
@@ -62,7 +61,6 @@ from site_models.video.sm_video_model import SMvideoSite
 from site_models.video.t8_video_model import T8videoSite
 from site_models.video.tz_video_model import TZvideoSite
 from site_models.video.vp_video_model import VPvideoSite
-from site_models.soup.video.simple.hdep_soup_video_model import HDEPvideoSoupSite
 
 
 class SiteVewerModel(AbstractModel):
@@ -72,13 +70,13 @@ class SiteVewerModel(AbstractModel):
         self.models = [
             # work on
 
-            HDEPvideoSoupSite(self),
 
-            RGFvideoSite(self),
+
+
 
             # classic
             SpaceSite(self, text='Classic:'),
-            HDEPvideoSite(self),
+            HDEPvideoSoupSite(self),
             YPvideoSite(self), SXXvideoSite(self),  NFLvideoSite(self), V24videoSite(self),
             PCvideoSite(self), CBPvideoSite(self), PXvideoSite(self), RTvideoSite(self), CLSvideoSite(self),
             VERvideoSoupSite(self), PBZvideoSite(self),
@@ -89,7 +87,7 @@ class SiteVewerModel(AbstractModel):
 
             # amateur
             SpaceSite(self, text='Amateur:'),
-            MLvideoSoupSite(self),  PFUNvideoSite(self), PBvideoSite(self),SYFPvideoSite(self),
+            MLvideoSoupSite(self),  RGFvideoSite(self), PFUNvideoSite(self), PBvideoSite(self),SYFPvideoSite(self),
 
             # s/m
             SpaceSite(self, text='Deviant:'),

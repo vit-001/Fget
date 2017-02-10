@@ -2,12 +2,12 @@ __author__ = 'Vit'
 
 from bs4 import BeautifulSoup
 
-from base_classes import URL, ControlInfo, UrlList
-from site_models.base_site_model import *
-from site_models.util import get_href,_iter,get_url,quotes
+from base_classes import UrlList,URL
+from site_models.base_site_model import ParseResult,ControlInfo, ThumbInfo
+from site_models.soup.base_soup_model import BaseSoupSite, _iter
+from site_models.util import get_href,get_url,quotes
 
-
-class HDEPvideoSoupSite(BaseSite):
+class HDEPvideoSoupSite(BaseSoupSite):
     def start_button_name(self):
         return "HDEPvid"
 
@@ -25,151 +25,56 @@ class HDEPvideoSoupSite(BaseSite):
     def can_accept_index_file(self, base_url=URL()):
         return base_url.contain('hd-easyporn.com/')
 
-    def parse_index_file(self, fname, base_url=URL()):
-        result = ParseResult()
-
-        with open(fname,encoding='utf-8', errors='ignore') as fd:
-            soup=BeautifulSoup(fd, "html.parser")
-
-            # parce video page
-            video = soup.find('div',{'class':'video-container'})
-            if video is not None:
-                urls = UrlList()
-                for source in _iter(video.find_all('source')):
-                    urls.add(source.attrs['res'], get_url(source.attrs['src'],base_url))
-                result.set_video(urls.get_media_data(-1))
-
-                user=soup.find('div', {'class':'pull-left user-container'})
-                if user is not None:
-                    user_strings = [string for string in user.stripped_strings]
-                    label='"{0} {1}"'.format(user_strings[0],user_strings[1])
-                    href=user.find('a', href=lambda x: '#' not in x)
-                    result.add_control(ControlInfo(label, get_url(href.attrs['href']+'/videos',base_url)))
-
-                for tag_container in _iter(soup.find_all('div', {'class':'m-t-10 overflow-hidden'})):
-                    for href in _iter(tag_container.find_all('a')):
-                        if href.string is not None:
-                            result.add_control(ControlInfo(str(href.string), get_url(href.attrs['href'],base_url)))
-                return result
-
-            # parce thumbnail page
-            thumbs_container=soup.find('div',{'class':'videos cf'})
-            if thumbs_container is not None:
-                for thumbnail in _iter(thumbs_container.find_all('div',{'class':['polaroid']})):
-                    # print(thumbnail)
-                    href=get_url(thumbnail.a.attrs['href'],base_url)
-                    description=thumbnail.a.img.attrs['alt']
-                    thumb_url = get_url(thumbnail.img.attrs['data-src'], base_url)
-                    dur_time = str(thumbnail.find('div', {'class': "duration"}).string)
-                    result.add_thumb(ThumbInfo(thumb_url=thumb_url, href=href, popup=description,
-                                               labels=[{'text':dur_time, 'align':'top right'},{'text':description, 'align':'bottom center'}]))
-                print('=============')
-                tags=soup.find('ul', {'class': 'drop2 hidden-xs'})
-                if tags is not None:
-                    for tag in tags.find_all('a'):
-                        result.add_control(ControlInfo(str(tag.string).strip(), get_url(tag.attrs['href'],base_url)))
-
-                pagination=soup.find('ul', {'class': 'pagination'})
-                if pagination is not None:
-                    for page in pagination.find_all('a'):
-                        if page.string.isdigit():
-                            result.add_page(ControlInfo(page.string, get_url(page.attrs['href'],base_url)))
-
-        result.set_caption_visible(True)
-        return result
-
-
-
-        parser = SiteParser()
-
-        startpage_rule = ParserRule()
-        startpage_rule.add_activate_rule_level([('section', '', '')])
-        startpage_rule.add_activate_rule_level([('div', 'class', 'videos cf')])
-        startpage_rule.add_process_rule_level('a', {'href'})
-        startpage_rule.add_process_rule_level('img', {'data-src', 'alt'})
-        startpage_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x, base_url))
-        startpage_rule.set_attribute_modifier_function('data-src', lambda x: self.get_href(x, base_url))
-        parser.add_rule(startpage_rule)
-
-        categories_rule = ParserRule()
-        # categories_rule.add_activate_rule_level([('section', '', '')])
-        categories_rule.add_activate_rule_level([('div', 'class', 'catbox')])
-        categories_rule.add_process_rule_level('a', {'href'})
-        categories_rule.add_process_rule_level('img', {'data-src', 'alt'})
-        categories_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x, base_url))
-        categories_rule.set_attribute_modifier_function('data-src', lambda x: self.get_href(x, base_url))
-        parser.add_rule(categories_rule)
-
-        startpage_pages_rule = ParserRule()
-        startpage_pages_rule.add_activate_rule_level([('div', 'class', 'pagination')])
-        startpage_pages_rule.add_process_rule_level('a', {'href'})
-        startpage_pages_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x, base_url))
-        parser.add_rule(startpage_pages_rule)
-
-        startpage_tags_rule = ParserRule()
-        startpage_tags_rule.add_activate_rule_level([('ul', 'class', 'tags cf')])
-        startpage_tags_rule.add_process_rule_level('a', {'href'})
-        startpage_tags_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x, base_url))
-        parser.add_rule(startpage_tags_rule)
-
-        video_rule = ParserRule()
-        video_rule.add_activate_rule_level([('video', 'id', 'video_id')])
-        video_rule.add_process_rule_level('source', {'src', 'res'})
-        # video_rule.set_attribute_filter_function('data', lambda text: 'flashvars' in text)
-        video_rule.set_attribute_modifier_function('src', lambda x: self.get_href(x, base_url))
-        parser.add_rule(video_rule)
-        #
-        gallery_href_rule = ParserRule()
-        gallery_href_rule.add_activate_rule_level([('div', 'class', 'video_header')])
-        gallery_href_rule.add_process_rule_level('a', {'href'})
-        gallery_href_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x, base_url))
-        parser.add_rule(gallery_href_rule)
-
-        self.proceed_parcing(parser, fname)
-
-        result = ParseResult()
-
-        if video_rule.is_result():
-
+    def parse_soup(self, soup: BeautifulSoup, result: ParseResult, base_url: URL):
+        # parce video page
+        video = soup.find('div',{'class':'video'})
+        if video is not None:
             urls = UrlList()
-            for item in video_rule.get_result():
-                urls.add(item['res'], URL(item['src']))
+            for source in _iter(video.find_all('source')):
+                urls.add(source.attrs['res'], get_url(source.attrs['src'],base_url))
             result.set_video(urls.get_media_data(-1))
 
-            for f in gallery_href_rule.get_result(['data', 'href']):
-                result.add_control(ControlInfo(f['data'], URL(f['href'])))
-
+            for tag_container in _iter(soup.find_all('div', {'class':'video_header'})):
+                for href in _iter(tag_container.find_all('a')):
+                    if href.string is not None:
+                        result.add_control(ControlInfo(str(href.string), get_url(href.attrs['href'],base_url)))
             return result
 
-        if startpage_rule.is_result():
+        # parce thumbnail page
+        thumbs_container=soup.find('div',{'class':'videos cf'})
+        if thumbs_container is not None:
+            for thumbnail in _iter(thumbs_container.find_all('div',{'class':['polaroid']})):
+                href=get_url(thumbnail.a.attrs['href'],base_url)
+                description=thumbnail.a.img.attrs['alt']
+                thumb_url = get_url(thumbnail.img.attrs['data-src'], base_url)
+                dur_time = str(thumbnail.find('div', {'class': "duration"}).string)
+                result.add_thumb(ThumbInfo(thumb_url=thumb_url, href=href, popup=description,
+                                           labels=[{'text':dur_time, 'align':'top right'},{'text':description, 'align':'bottom center'}]))
 
-            for item in startpage_rule.get_result(['href']):
-                result.add_thumb(
-                    ThumbInfo(thumb_url=URL(item['data-src']), href=URL(item['href']), popup=item.get('alt''')))
+            tags=soup.find('ul', {'class': 'tags cf'})
+            if tags is not None:
+                for tag in tags.find_all('a'):
+                    result.add_control(ControlInfo(str(tag.string).strip(), get_url(tag.attrs['href'],base_url)))
 
-            for item in startpage_pages_rule.get_result(['href', 'data']):
-                result.add_page(ControlInfo(item['data'], URL(item['href'])))
-
-            for item in startpage_tags_rule.get_result(['href', 'data']):
-                result.add_control(ControlInfo(item['data'], URL(item['href'])))
-
-            if base_url.contain('/categories/'):
-                result.set_caption_visible(True)
-
+            pagination=soup.find('div', {'class': 'pagination'})
+            if pagination is not None:
+                for page in pagination.find_all('a'):
+                    if page.string.isdigit():
+                        result.add_page(ControlInfo(page.string, get_url(page.attrs['href'],base_url)))
             return result
 
-        if categories_rule.is_result():
-            urls = list()
-            for item in categories_rule.get_result(['href']):
-                if item['href'] in urls:
-                    continue
-                result.add_thumb(
-                    ThumbInfo(thumb_url=URL(item['data-src']), href=URL(item['href']), popup=item.get('alt''')))
-                urls.append(item['href'])
+        # parce categories page
+        categories=set()
+        for category in _iter(soup.find_all('div',{'class':'catbox'})):
+            href = get_url(category.a.attrs['href'], base_url)
+            thumb_url = get_url(category.img.attrs['data-src'], base_url)
+            title=str(category.find('div',{'class':'title'}).string)
 
-            result.set_caption_visible(True)
+            if title not in categories:
+                result.add_thumb(ThumbInfo(thumb_url=thumb_url, href=href, popup=title,
+                                       labels=[{'text': title, 'align': 'top right'}]))
+                categories.add(title)
         return result
-
 
 if __name__ == "__main__":
     pass

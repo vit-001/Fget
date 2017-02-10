@@ -86,7 +86,7 @@ class BaseSite(AbstractSite):
                                                    url=self.startpage(),
                                                    menu_text_url_dict=self.get_start_button_menu_text_url_dict(),
                                                    bold=self.bold(), underline=self.underline(),
-                                                   autoraise=self.autoraise()))
+                                                   autoraise=self.autoraise(),text_color=self.text_color()))
 
     def bold(self):
         return False
@@ -96,6 +96,9 @@ class BaseSite(AbstractSite):
 
     def autoraise(self):
         return False
+
+    def text_color(self):
+        return None
 
     def get_href(self, txt:str, base_url:URL):
         txt = txt.strip()

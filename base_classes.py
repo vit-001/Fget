@@ -144,13 +144,14 @@ class MediaData:
         self.alternate.append(text_url_dict)
 
 class ControlInfo:
-    def __init__(self, text:str, url:URL, menu_text_url_dict=None, bold=False, underline=False, autoraise=False):
+    def __init__(self, text:str, url:URL, menu_text_url_dict=None, bold=False, underline=False, autoraise=False, text_color=None):
         self.text = text
         self.url = url
         self.menu_text_url_dict = menu_text_url_dict
         self.bold = bold
         self.underline = underline
         self.autorise = autoraise
+        self.text_color=text_color
 
 class AbstractModelFromControllerInterface():
     def can_accept_url(self, url:URL): pass

@@ -1,11 +1,12 @@
 __author__ = 'Vit'
 from bs4 import BeautifulSoup
 
-from base_classes import URL, ControlInfo, UrlList
-from site_models.base_site_model import *
-from site_models.util import get_href,_iter,get_url,quotes
+from base_classes import UrlList,URL
+from site_models.base_site_model import ParseResult,ControlInfo, ThumbInfo
+from site_models.soup.base_soup_model import BaseSoupSite,_iter
+from site_models.util import get_href,get_url,quotes
 
-class VERvideoSoupSite(BaseSite):
+class VERvideoSoupSite(BaseSoupSite):
     def start_button_name(self):
         return "VERvid"
 
@@ -25,59 +26,53 @@ class VERvideoSoupSite(BaseSite):
     def can_accept_index_file(self, base_url=URL()):
         return base_url.contain('veronicca.com/')
 
-    def parse_index_file(self, fname, base_url=URL()):
-        result = ParseResult()
+    def parse_soup(self, soup: BeautifulSoup, result: ParseResult, base_url: URL):
+        # parce video page
+        video = soup.find('div',{'class':'video-container'})
+        if video is not None:
+            urls = UrlList()
+            for source in _iter(video.find_all('source')):
+                urls.add(source.attrs['res'], get_url(source.attrs['src'],base_url))
+            result.set_video(urls.get_media_data(-1))
 
-        with open(fname,encoding='utf-8', errors='ignore') as fd:
-            soup=BeautifulSoup(fd, "html.parser")
+            user=soup.find('div', {'class':'pull-left user-container'})
+            if user is not None:
+                user_strings = [string for string in user.stripped_strings]
+                label='"{0} {1}"'.format(user_strings[0],user_strings[1])
+                href=user.find('a', href=lambda x: '#' not in x)
+                result.add_control(ControlInfo(label, get_url(href.attrs['href']+'/videos',base_url)))
 
-            # parce video page
-            video = soup.find('div',{'class':'video-container'})
-            if video is not None:
-                urls = UrlList()
-                for source in _iter(video.find_all('source')):
-                    urls.add(source.attrs['res'], get_url(source.attrs['src'],base_url))
-                result.set_video(urls.get_media_data(-1))
+            for tag_container in _iter(soup.find_all('div', {'class':'m-t-10 overflow-hidden'})):
+                for href in _iter(tag_container.find_all('a')):
+                    if href.string is not None:
+                        result.add_control(ControlInfo(str(href.string), get_url(href.attrs['href'],base_url)))
+            return result
 
-                user=soup.find('div', {'class':'pull-left user-container'})
-                if user is not None:
-                    user_strings = [string for string in user.stripped_strings]
-                    label='"{0} {1}"'.format(user_strings[0],user_strings[1])
-                    href=user.find('a', href=lambda x: '#' not in x)
-                    result.add_control(ControlInfo(label, get_url(href.attrs['href']+'/videos',base_url)))
+        # parce thumbnail page
+        for thumbnail in soup.find_all('div',{'class':['well well-sm hover', 'channelContainer']}):
+            href=get_url(thumbnail.a.attrs['href'],base_url)
+            description=thumbnail.a.img.attrs['alt']
+            thumb_url = get_url(thumbnail.img.attrs['src'], base_url)
 
-                for tag_container in _iter(soup.find_all('div', {'class':'m-t-10 overflow-hidden'})):
-                    for href in _iter(tag_container.find_all('a')):
-                        if href.string is not None:
-                            result.add_control(ControlInfo(str(href.string), get_url(href.attrs['href'],base_url)))
-                return result
+            duration = thumbnail.find('div', {'class': "duration"})
+            dur_time=''
+            if duration is not None:
+                dur_time=duration.stripped_strings.__next__()
 
-            # parce thumbnail page
-            for thumbnail in soup.find_all('div',{'class':['well well-sm hover', 'channelContainer']}):
-                href=get_url(thumbnail.a.attrs['href'],base_url)
-                description=thumbnail.a.img.attrs['alt']
-                thumb_url = get_url(thumbnail.img.attrs['src'], base_url)
+            result.add_thumb(ThumbInfo(thumb_url=thumb_url, href=href, popup=description,
+                                       labels=[{'text':dur_time, 'align':'top right'},{'text':description, 'align':'bottom center'}]))
 
-                duration = thumbnail.find('div', {'class': "duration"})
-                dur_time=''
-                if duration is not None:
-                    dur_time=duration.stripped_strings.__next__()
+        tags=soup.find('ul', {'class': 'drop2 hidden-xs'})
+        if tags is not None:
+            for tag in tags.find_all('a'):
+                result.add_control(ControlInfo(str(tag.string).strip(), get_url(tag.attrs['href'],base_url)))
 
-                result.add_thumb(ThumbInfo(thumb_url=thumb_url, href=href, popup=description,
-                                           labels=[{'text':dur_time, 'align':'top right'},{'text':description, 'align':'bottom center'}]))
+        pagination=soup.find('ul', {'class': 'pagination'})
+        if pagination is not None:
+            for page in pagination.find_all('a'):
+                if page.string.isdigit():
+                    result.add_page(ControlInfo(page.string, get_url(page.attrs['href'],base_url)))
 
-            tags=soup.find('ul', {'class': 'drop2 hidden-xs'})
-            if tags is not None:
-                for tag in tags.find_all('a'):
-                    result.add_control(ControlInfo(str(tag.string).strip(), get_url(tag.attrs['href'],base_url)))
-
-            pagination=soup.find('ul', {'class': 'pagination'})
-            if pagination is not None:
-                for page in pagination.find_all('a'):
-                    if page.string.isdigit():
-                        result.add_page(ControlInfo(page.string, get_url(page.attrs['href'],base_url)))
-
-        result.set_caption_visible(True)
         return result
 
 if __name__ == "__main__":

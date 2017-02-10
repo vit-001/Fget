@@ -24,11 +24,7 @@ def get_url(txt:str, base_url:URL):
 def quotes(text:str, from_lex:str, to_lex:str):
     return text.partition(from_lex)[2].partition(to_lex)[0]
 
-def _iter(source):
-    if source is None:
-        return []
-    else:
-        return source
+
 
 decode_table = dict()
 decode_table['%3A'] = ':'

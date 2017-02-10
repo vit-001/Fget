@@ -131,7 +131,7 @@ class Presenter(AbstractPresenter):
 
         view_add_function(button_data.text, self.get_goto_url_handler(button_data.url), menu_items,
                           button_data.url.get(), bold=button_data.bold, underline=button_data.underline,
-                          autoraise=button_data.autorise)
+                          autoraise=button_data.autorise, text_color=button_data.text_color)
 
     def get_goto_url_handler(self, url):
         def handler(url):
