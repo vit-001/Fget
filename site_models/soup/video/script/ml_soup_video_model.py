@@ -77,7 +77,8 @@ class MLvideoSoupSite(BaseSite):
                     thumb_url = get_url(thumbnail.img.attrs['src'], base_url)
 
                     if not 'x' in dur_time:
-                        result.add_thumb(ThumbInfo(thumb_url=thumb_url, href=href, popup=description,labels=[{'text':dur_time, 'align':'top right'},{'text':dur_time, 'align':'top left'}]))
+                        result.add_thumb(ThumbInfo(thumb_url=thumb_url, href=href, popup=description,
+                                                   labels=[{'text':dur_time, 'align':'top right'},{'text':description, 'align':'bottom center'}]))
             #adding tags to thumbs
             tags = soup.find('div', {'class': 'dark-menu'})
             if tags is not None:

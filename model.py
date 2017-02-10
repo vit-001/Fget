@@ -62,6 +62,7 @@ from site_models.video.sm_video_model import SMvideoSite
 from site_models.video.t8_video_model import T8videoSite
 from site_models.video.tz_video_model import TZvideoSite
 from site_models.video.vp_video_model import VPvideoSite
+from site_models.soup.video.simple.hdep_soup_video_model import HDEPvideoSoupSite
 
 
 class SiteVewerModel(AbstractModel):
@@ -71,7 +72,7 @@ class SiteVewerModel(AbstractModel):
         self.models = [
             # work on
 
-
+            HDEPvideoSoupSite(self),
 
             RGFvideoSite(self),
 

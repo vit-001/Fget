@@ -9,9 +9,7 @@ from bs4 import BeautifulStoneSoup
 
 def get_align(align_string='top'):
     s=align_string.upper().split(' ')
-    print(s)
     align=Qt.AlignAbsolute
-    print(align)
     for item in s:
         if item == 'LEFT': align |=Qt.AlignLeft
         if item == 'RIGHT': align |= Qt.AlignRight
@@ -19,7 +17,6 @@ def get_align(align_string='top'):
         if item == 'JUSTIFY': align |= Qt.AlignJustify
         if item == 'TOP': align |= Qt.AlignTop
         if item == 'BOTTOM': align |= Qt.AlignBottom
-    print(align)
     return align
 
 class QAnnotatedButton(QToolButton):
@@ -31,7 +28,11 @@ class QAnnotatedButton(QToolButton):
 
         for item in labels:
             label=QLabel(self)
-            label.setText(item['text'])
+            text=item.get('text','')
+            lenght=item.get('lenght',35)
+            if len(text)>lenght-3:
+                text=text[:lenght-3]+'...'
+            label.setText(text)
             label.setAlignment(get_align(item.get('align','bottom')) )
             label.setMargin(5)
             self.labels.append(label)

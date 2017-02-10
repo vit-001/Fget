@@ -63,7 +63,8 @@ class VERvideoSoupSite(BaseSite):
                 if duration is not None:
                     dur_time=duration.stripped_strings.__next__()
 
-                result.add_thumb(ThumbInfo(thumb_url=thumb_url, href=href, popup=description, labels=dur_time))
+                result.add_thumb(ThumbInfo(thumb_url=thumb_url, href=href, popup=description,
+                                           labels=[{'text':dur_time, 'align':'top right'},{'text':description, 'align':'bottom center'}]))
 
             tags=soup.find('ul', {'class': 'drop2 hidden-xs'})
             if tags is not None:
