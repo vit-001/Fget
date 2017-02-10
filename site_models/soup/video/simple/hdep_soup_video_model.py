@@ -60,13 +60,10 @@ class HDEPvideoSoupSite(BaseSite):
                     href=get_url(thumbnail.a.attrs['href'],base_url)
                     description=thumbnail.a.img.attrs['alt']
                     thumb_url = get_url(thumbnail.img.attrs['data-src'], base_url)
-
-                    duration=thumbnail.find('div', {'class': "duration"})
-                    print(duration)
-                    dur_time = ''
+                    dur_time = str(thumbnail.find('div', {'class': "duration"}).string)
                     result.add_thumb(ThumbInfo(thumb_url=thumb_url, href=href, popup=description,
                                                labels=[{'text':dur_time, 'align':'top right'},{'text':description, 'align':'bottom center'}]))
-
+                print('=============')
                 tags=soup.find('ul', {'class': 'drop2 hidden-xs'})
                 if tags is not None:
                     for tag in tags.find_all('a'):
