@@ -2,8 +2,6 @@ __author__ = 'Nikitin'
 
 import sys
 
-from PyQt5 import QtCore, QtGui, QtWidgets
-
 from view.qt_ui.full_view_ui import *
 
 
@@ -16,7 +14,7 @@ class MyWin(QtWidgets.QMainWindow):
 
         # l_rect=self.contentsRect()
 
-        self.pix=QtGui.QPixmap("../files/photo.jpg")
+        self.pix = QtGui.QPixmap("../files/photo.jpg")
         # p_rect=self.pix.rect()
 
         # if l_rect.height()/l_rect.width()<p_rect.height()/p_rect.width():
@@ -38,7 +36,7 @@ class MyWin(QtWidgets.QMainWindow):
         self.pixLabel.setText("")
         # self.pixLabel.setPixmap(pix1)
         self.pixLabel.setScaledContents(False)
-        self.pixLabel.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignCenter|QtCore.Qt.AlignVCenter)
+        self.pixLabel.setAlignment(QtCore.Qt.AlignLeading | QtCore.Qt.AlignCenter | QtCore.Qt.AlignVCenter)
         self.pixLabel.setObjectName("pixLabel")
 
         self._redraw()
@@ -46,20 +44,17 @@ class MyWin(QtWidgets.QMainWindow):
     def resizeEvent(self, *args, **kwargs):
         self._redraw()
 
-
     def _redraw(self):
-        l_rect=self.contentsRect()
-        p_rect=self.pix.rect()
+        l_rect = self.contentsRect()
+        p_rect = self.pix.rect()
 
-        if l_rect.height()/l_rect.width()<p_rect.height()/p_rect.width():
-            pix1=self.pix.scaledToHeight(l_rect.height())
+        if l_rect.height() / l_rect.width() < p_rect.height() / p_rect.width():
+            pix1 = self.pix.scaledToHeight(l_rect.height())
         else:
-            pix1=self.pix.scaledToWidth(l_rect.width())
+            pix1 = self.pix.scaledToWidth(l_rect.width())
 
         self.pixLabel.setGeometry(l_rect)
         self.pixLabel.setPixmap(pix1)
-
-
 
 
 if __name__ == "__main__":

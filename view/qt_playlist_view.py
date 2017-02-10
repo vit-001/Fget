@@ -2,32 +2,28 @@ __author__ = 'Nikitin'
 
 import os
 
-from PyQt5.QtWidgets import *
 from PyQt5 import QtCore
-from PyQt5.QtMultimedia import QMediaContent, QMediaPlayer
-from PyQt5.QtGui import QPixmap, QIcon
+from PyQt5.QtMultimedia import QMediaPlayer
+from PyQt5.QtWidgets import *
 
+from base_classes import AbstractPlaylistView, AbstractViewManager
+from playlist import PlaylistEntry, PlaylistException
 from view.qt_ui.playlist_ui import Ui_Playlist
 
-from view.qt_widget.qt_dialog_base import DialogBase
 
-from base_classes import AbstractPlaylistView,AbstractViewManager
-from setting import Setting
-from playlist import PlaylistEntry, PlaylistException
-
-class QTPlaylistView(QMainWindow,AbstractPlaylistView):
-    def __init__(self, parent=None, Qt_WindowFlags_flags=0, view_manager=AbstractViewManager(),player=None):
-        QMainWindow.__init__(self, parent,Qt_WindowFlags_flags)
-        self.manager=view_manager
-        self.controller=view_manager.get_controller()
-        self.player=player
-        self.playlist=self.controller.get_playlist()
+class QTPlaylistView(QMainWindow, AbstractPlaylistView):
+    def __init__(self, parent=None, Qt_WindowFlags_flags=0, view_manager=AbstractViewManager(), player=None):
+        QMainWindow.__init__(self, parent, Qt_WindowFlags_flags)
+        self.manager = view_manager
+        self.controller = view_manager.get_controller()
+        self.player = player
+        self.playlist = self.controller.get_playlist()
         self.playlist.add_listeners(on_change_listener=self.load_playlist,
-                     on_change_index_listener=self.index_changed)
+                                    on_change_index_listener=self.index_changed)
 
-        self.ui=Ui_Playlist()
+        self.ui = Ui_Playlist()
 
-        savecwd=os.getcwd()
+        savecwd = os.getcwd()
         os.chdir('view/ui')
         self.ui.setupUi(self)
         os.chdir(savecwd)
@@ -52,9 +48,9 @@ class QTPlaylistView(QMainWindow,AbstractPlaylistView):
             self.ui.playlist.addItem(item.url.to_save())
         self.ui.playlist.setCurrentRow(self.playlist.current_index)
 
-    def index_changed(self,index):
+    def index_changed(self, index):
         self.ui.playlist.setCurrentRow(index)
-        if self.player.state()!=QMediaPlayer.StoppedState:
+        if self.player.state() != QMediaPlayer.StoppedState:
             try:
                 self.controller.goto_url(self.playlist.current_entry.url)
             except PlaylistException:
@@ -62,10 +58,11 @@ class QTPlaylistView(QMainWindow,AbstractPlaylistView):
 
     def on_play_clicked(self):
         # print('play')
-        self.playlist.current_index=self.ui.playlist.currentRow()
+        self.playlist.current_index = self.ui.playlist.currentRow()
         try:
             self.controller.goto_url(self.playlist.current_entry.url)
-            self.manager.get_video_view().playlist_connect(goto_prev=self.on_prev_clicked,goto_next=self.on_next_clicked)
+            self.manager.get_video_view().playlist_connect(goto_prev=self.on_prev_clicked,
+                                                           goto_next=self.on_next_clicked)
         except PlaylistException:
             pass
 
@@ -76,9 +73,9 @@ class QTPlaylistView(QMainWindow,AbstractPlaylistView):
         self.playlist.prev()
 
     def on_fav_add_clicked(self):
-        items=self.controller.get_favorites().get_categories()
+        items = self.controller.get_favorites().get_categories()
 
-        item, ok = QInputDialog.getItem(self, '',"Add from group", items, 0, False,QtCore.Qt.Popup)
+        item, ok = QInputDialog.getItem(self, '', "Add from group", items, 0, False, QtCore.Qt.Popup)
         if ok and item:
             fav_list = self.controller.get_favorites().get(item)
             for i in fav_list:
@@ -86,28 +83,24 @@ class QTPlaylistView(QMainWindow,AbstractPlaylistView):
                     self.playlist.add(PlaylistEntry(i.url))
 
     def on_delete_pressed(self):
-        indexes=self.ui.playlist.selectedIndexes()
+        indexes = self.ui.playlist.selectedIndexes()
 
-        delete_list=list()
+        delete_list = list()
         for i in indexes:
             delete_list.append(i.row())
 
-
         self.playlist.delete_items(delete_list)
 
-
     def save_playlist(self):
-        filename,_=QFileDialog.getSaveFileName(self,'Save to','files/untitled','Playlist files (*.fget_pl)')
+        filename, _ = QFileDialog.getSaveFileName(self, 'Save to', 'files/untitled', 'Playlist files (*.fget_pl)')
         if filename:
             file = open(filename, 'w')
             self.playlist.save(file)
             file.close()
 
     def open_playlist(self):
-        filename,_=QFileDialog.getOpenFileName(self,'Open playlist','files/','Playlist files (*.fget_pl)')
+        filename, _ = QFileDialog.getOpenFileName(self, 'Open playlist', 'files/', 'Playlist files (*.fget_pl)')
 
         if filename:
-            file=open(filename)
+            file = open(filename)
             self.playlist.open(file)
-
-

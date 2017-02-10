@@ -1,9 +1,9 @@
 __author__ = 'Vit'
 
+from base_classes import URL, ControlInfo
 from site_models.base_site_model import *
 from site_models.site_parser import SiteParser, ParserRule
-from base_classes import URL, ControlInfo
-from setting import Setting
+
 
 class PXvideoSite(BaseSite):
     def start_button_name(self):
@@ -28,7 +28,7 @@ class PXvideoSite(BaseSite):
         startpage_rule = ParserRule()
         startpage_rule.add_activate_rule_level([('div', 'class', 'thumb vidItem')])
         startpage_rule.add_process_rule_level('a', {'href'})
-        startpage_rule.add_process_rule_level('img', {'src','alt'})
+        startpage_rule.add_process_rule_level('img', {'src', 'alt'})
         # startpage_rule.set_attribute_modifier_function('href', lambda x: base_url.domain() + x)
         parser.add_rule(startpage_rule)
 
@@ -43,8 +43,8 @@ class PXvideoSite(BaseSite):
         startpage_hrefs_rule.add_activate_rule_level([('ul', 'class', 'left-menu-box')])
         # startpage_hrefs_rule.add_activate_rule_level([('a', 'class', 'current')])
         startpage_hrefs_rule.add_process_rule_level('a', {'href'})
-        startpage_hrefs_rule.set_attribute_filter_function('href',lambda x: '/videos/' in x)
-        startpage_hrefs_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x,base_url))
+        startpage_hrefs_rule.set_attribute_filter_function('href', lambda x: '/videos/' in x)
+        startpage_hrefs_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x, base_url))
         parser.add_rule(startpage_hrefs_rule)
         #
         video_rule = ParserRule()
@@ -65,7 +65,7 @@ class PXvideoSite(BaseSite):
         gallery_user_rule.add_process_rule_level('a', {'href'})
         gallery_user_rule.add_process_rule_level('span', {'class'})
         # gallery_user_rule.set_attribute_filter_function('href',lambda x:'/profile/' in x)
-        gallery_user_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x,base_url))
+        gallery_user_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x, base_url))
         parser.add_rule(gallery_user_rule)
 
         gallery_user_name_rule = ParserRule()
@@ -77,22 +77,22 @@ class PXvideoSite(BaseSite):
 
         self.proceed_parcing(parser, fname)
 
-        result = ParseResult(self)
+        result = ParseResult()
 
         if len(video_rule.get_result()) > 0:
-            script = video_rule.get_result()[0]['data'].replace('\t','').replace('\n','')
+            script = video_rule.get_result()[0]['data'].replace('\t', '').replace('\n', '')
 
             # print(video_rule.get_result()[0]['data'])
             # print('len=',len(video_rule.get_result()))
 
-            file=''
+            file = ''
             if 'sources:' in script:
-                sources=script.partition('sources:')[2].partition(']')[0]
+                sources = script.partition('sources:')[2].partition(']')[0]
                 # print(sources)
-                file = sources.partition('file: "')[2].partition('",')[0].strip('"').replace(' ','%20')
+                file = sources.partition('file: "')[2].partition('",')[0].strip('"').replace(' ', '%20')
             # print(file)
-            elif  "filefallback':" in script:
-                file=script.replace(' ','').partition("filefallback':\"")[2].partition('",')[0]
+            elif "filefallback':" in script:
+                file = script.replace(' ', '').partition("filefallback':\"")[2].partition('",')[0]
                 # print(file)
             else:
                 return result
@@ -102,10 +102,10 @@ class PXvideoSite(BaseSite):
             result.set_type('video')
             result.set_video(video)
 
-            user_url=gallery_user_rule.get_result(['href'])[0]['href']
-            user_name=gallery_user_name_rule.get_result(['data'])[0]['data']
+            user_url = gallery_user_rule.get_result(['href'])[0]['href']
+            user_name = gallery_user_name_rule.get_result(['data'])[0]['data']
             # print(user_url,user_name)
-            result.add_control(ControlInfo('"'+user_name+'"', URL(user_url)))
+            result.add_control(ControlInfo('"' + user_name + '"', URL(user_url)))
 
             for f in gallery_href_rule.get_result(['data', 'href']):
                 result.add_control(ControlInfo(f['data'], URL(f['href'])))
@@ -114,8 +114,9 @@ class PXvideoSite(BaseSite):
         if len(startpage_rule.get_result()) > 0:
             result.set_type('hrefs')
 
-            for item in startpage_rule.get_result(['href','src']):
-                result.add_thumb(ThumbInfo(thumb_url=URL(item['src'].replace(' ','%20')), href=URL(item['href']),description=item.get('alt','')))
+            for item in startpage_rule.get_result(['href', 'src']):
+                result.add_thumb(ThumbInfo(thumb_url=URL(item['src'].replace(' ', '%20')), href=URL(item['href']),
+                                           popup=item.get('alt', '')))
 
             for item in startpage_pages_rule.get_result(['href', 'data']):
                 result.add_page(ControlInfo(item['data'], URL(item['href'])))
@@ -129,7 +130,3 @@ class PXvideoSite(BaseSite):
 
 if __name__ == "__main__":
     pass
-
-
-
-

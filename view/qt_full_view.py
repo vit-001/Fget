@@ -1,11 +1,7 @@
-import glob
 from PyQt5 import QtCore
-from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QMainWindow, QFrame
 
-from base_classes import AbstractFullView, AbstractViewManager, URL
-from setting import Setting
-
+from base_classes import AbstractFullView, AbstractViewManager
 from view.qt_ui.favorite_line_ui import Ui_favorite_line
 from view.qt_ui.full_view_base_ui import Ui_FullView
 from view.qt_widget.qt_button_line import QButtonLine
@@ -16,10 +12,10 @@ __author__ = 'Vit'
 class FullView(QMainWindow, AbstractFullView):
     def __init__(self, parent=None, view_manager=AbstractViewManager):
         QMainWindow.__init__(self, parent)
-        self.manager=view_manager
+        self.manager = view_manager
         self.controller = view_manager.get_controller()
 
-        self.url=None
+        self.url = None
 
         self.ui = Ui_FullView()
         self.ui.setupUi(self)
@@ -44,7 +40,7 @@ class FullView(QMainWindow, AbstractFullView):
         self.hide()
 
     def mouseDoubleClickEvent(self, *args, **kwargs):
-        if self.windowState()==QtCore.Qt.WindowNoState:
+        if self.windowState() == QtCore.Qt.WindowNoState:
             self.setWindowState(QtCore.Qt.WindowFullScreen)
         else:
             self.setWindowState(QtCore.Qt.WindowNoState)

@@ -1,8 +1,8 @@
 __author__ = 'Nikitin'
 
+from abc import ABCMeta, abstractmethod
 from tkinter import *
 from tkinter.ttk import *
-from abc import ABCMeta, abstractmethod
 
 
 def parse_geometry(geometry=''):
@@ -83,8 +83,10 @@ if __name__ == "__main__":
         sbl.add_button('bn' + str(i) + '\nsss')
         i += 1
 
+
     def clr():
         sbl.clear()
+
 
     i = 0
     tk = Tk()

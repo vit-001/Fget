@@ -1,8 +1,8 @@
 __author__ = 'Vit'
 
+from base_classes import URL, ControlInfo
 from site_models.base_site_model import *
 from site_models.site_parser import SiteParser, ParserRule
-from base_classes import URL, ControlInfo
 
 
 class TDvideoSite(BaseSite):
@@ -37,14 +37,14 @@ class TDvideoSite(BaseSite):
 
         startpage_hrefs_rule = ParserRule()
         startpage_hrefs_rule.add_activate_rule_level([('li', 'id', 'categories')])
-        startpage_hrefs_rule.add_process_rule_level('a', { 'href'})
+        startpage_hrefs_rule.add_process_rule_level('a', {'href'})
         # startpage_hrefs_rule.set_attribute_modifier_function('href', lambda x: base_url.domain() + x)
         parser.add_rule(startpage_hrefs_rule)
 
         video_rule = ParserRule()
         video_rule.add_activate_rule_level([('div', 'class', 'player_body')])
         video_rule.add_process_rule_level('script', {})
-        video_rule.set_attribute_filter_function('data',lambda text:'function playStart()' in text)
+        video_rule.set_attribute_filter_function('data', lambda text: 'function playStart()' in text)
         parser.add_rule(video_rule)
 
         picture_href_rule = ParserRule()
@@ -57,9 +57,9 @@ class TDvideoSite(BaseSite):
 
         self.proceed_parcing(parser, fname)
 
-        result = ParseResult(self)
+        result = ParseResult()
 
-        if len(video_rule.get_result())>0:
+        if len(video_rule.get_result()) > 0:
             result.set_video(MediaData(URL(self.get_attr_from_script(video_rule.get_result()[0]['data']))))
             result.set_type('video')
 
@@ -76,7 +76,7 @@ class TDvideoSite(BaseSite):
 
             for item in startpage_pages_rule.get_result(['href', 'data']):
                 if '?from=' in item['href']:
-                    result.add_page(ControlInfo(item['data'], URL(item['href']+'*')))
+                    result.add_page(ControlInfo(item['data'], URL(item['href'] + '*')))
                 else:
                     result.add_page(ControlInfo(item['data'], URL(item['href'])))
 
@@ -85,9 +85,9 @@ class TDvideoSite(BaseSite):
 
         return result
 
-    def get_attr_from_script(self,txt=''):
-        t=txt.partition('var flashvars = {')[2].partition('}')[0]
-        t1=t.split(',')
+    def get_attr_from_script(self, txt=''):
+        t = txt.partition('var flashvars = {')[2].partition('}')[0]
+        t1 = t.split(',')
         for i in t1:
             if i.strip().startswith('video_url:'):
                 return i.partition(':')[2].strip(" '")
@@ -95,9 +95,5 @@ class TDvideoSite(BaseSite):
 
 
 if __name__ == "__main__":
-    t=TDvideoSite()
+    t = TDvideoSite()
     t.parse_index_file('E:/Dropbox/Hobby/PRG/PyWork/FGet/files/index1.html')
-
-
-
-

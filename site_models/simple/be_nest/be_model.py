@@ -1,8 +1,9 @@
 __author__ = 'Vit'
 
+from base_classes import URL, ControlInfo
 from site_models.base_site_model import *
 from site_models.site_parser import SiteParser, ParserRule
-from base_classes import URL, ControlInfo
+
 
 class BESite(BaseSite):
     def start_button_name(self):
@@ -22,7 +23,7 @@ class BESite(BaseSite):
                     Movies=URL('http://www.bravoerotica.com/erotic-movies/'),
                     Porn=URL('http://www.bravoerotica.com/porn-erotica/'))
 
-    def get_href(self,txt):
+    def get_href(self, txt):
         # print(txt)
         if '&' in txt or '?' in txt:
             txt = txt.replace('?', '&')
@@ -62,14 +63,13 @@ class BESite(BaseSite):
         startpage_hrefs_rule = ParserRule()
         startpage_hrefs_rule.add_activate_rule_level([('li', 'class', 'orange dropdown')])
         startpage_hrefs_rule.add_process_rule_level('a', {'href'})
-        startpage_hrefs_rule.set_attribute_filter_function('href',lambda txt:'/st/' in txt)
+        startpage_hrefs_rule.set_attribute_filter_function('href', lambda txt: '/st/' in txt)
         parser.add_rule(startpage_hrefs_rule)
-
 
         video_rule = ParserRule()
         video_rule.add_activate_rule_level([('div', 'class', 'player')])
         video_rule.add_process_rule_level('script', {})
-        video_rule.set_attribute_filter_function('data',lambda text:'video_url:' in text)
+        video_rule.set_attribute_filter_function('data', lambda text: 'video_url:' in text)
         parser.add_rule(video_rule)
 
         picture_rule = ParserRule()
@@ -88,11 +88,11 @@ class BESite(BaseSite):
         for s in open(fname):
             parser.feed(s)
 
-        result = ParseResult(self)
+        result = ParseResult()
 
         if video_rule.is_result():
 
-            video=MediaData(URL(self.get_attr_from_script(video_rule.get_result()[0]['data'])))
+            video = MediaData(URL(self.get_attr_from_script(video_rule.get_result()[0]['data'])))
             result.set_video(video)
             result.set_type('video')
 
@@ -101,13 +101,12 @@ class BESite(BaseSite):
                 result.add_control(ControlInfo(f['data'], URL(f['href'])))
             return result
 
-
         if len(startpage_rule.get_result()) > 0:
             # print('Startpage rule')
             result.set_type('hrefs')
             for item in startpage_rule.get_result():
                 result.add_thumb(
-                    ThumbInfo(thumb_url=URL(item['src']), href=URL(item['href']), description=item.get('alt', '')))
+                    ThumbInfo(thumb_url=URL(item['src']), href=URL(item['href']), popup=item.get('alt', '')))
 
             for item in startpage_pages_rule.get_result(['href', 'data']):
                 result.add_page(ControlInfo(item['data'], URL(item['href'])))
@@ -126,9 +125,9 @@ class BESite(BaseSite):
 
         return result
 
-    def get_attr_from_script(self,txt=''):
-        t=txt.partition('var flashvars = {')[2].partition('}')[0]
-        t1=t.split(',')
+    def get_attr_from_script(self, txt=''):
+        t = txt.partition('var flashvars = {')[2].partition('}')[0]
+        t1 = t.split(',')
         for i in t1:
             if i.strip().startswith('video_url:'):
                 return i.partition(':')[2].strip(" '")
@@ -137,7 +136,3 @@ class BESite(BaseSite):
 
 if __name__ == "__main__":
     pass
-
-
-
-

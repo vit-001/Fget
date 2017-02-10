@@ -1,8 +1,8 @@
 __author__ = 'Vit'
 
+from base_classes import URL
 from site_models.base_site_model import *
 from site_models.site_parser import SiteParser, ParserRule
-from base_classes import URL
 
 
 def get_href(txt):
@@ -31,7 +31,7 @@ class BEPSite(BaseSite):
         # print(text, '->','http://www.bravonude.com'+text.replace('t.jpg','.jpg'))
         return 'http://www.bravonude.com' + text.replace('t.jpg', '.jpg')
 
-    def get_href(self,txt):
+    def get_href(self, txt):
         # print(txt)
         if '&' in txt or '?' in txt:
             txt = txt.replace('?', '&')
@@ -61,7 +61,7 @@ class BEPSite(BaseSite):
         startpage_pages_rule.add_activate_rule_level([('div', 'class', 'menu')])
         startpage_pages_rule.add_process_rule_level('a', {'href'})
         startpage_pages_rule.set_attribute_modifier_function('href', lambda x: base_url.domain() + x)
-        startpage_pages_rule.set_attribute_filter_function('href',lambda txt:'/st/' in txt)
+        startpage_pages_rule.set_attribute_filter_function('href', lambda txt: '/st/' in txt)
         parser.add_rule(startpage_pages_rule)
 
         picture_rule = ParserRule()
@@ -74,7 +74,7 @@ class BEPSite(BaseSite):
         for s in open(fname):
             parser.feed(s)
 
-        result = ParseResult(self)
+        result = ParseResult()
 
         if len(picture_rule.get_result()) > 0:
             result.set_type('pictures')
@@ -87,14 +87,12 @@ class BEPSite(BaseSite):
             result.set_type('hrefs')
             for item in startpage_rule.get_result():
                 result.add_thumb(
-                    ThumbInfo(thumb_url=URL(item['src']), href=URL(item['href']), description=item.get('alt', '')))
+                    ThumbInfo(thumb_url=URL(item['src']), href=URL(item['href']), popup=item.get('alt', '')))
 
             for item in startpage_pages_rule.get_result(['href', 'data']):
                 result.add_page(ControlInfo(item['data'], URL(item['href'])))
-            #
-            # for item in startpage_hrefs_rule.get_result(['href', 'data']):
-            #     result.add_control(ControlInfo(item['data'], URL(item['href'])))
-
+                #
+                # for item in startpage_hrefs_rule.get_result(['href', 'data']):
+                #     result.add_control(ControlInfo(item['data'], URL(item['href'])))
 
         return result
-

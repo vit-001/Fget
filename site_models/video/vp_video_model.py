@@ -1,9 +1,9 @@
 __author__ = 'Vit'
 
+from base_classes import URL, ControlInfo
 from site_models.base_site_model import *
 from site_models.site_parser import SiteParser, ParserRule
-from base_classes import URL, ControlInfo
-from setting import Setting
+
 
 class VPvideoSite(BaseSite):
     def start_button_name(self):
@@ -21,14 +21,14 @@ class VPvideoSite(BaseSite):
         return base_url.contain('vporn.com/')
 
     def parse_index_file(self, fname, base_url=URL()):
-        print ('VP parsing')
+        print('VP parsing')
 
         parser = SiteParser()
         startpage_rule = ParserRule()
         startpage_rule.add_activate_rule_level([('div', 'class', 'bx'),
                                                 ('div', 'class', 'bx lastrow')])
-        startpage_rule.add_process_rule_level('a', {'href','class'})
-        startpage_rule.add_process_rule_level('img', {'src','alt'})
+        startpage_rule.add_process_rule_level('a', {'href', 'class'})
+        startpage_rule.add_process_rule_level('img', {'src', 'alt'})
         parser.add_rule(startpage_rule)
 
         startpage_pages_rule = ParserRule()
@@ -41,15 +41,14 @@ class VPvideoSite(BaseSite):
         video_rule = ParserRule()
         video_rule.add_activate_rule_level([('div', 'class', 'video_panel')])
         video_rule.add_process_rule_level('script', {})
-        video_rule.set_attribute_filter_function('data',lambda text:'var flashvars' in text)
+        video_rule.set_attribute_filter_function('data', lambda text: 'var flashvars' in text)
         parser.add_rule(video_rule)
-
 
         gallery_href_rule = ParserRule()
         gallery_href_rule.add_activate_rule_level([('div', 'class', 'tagas-secondrow')])
         # gallery_href_rule.add_activate_rule_level([('td', 'class', 'btnList')])
         gallery_href_rule.add_process_rule_level('a', {'href'})
-        gallery_href_rule.set_attribute_modifier_function('href',lambda x: base_url.domain() + x+'*')
+        gallery_href_rule.set_attribute_modifier_function('href', lambda x: base_url.domain() + x + '*')
         # gallery_href_rule.set_attribute_filter_function('href',lambda x:'/category/'in x or '/search/'in x)
         parser.add_rule(gallery_href_rule)
 
@@ -57,51 +56,53 @@ class VPvideoSite(BaseSite):
         gallery_user_rule.add_activate_rule_level([('div', 'class', 'info')])
         gallery_user_rule.add_process_rule_level('a', {'href'})
         # gallery_user_rule.set_attribute_filter_function('href',lambda x:'/profile/' in x)
-        gallery_user_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x.replace('/user/','/submitted/'),base_url))
+        gallery_user_rule.set_attribute_modifier_function('href',
+                                                          lambda x: self.get_href(x.replace('/user/', '/submitted/'),
+                                                                                  base_url))
         parser.add_rule(gallery_user_rule)
 
-        for s in open(fname, encoding='utf-8',errors='ignore'):
+        for s in open(fname, encoding='utf-8', errors='ignore'):
             # print(s)
-            parser.feed(s.replace('</b>','</a>'))
+            parser.feed(s.replace('</b>', '</a>'))
 
-        result = ParseResult(self)
+        result = ParseResult()
 
-        if len(video_rule.get_result())>0:
-            script=video_rule.get_result()[0]['data'].replace(' ','')
+        if len(video_rule.get_result()) > 0:
+            script = video_rule.get_result()[0]['data'].replace(' ', '')
+
             # print(script)
 
-            def get_url_from_script(script='',var=''):
-                data=script.partition('flashvars.'+var+'="')[2].partition('"')[0]
+            def get_url_from_script(script='', var=''):
+                data = script.partition('flashvars.' + var + '="')[2].partition('"')[0]
                 # print(var,data)
-                if data.startswith('https://'):return URL(data)
+                if data.startswith('https://'): return URL(data)
 
-            videoUrlLow=get_url_from_script(script,'videoUrlLow')
-            videoUrlLow2=get_url_from_script(script,'videoUrlLow2')
-            videoUrlMedium=get_url_from_script(script,'videoUrlMedium')
-            videoUrlMedium2=get_url_from_script(script,'videoUrlMedium2')
-            videoUrlHD=get_url_from_script(script,'videoUrlHD')
-            videoUrlHD2=get_url_from_script(script,'videoUrlHD2')
+            videoUrlLow = get_url_from_script(script, 'videoUrlLow')
+            videoUrlLow2 = get_url_from_script(script, 'videoUrlLow2')
+            videoUrlMedium = get_url_from_script(script, 'videoUrlMedium')
+            videoUrlMedium2 = get_url_from_script(script, 'videoUrlMedium2')
+            videoUrlHD = get_url_from_script(script, 'videoUrlHD')
+            videoUrlHD2 = get_url_from_script(script, 'videoUrlHD2')
 
-            def add_alternate(video,txt,url):
-                if url is not None:video.add_alternate(dict(text=txt,url=url))
+            def add_alternate(video, txt, url):
+                if url is not None: video.add_alternate(dict(text=txt, url=url))
 
             # video=MediaData(videoUrlMedium)
 
             if videoUrlMedium is not None:
-                video=MediaData(videoUrlMedium)
+                video = MediaData(videoUrlMedium)
             elif videoUrlLow is not None:
-                video=MediaData(videoUrlLow)
+                video = MediaData(videoUrlLow)
             else:
                 print('No url found')
                 return result
 
-
-            add_alternate(video,'Low', videoUrlLow)
-            add_alternate(video,'Low2', videoUrlLow2)
-            add_alternate(video,'Medium', videoUrlMedium)
-            add_alternate(video,'Medium', videoUrlMedium2)
-            add_alternate(video,'HD', videoUrlHD)
-            add_alternate(video,'HD', videoUrlHD2)
+            add_alternate(video, 'Low', videoUrlLow)
+            add_alternate(video, 'Low2', videoUrlLow2)
+            add_alternate(video, 'Medium', videoUrlMedium)
+            add_alternate(video, 'Medium', videoUrlMedium2)
+            add_alternate(video, 'HD', videoUrlHD)
+            add_alternate(video, 'HD', videoUrlHD2)
 
             result.set_type('video')
             result.set_video(video)
@@ -110,7 +111,7 @@ class VPvideoSite(BaseSite):
                 # print(f)
                 result.add_control(ControlInfo('"' + f['data'] + '"', URL(f['href'])))
 
-            for f in gallery_href_rule.get_result(['data','href']):
+            for f in gallery_href_rule.get_result(['data', 'href']):
                 # print(f)
                 result.add_control(ControlInfo(f['data'], URL(f['href'])))
             # print('return')
@@ -119,19 +120,16 @@ class VPvideoSite(BaseSite):
         if len(startpage_rule.get_result()) > 0:
             result.set_type('hrefs')
             for item in startpage_rule.get_result():
-                result.add_thumb(ThumbInfo(thumb_url=URL(item['src']), href=URL(item['href']),description=item['alt']))
+                result.add_thumb(ThumbInfo(thumb_url=URL(item['src']), href=URL(item['href']), popup=item['alt']))
 
             for item in startpage_pages_rule.get_result(['href', 'data']):
                 result.add_page(ControlInfo(item['data'], URL(item['href'])))
 
-            # for item in startpage_hrefs_rule.get_result(['href', 'data']):
-            #     result.add_control(ControlInfo(item['data'], URL(item['href'])))
+                # for item in startpage_hrefs_rule.get_result(['href', 'data']):
+                #     result.add_control(ControlInfo(item['data'], URL(item['href'])))
 
         return result
 
+
 if __name__ == "__main__":
     pass
-
-
-
-

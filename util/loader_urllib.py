@@ -1,6 +1,6 @@
 __author__ = 'Vit'
-from urllib.request import urlretrieve
 from urllib.error import HTTPError
+from urllib.request import urlretrieve
 
 if __name__ == "__main__":
 
@@ -14,4 +14,3 @@ if __name__ == "__main__":
         print(err.headers)
     else:
         print('loaded ok.')
-

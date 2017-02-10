@@ -2,13 +2,12 @@ __author__ = 'Nikitin'
 
 import sys
 
-from PyQt5.QtCore import QDir, Qt, QUrl
+from PyQt5.QtCore import QUrl
 from PyQt5.QtMultimedia import QMediaContent, QMediaPlayer
 from PyQt5.QtMultimediaWidgets import QVideoWidget
-from PyQt5.QtWidgets import (QApplication, QFileDialog, QHBoxLayout, QLabel,
-        QPushButton, QSizePolicy, QSlider, QStyle, QVBoxLayout, QWidget)
 
 from view.qt_ui.video_player import *
+
 
 class MyWin(QtWidgets.QMainWindow):
     def __init__(self, parent=None):
@@ -23,7 +22,7 @@ class MyWin(QtWidgets.QMainWindow):
 
         self.mediaPlayer.setVideoOutput(videoWidget)
 
-        file=QUrl.fromLocalFile('E:/Dropbox/Hobby/PRG/PyWork/FGet/view/qt_ui/files/1.mp4')
+        file = QUrl.fromLocalFile('E:/Dropbox/Hobby/PRG/PyWork/FGet/view/qt_ui/files/1.mp4')
         print(file)
 
         self.mediaPlayer.setMedia(QMediaContent(file))
@@ -77,7 +76,6 @@ class MyWin(QtWidgets.QMainWindow):
         # self.toolButton.setObjectName("toolButton")
         # self.ui.mid_frame_layout.addWidget(self.toolButton)
         # self.toolButton.setText("...")
-
 
 
 if __name__ == "__main__":

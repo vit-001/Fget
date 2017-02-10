@@ -1,8 +1,9 @@
 __author__ = 'Vit'
 
+from lib.file_loader import URL
+
 from site_models.base_site_model import *
 from site_models.site_parser import SiteParser, ParserRule
-from lib.file_loader import URL
 
 
 def get_href(txt):
@@ -51,7 +52,6 @@ class LATESTmultiSite(BaseSite):
                 return True
         return False
 
-
     def parse_index_file(self, fname, base_url=URL()):
         if self.is_pictures_page(base_url):
             result = self.parse_picture_page(fname, base_url)
@@ -88,7 +88,7 @@ class LATESTmultiSite(BaseSite):
         for s in open(fname):
             parser.feed(s)
 
-        result = ParseResult(self)
+        result = ParseResult()
 
         if len(startpage_rule.get_result()) > 0:
             result.set_type('hrefs')
@@ -146,5 +146,3 @@ class LATESTmultiSite(BaseSite):
                 i += 1
 
         return result
-
-

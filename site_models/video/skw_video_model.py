@@ -1,9 +1,9 @@
 __author__ = 'Vit'
 
+from base_classes import URL, ControlInfo
 from site_models.base_site_model import *
 from site_models.site_parser import SiteParser, ParserRule
-from base_classes import URL, ControlInfo
-from setting import Setting
+
 
 class SKWvideoSite(BaseSite):
     def start_button_name(self):
@@ -43,8 +43,8 @@ class SKWvideoSite(BaseSite):
         startpage_rule = ParserRule()
         startpage_rule.add_activate_rule_level([('div', 'class', 'thmb-wrapper')])
         startpage_rule.add_process_rule_level('a', {'href'})
-        startpage_rule.add_process_rule_level('img', {'src','alt','data-src','data-original'})
-        startpage_rule.set_attribute_modifier_function('href', lambda x: base_url.domain() + x )
+        startpage_rule.add_process_rule_level('img', {'src', 'alt', 'data-src', 'data-original'})
+        startpage_rule.set_attribute_modifier_function('href', lambda x: base_url.domain() + x)
         parser.add_rule(startpage_rule)
 
         startpage_pages_rule = ParserRule()
@@ -77,40 +77,41 @@ class SKWvideoSite(BaseSite):
         gallery_channel_rule.add_activate_rule_level([('div', 'class', 'video-info-uploaded float-right')])
         gallery_channel_rule.add_process_rule_level('a', {'href'})
         gallery_channel_rule.set_attribute_modifier_function('href', lambda x: base_url.domain() + x + '*')
-        gallery_channel_rule.set_attribute_filter_function('href',lambda x:'/categories/' in x)
+        gallery_channel_rule.set_attribute_filter_function('href', lambda x: '/categories/' in x)
         parser.add_rule(gallery_channel_rule)
 
         gallery_user_rule = ParserRule()
         gallery_user_rule.add_activate_rule_level([('div', 'class', 'video-info-uploaded float-right')])
         gallery_user_rule.add_process_rule_level('a', {'href'})
         gallery_user_rule.set_attribute_modifier_function('href', lambda x: base_url.domain() + x + '*')
-        gallery_user_rule.set_attribute_filter_function('href',lambda x:'/user/' in x)
+        gallery_user_rule.set_attribute_filter_function('href', lambda x: '/user/' in x)
         parser.add_rule(gallery_user_rule)
 
         self.proceed_parcing(parser, fname)
 
-        result = ParseResult(self)
+        result = ParseResult()
 
-        if video_rule.is_result(): #len(video_rule.get_result()) > 0:
-            script = video_rule.get_result()[0]['data'].replace(' ', '')#.replace('\\','')
+        if video_rule.is_result():  # len(video_rule.get_result()) > 0:
+            script = video_rule.get_result()[0]['data'].replace(' ', '')  # .replace('\\','')
 
-            #print(video_rule.get_result()[0]['data'])
-            #print(script)
+            # print(video_rule.get_result()[0]['data'])
+            # print(script)
             # print('len=',len(video_rule.get_result()))
             lines = script.split('\n')
 
-            data=list()
+            data = list()
 
             for i in lines:
                 if i.strip().startswith('playerData.cdnPath'):
                     if "''" not in i:
                         data.append(i.strip())
-                        #print(i.strip())
+                        # print(i.strip())
 
             def parce(txt):
                 label = txt.partition('playerData.cdnPath')[2].partition('=')[0]
-                file = txt.partition("'")[2].partition("'")[0].replace('%3A',':').replace('%2F','/').replace('%26','&')
-                #print(label,file)
+                file = txt.partition("'")[2].partition("'")[0].replace('%3A', ':').replace('%2F', '/').replace('%26',
+                                                                                                               '&')
+                # print(label,file)
                 return dict(text=label, url=URL(file + '*'))
 
             if len(data) == 1:
@@ -127,7 +128,7 @@ class SKWvideoSite(BaseSite):
 
             for f in gallery_user_rule.get_result(['data', 'href']):
                 # print(f)
-                result.add_control(ControlInfo('"'+f['data']+'"', URL(f['href'])))
+                result.add_control(ControlInfo('"' + f['data'] + '"', URL(f['href'])))
 
             for f in gallery_channel_rule.get_result(['data', 'href']):
                 result.add_control(ControlInfo(f['data'], URL(f['href'])))
@@ -136,22 +137,22 @@ class SKWvideoSite(BaseSite):
                 result.add_control(ControlInfo(f['data'], URL(f['href'])))
             return result
 
-        if startpage_rule.is_result(): #len(startpage_rule.get_result()) > 0:
+        if startpage_rule.is_result():  # len(startpage_rule.get_result()) > 0:
             result.set_type('hrefs')
 
             for item in startpage_rule.get_result(['href']):
-                #print(item)
+                # print(item)
                 if 'data-src' in item.keys():
-                    src=item['data-src']
+                    src = item['data-src']
                 elif 'data-original' in item.keys():
-                    src=item['data-original']
+                    src = item['data-original']
                 elif 'src' in item.keys():
-                    src=item['src']
+                    src = item['src']
                 else:
                     print('New key found. Need rewrite "startpage_rule"')
                     continue
                 # print(src,item.get('src',''),item.get('data-src',''))
-                result.add_thumb(ThumbInfo(thumb_url=URL(src), href=URL(item['href']),description=item.get('alt','')))
+                result.add_thumb(ThumbInfo(thumb_url=URL(src), href=URL(item['href']), popup=item.get('alt', '')))
 
             for item in startpage_pages_rule.get_result(['href', 'data']):
                 result.add_page(ControlInfo(item['data'], URL(item['href'])))
@@ -165,7 +166,3 @@ class SKWvideoSite(BaseSite):
 
 if __name__ == "__main__":
     pass
-
-
-
-

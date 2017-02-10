@@ -3,7 +3,6 @@ __author__ = 'Nikitin'
 from tkinter import *
 
 from PIL import Image, ImageTk
-
 from lib.file_loader import BadFileLoader
 
 
@@ -55,4 +54,3 @@ class PreviewFrame(PictureFrame):
         self.error = True
         self.clear()
         self.img.config(text=error)
-

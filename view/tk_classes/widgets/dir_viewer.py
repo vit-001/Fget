@@ -1,8 +1,8 @@
 __author__ = 'Vit'
 
-from tkinter import *
 import glob
 import os.path
+from tkinter import *
 
 from PIL import Image, ImageTk
 
@@ -10,11 +10,11 @@ from view.tk_classes.widgets.progress_line import ProgressLine
 
 
 class DirViewer(Frame):
-    def __init__(self, master=None, mode='thumb',on_picture_change=(lambda fname, cur_pic, max_pic, loaded: 0)):
+    def __init__(self, master=None, mode='thumb', on_picture_change=(lambda fname, cur_pic, max_pic, loaded: 0)):
         Frame.__init__(self, master, background='black', borderwidth=0)
         self.dir = ''
         self.handler = on_picture_change
-        self.mode=mode
+        self.mode = mode
         self.current_image = 0
         self.use_progress = False
         self.max_pics = 0
@@ -47,9 +47,9 @@ class DirViewer(Frame):
             self.progress.re_init(max_pics)
         self.load_dir()
 
-    def set_mode(self,mode='thumb'):
-        print('mode',mode)
-        self.mode=mode
+    def set_mode(self, mode='thumb'):
+        print('mode', mode)
+        self.mode = mode
         self.redraw_pic()
 
     def on_change_size(self):
@@ -76,7 +76,7 @@ class DirViewer(Frame):
         h = self.canvas.winfo_height()
 
         try:
-            img = self.fit_to_window(Image.open(self.files[self.current_image].replace('\\', '/')),w,h)
+            img = self.fit_to_window(Image.open(self.files[self.current_image].replace('\\', '/')), w, h)
 
             self.photo = ImageTk.PhotoImage(img)
             self.canvas.create_image(w // 2, h // 2, image=self.photo, anchor=CENTER, tag='pic')
@@ -91,29 +91,28 @@ class DirViewer(Frame):
         else:
             self.progress.configure(width=0)
 
-    def fit_to_window(self,img,w,h):
+    def fit_to_window(self, img, w, h):
 
-        if self.mode=='thumb':
+        if self.mode == 'thumb':
             img.thumbnail((w, h), Image.BICUBIC)
-        elif self.mode=='window':
-            (iw,ih)=img.size
-            if iw>w or ih>h:
+        elif self.mode == 'window':
+            (iw, ih) = img.size
+            if iw > w or ih > h:
                 img.thumbnail((w, h), Image.BICUBIC)
             else:
-                aspect=iw/ih
-                window_aspect=w/h
-                if window_aspect<aspect:
-                    iw_new=w
-                    ih_new=w/aspect
+                aspect = iw / ih
+                window_aspect = w / h
+                if window_aspect < aspect:
+                    iw_new = w
+                    ih_new = w / aspect
                 else:
-                    iw_new=h*aspect
-                    ih_new=h
-                img=img.resize((int(iw_new),int(ih_new)),Image.BICUBIC)
+                    iw_new = h * aspect
+                    ih_new = h
+                img = img.resize((int(iw_new), int(ih_new)), Image.BICUBIC)
         else:
             print('DirViewer.fit_to_window ERROR: wrong mode, must be "thumb" or "window"')
 
         return img
-
 
     def load_pic(self):
         if self.no_pic: return
@@ -139,6 +138,7 @@ class DirViewer(Frame):
 if __name__ == "__main__":
     def handler(picname):
         tk.title(picname)
+
 
     tk = Tk()
     tk.geometry('820x600+100+100')

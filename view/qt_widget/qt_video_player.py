@@ -2,16 +2,16 @@ __author__ = 'Vit'
 
 __all__ = ['QThumbViewVS']
 
-import sys, os
-
+import os
+import sys
 from urllib.parse import urlparse
 
-from PyQt5.QtCore import QDir, Qt, QUrl, QUrlQuery
+from PyQt5.QtCore import QUrl
 from PyQt5.QtGui import QPixmap, QIcon
 from PyQt5.QtMultimedia import QMediaContent, QMediaPlayer
-from PyQt5.QtMultimediaWidgets import QVideoWidget, QGraphicsVideoItem
-from PyQt5.QtWidgets import (QApplication, QFileDialog, QAction, QMenu,
-                             QPushButton, QSizePolicy, QSlider, QStyle, QVBoxLayout, QWidget, QMainWindow)
+from PyQt5.QtMultimediaWidgets import QVideoWidget
+from PyQt5.QtWidgets import (QApplication, QAction, QMenu,
+                             QWidget)
 
 from view.qt_ui.video_player_widget import Ui_VideoPlayer
 
@@ -21,6 +21,8 @@ class VideoPlayer(QWidget):
         QWidget.__init__(self, parent)
 
         self.ui = Ui_VideoPlayer()
+
+        self.error_handler = lambda txt: None
 
         savecwd = os.getcwd()
         os.chdir('view/ui')
@@ -38,7 +40,6 @@ class VideoPlayer(QWidget):
         self.media_player_widget = QVideoWidget(self.ui.mid_frame)
         self.ui.mid_frame_grid_layout.addWidget(self.media_player_widget, 0, 0)
         self.media_player.setVideoOutput(self.media_player_widget)
-
 
         # self.media_player.stateChanged.connect(self.state_changed)
         self.media_player.bufferStatusChanged.connect(self.buffer_status_changed)
@@ -73,6 +74,9 @@ class VideoPlayer(QWidget):
         self.change_position = None
         self.uget_handler = lambda fname='', url='': None
         # self.on_end_of_playing=lambda :None
+
+    def set_error_handler(self, handler):
+        self.error_handler = handler
 
     def icons_set(self, bn, fname_off, fname_on=None):
         icon = QIcon()
@@ -214,6 +218,7 @@ class VideoPlayer(QWidget):
 
     def handleError(self):
         print("Error in " + self.url + ': ' + self.media_player.errorString())
+        self.error_handler('Player error: ' + self.media_player.errorString())
 
 
 if __name__ == "__main__":

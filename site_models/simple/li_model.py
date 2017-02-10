@@ -1,8 +1,8 @@
 __author__ = 'Vit'
 
+from base_classes import URL, ControlInfo
 from site_models.base_site_model import *
 from site_models.site_parser import SiteParser, ParserRule
-from base_classes import URL, ControlInfo
 
 
 def get_href(txt):
@@ -62,7 +62,7 @@ class LISite(BaseSite):
         for s in open(fname):
             parser.feed(s)
 
-        result = ParseResult(self)
+        result = ParseResult()
 
         if len(picture_trigger_rule.get_result()) > 0:
             result.set_type('pictures')
@@ -81,7 +81,7 @@ class LISite(BaseSite):
             for item in startpage_rule.get_result():
                 result.add_thumb(
                     ThumbInfo(thumb_url=URL(item['src']), href=URL("http://lustimages.com" + item['href']),
-                              description=item.get('alt', '')))
+                              popup=item.get('alt', '')))
 
             for item in menu_rule.get_result(['href', 'data']):
                 result.add_control(ControlInfo(item['data'], URL(item['href'])))

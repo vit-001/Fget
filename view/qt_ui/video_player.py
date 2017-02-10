@@ -7,7 +7,8 @@
 #
 # WARNING! All changes made in this file will be lost!
 
-from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5 import QtCore, QtWidgets
+
 
 class Ui_VideoPlayer(object):
     def setupUi(self, VideoPlayer):
@@ -18,7 +19,8 @@ class Ui_VideoPlayer(object):
         self.verticalLayout = QtWidgets.QVBoxLayout(self.centralwidget)
         self.verticalLayout.setObjectName("verticalLayout")
         self.mid_frame = QtWidgets.QFrame(self.centralwidget)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.MinimumExpanding)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.MinimumExpanding,
+                                           QtWidgets.QSizePolicy.MinimumExpanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.mid_frame.sizePolicy().hasHeightForWidth())
@@ -60,4 +62,3 @@ class Ui_VideoPlayer(object):
         _translate = QtCore.QCoreApplication.translate
         VideoPlayer.setWindowTitle(_translate("VideoPlayer", "MainWindow"))
         self.bn_go.setText(_translate("VideoPlayer", "GO"))
-

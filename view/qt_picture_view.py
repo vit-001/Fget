@@ -1,22 +1,20 @@
 import glob
+
 from PyQt5 import QtCore
 from PyQt5.QtGui import QPixmap
-from PyQt5.QtWidgets import QMainWindow, QFrame, QLabel
+from PyQt5.QtWidgets import QLabel
 
 from base_classes import AbstractPictureView, AbstractViewManager, URL
-from setting import Setting
 from favorites import FavoriteRecord
-
 from view.qt_full_view import FullView
-
 from view.qt_widget.qt_progress_line import QProgressHLine
 
 
 class PictureView(FullView, AbstractPictureView):
     def __init__(self, parent=None, view_manager=AbstractViewManager):
-        FullView.__init__(self,parent,view_manager)
+        FullView.__init__(self, parent, view_manager)
 
-        self.pix_label=QLabel(self.ui.mid_frame)
+        self.pix_label = QLabel(self.ui.mid_frame)
         self.pix_label.setAlignment(QtCore.Qt.AlignCenter)
         self.ui.mid_frame_layout.addWidget(self.pix_label)
 
@@ -33,15 +31,14 @@ class PictureView(FullView, AbstractPictureView):
         self.max_pics = 0
 
     def test_favorite_item(self, item):
-        return item.is_pix()
+        return item.is_pix() or item.is_thumb()
 
     def get_page_type(self):
         return FavoriteRecord.pix
 
-
     def set_dir(self, filedir='', url=URL(), max_pics=12):
         self.dir = filedir
-        self.url=url
+        self.url = url
         self.cur_pix = 0
         self.controls.clear()
 

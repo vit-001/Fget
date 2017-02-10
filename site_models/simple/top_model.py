@@ -1,8 +1,8 @@
 __author__ = 'Vit'
 
+from base_classes import URL, ControlInfo
 from site_models.base_site_model import *
 from site_models.site_parser import SiteParser, ParserRule
-from base_classes import URL, ControlInfo
 
 
 def get_href(txt):
@@ -29,14 +29,12 @@ class TOPSite(BaseSite):
     def can_accept_index_file(self, base_url=URL()):
         return base_url.contain('tomorrowporn.com/')
 
-
     def get_start_button_menu_text_url_dict(self):
         return dict(Movies=URL('http://www.tomorrowporn.com/porn-movies/'),
                     Stars=URL('http://www.tomorrowporn.com/porn-stars/'),
                     Pics=URL('http://www.tomorrowporn.com/'),
                     LatestUpdates=URL('http://www.tomorrowporn.com/latest_updates.html'),
-        )
-
+                    )
 
     def parse_index_file(self, fname, base_url=URL()):
         parser = SiteParser()
@@ -80,27 +78,27 @@ class TOPSite(BaseSite):
         for s in open(fname, encoding='utf-8'):
             parser.feed(s)
 
-        result = ParseResult(self)
+        result = ParseResult()
 
         if len(startpage_rule.get_result()) > 0:
-            result.set_type('hrefs')
+            # result.set_type('hrefs')
             for item in startpage_rule.get_result():
                 result.add_thumb(
-                    ThumbInfo(thumb_url=URL(item['src']), href=URL(item['href']), description=item.get('alt', '')))
+                    ThumbInfo(thumb_url=URL(item['src']), href=URL(item['href']), popup=item.get('alt', '')))
 
             for item in startpage_pages_rule.get_result(['href', 'data']):
                 result.add_page(ControlInfo(item['data'], URL(item['href'])))
 
         if len(href_rule.get_result()) > 0:
-            result.set_type('hrefs')
+            # result.set_type('hrefs')
             for item in href_rule.get_result():
                 # print (item)
                 if 'src' in item:
                     result.add_thumb(
-                        ThumbInfo(thumb_url=URL(item['src']), href=URL(item['href']), description=item.get('alt', '')))
+                        ThumbInfo(thumb_url=URL(item['src']), href=URL(item['href']), popup=item.get('alt', '')))
 
         if len(picture_rule.get_result()) > 0:
-            result.set_type('pictures')
+            # result.set_type('pictures')
             for f in picture_rule.get_result():
                 result.add_full(FullPictureInfo(rel_name=f['src']))
 
@@ -109,4 +107,3 @@ class TOPSite(BaseSite):
                 result.add_control(ControlInfo(f['title'], URL(f['href'])))
 
         return result
-

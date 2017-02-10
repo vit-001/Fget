@@ -4,11 +4,10 @@ from PyQt5.QtCore import QDir, Qt, QUrl
 from PyQt5.QtMultimedia import QMediaContent, QMediaPlayer
 from PyQt5.QtMultimediaWidgets import QVideoWidget
 from PyQt5.QtWidgets import (QApplication, QFileDialog, QHBoxLayout, QLabel,
-        QPushButton, QSizePolicy, QSlider, QStyle, QVBoxLayout, QWidget)
+                             QPushButton, QSizePolicy, QSlider, QStyle, QVBoxLayout, QWidget)
 
 
 class VideoPlayer(QWidget):
-
     def __init__(self, parent=None):
         super(VideoPlayer, self).__init__(parent)
 
@@ -30,7 +29,7 @@ class VideoPlayer(QWidget):
 
         self.errorLabel = QLabel()
         self.errorLabel.setSizePolicy(QSizePolicy.Preferred,
-                QSizePolicy.Maximum)
+                                      QSizePolicy.Maximum)
 
         controlLayout = QHBoxLayout()
         controlLayout.setContentsMargins(0, 0, 0, 0)
@@ -53,13 +52,13 @@ class VideoPlayer(QWidget):
 
     def openFile(self):
         fileName, _ = QFileDialog.getOpenFileName(self, "Open Movie",
-                QDir.homePath())
+                                                  QDir.homePath())
 
         print(fileName)
 
         if fileName != '':
             self.mediaPlayer.setMedia(
-                    QMediaContent(QUrl.fromLocalFile(fileName)))
+                QMediaContent(QUrl.fromLocalFile(fileName)))
             self.playButton.setEnabled(True)
 
     def play(self):
@@ -71,10 +70,10 @@ class VideoPlayer(QWidget):
     def mediaStateChanged(self, state):
         if self.mediaPlayer.state() == QMediaPlayer.PlayingState:
             self.playButton.setIcon(
-                    self.style().standardIcon(QStyle.SP_MediaPause))
+                self.style().standardIcon(QStyle.SP_MediaPause))
         else:
             self.playButton.setIcon(
-                    self.style().standardIcon(QStyle.SP_MediaPlay))
+                self.style().standardIcon(QStyle.SP_MediaPlay))
 
     def positionChanged(self, position):
         self.positionSlider.setValue(position)
@@ -91,7 +90,6 @@ class VideoPlayer(QWidget):
 
 
 if __name__ == '__main__':
-
     import sys
 
     app = QApplication(sys.argv)

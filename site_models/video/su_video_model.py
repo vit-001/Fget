@@ -1,9 +1,9 @@
 __author__ = 'Vit'
 
+from base_classes import URL, ControlInfo
 from site_models.base_site_model import *
 from site_models.site_parser import SiteParser, ParserRule
-from base_classes import URL, ControlInfo
-from setting import Setting
+
 
 class SUvideoSite(BaseSite):
     def start_button_name(self):
@@ -35,8 +35,8 @@ class SUvideoSite(BaseSite):
         startpage_rule = ParserRule()
         startpage_rule.add_activate_rule_level([('div', 'class', 'thumb')])
         startpage_rule.add_process_rule_level('a', {'href', 'title'})
-        startpage_rule.add_process_rule_level('img', {'src','data-original'})
-        startpage_rule.set_attribute_modifier_function('href', lambda x: base_url.domain() + x )
+        startpage_rule.add_process_rule_level('img', {'src', 'data-original'})
+        startpage_rule.set_attribute_modifier_function('href', lambda x: base_url.domain() + x)
         parser.add_rule(startpage_rule)
 
         startpage_pages_rule = ParserRule()
@@ -73,14 +73,15 @@ class SUvideoSite(BaseSite):
 
         self.proceed_parcing(parser, fname)
 
-        result = ParseResult(self)
+        result = ParseResult()
 
         if len(video_rule.get_result()) > 0:
-            script = video_rule.get_result()[0]['data']#.replace(' ', '').replace('\\','')
+            script = video_rule.get_result()[0]['data']  # .replace(' ', '').replace('\\','')
 
             # print(script)
             # print('len=',len(video_rule.get_result()))
             sources = script.partition('"sources":[{')[2].partition('}]')[0].split('},{')
+
             # for i in sources:
             #     print(i)
 
@@ -112,8 +113,9 @@ class SUvideoSite(BaseSite):
         if len(startpage_rule.get_result()) > 0:
             result.set_type('hrefs')
 
-            for item in startpage_rule.get_result(['href','data-original']):
-                result.add_thumb(ThumbInfo(thumb_url=URL(item['data-original']), href=URL(item['href']),description=item.get('title','')))
+            for item in startpage_rule.get_result(['href', 'data-original']):
+                result.add_thumb(ThumbInfo(thumb_url=URL(item['data-original']), href=URL(item['href']),
+                                           popup=item.get('title', '')))
 
             for item in startpage_pages_rule.get_result(['href', 'data']):
                 result.add_page(ControlInfo(item['data'], URL(item['href'])))
@@ -127,7 +129,3 @@ class SUvideoSite(BaseSite):
 
 if __name__ == "__main__":
     pass
-
-
-
-

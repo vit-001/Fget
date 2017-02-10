@@ -1,9 +1,9 @@
 __author__ = 'Vit'
 
+from base_classes import URL, ControlInfo
 from site_models.base_site_model import *
 from site_models.site_parser import SiteParser, ParserRule
-from base_classes import URL, ControlInfo
-from setting import Setting
+
 
 class PHDvideoSite(BaseSite):
     def start_button_name(self):
@@ -33,16 +33,16 @@ class PHDvideoSite(BaseSite):
 
         startpage_rule = ParserRule()
         startpage_rule.add_activate_rule_level([('ul', 'class', 'thumbs'),
-                                                ('li','class','category')])
+                                                ('li', 'class', 'category')])
         startpage_rule.add_process_rule_level('a', {'href'})
-        startpage_rule.add_process_rule_level('img', {'src','alt','data-original'})
-        startpage_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x,base_url))
+        startpage_rule.add_process_rule_level('img', {'src', 'alt', 'data-original'})
+        startpage_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x, base_url))
         parser.add_rule(startpage_rule)
 
         startpage_pages_rule = ParserRule()
         startpage_pages_rule.add_activate_rule_level([('div', 'class', 'pager paging')])
         # startpage_pages_rule.add_activate_rule_level([('a', 'class', 'current')])
-        startpage_pages_rule.add_process_rule_level('span', {'data-query-key','data-query-value'})
+        startpage_pages_rule.add_process_rule_level('span', {'data-query-key', 'data-query-value'})
         # startpage_pages_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x,base_url))
         parser.add_rule(startpage_pages_rule)
 
@@ -50,17 +50,16 @@ class PHDvideoSite(BaseSite):
         channels_rule.add_activate_rule_level([('ul', 'class', 'tag-150-list')])
         channels_rule.add_process_rule_level('a', {'href'})
         channels_rule.add_process_rule_level('img', {'src'})
-        channels_rule.set_attribute_filter_function('href',lambda x: '/channel/' in x or '/prime/' in x)
-        channels_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x,base_url))
+        channels_rule.set_attribute_filter_function('href', lambda x: '/channel/' in x or '/prime/' in x)
+        channels_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x, base_url))
         parser.add_rule(channels_rule)
 
         channel_categories_rule = ParserRule()
         channel_categories_rule.add_activate_rule_level([('ul', 'class', 'link-tag-list long-col')])
         # startpage_pages_rule.add_activate_rule_level([('a', 'class', 'current')])
-        channel_categories_rule.add_process_rule_level('span', {'data-query-key','data-query-value'})
+        channel_categories_rule.add_process_rule_level('span', {'data-query-key', 'data-query-value'})
         # startpage_pages_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x,base_url))
         parser.add_rule(channel_categories_rule)
-
 
         video_rule = ParserRule()
         video_rule.add_activate_rule_level([('div', 'class', 'player-container')])
@@ -71,24 +70,22 @@ class PHDvideoSite(BaseSite):
         gallery_href_rule = ParserRule()
         gallery_href_rule.add_activate_rule_level([('ul', 'class', 'video-tag-list')])
         gallery_href_rule.add_process_rule_level('a', {'href'})
-        gallery_href_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x,base_url))
+        gallery_href_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x, base_url))
         parser.add_rule(gallery_href_rule)
-
-
 
         self.proceed_parcing(parser, fname)
 
-        result = ParseResult(self)
+        result = ParseResult()
 
-        if video_rule.is_result(): #len(video_rule.get_result()) > 0:
+        if video_rule.is_result():  # len(video_rule.get_result()) > 0:
             script = video_rule.get_result()[0]['data'].replace(' ', '').replace('\\', '')
             sources = script.partition("'sources':{")[2].partition('}')[0].split(',')
 
-            urls=list()
+            urls = list()
             for item in sources:
-                part=item.strip("\n\t'").partition("':'")
+                part = item.strip("\n\t'").partition("':'")
                 if part[2].startswith('http://'):
-                    data=dict(text=part[0], url=URL(part[2].strip("'") + '*'))
+                    data = dict(text=part[0], url=URL(part[2].strip("'") + '*'))
                     urls.append(data)
 
             if len(urls) == 1:
@@ -130,21 +127,20 @@ class PHDvideoSite(BaseSite):
                 print(item)
                 key = item['data-query-key']
                 val = item['data-query-value']
-                description=item[description_key].strip('\t')
+                description = item[description_key].strip('\t')
                 old = base_url.get()
 
                 addr = add_key(old, key, val)
 
                 result.add_page(ControlInfo(description, URL(addr + '*')))
 
-
         if channels_rule.is_result():
             result.set_type('hrefs')
 
             for item in channels_rule.get_result():
                 # print(item)
-                info=item['href'].rpartition('/')[2].strip('*')
-                result.add_thumb(ThumbInfo(thumb_url=URL(item['src']), href=URL(item['href']), description=info))
+                info = item['href'].rpartition('/')[2].strip('*')
+                result.add_thumb(ThumbInfo(thumb_url=URL(item['src']), href=URL(item['href']), popup=info))
 
             add_pages_info_to_result(channel_categories_rule, description_key='data')
 
@@ -153,24 +149,19 @@ class PHDvideoSite(BaseSite):
 
             return result
 
-        if startpage_rule.is_result(): #len(startpage_rule.get_result()) > 0:
+        if startpage_rule.is_result():  # len(startpage_rule.get_result()) > 0:
             result.set_type('hrefs')
 
             for item in startpage_rule.get_result(['href']):
                 # print(item)
-                t_url=item.get('data-original',item['src'])
-                result.add_thumb(ThumbInfo(thumb_url=URL(t_url), href=URL(item['href']),description=item.get('alt','')))
+                t_url = item.get('data-original', item['src'])
+                result.add_thumb(
+                    ThumbInfo(thumb_url=URL(t_url), href=URL(item['href']), popup=item.get('alt', '')))
 
             add_pages_info_to_result(startpage_pages_rule)
 
         return result
 
 
-
-
 if __name__ == "__main__":
     pass
-
-
-
-

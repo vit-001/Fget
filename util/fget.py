@@ -1,14 +1,15 @@
 __author__ = 'Nikitin'
 
-from urllib.parse import urlparse
 from tkinter import *
+from urllib.parse import urlparse
 
+from lib.file_loader import BadFileLoader
+from widgets.entry_block import EntryBlock
+from widgets.object_list import ObjectList
 from widgets.picture_frame import PreviewFrame
 from widgets.status_bar import StatusBar
-from widgets.entry_block import EntryBlock
+
 from view.tk_classes.widgets.button_line import ButtonLine
-from widgets.object_list import ObjectList
-from lib.file_loader import BadFileLoader
 
 
 class FileData():

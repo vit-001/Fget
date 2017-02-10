@@ -1,8 +1,8 @@
 __author__ = 'Vit'
 
+from base_classes import URL, ControlInfo
 from site_models.base_site_model import *
 from site_models.site_parser import SiteParser, ParserRule
-from base_classes import URL, ControlInfo
 
 
 class XUKSite(BaseSite):
@@ -55,13 +55,13 @@ class XUKSite(BaseSite):
         for s in open(fname, encoding='utf-8'):
             parser.feed(s)
 
-        result = ParseResult(self)
+        result = ParseResult()
 
         if len(startpage_rule.get_result()) > 0:
             result.set_type('hrefs')
             for item in startpage_rule.get_result():
                 result.add_thumb(
-                    ThumbInfo(thumb_url=URL(item['src']), href=URL(item['href']), description=item.get('alt', '')))
+                    ThumbInfo(thumb_url=URL(item['src']), href=URL(item['href']), popup=item.get('alt', '')))
 
             for item in startpage_pages_rule.get_result(['href', 'data']):
                 result.add_page(ControlInfo(item['data'], URL(item['href'])))
@@ -83,9 +83,3 @@ class XUKSite(BaseSite):
                 result.add_control(ControlInfo(item['data'], URL(item['href'])))
 
         return result
-
-
-
-
-
-

@@ -2,9 +2,8 @@ __author__ = 'Vit'
 
 import sys
 
-from PyQt5 import QtCore, QtGui, QtWidgets
-
 from view.qt_ui.tst_qpixmap import *
+
 
 #
 # class PicButton(QAbstractButton):
@@ -25,7 +24,7 @@ class MyWin(QtWidgets.QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
 
-        self.pixmap=QtGui.QPixmap("E:/Dropbox/Hobby/PRG/PyWork/FGet/files/photo.jpg")
+        self.pixmap = QtGui.QPixmap("E:/Dropbox/Hobby/PRG/PyWork/FGet/files/photo.jpg")
 
         self.toolButton = QtWidgets.QToolButton(self.ui.main)
         icon = QtGui.QIcon()
@@ -35,7 +34,6 @@ class MyWin(QtWidgets.QMainWindow):
         self.toolButton.setObjectName("toolButton")
         self.ui.verticalLayout.addWidget(self.toolButton)
         self.toolButton.setText("...")
-
 
 
 if __name__ == "__main__":

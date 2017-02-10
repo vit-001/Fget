@@ -1,14 +1,14 @@
 __author__ = 'Vit'
 
 from tkinter import *
-from tkinter.ttk import *
 from tkinter.messagebox import askokcancel
+from tkinter.ttk import *
 
-from base_classes import ControllerFromViewInterface, AbstractPictureView, AbstractThumbView, URL
-from view.tk_classes.widgets.tumb_view import ExtendedThumbView
-from view.tk_classes.widgets.dir_viewer import DirViewer
+from base_classes import PresenterFromViewInterface, AbstractPictureView, AbstractThumbView, URL
 from view.tk_classes.widgets.button_line import HScrolledButtonLine
+from view.tk_classes.widgets.dir_viewer import DirViewer
 from view.tk_classes.widgets.progress_line import ProgressLine
+from view.tk_classes.widgets.tumb_view import ExtendedThumbView
 
 
 class Popup():
@@ -38,7 +38,7 @@ class HistoryCombobox(Combobox):
 
 
 class ThumbViewer(Tk, AbstractThumbView):
-    def __init__(self, controller=ControllerFromViewInterface()):
+    def __init__(self, controller=PresenterFromViewInterface()):
         Tk.__init__(self)
         self.geometry('440x895+41+92')
         self.title('SViewer')
@@ -90,6 +90,7 @@ class ThumbViewer(Tk, AbstractThumbView):
 
     def _debug(self):
         pass
+
     #     print('debug')
     #     gc.disable()
     #     gc.set_debug(gc.DEBUG_STATS)
@@ -170,7 +171,7 @@ class ThumbViewer(Tk, AbstractThumbView):
         self.cycle_handler()
         self.after(100, self.cycle)
 
-    def get_picture_view(self, page_dir='',url=URL(), max_pics=12):
+    def get_picture_view(self, page_dir='', url=URL(), max_pics=12):
         if self.full_view is None:
             self.full_view = FullView(self, self.controller)
             self.full_view.geometry(self.full_view_geometry)
@@ -187,7 +188,7 @@ class ThumbViewer(Tk, AbstractThumbView):
 
 
 class FavoriteSelectorCombo(Frame):
-    def __init__(self, master=None, controller=ControllerFromViewInterface):
+    def __init__(self, master=None, controller=PresenterFromViewInterface):
         Frame.__init__(self, master)
 
         self.controller = controller
@@ -264,7 +265,7 @@ class FavoriteSelectorCombo(Frame):
 
 
 class FullView(Toplevel, AbstractPictureView):
-    def __init__(self, master=None, controller=ControllerFromViewInterface()):
+    def __init__(self, master=None, controller=PresenterFromViewInterface()):
         Toplevel.__init__(self, master)
         self.controller = controller
         self.make_widgets()

@@ -9,6 +9,7 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+
 class Ui_full_view(object):
     def setupUi(self, full_view):
         full_view.setObjectName("full_view")
@@ -116,4 +117,3 @@ class Ui_full_view(object):
         _translate = QtCore.QCoreApplication.translate
         full_view.setWindowTitle(_translate("full_view", "full_view"))
         self.pix_label.setText(_translate("full_view", "loading....."))
-

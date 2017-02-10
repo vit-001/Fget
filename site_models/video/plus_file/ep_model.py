@@ -1,9 +1,10 @@
 __author__ = 'Vit'
 
-from site_models.base_site_model import *
-from site_models.site_parser import SiteParser, ParserRule
 from base_classes import URL, ControlInfo
 from setting import Setting
+from site_models.base_site_model import *
+from site_models.site_parser import SiteParser, ParserRule
+
 
 class EPvideoSite(BaseSite):
     def start_button_name(self):
@@ -20,11 +21,11 @@ class EPvideoSite(BaseSite):
     def can_accept_index_file(self, base_url=URL()):
         return base_url.contain('eporner.com/')
 
-    def get_href(self,txt='',base_url=URL()):
+    def get_href(self, txt='', base_url=URL()):
         if txt.startswith('http://'):
             return txt
         if txt.startswith('/'):
-            return base_url.domain()+txt
+            return base_url.domain() + txt
 
     def parse_index_file(self, fname, base_url=URL()):
         parser = SiteParser()
@@ -36,20 +37,20 @@ class EPvideoSite(BaseSite):
                                                 ('div', 'class', 'mbhd mbr'),
                                                 ('div', 'class', 'categoriesbox')])
         startpage_rule.add_process_rule_level('a', {'href'})
-        startpage_rule.add_process_rule_level('img', {'src','alt'})
+        startpage_rule.add_process_rule_level('img', {'src', 'alt'})
         startpage_rule.set_attribute_modifier_function('href', lambda x: base_url.domain() + x)
         parser.add_rule(startpage_rule)
 
         startpage_pages_rule = ParserRule()
         startpage_pages_rule.add_activate_rule_level([('div', 'class', 'numlist2')])
         startpage_pages_rule.add_process_rule_level('a', {'href'})
-        startpage_pages_rule.set_attribute_modifier_function('href',lambda x: base_url.domain() + x)
+        startpage_pages_rule.set_attribute_modifier_function('href', lambda x: base_url.domain() + x)
         parser.add_rule(startpage_pages_rule)
 
         video_rule = ParserRule()
         video_rule.add_activate_rule_level([('div', 'id', 'moviexxx')])
         video_rule.add_process_rule_level('script', {})
-        video_rule.set_attribute_filter_function('data',lambda x:"videojs('EPvideo'" in x)
+        video_rule.set_attribute_filter_function('data', lambda x: "videojs('EPvideo'" in x)
         parser.add_rule(video_rule)
 
         video_fname_rule = ParserRule()
@@ -62,24 +63,24 @@ class EPvideoSite(BaseSite):
         gallery_href_rule.add_activate_rule_level([('div', 'class', 'tab-1')])
         # gallery_href_rule.add_activate_rule_level([('td', 'class', 'btnList')])
         gallery_href_rule.add_process_rule_level('a', {'href'})
-        gallery_href_rule.set_attribute_modifier_function('href',lambda x: base_url.domain() + x)
-        gallery_href_rule.set_attribute_filter_function('href',lambda x:'/category/'in x or '/search/'in x)
+        gallery_href_rule.set_attribute_modifier_function('href', lambda x: base_url.domain() + x)
+        gallery_href_rule.set_attribute_filter_function('href', lambda x: '/category/' in x or '/search/' in x)
         parser.add_rule(gallery_href_rule)
 
         self.proceed_parcing(parser, fname)
 
-        result = ParseResult(self)
+        result = ParseResult()
 
         if video_rule.is_result():
-            script=video_rule.get_result()[0]['data'].replace(' ','')
+            script = video_rule.get_result()[0]['data'].replace(' ', '')
             # print(script)
-            vid=script.partition("vid:'")[2].partition("',")[0]
-            hash=script.partition("hash:'")[2].partition("',")[0]
-            print(vid,hash)
+            vid = script.partition("vid:'")[2].partition("',")[0]
+            hash = script.partition("hash:'")[2].partition("',")[0]
+            print(vid, hash)
 
             for item in video_fname_rule.get_result():
                 print(item)
-                fname=item['href'].rpartition('/')[2]
+                fname = item['href'].rpartition('/')[2]
                 print(fname)
                 # print('http://v1.s1.n10.nl.cdn.eporner.com/3e7475b4b977ffd9649a87353717fc51/582c90c9027c00/310073-720p.mp4'.format(hash,vid,fname))
                 print('http://v1.s1.n10.nl.cdn.eporner.com/{0}/{1}/{2}'.format(hash, vid, fname))
@@ -88,7 +89,7 @@ class EPvideoSite(BaseSite):
             # result.set_video(video.get_result())
             result.set_type('video')
 
-            for f in gallery_href_rule.get_result(['data','href']):
+            for f in gallery_href_rule.get_result(['data', 'href']):
                 # print(f)
                 result.add_control(ControlInfo(f['data'], URL(f['href'])))
             # print('return')
@@ -97,63 +98,62 @@ class EPvideoSite(BaseSite):
         if len(startpage_rule.get_result()) > 0:
             result.set_type('hrefs')
             for item in startpage_rule.get_result():
-                result.add_thumb(ThumbInfo(thumb_url=URL(item['src']), href=URL(item['href']),description=item['alt']))
+                result.add_thumb(ThumbInfo(thumb_url=URL(item['src']), href=URL(item['href']), popup=item['alt']))
 
             for item in startpage_pages_rule.get_result(['href', 'data']):
                 result.add_page(ControlInfo(item['data'], URL(item['href'])))
-            #
-            # for item in startpage_hrefs_rule.get_result(['href', 'data']):
-            #     result.add_control(ControlInfo(item['data'], URL(item['href'])))
+                #
+                # for item in startpage_hrefs_rule.get_result(['href', 'data']):
+                #     result.add_control(ControlInfo(item['data'], URL(item['href'])))
 
         return result
 
 
 class EPvideoParser():
-    def __init__(self,url=URL(),model=AbstractModelFromSiteInterface()):
+    def __init__(self, url=URL(), model=AbstractModelFromSiteInterface()):
         # print ('EPVideoParcer:',url.get())
 
-        script_file=Setting.base_dir+'ep_script.txt'
+        script_file = Setting.base_dir + 'ep_script.txt'
 
-        if safe_load(url,script_file) is not None:
+        if safe_load(url, script_file) is not None:
             # print('Loaded')
-            setup=''
-            process=False
+            setup = ''
+            process = False
             for line in open(script_file):
                 if process:
                     if ';' in line:
-                        setup+=line.partition(';')[0]
+                        setup += line.partition(';')[0]
                         break
                     else:
-                        setup+=line
+                        setup += line
                 elif '.setup' in line:
-                    setup=line.rpartition('.setup')[2]
-                    process=True
+                    setup = line.rpartition('.setup')[2]
+                    process = True
 
             # print(setup)
             self.process_setup(setup)
 
-
-    def process_setup(self,text=''):
-        sources=text.partition('sources:')[2].partition(']')[0].strip(' [')
+    def process_setup(self, text=''):
+        sources = text.partition('sources:')[2].partition(']')[0].strip(' [')
         # print(sources)
-        records=sources.split('}')
+        records = sources.split('}')
         # print(records)
-        alternates=list()
+        alternates = list()
         for item in records:
-            file=item.partition('file:')[2].partition(',')[0].strip(' "')
-            label=item.partition('label:')[2].partition(',')[0].strip(' "')
-            if file!='':
+            file = item.partition('file:')[2].partition(',')[0].strip(' "')
+            label = item.partition('label:')[2].partition(',')[0].strip(' "')
+            if file != '':
                 # print(label,file)
-                alternates.append(dict(text=label,url=URL(file)))
+                alternates.append(dict(text=label, url=URL(file)))
         # print (alternates)
         # default=self.find_default(alternates)
         # print('Default ',default)
-        self.result=MediaData(self.find_default(alternates))
+        self.result = MediaData(self.find_default(alternates))
         for item in alternates:
             self.result.add_alternate(item)
 
     def find_default(self, alternates):
-        preferencies=['720p','360p','1080p']
+        preferencies = ['720p', '360p', '1080p']
 
         for x in preferencies:
             for item in alternates:
@@ -165,10 +165,5 @@ class EPvideoParser():
         return self.result
 
 
-
 if __name__ == "__main__":
     pass
-
-
-
-

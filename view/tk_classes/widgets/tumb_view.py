@@ -1,7 +1,7 @@
 __author__ = 'Vit'
 
-from tkinter import *
 import os
+from tkinter import *
 
 from PIL import Image, ImageTk
 

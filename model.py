@@ -6,6 +6,8 @@ from site_models.base_site_model import ParseResult
 from site_models.collector.el_model import ELSite
 from site_models.collector.xxp_model import XXPSite
 from site_models.multi.mxt_multi_model import MXTmultiSite
+from site_models.other.dude_model import DudeSite
+from site_models.other.space_model import SpaceSite
 from site_models.simple.bas_model import BASSite
 from site_models.simple.be_nest.be_nest import BENest
 from site_models.simple.cc_model import CCSite
@@ -23,80 +25,117 @@ from site_models.simple.top_model import TOPSite
 from site_models.simple.tp_model import TPSite
 from site_models.simple.vp_nest.vp_nest import VPNest
 from site_models.simple.xuk_model import XUKSite
-from site_models.video.cbp_video_model import CBPvideoSite
-from site_models.video.dc_video_model import DCvideoSite
-from site_models.video.gb_video_model import GBvideoSite
-from site_models.video.hr_video_model import HRvideoSite
-from site_models.video.ml_video_model import MLvideoSite
+from site_models.soup.video.script.ml_soup_video_model import MLvideoSoupSite
+from site_models.soup.video.script.rgf_video_model import RGFvideoSite
+from site_models.soup.video.simple.hdep_soup_video_model import HDEPvideoSoupSite
+from site_models.soup.video.simple.ver_soup_video_model import VERvideoSoupSite
+from site_models.video.ajax.ext_video_model import EXTvideoSite
 from site_models.video.nfl_video_model import NFLvideoSite
-from site_models.video.nl_video_model import NLvideoSite
-from site_models.video.pb_video_model import PBvideoSite
-from site_models.video.pc_video_model import PCvideoSite
 from site_models.video.pd_video_model import PDvideoSite
 from site_models.video.pfun_video_model import PFUNvideoSite
 from site_models.video.phd_video_model import PHDvideoSite
+from site_models.video.plus_file.dfp_video_model import DFPvideoSite
+from site_models.video.plus_file.h69_video_model import H69videoSite
+from site_models.video.plus_file.pbz_video_model import PBZvideoSite
+from site_models.video.plus_file.sxx_video_model import SXXvideoSite
 from site_models.video.plus_file.tsp_video_model import TSPvideoSite
 from site_models.video.plus_file.yp_video_model import YPvideoSite
 from site_models.video.pt_video_model import PTvideoSite
 from site_models.video.px_video_model import PXvideoSite
-from site_models.video.rt_video_model import RTvideoSite
+from site_models.video.script.cls_video_model import CLSvideoSite
+from site_models.video.script.dc_video_model import DCvideoSite
+from site_models.video.script.pc_video_model import PCvideoSite
+from site_models.video.script.rt_video_model import RTvideoSite
+from site_models.video.script.syf_video_model import SYFPvideoSite
+from site_models.video.script.v24_video_model import V24videoSite
+from site_models.video.simple.bmt_video_model import BMTvideoSite
+from site_models.video.simple.cbp_video_model import CBPvideoSite
+from site_models.video.simple.gb_video_model import GBvideoSite
+from site_models.video.simple.hr_video_model import HRvideoSite
+from site_models.video.simple.nl_video_model import NLvideoSite
+from site_models.video.simple.p4k_video_model import P4KvideoSite
+from site_models.video.simple.pb_video_model import PBvideoSite
+from site_models.video.simple.ps_video_model import PSvideoSite
 from site_models.video.skw_video_model import SKWvideoSite
 from site_models.video.sm_video_model import SMvideoSite
 from site_models.video.t8_video_model import T8videoSite
 from site_models.video.tz_video_model import TZvideoSite
 from site_models.video.vp_video_model import VPvideoSite
-from site_models.video.wmgf_video_model import WMGFvideoSite
-
+from site_models.soup.video.simple.cbp_soup_video_model import CBPvideoSoupSite
 
 class SiteVewerModel(AbstractModel):
-    def __init__(self, controller=ControllerFromModelInterface()):
+    def __init__(self, controller=PresenterFromModelInterface()):
         self.controller = controller
         self.debug = Setting.model_debug
         self.models = [
-            #work on
-            YPvideoSite(self),
+            # work on
 
-            #classic
-            NFLvideoSite(self),
-            PCvideoSite(self),CBPvideoSite(self), PXvideoSite(self), RTvideoSite(self),  T8videoSite(self),
+
+
+
+
+            # classic
+            SpaceSite(self, text='Classic:'),
+            HDEPvideoSoupSite(self),CBPvideoSoupSite(self),
+            YPvideoSite(self), SXXvideoSite(self),  NFLvideoSite(self), V24videoSite(self),
+            PCvideoSite(self), PXvideoSite(self), RTvideoSite(self), CLSvideoSite(self),
+            VERvideoSoupSite(self), PBZvideoSite(self),
+            T8videoSite(self), BMTvideoSite(self),
             PTvideoSite(self), VPvideoSite(self), NLvideoSite(self), TZvideoSite(self), SKWvideoSite(self),
-            PHDvideoSite(self),TSPvideoSite(self),
+            PHDvideoSite(self), TSPvideoSite(self), DFPvideoSite(self),
+            H69videoSite(self),
+
             # amateur
-            MLvideoSite(self), WMGFvideoSite(self), PFUNvideoSite(self),PBvideoSite(self),
+            SpaceSite(self, text='Amateur:'),
+            MLvideoSoupSite(self),  RGFvideoSite(self), PFUNvideoSite(self), PBvideoSite(self),SYFPvideoSite(self),
+
             # s/m
-            SMvideoSite(self), GBvideoSite(self),
+            SpaceSite(self, text='Deviant:'),
+            SMvideoSite(self), GBvideoSite(self), EXTvideoSite(self),
+
             # deviant
-            HRvideoSite(self), DCvideoSite(self),
+            HRvideoSite(self), DCvideoSite(self), PSvideoSite(self),
+
             # short video
+            SpaceSite(self, text='Short:'),
             PDvideoSite(self),
+
             # photo archive
-            BENest(self), VPNest(self), FKSite(self), MXTmultiSite(self),TOPSite(self),
-            TMASite(self), BASSite(self),DSBSite(self),TPSite(self), LISite(self), FATSite(self),
+            SpaceSite(self, text='Photo:'),
+            BENest(self), VPNest(self), FKSite(self), MXTmultiSite(self), TOPSite(self),
+            TMASite(self), BASSite(self), DSBSite(self), TPSite(self), LISite(self), FATSite(self),
             FPSite(self), HXPSite(self), LENSSite(self), DTSite(self),
             DSUSite(self), XUKSite(self), ELSite(self), CCSite(self),
+
             # bad, temporally unworked etc
-            XXPSite(self)
-            ]
+            SpaceSite(self, text='Non working:'),
+            XXPSite(self),
+            P4KvideoSite(self),  # unstable
+
+            # info
+            SpaceSite(self, text='Info:'),
+            DudeSite(self),
+        ]
 
         if Setting.show_sites:
             print('Sites:')
-            sites_list=list()
+            sites_list = list()
             for item in self.models:
                 sites_list.append(item.startpage().__str__())
             for item in sorted(sites_list):
                 print(item)
             print('=============================')
 
-    def register_site_model(self, control=ControlInfo()):
+    def register_site_model(self, control:ControlInfo):
         self.controller.add_startpage(control)
 
-    def can_accept_url(self, url):
+    def can_accept_url(self, url: URL):
         for s in self.models:
             if s.can_accept_index_file(url):
                 return True
         return False
 
-    def accept_index(self, url=URL(), index_fname=''):
+    def accept_index(self, url:URL, index_fname:str):
         if self.debug: print('accept index file, URL:', url.get(), 'index:', index_fname)
 
         site = None
@@ -112,16 +151,17 @@ class SiteVewerModel(AbstractModel):
 
         if self.debug: print('Result type:', result.type)
 
-        if result.type == 'none':
+        if result.is_no_result():
             print('Parsing has no result')
+            self.controller.show_status('Parsing has no result')
             return
 
-        if result.type == 'hrefs':
+        if result.is_hrefs():
             if self.debug: print('Generating thumb view')
             result.set_base(Setting.base_dir + 'thumbs/')
             self.generate_thumb_view(url, thumb_list=result)
 
-        if result.type == 'pictures':
+        if result.is_pictures():
             if self.debug: print('Generating full view')
             if result.get_gallery_path() is None:
                 page_dir = url.get_path(base=Setting.base_dir)
@@ -133,13 +173,11 @@ class SiteVewerModel(AbstractModel):
             # result.set_base(page_dir, url)
             self.controller.show_picture_view(url, page_dir, result.controls, result.full, result.picture_collector)
 
-        if result.type=='video':
+        if result.is_video():
             if self.debug: print('Generating video view')
-            self.controller.show_video_view(url,result.get_video(),result.controls)
+            self.controller.show_video_view(url, result.get_video(), result.controls)
 
-
-
-    def generate_thumb_view(self, url=URL(), thumb_list=ParseResult()):
+    def generate_thumb_view(self, url:URL, thumb_list:ParseResult):
         thumbs = []
         accepted = 0
         rejected = 0
@@ -163,12 +201,14 @@ class SiteVewerModel(AbstractModel):
             print('Accepted     ', accepted)
             print('Rejected     ', rejected)
             for item in self.domains:
-                print('%4d' % self.domains[item], 'in domain', item)
+                message = '  {0} in domain {1}'.format(self.domains[item], item)
+                print(message)
+                self.controller.show_status(message)
             print()
 
         self.controller.show_thumb_view(url=url,
                                         controls=thumb_list.controls,
                                         pages=thumb_list.pages,
                                         thumbs=thumbs,
-                                        sites=thumb_list.sites)
-
+                                        sites=thumb_list.sites,
+                                        caption_visible=thumb_list.caption_visible)

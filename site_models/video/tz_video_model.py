@@ -1,9 +1,9 @@
 __author__ = 'Vit'
 
+from base_classes import URL, ControlInfo
 from site_models.base_site_model import *
 from site_models.site_parser import SiteParser, ParserRule
-from base_classes import URL, ControlInfo
-from setting import Setting
+
 
 class TZvideoSite(BaseSite):
     def start_button_name(self):
@@ -28,7 +28,7 @@ class TZvideoSite(BaseSite):
         if txt.startswith('http://') or txt.startswith('https://'):
             return txt
         if txt.startswith('/'):
-            return 'https://'+base_url.domain() + txt
+            return 'https://' + base_url.domain() + txt
         return ''
 
     def parse_index_file(self, fname, base_url=URL()):
@@ -42,15 +42,15 @@ class TZvideoSite(BaseSite):
         startpage_rule.add_activate_rule_level([('ul', 'class', 'responsiveListing')])
         startpage_rule.add_process_rule_level('a', {'href'})
         startpage_rule.add_process_rule_level('img', {'data-original'})
-        startpage_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x,base_url) + '*' )
-        startpage_rule.set_attribute_modifier_function('data-original',lambda x:x.replace('//','https://'))
+        startpage_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x, base_url) + '*')
+        startpage_rule.set_attribute_modifier_function('data-original', lambda x: x.replace('//', 'https://'))
         parser.add_rule(startpage_rule)
 
         startpage_pages_rule = ParserRule()
         startpage_pages_rule.add_activate_rule_level([('section', 'class', 'pagination')])
         # startpage_pages_rule.add_activate_rule_level([('a', 'class', 'current')])
         startpage_pages_rule.add_process_rule_level('a', {'href'})
-        startpage_pages_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x,base_url) + '*' )
+        startpage_pages_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x, base_url) + '*')
         parser.add_rule(startpage_pages_rule)
 
         startpage_hrefs_rule = ParserRule()
@@ -58,7 +58,7 @@ class TZvideoSite(BaseSite):
         # startpage_hrefs_rule.add_activate_rule_level([('a', 'class', 'current')])
         startpage_hrefs_rule.add_process_rule_level('a', {'href'})
         # startpage_hrefs_rule.add_process_rule_level('span', {''})
-        startpage_hrefs_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x,base_url) + '*' )
+        startpage_hrefs_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x, base_url) + '*')
         parser.add_rule(startpage_hrefs_rule)
         #
         video_rule = ParserRule()
@@ -71,7 +71,7 @@ class TZvideoSite(BaseSite):
         gallery_href_rule.add_activate_rule_level([('div', 'class', 'videoInfoTop')])
         # gallery_href_rule.add_activate_rule_level([('td', 'class', 'links')])
         gallery_href_rule.add_process_rule_level('a', {'href'})
-        gallery_href_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x,base_url) + '*' )
+        gallery_href_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x, base_url) + '*')
         # gallery_href_rule.set_attribute_filter_function('href',lambda x: x!='*')
         parser.add_rule(gallery_href_rule)
         #
@@ -83,32 +83,33 @@ class TZvideoSite(BaseSite):
 
         self.proceed_parcing(parser, fname)
 
-        result = ParseResult(self)
+        result = ParseResult()
 
         if len(video_rule.get_result()) > 0:
-            script = video_rule.get_result()[0]['data'].replace(' ', '')#.replace('\\','')
+            script = video_rule.get_result()[0]['data'].replace(' ', '')  # .replace('\\','')
 
             # print(script)
 
-            urls=list()
+            urls = list()
 
             while '"quality_' in script:
-                nxt=script.partition('"quality_')[2]
+                nxt = script.partition('"quality_')[2]
 
-                t=nxt.partition('":"')
-                label=t[0]
-                file=t[2].partition('",')[0].replace('%2F','/').replace('%3F','?').replace('%26','&').replace('%3D','=')
+                t = nxt.partition('":"')
+                label = t[0]
+                file = t[2].partition('",')[0].replace('%2F', '/').replace('%3F', '?').replace('%26', '&').replace(
+                    '%3D', '=')
                 # print (label, file)
-                urls.append(dict(text=label, url=URL('https:'+file + '*')))
-                script=nxt
+                urls.append(dict(text=label, url=URL('https:' + file + '*')))
+                script = nxt
 
             if len(urls) == 1:
                 video = MediaData(urls[0]['url'])
             elif len(urls) > 1:
-                default=urls[len(urls) - 1]['url']
+                default = urls[len(urls) - 1]['url']
                 for t in urls:
                     if '720p' in t['text']:
-                        default=t['url']
+                        default = t['url']
                 video = MediaData(default)
                 for item in urls:
                     video.add_alternate(item)
@@ -121,12 +122,12 @@ class TZvideoSite(BaseSite):
             # for f in gallery_channel_rule.get_result(['data', 'href']):
             #     result.add_control(ControlInfo(f['data'], URL(f['href'])))
 
-            links=set()
+            links = set()
             for f in gallery_href_rule.get_result(['data', 'href']):
                 if f['href'] not in links:
-                    label=f['data'].replace('\t','')
-                    if label=='':
-                        label=f['href'].rpartition('/')[2]
+                    label = f['data'].replace('\t', '')
+                    if label == '':
+                        label = f['href'].rpartition('/')[2]
                     # print(f)
                     result.add_control(ControlInfo(label, URL(f['href'])))
                     links.add(f['href'])
@@ -137,7 +138,8 @@ class TZvideoSite(BaseSite):
 
             for item in startpage_rule.get_result(['href']):
                 # print (item)
-                result.add_thumb(ThumbInfo(thumb_url=URL(item['data-original']), href=URL(item['href']),description=item.get('title','')))
+                result.add_thumb(ThumbInfo(thumb_url=URL(item['data-original']), href=URL(item['href']),
+                                           popup=item.get('title', '')))
 
             for item in startpage_pages_rule.get_result(['href', 'data']):
                 # print(item)
@@ -145,8 +147,8 @@ class TZvideoSite(BaseSite):
 
             if len(startpage_hrefs_rule.get_result(['href'])) > 0:
                 for item in startpage_hrefs_rule.get_result(['href', 'data']):
-                    href=item['href']
-                    txt=href.rstrip('*').rpartition('/')[2]
+                    href = item['href']
+                    txt = href.rstrip('*').rpartition('/')[2]
                     # print(item)
                     result.add_control(ControlInfo(txt, URL(href)))
 
@@ -155,7 +157,3 @@ class TZvideoSite(BaseSite):
 
 if __name__ == "__main__":
     pass
-
-
-
-

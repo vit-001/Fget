@@ -7,7 +7,8 @@
 #
 # WARNING! All changes made in this file will be lost!
 
-from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5 import QtCore, QtWidgets
+
 
 class Ui_ConfigDialog(object):
     def setupUi(self, ConfigDialog):
@@ -197,7 +198,8 @@ class Ui_ConfigDialog(object):
         self.verticalLayout_2.addWidget(self.tabs)
         self.buttonBox = QtWidgets.QDialogButtonBox(self.frame)
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
-        self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Apply|QtWidgets.QDialogButtonBox.Close|QtWidgets.QDialogButtonBox.Discard)
+        self.buttonBox.setStandardButtons(
+            QtWidgets.QDialogButtonBox.Apply | QtWidgets.QDialogButtonBox.Close | QtWidgets.QDialogButtonBox.Discard)
         self.buttonBox.setObjectName("buttonBox")
         self.verticalLayout_2.addWidget(self.buttonBox)
         self.verticalLayout.addWidget(self.frame)
@@ -223,7 +225,7 @@ class Ui_ConfigDialog(object):
         self.toolButton_2.setText(_translate("ConfigDialog", "..."))
         self.tabs.setTabText(self.tabs.indexOf(self.tab_folders), _translate("ConfigDialog", "Folders"))
         self.groupBox.setTitle(_translate("ConfigDialog", "Degug flags"))
-        self.chk_controller_debug.setText(_translate("ConfigDialog", "Controller"))
+        self.chk_controller_debug.setText(_translate("ConfigDialog", "Presenter"))
         self.chk_view_debug.setText(_translate("ConfigDialog", "View"))
         self.chk_model_debug.setText(_translate("ConfigDialog", "Model"))
         self.chk_site_debug.setText(_translate("ConfigDialog", "Site"))
@@ -233,4 +235,3 @@ class Ui_ConfigDialog(object):
         self.chk_video_info.setText(_translate("ConfigDialog", "Show video information"))
         self.bn_recompile.setText(_translate("ConfigDialog", "Recompile interfaces"))
         self.tabs.setTabText(self.tabs.indexOf(self.tab_debug), _translate("ConfigDialog", "Debug"))
-

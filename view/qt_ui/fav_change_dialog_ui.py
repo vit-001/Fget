@@ -7,7 +7,8 @@
 #
 # WARNING! All changes made in this file will be lost!
 
-from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5 import QtCore, QtWidgets
+
 
 class Ui_EditDialog(object):
     def setupUi(self, EditDialog):
@@ -58,7 +59,7 @@ class Ui_EditDialog(object):
         self.verticalLayout.addWidget(self.frame)
         self.buttons_ok_cancel = QtWidgets.QDialogButtonBox(EditDialog)
         self.buttons_ok_cancel.setOrientation(QtCore.Qt.Horizontal)
-        self.buttons_ok_cancel.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Ok)
+        self.buttons_ok_cancel.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel | QtWidgets.QDialogButtonBox.Ok)
         self.buttons_ok_cancel.setObjectName("buttons_ok_cancel")
         self.verticalLayout.addWidget(self.buttons_ok_cancel)
 
@@ -75,4 +76,3 @@ class Ui_EditDialog(object):
         self.label_2.setText(_translate("EditDialog", "Category"))
         self.label_3.setText(_translate("EditDialog", "URL"))
         self.label_4.setText(_translate("EditDialog", "Type"))
-

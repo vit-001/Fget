@@ -1,18 +1,17 @@
 #!/usr/bin/env python
 
-from PyQt5.QtCore import QDir, Qt, QUrl, QUrlQuery
+from PyQt5.QtCore import Qt, QUrl
 from PyQt5.QtMultimedia import QMediaContent, QMediaPlayer
 from PyQt5.QtMultimediaWidgets import QVideoWidget
-from PyQt5.QtWidgets import (QApplication, QFileDialog, QHBoxLayout, QLabel,
-        QPushButton, QSizePolicy, QSlider, QStyle, QVBoxLayout, QWidget)
+from PyQt5.QtWidgets import (QApplication, QHBoxLayout, QLabel,
+                             QPushButton, QSizePolicy, QSlider, QStyle, QVBoxLayout, QWidget)
 
 
 class VideoPlayer(QWidget):
-
     def __init__(self, parent=None, url=None):
         super(VideoPlayer, self).__init__(parent)
 
-        self.url=url
+        self.url = url
 
         self.mediaPlayer = QMediaPlayer(None, QMediaPlayer.VideoSurface)
 
@@ -32,7 +31,7 @@ class VideoPlayer(QWidget):
 
         self.errorLabel = QLabel()
         self.errorLabel.setSizePolicy(QSizePolicy.Preferred,
-                QSizePolicy.Maximum)
+                                      QSizePolicy.Maximum)
 
         controlLayout = QHBoxLayout()
         controlLayout.setContentsMargins(0, 0, 0, 0)
@@ -62,7 +61,6 @@ class VideoPlayer(QWidget):
 
 
         if self.url is not None:
-
             self.mediaPlayer.setMedia(QMediaContent(q_url))
             self.playButton.setEnabled(True)
 
@@ -75,10 +73,10 @@ class VideoPlayer(QWidget):
     def mediaStateChanged(self, state):
         if self.mediaPlayer.state() == QMediaPlayer.PlayingState:
             self.playButton.setIcon(
-                    self.style().standardIcon(QStyle.SP_MediaPause))
+                self.style().standardIcon(QStyle.SP_MediaPause))
         else:
             self.playButton.setIcon(
-                    self.style().standardIcon(QStyle.SP_MediaPlay))
+                self.style().standardIcon(QStyle.SP_MediaPlay))
 
     def positionChanged(self, position):
         self.positionSlider.setValue(position)
@@ -95,19 +93,13 @@ class VideoPlayer(QWidget):
 
 
 if __name__ == '__main__':
-
     import sys
 
     app = QApplication(sys.argv)
 
-    url='http://mh.daporn.com/videos/5/8/2/6/7/5826795bcd513.mp4'
+    url = 'https://lh3.googleusercontent.com/eaxgTIHt1CyX4AvTrrtquBI5RM_GbRxQgRS48hvYtXL11YFPPCGZOzeS3YJPn62OYCoyJ_BGdqA=m22'
 
     q_url = QUrl(url)
-    query=QUrlQuery('referer=http%3A%2F%2Fwww.daporn.com%2Fvideo%2Flucy-doll-is-a-real-flexible-teen-doll-226255.html')
-
-    q_url.setQuery(query)
-
-    q_url.fromStringList()
 
     player = VideoPlayer(url=q_url)
     player.resize(320, 240)

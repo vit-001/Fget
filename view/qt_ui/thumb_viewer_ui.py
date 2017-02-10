@@ -7,7 +7,8 @@
 #
 # WARNING! All changes made in this file will be lost!
 
-from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5 import QtCore, QtWidgets
+
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -99,4 +100,3 @@ class Ui_MainWindow(object):
         self.bn_toolbox.setText(_translate("MainWindow", "..."))
         self.bn_back.setText(_translate("MainWindow", "Back"))
         self.bn_playlist.setText(_translate("MainWindow", "PL"))
-

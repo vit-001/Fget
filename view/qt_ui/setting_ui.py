@@ -7,7 +7,8 @@
 #
 # WARNING! All changes made in this file will be lost!
 
-from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5 import QtCore, QtWidgets
+
 
 class Ui_ConfigDialog(object):
     def setupUi(self, ConfigDialog):
@@ -201,7 +202,7 @@ class Ui_ConfigDialog(object):
         sizePolicy.setHeightForWidth(self.bn_download_now.sizePolicy().hasHeightForWidth())
         self.bn_download_now.setSizePolicy(sizePolicy)
         self.bn_download_now.setObjectName("bn_download_now")
-        self.verticalLayout_7.addWidget(self.bn_download_now, QtCore.Qt.AlignRight|QtCore.Qt.AlignBottom)
+        self.verticalLayout_7.addWidget(self.bn_download_now, QtCore.Qt.AlignRight | QtCore.Qt.AlignBottom)
         self.verticalLayout_5.addWidget(self.frame_9, QtCore.Qt.AlignBottom)
         self.tabs.addTab(self.tab_actions, "")
         self.tab_debug = QtWidgets.QWidget()
@@ -275,7 +276,7 @@ class Ui_ConfigDialog(object):
         self.verticalLayout_2.addWidget(self.tabs)
         self.buttonBox = QtWidgets.QDialogButtonBox(self.frame)
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
-        self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Ok)
+        self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel | QtWidgets.QDialogButtonBox.Ok)
         self.buttonBox.setObjectName("buttonBox")
         self.verticalLayout_2.addWidget(self.buttonBox)
         self.verticalLayout.addWidget(self.frame)
@@ -323,11 +324,12 @@ class Ui_ConfigDialog(object):
         self.radio_use_uget.setText(_translate("ConfigDialog", "Local UGET program"))
         self.radio_use_dropbox.setText(_translate("ConfigDialog", "Remote server via Dropbox"))
         self.groupBox_4.setTitle(_translate("ConfigDialog", "Download options"))
-        self.chk_download_simultaneously.setText(_translate("ConfigDialog", "Remote download simultaneously (after close FGet)"))
+        self.chk_download_simultaneously.setText(
+            _translate("ConfigDialog", "Remote download simultaneously (after close FGet)"))
         self.bn_download_now.setText(_translate("ConfigDialog", "Download now"))
         self.tabs.setTabText(self.tabs.indexOf(self.tab_actions), _translate("ConfigDialog", "Download"))
         self.groupBox.setTitle(_translate("ConfigDialog", "Degug flags"))
-        self.chk_controller_debug.setText(_translate("ConfigDialog", "Controller"))
+        self.chk_controller_debug.setText(_translate("ConfigDialog", "Presenter"))
         self.chk_view_debug.setText(_translate("ConfigDialog", "View"))
         self.chk_model_debug.setText(_translate("ConfigDialog", "Model"))
         self.chk_site_debug.setText(_translate("ConfigDialog", "Site"))
@@ -337,4 +339,3 @@ class Ui_ConfigDialog(object):
         self.chk_video_info.setText(_translate("ConfigDialog", "Show video information"))
         self.bn_recompile.setText(_translate("ConfigDialog", "Recompile interfaces"))
         self.tabs.setTabText(self.tabs.indexOf(self.tab_debug), _translate("ConfigDialog", "Debug"))
-

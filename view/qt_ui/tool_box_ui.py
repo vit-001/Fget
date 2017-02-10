@@ -7,7 +7,8 @@
 #
 # WARNING! All changes made in this file will be lost!
 
-from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5 import QtCore, QtWidgets
+
 
 class Ui_ToolBox(object):
     def setupUi(self, ToolBox):
@@ -116,4 +117,3 @@ class Ui_ToolBox(object):
         self.bn_go.setText(_translate("ToolBox", "GO"))
         self.bn_add_thumb.setText(_translate("ToolBox", "Add thumbs"))
         self.bn_config.setText(_translate("ToolBox", "Config"))
-

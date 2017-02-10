@@ -1,8 +1,8 @@
 __author__ = 'Vit'
 
+from base_classes import URL, ControlInfo
 from site_models.base_site_model import *
 from site_models.site_parser import SiteParser, ParserRule
-from base_classes import URL, ControlInfo
 
 
 class CCSite(BaseSite):
@@ -45,7 +45,7 @@ class CCSite(BaseSite):
         for s in open(fname):
             parser.feed(s)
 
-        result = ParseResult(self)
+        result = ParseResult()
 
         pictures = False
         for item in picture_trigger_rule.get_result(['name']):
@@ -70,7 +70,7 @@ class CCSite(BaseSite):
             result.set_type('hrefs')
             for item in startpage_rule.get_result():
                 result.add_thumb(
-                    ThumbInfo(thumb_url=URL(item['src']), href=URL(item['href']), description=item.get('alt', '')))
+                    ThumbInfo(thumb_url=URL(item['src']), href=URL(item['href']), popup=item.get('alt', '')))
 
             for item in startpage_pages_rule.get_result(['href', 'data', 'class']):
                 if item['class'] == 'page':
@@ -81,7 +81,3 @@ class CCSite(BaseSite):
 
 if __name__ == "__main__":
     pass
-
-
-
-

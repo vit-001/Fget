@@ -1,12 +1,13 @@
 __author__ = 'Vit'
 
-__all__=['QThumbViewVS']
+__all__ = ['QThumbViewVS']
 
-from PyQt5.QtCore import QPoint, QRect, QSize
+from PyQt5.QtCore import QPoint, QRect, QSize, Qt
 from PyQt5.QtGui import QPixmap, QIcon
 from PyQt5.QtWidgets import *
 
 from view.qt_ui.scroll_bar_widget_ui import Ui_ScrollBarWidget
+from view.qt_widget.qt_annotated_button import QAnnotatedButton
 
 
 class QThumbView(QWidget):
@@ -17,15 +18,23 @@ class QThumbView(QWidget):
         self.spacing = self.thumb_size + self.space
         self.coloumns = 1
         self.thumbs = list()
+        self.text_visible = False
         self.speed = self.spacing // 2
-        self.saved_scroll=None
+        self.saved_scroll = None
         self.scroller = scroller
         self.scroller.valueChanged.connect(self.on_scroll)
         self._scroller_setup()
 
-    def add(self, pix_fname='', action=lambda: None, popup=''):
-        button = QToolButton(self)
+    def add(self, pix_fname='', action=lambda: None, popup='',labels:list=''):
+        button = QAnnotatedButton(self, labels)
         button.setAutoRaise(True)
+        # if self.text_visible:
+        #     button.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
+        #     thumb_h = self.thumb_size * 87 / 100
+        # else:
+        #     button.setToolButtonStyle(Qt.ToolButtonIconOnly)
+        #     thumb_h = self.thumb_size
+        # button.setLabels(labels)
         button.clicked.connect(action)
         button.setFixedSize(self.thumb_size, self.thumb_size)
 
@@ -81,11 +90,11 @@ class QThumbView(QWidget):
             rows = thumbs // self.coloumns
         else:
             rows = thumbs // self.coloumns + 1
-        curr_max=max(rows * self.spacing - self.size().height(), 0)
+        curr_max = max(rows * self.spacing - self.size().height(), 0)
         self.scroller.setMaximum(curr_max)
-        if self.saved_scroll is not None and curr_max>=self.saved_scroll:
+        if self.saved_scroll is not None and curr_max >= self.saved_scroll:
             self.scroller.setValue(self.saved_scroll)
-            self.saved_scroll=None
+            self.saved_scroll = None
 
     def wheelEvent(self, event):
         self.scroller.setValue(self.scroller.value() - event.angleDelta().y() // 120 * self.speed)
@@ -105,6 +114,9 @@ class QThumbView(QWidget):
             self.scroller.setValue(new_scroll_value)
             self._place()
 
+    def set_thumb_text_visible(self, visible=False):
+        self.text_visible = visible
+
 
 class QThumbViewVS(QWidget):
     def __init__(self, parent=None, Qt_WindowFlags_flags=0, size=200, space=2):
@@ -116,8 +128,8 @@ class QThumbViewVS(QWidget):
         self.thumbs = QThumbView(parent=self.ui.area, scroller=self.ui.scroll_bar, thumb_size=size, space=space)
         self.ui.area_layout.addWidget(self.thumbs)
 
-    def add(self, pix_fname='', action=lambda: None, popup=''):
-        self.thumbs.add(pix_fname, action, popup)
+    def add(self, pix_fname='', action=lambda: None, popup='',labels=''):
+        self.thumbs.add(pix_fname, action, popup, labels)
 
     def clear(self):
         self.thumbs.clear()
@@ -131,6 +143,9 @@ class QThumbViewVS(QWidget):
         return self.ui.scroll_bar.value()
 
     @context.setter
-    def context(self,value):
+    def context(self, value):
         if value is not None:
-            self.thumbs.saved_scroll=value
+            self.thumbs.saved_scroll = value
+
+    def set_thumb_text_visible(self, visible=False):
+        self.thumbs.set_thumb_text_visible(visible)

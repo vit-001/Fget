@@ -3,20 +3,29 @@ __author__ = 'Vit'
 from base_classes import AbstractModelFromSiteInterface, URL, ControlInfo, MediaData
 from requests_loader import FLData, PictureCollector
 
+
 class ThumbInfo(FLData):
-    def __init__(self, thumb_url=URL(), filename='', href=URL(), description=''):
+    def __init__(self, thumb_url:URL, filename:str='', href:URL=URL(), popup='', labels=''):
         FLData.__init__(self, url=thumb_url, filename=filename)
         self.href = href
-        self.description = description
+        self.popup = popup
+        self.labels=labels
 
-    def set_base_dir(self, base_dir):
+    def set_base_dir(self, base_dir:str):
         self.base_dir = base_dir
 
     def get_href(self):
         return self.href
 
-    def get_description(self):
-        return self.description
+    def get_labels(self):
+        return self.labels
+
+    def get_popup(self):
+        popup_text = self.get_href().get()
+        if self.popup != '':
+            popup_text += '\n' + self.popup
+
+        return popup_text
 
     def get_filename(self):
         if self.filename == '':
@@ -41,73 +50,104 @@ class FullPictureInfo(FLData):
         self.base_dir = base_dir
         self.base_url = base_url
 
-
-    def get_url(self):
+    def get_url(self)->URL:
         if self.abs_href.get() != '': return self.abs_href
         return URL(self.base_url.get() + self.rel_name)
 
-    def get_filename(self):
+    def get_filename(self)->str:
         if self.abs_name != '': return self.abs_name
         return self.base_dir + self.rel_name
 
     def __str__(self):
         return 'full: HREF ' + self.get_url().get() + '  FNAME ' + self.get_filename()
 
+class AbstractSite:
+    def start_button_name(self):
+        return ''
 
-class BaseSite():
-    def __init__(self, model=AbstractModelFromSiteInterface(), base_addr='e:/out/'):
+    def get_start_button_menu_text_url_dict(self):
+        return None
+
+    def startpage(self):
+        return URL()
+
+    def parse_index_file(self, fname:str, base_url:URL):
+        pass
+
+    def can_accept_index_file(self, base_url:URL):
+        return False
+
+
+class BaseSite(AbstractSite):
+    def __init__(self, model:AbstractModelFromSiteInterface, base_addr='e:/out/'):
         self.model = model
         self.base_addr = base_addr
         self.model.register_site_model(ControlInfo(text=self.start_button_name(),
                                                    url=self.startpage(),
-                                                   menu_text_url_dict=self.get_start_button_menu_text_url_dict()))
+                                                   menu_text_url_dict=self.get_start_button_menu_text_url_dict(),
+                                                   bold=self.bold(), underline=self.underline(),
+                                                   autoraise=self.autoraise(),text_color=self.text_color()))
 
+    def bold(self):
+        return False
 
-    def get_href(self, txt='', base_url=URL()):
-        txt=txt.strip()
+    def underline(self):
+        return False
+
+    def autoraise(self):
+        return False
+
+    def text_color(self):
+        return None
+
+    def get_href(self, txt:str, base_url:URL):
+        txt = txt.strip()
         if not txt.endswith('/'):
-            txt=txt+"*"
+            txt = txt + "*"
         if txt.startswith('http://'):
             return txt
+        if txt.startswith('//'):
+            return 'http:' + txt
         if txt.startswith('https://'):
             return txt
         if txt.startswith('/'):
-            return 'http://'+base_url.domain() + txt
+            return 'http://' + base_url.domain() + txt
         # print(base_url.get() + txt)
-        return base_url.get().rpartition('/')[0]+'/' + txt
+        return base_url.get().rpartition('/')[0] + '/' + txt
+
+    def get_url(self, txt:str, base_url:URL):
+        return URL(self.get_href(txt,base_url))
 
     def proceed_parcing(self, parser, fname):
-        for s in open(fname, encoding='utf-8', errors='ignore'):
-            parser.feed(s)  # .replace('</b>','</a>'))
+        # for s in open(fname, encoding='utf-8', errors='ignore'):
+        #     parser.feed(s)  # .replace('</b>','</a>'))
 
-    def quotes(self,text='',from_lex='',to_lex=''):
+        with open(fname,encoding='utf-8', errors='ignore') as fd:
+            for s in fd:
+                parser.feed(s)
+
+    def quotes(self, text:str, from_lex:str, to_lex:str):
         return text.partition(from_lex)[2].partition(to_lex)[0]
 
-    def start_button_name(self): return ''
-    def get_start_button_menu_text_url_dict(self):return None
-    def startpage(self): return URL()
-    def parse_index_file(self, fname, base_url=URL()): pass
-    def can_accept_index_file(self, base_url=URL()): return False
-
-class BaseNest(BaseSite,AbstractModelFromSiteInterface):
-    def __init__(self, model=AbstractModelFromSiteInterface(), base_addr='e:/out/'):
+class BaseNest(BaseSite, AbstractModelFromSiteInterface):
+    def __init__(self, model:AbstractModelFromSiteInterface, base_addr='e:/out/'):
         BaseSite.__init__(self, model, base_addr)
-        self.sites=list()
-        self.controls=list()
+        self.sites = list()
+        self.controls = list()
 
-    def add_site(self,site=BaseSite()):
+    def add_site(self, site:BaseSite):
         self.sites.append(site)
 
-    def register_site_model(self, control=ControlInfo()):
+    def register_site_model(self, control:ControlInfo):
         self.controls.append(control)
 
-    def can_accept_index_file(self, url=URL()):
+    def can_accept_index_file(self, url:URL):
         for s in self.sites:
             if s.can_accept_index_file(url):
                 return True
         return False
 
-    def parse_index_file(self, fname, url=URL()):
+    def parse_index_file(self, fname:str, url:URL):
         site = None
         for s in self.sites:
             if s.can_accept_index_file(url):
@@ -124,22 +164,36 @@ class BaseNest(BaseSite,AbstractModelFromSiteInterface):
 
         return result
 
+
 class BaseNestedSite(BaseSite):
     pass
 
+
 class ParseResult():
-    def __init__(self, site=BaseSite(), type='none'):
-        # self.site=site
-        self.type = type
+    def __init__(self):
+        self._type = 'none'
         self.redirect = URL()
-        self.video=MediaData()
+        self.video = None
         self.thumbs = []
+        self.caption_visible = False
         self.full = []
         self.controls = []
         self.pages = []
-        self.sites=[]
+        self.sites = []
         self.gallery_path = None
         self.picture_collector = None
+
+    def is_no_result(self):
+        return self._type == 'none'
+
+    def is_hrefs(self):
+        return self._type == 'hrefs'
+
+    def is_pictures(self):
+        return self._type == 'pictures'
+
+    def is_video(self):
+        return self._type == 'video'
 
     def set_base(self, base_dir='', base_url=URL()):
         for item in self.thumbs:
@@ -153,55 +207,63 @@ class ParseResult():
     def get_gallery_path(self):
         return self.gallery_path
 
-    def set_video(self,media=MediaData()):
-        self.video=media
+    def set_video(self, media:MediaData):
+        self.video = media
+        if media is not None:
+            self._type = 'video'
 
     def get_video(self):
         return self.video
 
-    def set_type(self, type):
-        self.type = type
+    def set_type(self, type):  # todo  убрать совсем
+        pass
+    #     # self._type = type
 
-    def set_picture_collector(self, collector=PictureCollector()):
+    def set_picture_collector(self, collector:PictureCollector):
         self.picture_collector = collector
 
-    def set_redirect(self, url=URL()):
+    def set_redirect(self, url:URL):
         self.redirect = url
 
-    def add_thumb(self, thumb=ThumbInfo()):
+    def add_thumb(self, thumb:ThumbInfo):
         self.thumbs.append(thumb)
+        self._type = 'hrefs'
 
-    def add_full(self, full=FullPictureInfo()):
+    def add_full(self, full:FullPictureInfo):
         self.full.append(full)
+        self._type = 'pictures'
 
-    def add_control(self, control=ControlInfo()):
+    def add_control(self, control:ControlInfo):
         for c in self.controls:
-            if control.url.get() == c.url.get():
+            if control.url == c.url:
                 return
         self.controls.append(control)
 
-    def add_page(self, control=ControlInfo()):
+    def add_page(self, control:ControlInfo):
         for c in self.pages:
-            if control.url.get() == c.url.get():
+            if control.url == c.url:
                 return
         self.pages.append(control)
 
-    def add_site(self,control=ControlInfo):
+    def add_site(self, control:ControlInfo):
         for c in self.sites:
-            if control.url.get() == c.url.get():
+            if control.url == c.url:
                 return
         self.sites.append(control)
 
+    def set_caption_visible(self, visible=False):
+        self.caption_visible = visible
+
     def print_result(self):
         print('==============PARSER RESULT=============')
-        print('Type', self.type)
+        print('Type', self._type)
         if type == 'none': return
 
-        if self.type == 'hrefs':
+        if self._type == 'hrefs':
             for i in self.thumbs:
                 print(i)
 
-        if self.type == 'pictures':
+        if self._type == 'pictures':
             for i in self.full:
                 print(i)
 

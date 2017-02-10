@@ -1,10 +1,8 @@
 __author__ = 'Vit'
 
+from base_classes import URL, ControlInfo
 from site_models.base_site_model import *
 from site_models.site_parser import SiteParser, ParserRule
-from base_classes import URL, ControlInfo
-
-
 
 
 class TMASite(BaseSite):
@@ -17,11 +15,11 @@ class TMASite(BaseSite):
     def can_accept_index_file(self, base_url=URL()):
         return base_url.contain('themetart.com/')
 
-    def get_href(self,txt='',base_url=URL()):
+    def get_href(self, txt='', base_url=URL()):
         if txt.startswith('http://'):
             return txt
         if txt.startswith('/'):
-            return base_url.domain()+txt
+            return base_url.domain() + txt
 
     def parse_index_file(self, fname, base_url=URL()):
         parser = SiteParser()
@@ -34,8 +32,8 @@ class TMASite(BaseSite):
         href_rule.add_activate_rule_level([('div', 'class', 'thumbs')])
         href_rule.add_process_rule_level('a', {'href'})
         href_rule.add_process_rule_level('img', {'src', 'alt'})
-        href_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x,base_url))
-        href_rule.set_attribute_modifier_function('src', lambda x: self.get_href(x,base_url))
+        href_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x, base_url))
+        href_rule.set_attribute_modifier_function('src', lambda x: self.get_href(x, base_url))
         parser.add_rule(href_rule)
 
         href_model_page_rule = ParserRule()  # page number in model's page
@@ -43,20 +41,20 @@ class TMASite(BaseSite):
                                                       ('div', 'class', 'block models')])
         href_model_page_rule.add_activate_rule_level([('ul', 'class', 'pagination')])
         href_model_page_rule.add_process_rule_level('a', {'href'})
-        href_model_page_rule.set_attribute_modifier_function('href', lambda x:self.get_href(x,base_url))
+        href_model_page_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x, base_url))
         parser.add_rule(href_model_page_rule)
 
         model_litera_rule = ParserRule()
         model_litera_rule.add_activate_rule_level([('div', 'id', 'header')])
-        model_litera_rule.add_process_rule_level('a', {'href','title'})
-        model_litera_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x,base_url))
+        model_litera_rule.add_process_rule_level('a', {'href', 'title'})
+        model_litera_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x, base_url))
         parser.add_rule(model_litera_rule)
 
         picture_rule = ParserRule()  # gallery rule
         picture_rule.add_activate_rule_level([('div', 'class', 'block gallery')])
         picture_rule.add_process_rule_level('a', {'href'})
         picture_rule.add_process_rule_level('img', {'alt'})
-        picture_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x,base_url))
+        picture_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x, base_url))
         parser.add_rule(picture_rule)
 
         picture_href_rule = ParserRule()  # gallery href's rule
@@ -64,23 +62,23 @@ class TMASite(BaseSite):
         picture_href_rule.add_activate_rule_level([('div', 'class', 'cover')])
         picture_href_rule.add_process_rule_level('a', {'href'})
         picture_href_rule.add_process_rule_level('img', {'alt'})
-        picture_href_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x,base_url))
+        picture_href_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x, base_url))
         parser.add_rule(picture_href_rule)
 
         for s in open(fname):
             parser.feed(s)
 
-        result = ParseResult(self)
+        result = ParseResult()
 
         if len(href_rule.get_result()) > 0:
             result.set_type('hrefs')
             for item in href_rule.get_result():
                 result.add_thumb(
-                    ThumbInfo(thumb_url=URL(item['src']), href=URL(item['href']), description=item.get('alt', '')))
+                    ThumbInfo(thumb_url=URL(item['src']), href=URL(item['href']), popup=item.get('alt', '')))
 
-            for item in model_litera_rule.get_result(['href','title','data']):
+            for item in model_litera_rule.get_result(['href', 'title', 'data']):
                 if item['title'].startswith('Met Art Models'):
-                    result.add_control(ControlInfo(item['data'],URL(item['href'])))
+                    result.add_control(ControlInfo(item['data'], URL(item['href'])))
             for item in href_model_page_rule.get_result(['href', 'data']):
                 result.add_page(ControlInfo(item['data'], URL(item['href'])))
 
@@ -113,8 +111,3 @@ if __name__ == "__main__":
     print('http://www.themetart.com/p/paloma-b/')
     load("http://www.themetart.com/p/paloma-b/", 'e:/out/index.html')
     model.parse_index_file('e:/out/index.html')
-
-
-
-
-

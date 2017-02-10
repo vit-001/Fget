@@ -1,8 +1,8 @@
 __author__ = 'Vit'
 
+from base_classes import URL
 from site_models.base_site_model import *
 from site_models.site_parser import SiteParser, ParserRule
-from base_classes import URL
 
 
 def get_href(txt):
@@ -60,7 +60,7 @@ class VPSite(BaseSite):
         for s in open(fname):
             parser.feed(s)
 
-        result=[]
+        result = []
 
         for item in startpage_rule.get_result():
             result.append(item['href'])
@@ -90,6 +90,7 @@ class VPSite(BaseSite):
         #         result.add_control(ControlInfo(f['data'].replace(',',''), URL(f['href'])))
         #
         return result
+
 
 class VP2Site(BaseSite):
     def start_button_name(self):
@@ -132,7 +133,7 @@ class VP2Site(BaseSite):
         for s in open(fname):
             parser.feed(s)
 
-        result=[]
+        result = []
 
         for item in startpage_rule.get_result():
             result.append(item['action'])
@@ -167,32 +168,30 @@ class VP2Site(BaseSite):
 if __name__ == "__main__":
     from lib.__file_loader import load
 
-    domains=dict()
+    domains = dict()
 
     model = VPSite()
-    model2= VP2Site()
+    model2 = VP2Site()
 
     # http://www.vibraporn.com/?from=15
 
 
-    for i in range(0,500,15):
-        site=URL('http://www.vibraporn.com/?from=%d'%i)
+    for i in range(0, 500, 15):
+        site = URL('http://www.vibraporn.com/?from=%d' % i)
 
         print(site.get())
         load(site, 'e:/out/index.html')
-        result=model.parse_index_file('e:/out/index.html')
+        result = model.parse_index_file('e:/out/index.html')
 
         for item in result:
-            site=URL(item)
+            site = URL(item)
 
             load(site, 'e:/out/index.html')
-            result2=model2.parse_index_file('e:/out/index.html')
+            result2 = model2.parse_index_file('e:/out/index.html')
 
-            domain=URL(result2[0]).domain()
+            domain = URL(result2[0]).domain()
 
             print(result2)
-            domains[domain]=domains.get(domain,0)+1
+            domains[domain] = domains.get(domain, 0) + 1
 
         print(domains.keys())
-
-
