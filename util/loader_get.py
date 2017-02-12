@@ -37,9 +37,9 @@ def load(url, fname, cookies=None, headers=None):
 
 if __name__ == "__main__":
 
-    url1 = 'http://www.realgfporn.com/most-recent/'
-    url1a = 'https://videos.porndig.com/player/index/174087/1035/13798'
-    url2 = 'http://www.realgfporn.com/videos/stepsister-riding-cock-and-getting-creampied-125995.html'
+    url1 = 'http://www.porn.com/'
+    url1a = 'http://www.porn.com/pornstars?o=n'
+    url2 = 'http://www.porn.com/videos/horny-border-officer-jiggle-perky-tits-teen-while-humping-3199957'
     url3 = 'http://www.drtuber.com/player_config/?h=503093cfbeaa558180554133b2315358%26check_speed=1%26t=1480701894%26vkey=676d54293b2629388734&project_name=drtuber&id=player&javascriptid=player&enablejs=true'
 
     fname1 = 'out/1.html'
@@ -57,8 +57,8 @@ if __name__ == "__main__":
     headers = {'Referer': 'http://her69.net/massagerooms-daphne-angel-daisy-lee/'}
 
     # r=load(url1,fname1)
-    r = load(url2, fname2a)
-    # r = load(url1a, fname1a)
+    # r = load(url2, fname2a)
+    r = load(url1a, fname1a)
     # r = load(url1a, fname1a,headers=headers)
     # r = load(url2, fname2)
 

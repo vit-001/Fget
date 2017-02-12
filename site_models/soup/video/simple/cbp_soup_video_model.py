@@ -33,13 +33,6 @@ class CBPvideoSoupSite(BaseSoupSite):
                 urls.add(source.attrs['res'], get_url(source.attrs['src'],base_url))
             result.set_video(urls.get_media_data(-1))
 
-            user=soup.find('div', {'class':'pull-left user-container'})
-            if user is not None:
-                user_strings = [string for string in user.stripped_strings]
-                label='"{0} {1}"'.format(user_strings[0],user_strings[1])
-                href=user.find('a', href=lambda x: '#' not in x)
-                result.add_control(ControlInfo(label, get_url(href.attrs['href']+'/videos',base_url)))
-
             for tag_container in _iter(soup.find_all('div', {'class':'tags-container'})):
                 for href in _iter(tag_container.find_all('a')):
                     if href.string is not None:

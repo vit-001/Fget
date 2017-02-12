@@ -5,7 +5,7 @@ from requests_loader import FLData, PictureCollector
 
 
 class ThumbInfo(FLData):
-    def __init__(self, thumb_url:URL, filename:str='', href:URL=URL(), popup='', labels=''):
+    def __init__(self, thumb_url:URL, filename:str='', href:URL=URL(), popup='', labels:list=tuple()):
         FLData.__init__(self, url=thumb_url, filename=filename)
         self.href = href
         self.popup = popup

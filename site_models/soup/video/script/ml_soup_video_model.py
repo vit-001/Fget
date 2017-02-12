@@ -51,8 +51,8 @@ class MLvideoSoupSite(BaseSoupSite):
                     href = user.find('a').attrs['href']
                     username = href.rpartition('/')[2]
 
-                    result.add_control(ControlInfo('"' + username + ' uploads"', URL('http://motherless.com/u/' + username + '*')))
-                    result.add_control(ControlInfo('"' + username + ' gals"', URL('http://motherless.com/galleries/member/' + username + '*')))
+                    result.add_control(ControlInfo(username + ' uploads', URL('http://motherless.com/u/' + username + '*'),text_color='blue'))
+                    result.add_control(ControlInfo(username + ' gals', URL('http://motherless.com/galleries/member/' + username + '*'),text_color='blue'))
 
                 #adding tags to video
                 for item in _iter(soup.find_all('div', {'id': 'media-tags-container'})):

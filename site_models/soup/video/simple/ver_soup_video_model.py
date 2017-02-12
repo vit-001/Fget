@@ -38,9 +38,9 @@ class VERvideoSoupSite(BaseSoupSite):
             user=soup.find('div', {'class':'pull-left user-container'})
             if user is not None:
                 user_strings = [string for string in user.stripped_strings]
-                label='"{0} {1}"'.format(user_strings[0],user_strings[1])
+                label='{0} {1}'.format(user_strings[0],user_strings[1])
                 href=user.find('a', href=lambda x: '#' not in x)
-                result.add_control(ControlInfo(label, get_url(href.attrs['href']+'/videos',base_url)))
+                result.add_control(ControlInfo(label, get_url(href.attrs['href']+'/videos',base_url),text_color='blue'))
 
             for tag_container in _iter(soup.find_all('div', {'class':'m-t-10 overflow-hidden'})):
                 for href in _iter(tag_container.find_all('a')):

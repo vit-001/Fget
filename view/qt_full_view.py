@@ -1,5 +1,5 @@
 from PyQt5 import QtCore
-from PyQt5.QtWidgets import QMainWindow, QFrame
+from PyQt5.QtWidgets import QMainWindow, QFrame, QMenu, QAction
 
 from base_classes import AbstractFullView, AbstractViewManager
 from view.qt_ui.favorite_line_ui import Ui_favorite_line
@@ -61,8 +61,17 @@ class FullView(QMainWindow, AbstractFullView):
                 self.fav.combo_url.addItem(item.combo_view)
                 self.curr_urls.append(item)
 
-    def add_control(self, text='', action=lambda: 0):
-        self.controls.add_button(text, action)
+    def add_control(self, text='', action=lambda: 0, menu_items=None, tooltip='', bold=False, underline=False,
+                    autoraise=False, text_color=None):
+        if menu_items is not None:
+            menu = QMenu(self)
+            for key in sorted(menu_items):
+                menu_action = QAction(key, self, triggered=menu_items[key])
+                menu.addAction(menu_action)
+        else:
+            menu = None
+        self.controls.add_button(text, action, menu, tooltip, bold=bold, underline=underline, autoraise=autoraise, text_color=text_color)
+
 
     def set_favorite_list(self, favorite_list=list()):
         self.fav.combo_url.clear()

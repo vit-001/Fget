@@ -170,13 +170,17 @@ class AbstractModel(AbstractModelFromControllerInterface, AbstractModelFromSiteI
 
 
 class AbstractThumbView():
-    def add_site_button(self, text:str, action=lambda: 0, menu_items:dict=None, tooltip=''): pass
+    def add_site_button(self, text:str, action=lambda: 0, menu_items:dict=None, tooltip='', bold=False, underline=False,
+                        autoraise=False, text_color=None): pass
 
-    def add_site_nested(self, text:str, action=lambda: 0, menu_items=None, tooltip=''): pass
+    def add_site_nested(self, text='', action=lambda: 0, menu_items=None, tooltip='', bold=False, underline=False,
+                    autoraise=False, text_color=None): pass
 
-    def add_control(self, text:str, action=lambda: 0, menu_items=None, tooltip=''): pass
+    def add_control(self, text='', action=lambda: 0, menu_items=None, tooltip='', bold=False, underline=False,
+                    autoraise=False, text_color=None): pass
 
-    def add_page(self, text:str, action=lambda: 0, menu_items=None, tooltip=''): pass
+    def add_page(self, text='', action=lambda: 0, menu_items=None, tooltip='', bold=False, underline=False,
+                    autoraise=False, text_color=None): pass
 
     def prepare(self, url:URL, show_caption=False): pass
 
@@ -198,7 +202,8 @@ class AbstractThumbView():
 
 
 class AbstractFullView():
-    def add_control(self, text:str, action=lambda: 0): pass
+    def add_control(self, text='', action=lambda: 0, menu_items=None, tooltip='', bold=False, underline=False,
+                    autoraise=False, text_color=None): pass
 
     def set_favorite_handlers(self, add_handler=lambda cat: None, category_change_handler=lambda i: None): pass
 

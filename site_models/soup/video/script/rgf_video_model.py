@@ -47,7 +47,7 @@ class RGFvideoSite(BaseSoupSite):
                     for href in _iter(item.find_all('a')):
                         if href.string is not None:
                             if '/user/' in href.attrs['href']:
-                                result.add_control(ControlInfo('"'+str(href.string)+'"', get_url(href.attrs['href'], base_url)))
+                                result.add_control(ControlInfo(str(href.string), get_url(href.attrs['href'], base_url),text_color='blue'))
                             else:
                                 tags.append(ControlInfo(str(href.string), get_url(href.attrs['href'], base_url)))
 
