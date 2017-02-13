@@ -24,7 +24,12 @@ def get_url(txt:str, base_url:URL):
 def quotes(text:str, from_lex:str, to_lex:str):
     return text.partition(from_lex)[2].partition(to_lex)[0]
 
+def sp():
+    print('=========================================')
 
+def psp(s:str):
+    print(s)
+    sp()
 
 decode_table = dict()
 decode_table['%3A'] = ':'

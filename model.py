@@ -65,6 +65,8 @@ from site_models.soup.video.simple.cbp_soup_video_model import CBPvideoSoupSite
 from site_models.soup.video.script.pc_soup_video_model import PCvideoSoupSite
 from site_models.soup.video.script.px_soup_video_model import PXvideoSoupSite
 from site_models.soup.video.script.rt_soup_video_model import RTvideoSoupSite
+from site_models.soup.video.script.pt_soup_video_model import PTvideoSoupSite
+
 
 class SiteVewerModel(AbstractModel):
     def __init__(self, controller=PresenterFromModelInterface()):
@@ -73,14 +75,16 @@ class SiteVewerModel(AbstractModel):
         self.models = [
             # work on
 
+
+
             # classic
             SpaceSite(self, text='Classic:'),
             HDEPvideoSoupSite(self),CBPvideoSoupSite(self),PCvideoSoupSite(self),
-            YPvideoSite(self), SXXvideoSite(self),  NFLvideoSite(self), V24videoSite(self),
+            YPvideoSite(self), SXXvideoSite(self),  NFLvideoSite(self), V24videoSite(self),PTvideoSoupSite(self),
             PXvideoSoupSite(self), RTvideoSoupSite(self), CLSvideoSite(self),
             VERvideoSoupSite(self), PBZvideoSite(self),
             T8videoSite(self), BMTvideoSite(self),
-            PTvideoSite(self), VPvideoSite(self), NLvideoSite(self), TZvideoSite(self), SKWvideoSite(self),
+             VPvideoSite(self), NLvideoSite(self), TZvideoSite(self), SKWvideoSite(self),
             PHDvideoSite(self), TSPvideoSite(self), DFPvideoSite(self),
             H69videoSite(self),
 
