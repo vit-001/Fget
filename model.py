@@ -25,8 +25,13 @@ from site_models.simple.top_model import TOPSite
 from site_models.simple.tp_model import TPSite
 from site_models.simple.vp_nest.vp_nest import VPNest
 from site_models.simple.xuk_model import XUKSite
+from site_models.soup.video.plus_file.pt_soup_video_model import PTvideoSoupSite
 from site_models.soup.video.script.ml_soup_video_model import MLvideoSoupSite
+from site_models.soup.video.script.pc_soup_video_model import PCvideoSoupSite
+from site_models.soup.video.script.px_soup_video_model import PXvideoSoupSite
 from site_models.soup.video.script.rgf_video_model import RGFvideoSite
+from site_models.soup.video.script.rt_soup_video_model import RTvideoSoupSite
+from site_models.soup.video.simple.cbp_soup_video_model import CBPvideoSoupSite
 from site_models.soup.video.simple.hdep_soup_video_model import HDEPvideoSoupSite
 from site_models.soup.video.simple.ver_soup_video_model import VERvideoSoupSite
 from site_models.video.ajax.ext_video_model import EXTvideoSite
@@ -40,16 +45,11 @@ from site_models.video.plus_file.pbz_video_model import PBZvideoSite
 from site_models.video.plus_file.sxx_video_model import SXXvideoSite
 from site_models.video.plus_file.tsp_video_model import TSPvideoSite
 from site_models.video.plus_file.yp_video_model import YPvideoSite
-from site_models.video.pt_video_model import PTvideoSite
-from site_models.video.px_video_model import PXvideoSite
 from site_models.video.script.cls_video_model import CLSvideoSite
 from site_models.video.script.dc_video_model import DCvideoSite
-from site_models.video.script.pc_video_model import PCvideoSite
-from site_models.video.script.rt_video_model import RTvideoSite
 from site_models.video.script.syf_video_model import SYFPvideoSite
 from site_models.video.script.v24_video_model import V24videoSite
 from site_models.video.simple.bmt_video_model import BMTvideoSite
-from site_models.video.simple.cbp_video_model import CBPvideoSite
 from site_models.video.simple.gb_video_model import GBvideoSite
 from site_models.video.simple.hr_video_model import HRvideoSite
 from site_models.video.simple.nl_video_model import NLvideoSite
@@ -61,11 +61,6 @@ from site_models.video.sm_video_model import SMvideoSite
 from site_models.video.t8_video_model import T8videoSite
 from site_models.video.tz_video_model import TZvideoSite
 from site_models.video.vp_video_model import VPvideoSite
-from site_models.soup.video.simple.cbp_soup_video_model import CBPvideoSoupSite
-from site_models.soup.video.script.pc_soup_video_model import PCvideoSoupSite
-from site_models.soup.video.script.px_soup_video_model import PXvideoSoupSite
-from site_models.soup.video.script.rt_soup_video_model import RTvideoSoupSite
-from site_models.soup.video.script.pt_soup_video_model import PTvideoSoupSite
 
 
 class SiteVewerModel(AbstractModel):
