@@ -33,44 +33,8 @@ class PCvideoSoupSite(BaseSoupSite):
     def can_accept_index_file(self, base_url=URL()):
         return base_url.contain('.porn.com/')
 
-    def parse_soup(self, soup: BeautifulSoup, result: ParseResult, base_url: URL):
-
-        mainw = soup.find('div', {'class': ['mainw','profileContent']})
-
-        # parce video page
-        head = soup.find('head')
-        if head is not None:
-
-            script=head.find('script',text=lambda x:'streams:' in str(x))
-            if script is not None:
-                urls = UrlList()
-                data = str(script).replace(' ', '')
-                sources = quotes(data, 'streams:[{', '}]').split('},{')
-                for f in sources:
-                    label = quotes(f, 'id:"', '"')
-                    url = get_url(quotes(f, 'url:"', '"'),base_url)
-                    if url.contain('.mp4'):
-                        urls.add(label, url)
-
-                result.set_video(urls.get_media_data(-1))
-
-                # adding tags to video
-                vid_source=mainw.find('div',{'class':'vidSource'})
-                for item in _iter(vid_source.find_all('a',href=lambda x: '#' not in x)):
-                    color=None
-                    href=item.attrs['href']
-                    if '/pornstars/' in href:
-                        color='magenta'
-                        href +='/videos'
-                    if '/profile/' in href:
-                        color='blue'
-                        href += '/videos'
-                    label=str(item.string)
-                    result.add_control(ControlInfo(label, get_url(href,base_url), text_color=color))
-
-                return result
-
-        # parce thumbnail page
+    def parse_thumbs(self, soup: BeautifulSoup, result: ParseResult, base_url: URL):
+        mainw = soup.find('div', {'class': ['mainw', 'profileContent']})
         thumbs_list = mainw.find('ul', {'class': ['listThumbs', 'listChannels','listProfiles','listTags']})
         if thumbs_list is not None:
             for thumbnail in _iter(thumbs_list.find_all('li')):
@@ -92,7 +56,7 @@ class PCvideoSoupSite(BaseSoupSite):
                     result.add_thumb(ThumbInfo(thumb_url=thumb_url, href=url, popup=label,
                                                labels=[{'text': dur_time, 'align': 'top right'},
                                                        {'text': label, 'align': 'bottom center'},
-                                                       {'text': hd, 'align': 'top left'}]))
+                                                       {'text': hd, 'align': 'top left','bold':True}]))
                 elif '/channels/' in href:
                     logo=thumbnail.find('img',{'class':'logo'})
                     thumb_url = get_url(logo.attrs['src'], base_url)
@@ -108,6 +72,8 @@ class PCvideoSoupSite(BaseSoupSite):
                                                        {'text': label, 'align': 'bottom center'},
                                                        {'text': hd, 'align': 'top left'}]))
 
+
+    def parse_thumbs_tags(self, soup: BeautifulSoup, result: ParseResult, base_url: URL):
         # adding tags to thumbs
         tags_container = soup.find('div', {'class': 'listFilters'})
         if tags_container is not None:
@@ -123,14 +89,41 @@ class PCvideoSoupSite(BaseSoupSite):
             for alpha in _iter(alpha_container.find_all('a')):
                 result.add_control(ControlInfo(str(alpha.string), get_url(alpha.attrs['href'], base_url)))
 
-        #adding pages to thumbs
-        pagination = soup.find('div', {'class': 'pager'})
-        if pagination is not None:
-            for page in _iter(pagination.find_all('a')):
-                if page.string.isdigit():
-                    result.add_page(ControlInfo(page.string, get_url(page.attrs['href'], base_url)))
+    def get_pagination_container(self, soup: BeautifulSoup) -> BeautifulSoup:
+        return soup.find('div', {'class': 'pager'})
 
-        return result
+    def parse_video(self, soup: BeautifulSoup, result: ParseResult, base_url: URL):
+        head = soup.find('head')
+        if head is not None:
+
+            script=head.find('script',text=lambda x:'streams:' in str(x))
+            if script is not None:
+                urls = UrlList()
+                data = str(script).replace(' ', '')
+                sources = quotes(data, 'streams:[{', '}]').split('},{')
+                for f in sources:
+                    label = quotes(f, 'id:"', '"')
+                    url = get_url(quotes(f, 'url:"', '"'),base_url)
+                    if url.contain('.mp4'):
+                        urls.add(label, url)
+
+                result.set_video(urls.get_media_data(-1))
+
+    def parse_video_tags(self, soup: BeautifulSoup, result: ParseResult, base_url: URL):
+        vid_source = soup.find('div', {'class': 'vidSource'})
+        for item in _iter(vid_source.find_all('a', href=lambda x: '#' not in x)):
+            color = None
+            href = item.attrs['href']
+            if '/pornstars/' in href:
+                color = 'magenta'
+                href += '/videos'
+            if '/profile/' in href:
+                color = 'blue'
+                href += '/videos'
+            if '/channels/' in href:
+                color= 'blue'
+            label = str(item.string)
+            result.add_control(ControlInfo(label, get_url(href, base_url), text_color=color))
 
 if __name__ == "__main__":
     pass

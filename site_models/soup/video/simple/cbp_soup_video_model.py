@@ -24,22 +24,7 @@ class CBPvideoSoupSite(BaseSoupSite):
     def can_accept_index_file(self, base_url=URL()):
         return base_url.contain('collectionofbestporn.com/')
 
-    def parse_soup(self, soup: BeautifulSoup, result: ParseResult, base_url: URL):
-        # parce video page
-        video = soup.find('video')
-        if video is not None:
-            urls = UrlList()
-            for source in _iter(video.find_all('source')):
-                urls.add(source.attrs['res'], get_url(source.attrs['src'],base_url))
-            result.set_video(urls.get_media_data(-1))
-
-            for tag_container in _iter(soup.find_all('div', {'class':'tags-container'})):
-                for href in _iter(tag_container.find_all('a')):
-                    if href.string is not None:
-                        result.add_control(ControlInfo(str(href.string), get_url(href.attrs['href'],base_url)))
-            return result
-
-        # parce thumbnail page
+    def parse_thumbs(self, soup: BeautifulSoup, result: ParseResult, base_url: URL):
         for thumbnail in soup.find_all('div',{'class':'video-thumb'}):
             href=get_url(thumbnail.a.attrs['href'],base_url)
             description=thumbnail.a.img.attrs['alt']
@@ -54,20 +39,24 @@ class CBPvideoSoupSite(BaseSoupSite):
             result.add_thumb(ThumbInfo(thumb_url=thumb_url, href=href, popup=description,
                                        labels=[{'text':dur_time, 'align':'top right'},
                                                {'text':description, 'align':'bottom center'},
-                                               {'text':qual,'align':'top left'}]))
+                                               {'text':qual,'align':'top left','bold':True}]))
 
-        tags=soup.find('ul', {'class': 'drop2 hidden-xs'})
-        if tags is not None:
-            for tag in tags.find_all('a'):
-                result.add_control(ControlInfo(str(tag.string).strip(), get_url(tag.attrs['href'],base_url)))
+    def get_pagination_container(self,soup:BeautifulSoup):
+        return soup.find('ul', {'class': 'pagination'})
 
-        pagination=soup.find('ul', {'class': 'pagination'})
-        if pagination is not None:
-            for page in pagination.find_all('a'):
-                if page.string.isdigit():
-                    result.add_page(ControlInfo(page.string, get_url(page.attrs['href'],base_url)))
+    def parse_video(self, soup: BeautifulSoup, result: ParseResult, base_url: URL):
+        video = soup.find('video')
+        if video is not None:
+            urls = UrlList()
+            for source in _iter(video.find_all('source')):
+                urls.add(source.attrs['res'], get_url(source.attrs['src'],base_url))
+            result.set_video(urls.get_media_data(-1))
 
-        return result
+    def parse_video_tags(self, soup: BeautifulSoup, result: ParseResult, base_url: URL):
+        for tag_container in _iter(soup.find_all('div', {'class': 'tags-container'})):
+            for href in _iter(tag_container.find_all('a')):
+                if href.string is not None:
+                    result.add_control(ControlInfo(str(href.string), get_url(href.attrs['href'], base_url)))
 
 if __name__ == "__main__":
     pass

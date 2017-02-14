@@ -61,6 +61,116 @@ class FullPictureInfo(FLData):
     def __str__(self):
         return 'full: HREF ' + self.get_url().get() + '  FNAME ' + self.get_filename()
 
+class ParseResult():
+    def __init__(self):
+        self._type = 'none'
+        self.redirect = URL()
+        self.video = None
+        self.thumbs = []
+        self.caption_visible = False
+        self.full = []
+        self.controls = []
+        self.pages = []
+        self.sites = []
+        self.gallery_path = None
+        self.picture_collector = None
+
+    def is_no_result(self):
+        return self._type == 'none'
+
+    def is_hrefs(self):
+        return self._type == 'hrefs'
+
+    def is_pictures(self):
+        return self._type == 'pictures'
+
+    def is_video(self):
+        return self._type == 'video'
+
+    def set_base(self, base_dir='', base_url=URL()):
+        for item in self.thumbs:
+            item.set_base_dir(base_dir)
+        for item in self.full:
+            item.set_base(base_dir, base_url)
+
+    def set_gallery_path(self, path=''):
+        self.gallery_path = path
+
+    def get_gallery_path(self):
+        return self.gallery_path
+
+    def set_video(self, media:MediaData):
+        self.video = media
+        if media is not None:
+            self._type = 'video'
+
+    def get_video(self):
+        return self.video
+
+    def set_type(self, type):  # todo  убрать совсем
+        pass
+    #     # self._type = type
+
+    def set_picture_collector(self, collector:PictureCollector):
+        self.picture_collector = collector
+
+    def set_redirect(self, url:URL):
+        self.redirect = url
+
+    def add_thumb(self, thumb:ThumbInfo):
+        self.thumbs.append(thumb)
+        self._type = 'hrefs'
+
+    def add_full(self, full:FullPictureInfo):
+        self.full.append(full)
+        self._type = 'pictures'
+
+    def add_control(self, control:ControlInfo):
+        for c in self.controls:
+            if control.url == c.url:
+                return
+        self.controls.append(control)
+
+    def add_page(self, control:ControlInfo):
+        for c in self.pages:
+            if control.url == c.url:
+                return
+        self.pages.append(control)
+
+    def add_site(self, control:ControlInfo):
+        for c in self.sites:
+            if control.url == c.url:
+                return
+        self.sites.append(control)
+
+    def set_caption_visible(self, visible=False):
+        self.caption_visible = visible
+
+    def print_result(self):
+        print('==============PARSER RESULT=============')
+        print('Type', self._type)
+        if type == 'none': return
+
+        if self._type == 'hrefs':
+            for i in self.thumbs:
+                print(i)
+
+        if self._type == 'pictures':
+            for i in self.full:
+                print(i)
+
+        print('Controls')
+        for i in self.controls:
+            print(i)
+
+        print('Pages')
+        for i in self.pages:
+            print(i)
+
+        print('~~~~~~~~~~~~~~PARSER RESULT~~~~~~~~~~~~~~')
+
+
+
 class AbstractSite:
     def start_button_name(self):
         return ''
@@ -169,113 +279,6 @@ class BaseNestedSite(BaseSite):
     pass
 
 
-class ParseResult():
-    def __init__(self):
-        self._type = 'none'
-        self.redirect = URL()
-        self.video = None
-        self.thumbs = []
-        self.caption_visible = False
-        self.full = []
-        self.controls = []
-        self.pages = []
-        self.sites = []
-        self.gallery_path = None
-        self.picture_collector = None
-
-    def is_no_result(self):
-        return self._type == 'none'
-
-    def is_hrefs(self):
-        return self._type == 'hrefs'
-
-    def is_pictures(self):
-        return self._type == 'pictures'
-
-    def is_video(self):
-        return self._type == 'video'
-
-    def set_base(self, base_dir='', base_url=URL()):
-        for item in self.thumbs:
-            item.set_base_dir(base_dir)
-        for item in self.full:
-            item.set_base(base_dir, base_url)
-
-    def set_gallery_path(self, path=''):
-        self.gallery_path = path
-
-    def get_gallery_path(self):
-        return self.gallery_path
-
-    def set_video(self, media:MediaData):
-        self.video = media
-        if media is not None:
-            self._type = 'video'
-
-    def get_video(self):
-        return self.video
-
-    def set_type(self, type):  # todo  убрать совсем
-        pass
-    #     # self._type = type
-
-    def set_picture_collector(self, collector:PictureCollector):
-        self.picture_collector = collector
-
-    def set_redirect(self, url:URL):
-        self.redirect = url
-
-    def add_thumb(self, thumb:ThumbInfo):
-        self.thumbs.append(thumb)
-        self._type = 'hrefs'
-
-    def add_full(self, full:FullPictureInfo):
-        self.full.append(full)
-        self._type = 'pictures'
-
-    def add_control(self, control:ControlInfo):
-        for c in self.controls:
-            if control.url == c.url:
-                return
-        self.controls.append(control)
-
-    def add_page(self, control:ControlInfo):
-        for c in self.pages:
-            if control.url == c.url:
-                return
-        self.pages.append(control)
-
-    def add_site(self, control:ControlInfo):
-        for c in self.sites:
-            if control.url == c.url:
-                return
-        self.sites.append(control)
-
-    def set_caption_visible(self, visible=False):
-        self.caption_visible = visible
-
-    def print_result(self):
-        print('==============PARSER RESULT=============')
-        print('Type', self._type)
-        if type == 'none': return
-
-        if self._type == 'hrefs':
-            for i in self.thumbs:
-                print(i)
-
-        if self._type == 'pictures':
-            for i in self.full:
-                print(i)
-
-        print('Controls')
-        for i in self.controls:
-            print(i)
-
-        print('Pages')
-        for i in self.pages:
-            print(i)
-
-        print('~~~~~~~~~~~~~~PARSER RESULT~~~~~~~~~~~~~~')
 
 
 if __name__ == "__main__":
