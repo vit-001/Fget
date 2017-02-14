@@ -24,8 +24,37 @@ class PXvideoSoupSite(BaseSoupSite):
     def can_accept_index_file(self, base_url=URL()):
         return base_url.contain('pornoxo.com/')
 
-    def parse_soup(self, soup: BeautifulSoup, result: ParseResult, base_url: URL):
-        # parce video page
+    def parse_thumbs(self, soup: BeautifulSoup, result: ParseResult, base_url: URL):
+        for thumbnail in _iter(soup.find_all('li', {'class': 'thumb-item'})):
+            href = get_url(thumbnail.a.attrs['href'], base_url)
+            thumb_url = get_url(thumbnail.img.attrs['src'], base_url)
+            label=thumbnail.img.attrs.get('alt','')
+
+            duration = thumbnail.find('span', {'class': 'fs11 viddata flr'})
+            dur_time = '' if duration is None else str(duration.contents[-1])
+
+            hd_span = thumbnail.find('span', {'class': 'text-active bold'})
+            hd = '' if hd_span is None else str(hd_span.string)
+
+            result.add_thumb(ThumbInfo(thumb_url=thumb_url, href=href, popup=label,
+                                       labels=[{'text':dur_time, 'align':'top right'},
+                                               {'text':label, 'align':'bottom center'},
+                                               {'text': hd, 'align': 'top left'}]))
+
+    def parse_thumbs_tags(self, soup: BeautifulSoup, result: ParseResult, base_url: URL):
+        tags_container = soup.find('div', {'class': 'left-menu-box-wrapper'})
+        if tags_container is not None:
+            for tag in _iter(tags_container.find_all('a',{'href':lambda x: '/videos/' in x})):
+                result.add_control(ControlInfo(str(tag.string).strip(), get_url(tag.attrs['href'], base_url)))
+
+    def parse_pagination(self, soup: BeautifulSoup, result: ParseResult, base_url: URL):
+        pagination = soup.find('div', {'class': 'pagination'})
+        if pagination is not None:
+            for page in _iter(pagination.find_all('a',{'class': None})):
+                if page.string.isdigit():
+                    result.add_page(ControlInfo(page.string, get_url(page.attrs['href'], base_url)))
+
+    def parse_video(self, soup: BeautifulSoup, result: ParseResult, base_url: URL):
         video = soup.find('div', {'class': 'videoDetail'})
         if video is not None:
             urls = UrlList()
@@ -44,53 +73,19 @@ class PXvideoSoupSite(BaseSoupSite):
 
                 result.set_video(urls.get_media_data(-1))
 
-                #adding "user" to video
-                user = soup.find('div', {'class': 'user-card'})
-                if user is not None:
-                    href = user.find('a').attrs['href']
-                    username = user.find('span',{'class':'name'}).string
-                    result.add_control(ControlInfo(username , get_url(href,base_url),text_color='blue'))
+    def parse_video_tags(self, soup: BeautifulSoup, result: ParseResult, base_url: URL):
+        # adding "user" to video
+        user = soup.find('div', {'class': 'user-card'})
+        if user is not None:
+            href = user.find('a').attrs['href']
+            username = user.find('span', {'class': 'name'}).string
+            result.add_control(ControlInfo(username, get_url(href, base_url), text_color='blue'))
 
-                #adding tags to video
-                for item in _iter(soup.find_all('div', {'class': 'content-tags'})):
-                    for href in _iter(item.find_all('a')):
-                        if href.string is not None:
-                            result.add_control(
-                                ControlInfo(str(href.string), get_url(href.attrs['href'], base_url)))
-
-                return result
-
-        # parce thumbnail page
-        for thumbnail in _iter(soup.find_all('li', {'class': 'thumb-item'})):
-            href = get_url(thumbnail.a.attrs['href'], base_url)
-            thumb_url = get_url(thumbnail.img.attrs['src'], base_url)
-            label=thumbnail.img.attrs.get('alt','')
-
-            duration = thumbnail.find('span', {'class': 'fs11 viddata flr'})
-            dur_time = '' if duration is None else str(duration.contents[-1])
-
-            hd_span = thumbnail.find('span', {'class': 'text-active bold'})
-            hd = '' if hd_span is None else str(hd_span.string)
-
-            result.add_thumb(ThumbInfo(thumb_url=thumb_url, href=href, popup=label,
-                                       labels=[{'text':dur_time, 'align':'top right'},
-                                               {'text':label, 'align':'bottom center'},
-                                               {'text': hd, 'align': 'top left'}]))
-
-        #adding tags to thumbs
-        tags_container = soup.find('div', {'class': 'left-menu-box-wrapper'})
-        if tags_container is not None:
-            for tag in _iter(tags_container.find_all('a',{'href':lambda x: '/videos/' in x})):
-                result.add_control(ControlInfo(str(tag.string).strip(), get_url(tag.attrs['href'], base_url)))
-
-        #adding pages to thumbs
-        pagination = soup.find('div', {'class': 'pagination'})
-        if pagination is not None:
-            for page in _iter(pagination.find_all('a',{'class': None})):
-                if page.string.isdigit():
-                    result.add_page(ControlInfo(page.string, get_url(page.attrs['href'], base_url)))
-
-        return result
+        # adding tags to video
+        for item in _iter(soup.find_all('div', {'class': 'content-tags'})):
+            for href in _iter(item.find_all('a')):
+                if href.string is not None:
+                    result.add_control(ControlInfo(str(href.string), get_url(href.attrs['href'], base_url)))
 
 if __name__ == "__main__":
     pass
