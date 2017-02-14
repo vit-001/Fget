@@ -121,6 +121,10 @@ class UrlList:
     def add(self, label:str, url:URL):
         self.urls.append(dict(text=label, url=url))
 
+    def sort(self):
+        self.urls.sort(key=lambda x:int(x['text']))
+
+
     def get_media_data(self, default=0):
         video = None
         if len(self.urls) == 1:

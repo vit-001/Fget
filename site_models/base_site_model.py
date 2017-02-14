@@ -71,7 +71,7 @@ class AbstractSite:
     def startpage(self):
         return URL()
 
-    def parse_index_file(self, fname:str, base_url:URL):
+    def parse_index_file(self, fname:str, base_url:URL)->ParseResult:
         pass
 
     def can_accept_index_file(self, base_url:URL):

@@ -37,7 +37,7 @@ class PTvideoSoupSite(BaseSoupSite):
             if script is not None:
                 config_xml_url=get_url(quotes(str(script.string),'?config=','"'),base_url)
                 r=load(config_xml_url)
-                bs=BeautifulSoup(r.text, features='xml')
+                bs=BeautifulSoup(r.text, 'html.parser')
                 files=bs.find_all(lambda tag: tag.name.startswith('file'))
                 urls = UrlList()
                 for item in _iter(files):

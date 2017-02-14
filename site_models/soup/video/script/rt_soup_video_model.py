@@ -49,6 +49,7 @@ class RTvideoSoupSite(BaseSoupSite):
                     label=quotes(item,'"','"')
                     urls.add(label, get_url(file, base_url))
 
+                urls.sort()
                 result.set_video(urls.get_media_data(-1))
 
                 # parsing video information
