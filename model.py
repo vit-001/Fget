@@ -61,6 +61,7 @@ from site_models.video.sm_video_model import SMvideoSite
 from site_models.video.t8_video_model import T8videoSite
 from site_models.video.tz_video_model import TZvideoSite
 from site_models.video.vp_video_model import VPvideoSite
+from site_models.soup.video.script.v24_soup_video_model import V24videoSoupSite
 
 
 class SiteVewerModel(AbstractModel):
@@ -71,11 +72,10 @@ class SiteVewerModel(AbstractModel):
             # work on
 
 
-
             # classic
             SpaceSite(self, text='Classic:'),
             HDEPvideoSoupSite(self),CBPvideoSoupSite(self),PCvideoSoupSite(self),
-            YPvideoSite(self), SXXvideoSite(self),  NFLvideoSite(self), V24videoSite(self),PTvideoSoupSite(self),
+            YPvideoSite(self), SXXvideoSite(self),  NFLvideoSite(self), V24videoSoupSite(self),PTvideoSoupSite(self),
             PXvideoSoupSite(self), RTvideoSoupSite(self), CLSvideoSite(self),
             VERvideoSoupSite(self), PBZvideoSite(self),
             T8videoSite(self), BMTvideoSite(self),

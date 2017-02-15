@@ -1,1886 +1,874 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
-    <title> Most Recent Video - PornTrex</title>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>
+        New Porn Videos / 24Videos.TV
+    </title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <meta name="robots" content="index, follow"/>
-    <meta name="revisit-after" content="1 days"/>
-    <meta name="keywords"
-          content=" Most Recent videos, free, porn, video, videos, movies, adult, tube, online, members, xxx, sex, anal, vagina, pussy, amateur, asia, japanese, blonde, teen, squirt, brunette, milf, babes, babe, russian, hungurian, nurse porn, foot worship, feet worship, babysitter tube"/>
-    <meta name="description"
-          content=" Most Recent Videos - Huge collection of free hd porn videos. Tons of amateur sex and professional hd movies. Daily update of hot busty teen, latina, amateur..."/>
-    <link rel="canonical" href="http://www.porntrex.com/videos/"/>
+    <meta name="description" content=""/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <meta name="RATING" content="RTA-5042-1996-1400-1577-RTA"/>
+    <link href="http://www.24videos.tv/styles/all-responsive.css?v=2.0" rel="stylesheet" type="text/css"/>
+    <link href="http://www.24videos.tv/styles/jquery.fancybox.css?v=2.0" rel="stylesheet" type="text/css"/>
 
-    <link rel="Shortcut Icon" type="image/ico" href="/favicon.ico"/>
-    <link rel="apple-touch-icon" href="/templates/frontend/porntrex/img/webapp-icon.png">
-
-    <script type="text/javascript">
-        var base_url = "http://www.porntrex.com";
-        var relative = "";
-        var max_thumb_folders = "32000";
-        var tpl_url = "/templates/frontend/porntrex";
-        var lang_deleting = "Deleting...";
-        var lang_flaging = "Flaging...";
-        var lang_loading = "Loading...";
-        var lang_sending = "Sending...";
-        var lang_share_name_empty = "Please enter your name!";
-        var lang_share_rec_empty = "Please enter at least one recipient email!";
+    <script>
+        var pageContext = {
+            loginUrl: 'http://www.24videos.tv/login-required/'
+        };
     </script>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    <script src="/templates/frontend/porntrex/js/lazy.js"></script>
-    <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
-    <link href="/templates/frontend/porntrex/css/bootstrap.css" rel="stylesheet">
-    <link href="/templates/frontend/porntrex/css/style.css" rel="stylesheet">
-    <link href="/templates/frontend/porntrex/css/responsive.css" rel="stylesheet">
-    <link href="/templates/frontend/porntrex/css/font-awesome.min.css" rel="stylesheet">
-    <link href="/templates/frontend/porntrex/css/colors.css" rel="stylesheet">
+    <link href="http://www.24videos.tv/rss/" rel="alternate" type="application/rss+xml"/>
+    <link href="http://www.24videos.tv/latest-updates/" rel="canonical"/>
 </head>
 <body>
+<script type="text/javascript" src="http://syndication.exoclick.com/splash.php?idzone=1883960"></script>
+<script type="text/javascript"><!--
+new Image().src = "//counter.yadro.ru/hit?r" +
+    escape(document.referrer) + ((typeof(screen) == "undefined") ? "" :
+        ";s" + screen.width + "*" + screen.height + "*" + (screen.colorDepth ?
+            screen.colorDepth : screen.pixelDepth)) + ";u" + escape(document.URL) +
+    ";" + Math.random();//--></script>
+<div class="top">
+    <div class="center-hold">
+        <div class="member-links">
+            <ul>
+                <li><a data-href="http://www.24videos.tv/signup/" data-fancybox="ajax">Sign up</a></li>
+                <li><a data-href="http://www.24videos.tv/login/" data-fancybox="ajax" id="login">Log in</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="header">
+        <div class="logo">
+            <a href="http://www.24videos.tv/"></a>
+        </div>
+        <div class="social-bookmarks">
+            <div class="g-plusone"></div>
+            <script type="text/javascript">
+                (function () {
+                    var po = document.createElement('script');
+                    po.type = 'text/javascript';
+                    po.async = true;
+                    po.src = 'https://apis.google.com/js/plusone.js';
+                    var s = document.getElementsByTagName('script')[0];
+                    s.parentNode.insertBefore(po, s);
+                })();
+            </script>
 
-<div class="modal" id="login-modal">
-    <div class="modal-dialog login-modal">
-        <div class="modal-content">
-            <form name="login_form" method="post" action="/login">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">Already a Porntrex member?</h4>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <div class="input-group">
-							<span class="input-group-addon">
-								<i class="fa fa-user fa-fw"></i>
-								</span>
-                            <input name="username" type="text" value="" id="login_username" class="form-control"
-                                   placeholder="Username" required/>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="input-group">
-							<span class="input-group-addon">
-								<i class="fa fa-lock fa-fw"></i>
-								</span>
-                            <input name="password" type="password" value="" id="login_password" class="form-control"
-                                   placeholder="Password" required/>
-                        </div>
-                    </div>
-                    <a href="/lost" id="lost_password">Lost Username or Password?</a><br/>
-                    <a href="/confirm" id="confirmation_email">Did not receive confirmation email?</a>
-                </div>
-                <div class="modal-footer">
-                    <button name="submit_login" id="login_submit" type="submit" class="btn btn-primary"
-                            style="width: 150px;"><i class="fa fa-lock"></i> Login
-                    </button>
-                    <a href="/signup" class="btn btn-danger">Sign Up</a>
-                </div>
+        </div>
+        <div class="search">
+            <form id="search_form" action="http://www.24videos.tv/search/" method="get"
+                  data-url="http://www.24videos.tv/search/%QUERY%/">
+                <span class="search-button">Search</span>
+                <div class="search-text"><input type="text" name="q" placeholder="Search" value=""/></div>
             </form>
         </div>
     </div>
-</div>
-
-<div class="top-nav">
-    <div class="container">
-        <ul class="topnav" id="myTopnav">
-            <li><a href="">PornTrex NETWORK</a></li>
-            <li><a class="active" href="http://www.porntrex.com"><img alt="PornTrex" src="/favicon.ico" width="16px">
-                PornTrex</a></li>
-            <li><a onclick="_gaq.push(['_trackEvent', 'Javtasty', 'Click', 'http://www.javtasty.com/']);"
-                   href="http://www.javtasty.com"><img alt="JavTasty"
-                                                       src="/templates/frontend/porntrex/img/javtasty.ico" width="16px">
-                Javtasty</a></li>
-            <li><a onclick="_gaq.push(['_trackEvent', 'XxxMirror', 'Click', 'http://www.xxxmirror.com/']);"
-                   href="http://www.xxxmirror.com"><img alt="XxxMirror"
-                                                        src="/templates/frontend/porntrex/img/xxxmirror.ico"
-                                                        width="16px"> XxxMirror</a></li>
-            <li>
-                <a onclick="_gaq.push(['_trackEvent', 'Freecambay', 'Click', 'http://www.freecambay.com/']);"
-                   href="http://www.freecambay.com">
-                    <img alt="Freecambay" src="/templates/frontend/porntrex/img/freecambay.ico" width="16px">
-                    Freecambay
-                    <img src="/templates/frontend/porntrex/img/new_site.gif">
-                </a>
-            </li>
-            <li class="icon">
-                <a href="javascript:void(0);" onclick="myFunction()"><i class="fa fa-bars"></i></a>
-            </li>
-        </ul>
-    </div>
-</div>
-
-
-<script>
-    function myFunction() {
-        var x = document.getElementById("myTopnav");
-        if (x.className === "topnav") {
-            x.className += " responsive";
-        } else {
-            x.className = "topnav";
-        }
-    }
-</script>
-
-
-<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-    <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-inverse-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
+    <nav>
+        <div class="navigation">
+            <button class="button">
+				<span class="icon">
+					<span class="ico-bar"></span>
+					<span class="ico-bar"></span>
+					<span class="ico-bar"></span>
+				</span>
             </button>
-            <a class="navbar-brand" href="/"><img src="/templates/frontend/porntrex/img/logo.png"></a>
-        </div>
-        <div class="navbar-collapse collapse navbar-inverse-collapse">
-            <ul class="nav navbar-nav navbar-right">
-                <li class="active"><a href="/videos">Videos</a></li>
-                <li><a href="/albums" class="hidden-sm">Photos</a></li>
-                <li><a href="/gifs" class="hidden-sm">GIFs</a></li>
-                <li><a href="/channels" class="hidden-sm">Channels</a></li>
-                <li class="dropdown visible-sm hidden-xs hidden-md hidden-lg">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">More <b class="caret"></b></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="/albums">Photos</a></li>
-                        <li><a href="/gifs">GIFs</a></li>
-                        <li><a href="/channels">Channels</a></li>
-                        <li><a href="/categories"> Categories</a></li>
-                        <li><a href="/chat">Chat</a></li>
-                        <li><a data-toggle="modal" href="#login-modal"><i class="fa fa-sign-in"></i> Sign in</a></li>
-                        <li><a href="/signup" rel="nofollow"><i class="fa fa-star"></i> Sign up</a></li>
-
-                    </ul>
+            <ul class="primary">
+                <li>
+                    <a href="http://www.24videos.tv/" id="item1">Home</a>
                 </li>
-                <li class="hidden-sm"><a href="/categories"> Categories</a></li>
-                <li><a href="/chat" class="hidden-sm">Chat</a></li>
-                <li class="hidden-sm"><a target="_blank"
-                                         onclick="_gaq.push(['_trackEvent', 'ThePornDude', 'Click', 'http://www.theporndude.com/']);"
-                                         href="http://www.theporndude.com" rel="noopener" class="hidden-sm">
-                    Theporndude</a></li>
-
-                <li class="dropdown hidden-sm">
-                    <a data-toggle="dropdown" class="dropdown-toggle" id="search-drop" href="#"><i
-                            class="fa fa-bars"></i></a>
-                    <ul class="dropdown-menu">
-                        <li><a data-toggle="modal" href="#login-modal"><i class="fa fa-sign-in"></i> Sign in</a></li>
-                        <li><a href="/signup" rel="nofollow"><i class="fa fa-star"></i> Sign up</a></li>
-                    </ul>
-                </li>
-                <li class="dropdown">
-                    <a href="#" id="search-drop" class="dropdown-toggle" data-toggle="dropdown"><i
-                            class="fa fa-search"></i></a>
-                    <ul class="dropdown-menu search-dropdown-menu">
-                        <form class="form-inline" name="search" id="search_form" method="get" action="/search">
-                            <div class="input-group">
-                                <input autocomplete="off" type="text" class="form-control" placeholder="Search"
-                                       name="search_query" id="search_query" value=""
-                                       style="border-color: rgb(115, 34, 26) -moz-use-text-color rgb(115, 34, 26) rgb(115, 34, 26) ! important; -moz-border-top-colors: none ! important; -moz-border-right-colors: none ! important; -moz-border-bottom-colors: none ! important; -moz-border-left-colors: none ! important; border-style: solid none solid solid ! important; border-width: 1px medium 1px 1px ! important; border-image: none ! important;">
-                                <span class="search-select input-group-addon" style="display:none">
-							<select class="form-control" name="search_type" id="search_type">
-								<option value="videos">Videos</option>
-								<option value="photos">Photos</option>								<option
-                                    value="gif">GIF</option>								<option
-                                    value="users">Users</option>
-							</select>		
-						</span>
-                                <span class="input-group-btn">
-							<button type="submit" class="btn btn-danger"><i class="fa fa-search"></i></button>
-						</span>
-                            </div>
-                            <div class="box-suggest"></div>
-                        </form>
-                    </ul>
+                <li class="selected">
+                    <a href="http://www.24videos.tv/latest-updates/" id="item2">Latest</a>
                 </li>
                 <li>
-                    <button type="button" class="btn btn-primary navbar-btn m-l-15 m-r-15"
-                            onclick="location.href='/upload'"><i class="fa fa-cloud-upload"></i>
-                        Upload your videos
-                    </button>
+                    <a href="http://www.24videos.tv/top-rated/" id="item3">Top Rated</a>
+                </li>
+                <li>
+                    <a href="http://www.24videos.tv/most-popular/" id="item4">Most Viewed</a>
+                </li>
+                <li>
+                    <a href="http://www.24videos.tv/categories/" id="item6">Categories</a>
                 </li>
             </ul>
+            <!--<ul class="secondary">
+                            </ul>-->
+        </div>
+    </nav>
+    <div class="content">
+        <div class="main-content">
+            <div class="main-container">
+                <div id="list_videos_latest_videos_list">
+                    <div class="headline">
+                        <h2>
+                            New Videos </h2>
 
-        </div><!--/.nav-collapse -->
+
+                    </div>
+
+                    <div class="box">
+                        <div class="list-videos">
+                            <div class="margin-fix" id="list_videos_latest_videos_list_items">
+                                <div class="item  ">
+                                    <a href="http://www.24videos.tv/videos/4124/w065/" title="W065">
+                                        <div class="img">
+                                            <img class="thumb lazy-load"
+                                                 data-original="http://www.24videos.tv/contents/videos_screenshots/4000/4124/240x180/2.jpg"
+                                                 alt="W065" data-cnt="5" width="240" height="180"/>
+                                            <span class="ico-fav-0 " title="Add to Favourites" data-fav-video-id="4124"
+                                                  data-fav-type="0"></span>
+                                            <span class="ico-fav-1 " title="Watch Later" data-fav-video-id="4124"
+                                                  data-fav-type="1"></span>
+                                        </div>
+                                        <strong class="title">
+                                            W065
+                                        </strong>
+                                        <div class="wrap">
+                                            <div class="duration">45m:24s</div>
+
+                                            <div class="rating positive">
+                                                84%
+                                            </div>
+                                        </div>
+                                        <div class="wrap">
+                                            <div class="added"><em>1 day ago</em></div>
+                                            <div class="views">2 733</div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="item  ">
+                                    <a href="http://www.24videos.tv/videos/4077/w019/" title="W019">
+                                        <div class="img">
+                                            <img class="thumb lazy-load"
+                                                 data-original="http://www.24videos.tv/contents/videos_screenshots/4000/4077/240x180/2.jpg"
+                                                 alt="W019" data-cnt="5" width="240" height="180"/>
+                                            <span class="ico-fav-0 " title="Add to Favourites" data-fav-video-id="4077"
+                                                  data-fav-type="0"></span>
+                                            <span class="ico-fav-1 " title="Watch Later" data-fav-video-id="4077"
+                                                  data-fav-type="1"></span>
+                                        </div>
+                                        <strong class="title">
+                                            W019
+                                        </strong>
+                                        <div class="wrap">
+                                            <div class="duration">8m:35s</div>
+
+                                            <div class="rating positive">
+                                                80%
+                                            </div>
+                                        </div>
+                                        <div class="wrap">
+                                            <div class="added"><em>1 day ago</em></div>
+                                            <div class="views">968</div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="item  ">
+                                    <a href="http://www.24videos.tv/videos/4201/w142/" title="W142">
+                                        <div class="img">
+                                            <img class="thumb lazy-load"
+                                                 data-original="http://www.24videos.tv/contents/videos_screenshots/4000/4201/240x180/2.jpg"
+                                                 alt="W142" data-cnt="5" width="240" height="180"/>
+                                            <span class="ico-fav-0 " title="Add to Favourites" data-fav-video-id="4201"
+                                                  data-fav-type="0"></span>
+                                            <span class="ico-fav-1 " title="Watch Later" data-fav-video-id="4201"
+                                                  data-fav-type="1"></span>
+                                        </div>
+                                        <strong class="title">
+                                            W142
+                                        </strong>
+                                        <div class="wrap">
+                                            <div class="duration">43m:54s</div>
+
+                                            <div class="rating positive">
+                                                75%
+                                            </div>
+                                        </div>
+                                        <div class="wrap">
+                                            <div class="added"><em>1 day ago</em></div>
+                                            <div class="views">2 295</div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="item  ">
+                                    <a href="http://www.24videos.tv/videos/4174/w115/" title="W115">
+                                        <div class="img">
+                                            <img class="thumb lazy-load"
+                                                 data-original="http://www.24videos.tv/contents/videos_screenshots/4000/4174/240x180/2.jpg"
+                                                 alt="W115" data-cnt="5" width="240" height="180"/>
+                                            <span class="ico-fav-0 " title="Add to Favourites" data-fav-video-id="4174"
+                                                  data-fav-type="0"></span>
+                                            <span class="ico-fav-1 " title="Watch Later" data-fav-video-id="4174"
+                                                  data-fav-type="1"></span>
+                                        </div>
+                                        <strong class="title">
+                                            W115
+                                        </strong>
+                                        <div class="wrap">
+                                            <div class="duration">42m:54s</div>
+
+                                            <div class="rating positive">
+                                                60%
+                                            </div>
+                                        </div>
+                                        <div class="wrap">
+                                            <div class="added"><em>1 day ago</em></div>
+                                            <div class="views">907</div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="item  ">
+                                    <a href="http://www.24videos.tv/videos/4231/w171/" title="W171">
+                                        <div class="img">
+                                            <img class="thumb lazy-load"
+                                                 data-original="http://www.24videos.tv/contents/videos_screenshots/4000/4231/240x180/2.jpg"
+                                                 alt="W171" data-cnt="5" width="240" height="180"/>
+                                            <span class="ico-fav-0 " title="Add to Favourites" data-fav-video-id="4231"
+                                                  data-fav-type="0"></span>
+                                            <span class="ico-fav-1 " title="Watch Later" data-fav-video-id="4231"
+                                                  data-fav-type="1"></span>
+                                        </div>
+                                        <strong class="title">
+                                            W171
+                                        </strong>
+                                        <div class="wrap">
+                                            <div class="duration">36m:39s</div>
+
+                                            <div class="rating negative">
+                                                47%
+                                            </div>
+                                        </div>
+                                        <div class="wrap">
+                                            <div class="added"><em>1 day ago</em></div>
+                                            <div class="views">2 266</div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="item  ">
+                                    <a href="http://www.24videos.tv/videos/4181/w122/" title="W122">
+                                        <div class="img">
+                                            <img class="thumb lazy-load"
+                                                 data-original="http://www.24videos.tv/contents/videos_screenshots/4000/4181/240x180/2.jpg"
+                                                 alt="W122" data-cnt="5" width="240" height="180"/>
+                                            <span class="ico-fav-0 " title="Add to Favourites" data-fav-video-id="4181"
+                                                  data-fav-type="0"></span>
+                                            <span class="ico-fav-1 " title="Watch Later" data-fav-video-id="4181"
+                                                  data-fav-type="1"></span>
+                                        </div>
+                                        <strong class="title">
+                                            W122
+                                        </strong>
+                                        <div class="wrap">
+                                            <div class="duration">23m:11s</div>
+
+                                            <div class="rating positive">
+                                                100%
+                                            </div>
+                                        </div>
+                                        <div class="wrap">
+                                            <div class="added"><em>1 day ago</em></div>
+                                            <div class="views">612</div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="item  ">
+                                    <a href="http://www.24videos.tv/videos/4144/w085/" title="W085">
+                                        <div class="img">
+                                            <img class="thumb lazy-load"
+                                                 data-original="http://www.24videos.tv/contents/videos_screenshots/4000/4144/240x180/2.jpg"
+                                                 alt="W085" data-cnt="5" width="240" height="180"/>
+                                            <span class="ico-fav-0 " title="Add to Favourites" data-fav-video-id="4144"
+                                                  data-fav-type="0"></span>
+                                            <span class="ico-fav-1 " title="Watch Later" data-fav-video-id="4144"
+                                                  data-fav-type="1"></span>
+                                        </div>
+                                        <strong class="title">
+                                            W085
+                                        </strong>
+                                        <div class="wrap">
+                                            <div class="duration">35m:23s</div>
+
+                                            <div class="rating positive">
+                                                66%
+                                            </div>
+                                        </div>
+                                        <div class="wrap">
+                                            <div class="added"><em>1 day ago</em></div>
+                                            <div class="views">1 278</div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="item  ">
+                                    <a href="http://www.24videos.tv/videos/4093/w035/" title="W035">
+                                        <div class="img">
+                                            <img class="thumb lazy-load"
+                                                 data-original="http://www.24videos.tv/contents/videos_screenshots/4000/4093/240x180/2.jpg"
+                                                 alt="W035" data-cnt="5" width="240" height="180"/>
+                                            <span class="ico-fav-0 " title="Add to Favourites" data-fav-video-id="4093"
+                                                  data-fav-type="0"></span>
+                                            <span class="ico-fav-1 " title="Watch Later" data-fav-video-id="4093"
+                                                  data-fav-type="1"></span>
+                                        </div>
+                                        <strong class="title">
+                                            W035
+                                        </strong>
+                                        <div class="wrap">
+                                            <div class="duration">36m:49s</div>
+
+                                            <div class="rating positive">
+                                                87%
+                                            </div>
+                                        </div>
+                                        <div class="wrap">
+                                            <div class="added"><em>1 day ago</em></div>
+                                            <div class="views">749</div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="item  ">
+                                    <a href="http://www.24videos.tv/videos/4064/w206-krupnym-planom/"
+                                       title="W206 Крупным планом">
+                                        <div class="img">
+                                            <img class="thumb lazy-load"
+                                                 data-original="http://www.24videos.tv/contents/videos_screenshots/4000/4064/240x180/2.jpg"
+                                                 alt="W206 Крупным планом" data-cnt="5" width="240" height="180"/>
+                                            <span class="ico-fav-0 " title="Add to Favourites" data-fav-video-id="4064"
+                                                  data-fav-type="0"></span>
+                                            <span class="ico-fav-1 " title="Watch Later" data-fav-video-id="4064"
+                                                  data-fav-type="1"></span>
+                                        </div>
+                                        <strong class="title">
+                                            W206 Крупным планом
+                                        </strong>
+                                        <div class="wrap">
+                                            <div class="duration">0m:35s</div>
+
+                                            <div class="rating positive">
+                                                100%
+                                            </div>
+                                        </div>
+                                        <div class="wrap">
+                                            <div class="added"><em>1 day ago</em></div>
+                                            <div class="views">1 204</div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="item  ">
+                                    <a href="http://www.24videos.tv/videos/4219/w159/" title="W159">
+                                        <div class="img">
+                                            <img class="thumb lazy-load"
+                                                 data-original="http://www.24videos.tv/contents/videos_screenshots/4000/4219/240x180/2.jpg"
+                                                 alt="W159" data-cnt="5" width="240" height="180"/>
+                                            <span class="ico-fav-0 " title="Add to Favourites" data-fav-video-id="4219"
+                                                  data-fav-type="0"></span>
+                                            <span class="ico-fav-1 " title="Watch Later" data-fav-video-id="4219"
+                                                  data-fav-type="1"></span>
+                                        </div>
+                                        <strong class="title">
+                                            W159
+                                        </strong>
+                                        <div class="wrap">
+                                            <div class="duration">31m:02s</div>
+
+                                            <div class="rating positive">
+                                                69%
+                                            </div>
+                                        </div>
+                                        <div class="wrap">
+                                            <div class="added"><em>1 week ago</em></div>
+                                            <div class="views">14 299</div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="item  ">
+                                    <a href="http://www.24videos.tv/videos/4078/w020/" title="W020">
+                                        <div class="img">
+                                            <img class="thumb lazy-load"
+                                                 data-original="http://www.24videos.tv/contents/videos_screenshots/4000/4078/240x180/2.jpg"
+                                                 alt="W020" data-cnt="5" width="240" height="180"/>
+                                            <span class="ico-fav-0 " title="Add to Favourites" data-fav-video-id="4078"
+                                                  data-fav-type="0"></span>
+                                            <span class="ico-fav-1 " title="Watch Later" data-fav-video-id="4078"
+                                                  data-fav-type="1"></span>
+                                        </div>
+                                        <strong class="title">
+                                            W020
+                                        </strong>
+                                        <div class="wrap">
+                                            <div class="duration">26m:52s</div>
+
+                                            <div class="rating positive">
+                                                77%
+                                            </div>
+                                        </div>
+                                        <div class="wrap">
+                                            <div class="added"><em>1 week ago</em></div>
+                                            <div class="views">9 459</div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="item  ">
+                                    <a href="http://www.24videos.tv/videos/4156/w097/" title="W097">
+                                        <div class="img">
+                                            <img class="thumb lazy-load"
+                                                 data-original="http://www.24videos.tv/contents/videos_screenshots/4000/4156/240x180/2.jpg"
+                                                 alt="W097" data-cnt="5" width="240" height="180"/>
+                                            <span class="ico-fav-0 " title="Add to Favourites" data-fav-video-id="4156"
+                                                  data-fav-type="0"></span>
+                                            <span class="ico-fav-1 " title="Watch Later" data-fav-video-id="4156"
+                                                  data-fav-type="1"></span>
+                                        </div>
+                                        <strong class="title">
+                                            W097
+                                        </strong>
+                                        <div class="wrap">
+                                            <div class="duration">33m:38s</div>
+
+                                            <div class="rating positive">
+                                                76%
+                                            </div>
+                                        </div>
+                                        <div class="wrap">
+                                            <div class="added"><em>1 week ago</em></div>
+                                            <div class="views">14 963</div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="item  ">
+                                    <a href="http://www.24videos.tv/videos/4113/w055/" title="W055">
+                                        <div class="img">
+                                            <img class="thumb lazy-load"
+                                                 data-original="http://www.24videos.tv/contents/videos_screenshots/4000/4113/240x180/2.jpg"
+                                                 alt="W055" data-cnt="5" width="240" height="180"/>
+                                            <span class="ico-fav-0 " title="Add to Favourites" data-fav-video-id="4113"
+                                                  data-fav-type="0"></span>
+                                            <span class="ico-fav-1 " title="Watch Later" data-fav-video-id="4113"
+                                                  data-fav-type="1"></span>
+                                        </div>
+                                        <strong class="title">
+                                            W055
+                                        </strong>
+                                        <div class="wrap">
+                                            <div class="duration">28m:34s</div>
+
+                                            <div class="rating positive">
+                                                76%
+                                            </div>
+                                        </div>
+                                        <div class="wrap">
+                                            <div class="added"><em>1 week ago</em></div>
+                                            <div class="views">11 157</div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="item  ">
+                                    <a href="http://www.24videos.tv/videos/4109/w051/" title="W051">
+                                        <div class="img">
+                                            <img class="thumb lazy-load"
+                                                 data-original="http://www.24videos.tv/contents/videos_screenshots/4000/4109/240x180/2.jpg"
+                                                 alt="W051" data-cnt="5" width="240" height="180"/>
+                                            <span class="ico-fav-0 " title="Add to Favourites" data-fav-video-id="4109"
+                                                  data-fav-type="0"></span>
+                                            <span class="ico-fav-1 " title="Watch Later" data-fav-video-id="4109"
+                                                  data-fav-type="1"></span>
+                                        </div>
+                                        <strong class="title">
+                                            W051
+                                        </strong>
+                                        <div class="wrap">
+                                            <div class="duration">32m:40s</div>
+
+                                            <div class="rating positive">
+                                                67%
+                                            </div>
+                                        </div>
+                                        <div class="wrap">
+                                            <div class="added"><em>1 week ago</em></div>
+                                            <div class="views">9 668</div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="item  ">
+                                    <a href="http://www.24videos.tv/videos/4235/w175/" title="W175">
+                                        <div class="img">
+                                            <img class="thumb lazy-load"
+                                                 data-original="http://www.24videos.tv/contents/videos_screenshots/4000/4235/240x180/2.jpg"
+                                                 alt="W175" data-cnt="5" width="240" height="180"/>
+                                            <span class="ico-fav-0 " title="Add to Favourites" data-fav-video-id="4235"
+                                                  data-fav-type="0"></span>
+                                            <span class="ico-fav-1 " title="Watch Later" data-fav-video-id="4235"
+                                                  data-fav-type="1"></span>
+                                        </div>
+                                        <strong class="title">
+                                            W175
+                                        </strong>
+                                        <div class="wrap">
+                                            <div class="duration">32m:58s</div>
+
+                                            <div class="rating positive">
+                                                82%
+                                            </div>
+                                        </div>
+                                        <div class="wrap">
+                                            <div class="added"><em>1 week ago</em></div>
+                                            <div class="views">9 727</div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="item  ">
+                                    <a href="http://www.24videos.tv/videos/4192/w133/" title="W133">
+                                        <div class="img">
+                                            <img class="thumb lazy-load"
+                                                 data-original="http://www.24videos.tv/contents/videos_screenshots/4000/4192/240x180/2.jpg"
+                                                 alt="W133" data-cnt="5" width="240" height="180"/>
+                                            <span class="ico-fav-0 " title="Add to Favourites" data-fav-video-id="4192"
+                                                  data-fav-type="0"></span>
+                                            <span class="ico-fav-1 " title="Watch Later" data-fav-video-id="4192"
+                                                  data-fav-type="1"></span>
+                                        </div>
+                                        <strong class="title">
+                                            W133
+                                        </strong>
+                                        <div class="wrap">
+                                            <div class="duration">37m:53s</div>
+
+                                            <div class="rating positive">
+                                                79%
+                                            </div>
+                                        </div>
+                                        <div class="wrap">
+                                            <div class="added"><em>1 week ago</em></div>
+                                            <div class="views">14 936</div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="item  ">
+                                    <a href="http://www.24videos.tv/videos/3934/one-of-the-playful-girlfriends-was-nailed-from-behind-by-public-agent/"
+                                       title="One of the playful girlfriends was nailed from behind by public agent">
+                                        <div class="img">
+                                            <img class="thumb lazy-load"
+                                                 data-original="http://www.24videos.tv/contents/videos_screenshots/3000/3934/240x180/2.jpg"
+                                                 alt="One of the playful girlfriends was nailed from behind by public agent"
+                                                 data-cnt="5" width="240" height="180"/>
+                                            <span class="ico-fav-0 " title="Add to Favourites" data-fav-video-id="3934"
+                                                  data-fav-type="0"></span>
+                                            <span class="ico-fav-1 " title="Watch Later" data-fav-video-id="3934"
+                                                  data-fav-type="1"></span>
+                                        </div>
+                                        <strong class="title">
+                                            One of the playful girlfriends was nailed from behin...
+                                        </strong>
+                                        <div class="wrap">
+                                            <div class="duration">29m:08s</div>
+
+                                            <div class="rating positive">
+                                                74%
+                                            </div>
+                                        </div>
+                                        <div class="wrap">
+                                            <div class="added"><em>1 week ago</em></div>
+                                            <div class="views">32 829</div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="item  ">
+                                    <a href="http://www.24videos.tv/videos/3797/model-made-the-acquaintance-of-makeup-artist-and-horny-guy-on-her-first-starring-day/"
+                                       title="Model made the acquaintance of makeup artist and horny guy on her first starring day">
+                                        <div class="img">
+                                            <img class="thumb lazy-load"
+                                                 data-original="http://www.24videos.tv/contents/videos_screenshots/3000/3797/240x180/2.jpg"
+                                                 alt="Model made the acquaintance of makeup artist and horny guy on her first starring day"
+                                                 data-cnt="5" width="240" height="180"/>
+                                            <span class="ico-fav-0 " title="Add to Favourites" data-fav-video-id="3797"
+                                                  data-fav-type="0"></span>
+                                            <span class="ico-fav-1 " title="Watch Later" data-fav-video-id="3797"
+                                                  data-fav-type="1"></span>
+                                        </div>
+                                        <strong class="title">
+                                            Model made the acquaintance of makeup artist and hor...
+                                        </strong>
+                                        <div class="wrap">
+                                            <div class="duration">34m:13s</div>
+
+                                            <div class="rating positive">
+                                                87%
+                                            </div>
+                                        </div>
+                                        <div class="wrap">
+                                            <div class="added"><em>1 week ago</em></div>
+                                            <div class="views">30 050</div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="item  ">
+                                    <a href="http://www.24videos.tv/videos/3781/handsome-boy-having-fun-with-two-elegant-babes-in-threesome-scene/"
+                                       title="Handsome boy having fun with two elegant babes in threesome scene">
+                                        <div class="img">
+                                            <img class="thumb lazy-load"
+                                                 data-original="http://www.24videos.tv/contents/videos_screenshots/3000/3781/240x180/2.jpg"
+                                                 alt="Handsome boy having fun with two elegant babes in threesome scene"
+                                                 data-cnt="5" width="240" height="180"/>
+                                            <span class="ico-fav-0 " title="Add to Favourites" data-fav-video-id="3781"
+                                                  data-fav-type="0"></span>
+                                            <span class="ico-fav-1 " title="Watch Later" data-fav-video-id="3781"
+                                                  data-fav-type="1"></span>
+                                        </div>
+                                        <strong class="title">
+                                            Handsome boy having fun with two elegant babes in th...
+                                        </strong>
+                                        <div class="wrap">
+                                            <div class="duration">23m:57s</div>
+
+                                            <div class="rating positive">
+                                                71%
+                                            </div>
+                                        </div>
+                                        <div class="wrap">
+                                            <div class="added"><em>1 week ago</em></div>
+                                            <div class="views">33 806</div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="item  ">
+                                    <a href="http://www.24videos.tv/videos/3720/guy-doesn-t-puts-aside-his-camera-while-he-fucks-juicy-holes-of-the-girlfriend/"
+                                       title="Guy doesn't puts aside his camera while he fucks juicy holes of the girlfriend">
+                                        <div class="img">
+                                            <img class="thumb lazy-load"
+                                                 data-original="http://www.24videos.tv/contents/videos_screenshots/3000/3720/240x180/2.jpg"
+                                                 alt="Guy doesn't puts aside his camera while he fucks juicy holes of the girlfriend"
+                                                 data-cnt="5" width="240" height="180"/>
+                                            <span class="ico-fav-0 " title="Add to Favourites" data-fav-video-id="3720"
+                                                  data-fav-type="0"></span>
+                                            <span class="ico-fav-1 " title="Watch Later" data-fav-video-id="3720"
+                                                  data-fav-type="1"></span>
+                                        </div>
+                                        <strong class="title">
+                                            Guy doesn't puts aside his camera while he fucks jui...
+                                        </strong>
+                                        <div class="wrap">
+                                            <div class="duration">25m:44s</div>
+
+                                            <div class="rating positive">
+                                                66%
+                                            </div>
+                                        </div>
+                                        <div class="wrap">
+                                            <div class="added"><em>2 weeks ago</em></div>
+                                            <div class="views">38 569</div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="item  ">
+                                    <a href="http://www.24videos.tv/videos/3941/police-officer-blowjobed-by-two-dark-haired-bad-girls-on-the-medow/"
+                                       title="Police officer blowjobed by two dark-haired bad girls on the medow">
+                                        <div class="img">
+                                            <img class="thumb lazy-load"
+                                                 data-original="http://www.24videos.tv/contents/videos_screenshots/3000/3941/240x180/2.jpg"
+                                                 alt="Police officer blowjobed by two dark-haired bad girls on the medow"
+                                                 data-cnt="5" width="240" height="180"/>
+                                            <span class="ico-fav-0 " title="Add to Favourites" data-fav-video-id="3941"
+                                                  data-fav-type="0"></span>
+                                            <span class="ico-fav-1 " title="Watch Later" data-fav-video-id="3941"
+                                                  data-fav-type="1"></span>
+                                        </div>
+                                        <strong class="title">
+                                            Police officer blowjobed by two dark-haired bad girl...
+                                        </strong>
+                                        <div class="wrap">
+                                            <div class="duration">34m:29s</div>
+
+                                            <div class="rating positive">
+                                                77%
+                                            </div>
+                                        </div>
+                                        <div class="wrap">
+                                            <div class="added"><em>2 weeks ago</em></div>
+                                            <div class="views">32 912</div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="item  ">
+                                    <a href="http://www.24videos.tv/videos/3930/hottie-with-sexy-tattoo-on-the-leg-goes-naughty-in-the-dark-staircase/"
+                                       title="Hottie with sexy tattoo on the leg goes naughty in the dark staircase">
+                                        <div class="img">
+                                            <img class="thumb lazy-load"
+                                                 data-original="http://www.24videos.tv/contents/videos_screenshots/3000/3930/240x180/2.jpg"
+                                                 alt="Hottie with sexy tattoo on the leg goes naughty in the dark staircase"
+                                                 data-cnt="5" width="240" height="180"/>
+                                            <span class="ico-fav-0 " title="Add to Favourites" data-fav-video-id="3930"
+                                                  data-fav-type="0"></span>
+                                            <span class="ico-fav-1 " title="Watch Later" data-fav-video-id="3930"
+                                                  data-fav-type="1"></span>
+                                        </div>
+                                        <strong class="title">
+                                            Hottie with sexy tattoo on the leg goes naughty in t...
+                                        </strong>
+                                        <div class="wrap">
+                                            <div class="duration">31m:18s</div>
+
+                                            <div class="rating positive">
+                                                81%
+                                            </div>
+                                        </div>
+                                        <div class="wrap">
+                                            <div class="added"><em>2 weeks ago</em></div>
+                                            <div class="views">32 832</div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="item  ">
+                                    <a href="http://www.24videos.tv/videos/3863/two-exceptional-honeys-with-skinny-bodies-got-fucked-by-lads-in-classic-suits/"
+                                       title="Two exceptional honeys with skinny bodies got fucked by lads in classic suits">
+                                        <div class="img">
+                                            <img class="thumb lazy-load"
+                                                 data-original="http://www.24videos.tv/contents/videos_screenshots/3000/3863/240x180/2.jpg"
+                                                 alt="Two exceptional honeys with skinny bodies got fucked by lads in classic suits"
+                                                 data-cnt="5" width="240" height="180"/>
+                                            <span class="ico-fav-0 " title="Add to Favourites" data-fav-video-id="3863"
+                                                  data-fav-type="0"></span>
+                                            <span class="ico-fav-1 " title="Watch Later" data-fav-video-id="3863"
+                                                  data-fav-type="1"></span>
+                                        </div>
+                                        <strong class="title">
+                                            Two exceptional honeys with skinny bodies got fucked...
+                                        </strong>
+                                        <div class="wrap">
+                                            <div class="duration">21m:19s</div>
+
+                                            <div class="rating positive">
+                                                83%
+                                            </div>
+                                        </div>
+                                        <div class="wrap">
+                                            <div class="added"><em>2 weeks ago</em></div>
+                                            <div class="views">36 185</div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="item  ">
+                                    <a href="http://www.24videos.tv/videos/3689/tanned-hottie-was-interviewed-and-fucked-on-the-same-bed/"
+                                       title="Tanned hottie was interviewed and fucked on the same bed">
+                                        <div class="img">
+                                            <img class="thumb lazy-load"
+                                                 data-original="http://www.24videos.tv/contents/videos_screenshots/3000/3689/240x180/2.jpg"
+                                                 alt="Tanned hottie was interviewed and fucked on the same bed"
+                                                 data-cnt="5" width="240" height="180"/>
+                                            <span class="ico-fav-0 " title="Add to Favourites" data-fav-video-id="3689"
+                                                  data-fav-type="0"></span>
+                                            <span class="ico-fav-1 " title="Watch Later" data-fav-video-id="3689"
+                                                  data-fav-type="1"></span>
+                                        </div>
+                                        <strong class="title">
+                                            Tanned hottie was interviewed and fucked on the same...
+                                        </strong>
+                                        <div class="wrap">
+                                            <div class="duration">49m:58s</div>
+
+                                            <div class="rating positive">
+                                                94%
+                                            </div>
+                                        </div>
+                                        <div class="wrap">
+                                            <div class="added"><em>2 weeks ago</em></div>
+                                            <div class="views">36 236</div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="pagination" id="list_videos_latest_videos_list_pagination">
+                        <div class="pagination-holder">
+                            <ul>
+                                <li class="prev"><span>Back</span></li>
+                                <li class="first"><span>First</span></li>
+                                <li class="jump"><span>...</span></li>
+
+                                <li class="page-current"><span>01</span></li>
+                                <li class="page"><a href="/latest-updates/2/" data-action="ajax"
+                                                    data-container-id="list_videos_latest_videos_list_pagination"
+                                                    data-block-id="list_videos_latest_videos_list"
+                                                    data-parameters="sort_by:post_date;from:02">02</a></li>
+                                <li class="page"><a href="/latest-updates/3/" data-action="ajax"
+                                                    data-container-id="list_videos_latest_videos_list_pagination"
+                                                    data-block-id="list_videos_latest_videos_list"
+                                                    data-parameters="sort_by:post_date;from:03">03</a></li>
+                                <li class="page"><a href="/latest-updates/4/" data-action="ajax"
+                                                    data-container-id="list_videos_latest_videos_list_pagination"
+                                                    data-block-id="list_videos_latest_videos_list"
+                                                    data-parameters="sort_by:post_date;from:04">04</a></li>
+                                <li class="page"><a href="/latest-updates/5/" data-action="ajax"
+                                                    data-container-id="list_videos_latest_videos_list_pagination"
+                                                    data-block-id="list_videos_latest_videos_list"
+                                                    data-parameters="sort_by:post_date;from:05">05</a></li>
+                                <li class="page"><a href="/latest-updates/6/" data-action="ajax"
+                                                    data-container-id="list_videos_latest_videos_list_pagination"
+                                                    data-block-id="list_videos_latest_videos_list"
+                                                    data-parameters="sort_by:post_date;from:06">06</a></li>
+                                <li class="page"><a href="/latest-updates/7/" data-action="ajax"
+                                                    data-container-id="list_videos_latest_videos_list_pagination"
+                                                    data-block-id="list_videos_latest_videos_list"
+                                                    data-parameters="sort_by:post_date;from:07">07</a></li>
+                                <li class="page"><a href="/latest-updates/8/" data-action="ajax"
+                                                    data-container-id="list_videos_latest_videos_list_pagination"
+                                                    data-block-id="list_videos_latest_videos_list"
+                                                    data-parameters="sort_by:post_date;from:08">08</a></li>
+                                <li class="page"><a href="/latest-updates/9/" data-action="ajax"
+                                                    data-container-id="list_videos_latest_videos_list_pagination"
+                                                    data-block-id="list_videos_latest_videos_list"
+                                                    data-parameters="sort_by:post_date;from:09">09</a></li>
+
+                                <li class="jump"><a href="/latest-updates/10/" data-action="ajax"
+                                                    data-container-id="list_videos_latest_videos_list_pagination"
+                                                    data-block-id="list_videos_latest_videos_list"
+                                                    data-parameters="sort_by:post_date;from:10">...</a></li>
+                                <li class="last"><a href="/latest-updates/168/" data-action="ajax"
+                                                    data-container-id="list_videos_latest_videos_list_pagination"
+                                                    data-block-id="list_videos_latest_videos_list"
+                                                    data-parameters="sort_by:post_date;from:168">Last</a></li>
+                                <li class="next"><a href="/latest-updates/2/" data-action="ajax"
+                                                    data-container-id="list_videos_latest_videos_list_pagination"
+                                                    data-block-id="list_videos_latest_videos_list"
+                                                    data-parameters="sort_by:post_date;from:2">Next</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-margin">
+        <div class="content">
+            <noindex>
+                <div class="box bottom-adv">
+
+                </div>
+            </noindex>
+        </div>
     </div>
 </div>
-<div id="wrapper">
-    <!--<div class="container">
-    <div class="alert alert-info"><img src="/templates/frontend/porntrex/img/warning.png"> We are facing a login problem. Please be patient we are working on it.</div>
-    </div>-->
-    <div class="container">
-
-        <div class="well well-filters well-filbg">
-            <div class="hidden-xs">
-                <a href="/videos?t=a" class="btn btn-primary btn-sm active"><i class="fa fa-star"></i> All videos</a>
-                <a href="/videos?t=t" class="btn btn-primary btn-sm "><i class="fa fa-history"></i> Added Today</a>
-                <a href="/videos?t=w" class="btn btn-primary btn-sm "><i class="fa fa-history"></i> Added This Week</a>
-                <a href="/videos?t=m" class="btn btn-primary btn-sm "><i class="fa fa-history"></i> Added This Month</a>
-
-                <div class="btn-group">
-                    <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown"><i
-                            class="fa fa-fire"></i> Most Recent <span class="caret"></span></button>
-                    <ul class="dropdown-menu">
-                        <li><a href="/videos?o=bw">Being Watched</a></li>
-                        <li class="active"><a href="/videos?o=mr">Most Recent</a></li>
-                        <li><a href="/videos?o=mv">Most Viewed</a></li>
-                        <li><a href="/videos?o=md">Most Commented</a></li>
-                        <li><a href="/videos?o=tr">Top Rated</a></li>
-                        <li><a href="/videos?o=tf">Top Favorites</a></li>
-                        <li><a href="/videos?o=lg">Longest</a></li>
-                    </ul>
-                </div>
-                <div class="btn-group">
-                    <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown"><i
-                            class="fa fa-folder-open"></i> Categories <span class="caret"></span></button>
-                    <ul class="dropdown-menu">
-                        <li class="active"><a href="/videos">All</a></li>
-                        <li><a href="/videos/amateur">Amateur</a></li>
-                        <li><a href="/videos/anal">Anal</a></li>
-                        <li><a href="/videos/arab">Arab</a></li>
-                        <li><a href="/videos/asian">Asian</a></li>
-                        <li><a href="/videos/babe">Babe</a></li>
-                        <li><a href="/videos/babysitter">Babysitter</a></li>
-                        <li><a href="/videos/bbw">BBW</a></li>
-                        <li><a href="/videos/big-ass">Big ass</a></li>
-                        <li><a href="/videos/big-tits">Big tits</a></li>
-                        <li><a href="/videos/black">Black</a></li>
-                        <li><a href="/videos/blonde">Blonde</a></li>
-                        <li><a href="/videos/blowjob">Blowjob</a></li>
-                        <li><a href="/videos/bondage">Bondage</a></li>
-                        <li><a href="/videos/brunette">Brunette</a></li>
-                        <li><a href="/videos/bukkake">Bukkake</a></li>
-                        <li><a href="/videos/busty">Busty</a></li>
-                        <li><a href="/videos/casting">Casting</a></li>
-                        <li><a href="/videos/celebrities">Celebrities</a></li>
-                        <li><a href="/videos/college">College</a></li>
-                        <li><a href="/videos/compilation">Compilation</a></li>
-                        <li><a href="/videos/creampie">Creampie</a></li>
-                        <li><a href="/videos/cuckold">Cuckold</a></li>
-                        <li><a href="/videos/cumshots">Cumshots</a></li>
-                        <li><a href="/videos/czech">Czech</a></li>
-                        <li><a href="/videos/deepthroat">Deepthroat</a></li>
-                        <li><a href="/videos/double-penetration">Double Penetration</a></li>
-                        <li><a href="/videos/ebony">Ebony</a></li>
-                        <li><a href="/videos/fantasy">Fantasy</a></li>
-                        <li><a href="/videos/fetish">Fetish</a></li>
-                        <li><a href="/videos/fisting">Fisting</a></li>
-                        <li><a href="/videos/footjob">Footjob</a></li>
-                        <li><a href="/videos/foursome">Foursome</a></li>
-                        <li><a href="/videos/gangbang">Gangbang</a></li>
-                        <li><a href="/videos/gloryhole">Gloryhole</a></li>
-                        <li><a href="/videos/hairy">Hairy</a></li>
-                        <li><a href="/videos/handjob">Handjob</a></li>
-                        <li><a href="/videos/hardcore">Hardcore</a></li>
-                        <li><a href="/videos/hentai">Hentai</a></li>
-                        <li><a href="/videos/homemade">Homemade</a></li>
-                        <li><a href="/videos/hungarian">Hungarian</a></li>
-                        <li><a href="/videos/indian">Indian</a></li>
-                        <li><a href="/videos/interracial">Interracial</a></li>
-                        <li><a href="/videos/japanese">Japanese</a></li>
-                        <li><a href="/videos/latina">Latina</a></li>
-                        <li><a href="/videos/lesbian">Lesbian</a></li>
-                        <li><a href="/videos/massage">Massage</a></li>
-                        <li><a href="/videos/masturbation">Masturbation</a></li>
-                        <li><a href="/videos/mature">Mature</a></li>
-                        <li><a href="/videos/milf">Milf</a></li>
-                        <li><a href="/videos/office">Office</a></li>
-                        <li><a href="/videos/orgy">Orgy</a></li>
-                        <li><a href="/videos/outdoor">Outdoor</a></li>
-                        <li><a href="/videos/petite">Petite</a></li>
-                        <li><a href="/videos/pov">POV</a></li>
-                        <li><a href="/videos/red-head">Red Head</a></li>
-                        <li><a href="/videos/russian">Russian</a></li>
-                        <li><a href="/videos/school-girl">School Girl</a></li>
-                        <li><a href="/videos/solo">Solo</a></li>
-                        <li><a href="/videos/squirt">Squirt</a></li>
-                        <li><a href="/videos/swallow">Swallow</a></li>
-                        <li><a href="/videos/teen">Teen</a></li>
-                        <li><a href="/videos/threesome">Threesome</a></li>
-                        <li><a href="/videos/toys">Toys</a></li>
-                        <li><a href="/videos/vintage">Vintage</a></li>
-                        <li><a href="/videos/virtual-reality">Virtual Reality</a></li>
-                        <li><a href="/videos/webcam">Webcam</a></li>
-                        <li><a href="/videos/wife">Wife</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="visible-xs">
-                <div class="btn-group">
-                    <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown">Filters
-                        <span class="caret"></span></button>
-                    <ul class="dropdown-menu">
-                        <li class="active"><a href="/videos">All</a></li>
-                        <li><a href="/videos?type=public">Public</a></li>
-                        <li><a href="/videos?type=private">Private</a></li>
-                        <li class="divider"></li>
-                        <li class="active"><a href="/videos?t=a">All</a></li>
-                        <li><a href="/videos?t=t">Added Today</a></li>
-                        <li><a href="/videos?t=w">Added This Week</a></li>
-                        <li><a href="/\'videos strip=\'t\' value=\'m">Added This Month</a></li>
-                        <li class="divider"></li>
-                        <li><a href="/videos?o=bw">Being Watched</a></li>
-                        <li class="active"><a href="/videos?o=mr">Most Recent</a></li>
-                        <li><a href="/videos?o=mv">Most Viewed</a></li>
-                        <li><a href="/videos?o=md">Most Commented</a></li>
-                        <li><a href="/videos?o=tr">Top Rated</a></li>
-                        <li><a href="/videos?o=tf">Top Favorites</a></li>
-                        <li><a href="/videos?o=lg">Longest</a></li>
-                    </ul>
-                </div>
-                <div class="btn-group">
-                    <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown">
-                        Categories <span class="caret"></span></button>
-                    <ul class="dropdown-menu">
-                        <li class="active"><a href="/videos">All</a></li>
-                        <li><a href="/videos/amateur">Amateur</a></li>
-                        <li><a href="/videos/anal">Anal</a></li>
-                        <li><a href="/videos/arab">Arab</a></li>
-                        <li><a href="/videos/asian">Asian</a></li>
-                        <li><a href="/videos/babe">Babe</a></li>
-                        <li><a href="/videos/babysitter">Babysitter</a></li>
-                        <li><a href="/videos/bbw">BBW</a></li>
-                        <li><a href="/videos/big-ass">Big ass</a></li>
-                        <li><a href="/videos/big-tits">Big tits</a></li>
-                        <li><a href="/videos/black">Black</a></li>
-                        <li><a href="/videos/blonde">Blonde</a></li>
-                        <li><a href="/videos/blowjob">Blowjob</a></li>
-                        <li><a href="/videos/bondage">Bondage</a></li>
-                        <li><a href="/videos/brunette">Brunette</a></li>
-                        <li><a href="/videos/bukkake">Bukkake</a></li>
-                        <li><a href="/videos/busty">Busty</a></li>
-                        <li><a href="/videos/casting">Casting</a></li>
-                        <li><a href="/videos/celebrities">Celebrities</a></li>
-                        <li><a href="/videos/college">College</a></li>
-                        <li><a href="/videos/compilation">Compilation</a></li>
-                        <li><a href="/videos/creampie">Creampie</a></li>
-                        <li><a href="/videos/cuckold">Cuckold</a></li>
-                        <li><a href="/videos/cumshots">Cumshots</a></li>
-                        <li><a href="/videos/czech">Czech</a></li>
-                        <li><a href="/videos/deepthroat">Deepthroat</a></li>
-                        <li><a href="/videos/double-penetration">Double Penetration</a></li>
-                        <li><a href="/videos/ebony">Ebony</a></li>
-                        <li><a href="/videos/fantasy">Fantasy</a></li>
-                        <li><a href="/videos/fetish">Fetish</a></li>
-                        <li><a href="/videos/fisting">Fisting</a></li>
-                        <li><a href="/videos/footjob">Footjob</a></li>
-                        <li><a href="/videos/foursome">Foursome</a></li>
-                        <li><a href="/videos/gangbang">Gangbang</a></li>
-                        <li><a href="/videos/gloryhole">Gloryhole</a></li>
-                        <li><a href="/videos/hairy">Hairy</a></li>
-                        <li><a href="/videos/handjob">Handjob</a></li>
-                        <li><a href="/videos/hardcore">Hardcore</a></li>
-                        <li><a href="/videos/hentai">Hentai</a></li>
-                        <li><a href="/videos/homemade">Homemade</a></li>
-                        <li><a href="/videos/hungarian">Hungarian</a></li>
-                        <li><a href="/videos/indian">Indian</a></li>
-                        <li><a href="/videos/interracial">Interracial</a></li>
-                        <li><a href="/videos/japanese">Japanese</a></li>
-                        <li><a href="/videos/latina">Latina</a></li>
-                        <li><a href="/videos/lesbian">Lesbian</a></li>
-                        <li><a href="/videos/massage">Massage</a></li>
-                        <li><a href="/videos/masturbation">Masturbation</a></li>
-                        <li><a href="/videos/mature">Mature</a></li>
-                        <li><a href="/videos/milf">Milf</a></li>
-                        <li><a href="/videos/office">Office</a></li>
-                        <li><a href="/videos/orgy">Orgy</a></li>
-                        <li><a href="/videos/outdoor">Outdoor</a></li>
-                        <li><a href="/videos/petite">Petite</a></li>
-                        <li><a href="/videos/pov">POV</a></li>
-                        <li><a href="/videos/red-head">Red Head</a></li>
-                        <li><a href="/videos/russian">Russian</a></li>
-                        <li><a href="/videos/school-girl">School Girl</a></li>
-                        <li><a href="/videos/solo">Solo</a></li>
-                        <li><a href="/videos/squirt">Squirt</a></li>
-                        <li><a href="/videos/swallow">Swallow</a></li>
-                        <li><a href="/videos/teen">Teen</a></li>
-                        <li><a href="/videos/threesome">Threesome</a></li>
-                        <li><a href="/videos/toys">Toys</a></li>
-                        <li><a href="/videos/vintage">Vintage</a></li>
-                        <li><a href="/videos/virtual-reality">Virtual Reality</a></li>
-                        <li><a href="/videos/webcam">Webcam</a></li>
-                        <li><a href="/videos/wife">Wife</a></li>
-                    </ul>
-                </div>
-
-            </div>
-            <div class="clearfix"></div>
+<div class="footer">
+    <div class="footer-wrap">
+        <ul class="nav">
+            <li><a href="http://www.24videos.tv/">Home</a></li>
+            <li><a data-href="http://www.24videos.tv/signup/" data-fancybox="ajax">Sign up</a></li>
+            <li><a data-href="http://www.24videos.tv/login/" data-fancybox="ajax">Log in</a></li>
+            <li><a data-href="http://www.24videos.tv/invite/" data-fancybox="ajax">Invite a Friend</a></li>
+            <li><a data-href="http://www.24videos.tv/feedback/" data-fancybox="ajax">Support</a></li>
+            <li><a href="http://www.24videos.tv/terms/">Terms</a></li>
+            <li><a href="http://www.24videos.tv/dmca/">DMCA</a></li>
+        </ul>
+        <div class="copyright">
+            2015-2017 <a href="http://www.24videos.tv">24videos.tv</a><br/>
+            All rights reserved.
         </div>
-
-        <div class="row">
-            <div class="col-sm-12">
-
-                <div class="row">
-                    <div class="col-sm-4 col-md-3 col-lg-3">
-                        <div class="well wellov well-sm" style="border: 1px solid rgb(130, 163, 187) ! important;">
-                            <a href="/video/63649/atk-galleria-sierra-nicole-toys">
-                                <div class="thumb-overlay" id="playvideo_63649">
-                                    <div class="hidden-xs">
-                                        <img src="/templates/frontend/porntrex/img/blank.gif"
-                                             data-original="http://www.porntrex.com/media/videos/tmb1/63649/thumb.jpg"
-                                             title="ATK Galleria - Sierra Nicole Toys"
-                                             alt="ATK Galleria - Sierra Nicole Toys" class="img-responsive lazy"/>
-                                        <div class="hd-text-icon">HD</div>
-                                        <div class="viewsthumb">
-                                            2 views
-                                        </div>
-                                        <div class="duration">
-                                            <i class="fa fa-clock-o"></i>
-                                            15:25
-                                        </div>
-                                    </div>
-                                    <div class="visible-xs">
-                                        <img src="/templates/frontend/porntrex/img/blank.gif"
-                                             data-original="http://www.porntrex.com/media/videos/tmb1/63649/thumb.jpg"
-                                             title="ATK Galleria - Sierra Nicole Toys"
-                                             alt="ATK Galleria - Sierra Nicole Toys" class="img-responsive lazy"/>
-                                        <div class="hd-text-icon">HD</div>
-                                        <div class="viewsthumb">
-                                            2 views
-                                        </div>
-                                        <div class="duration">
-                                            <i class="fa fa-clock-o"></i>
-                                            15:25
-                                        </div>
-                                    </div>
-                                </div>
-                                <span class="video-title title-truncate m-t-5">ATK Galleria - Sierra Nicole Toys</span>
-                            </a>
-                            <div class="clearfix"></div>
-
-                        </div>
-                    </div>
-                    <div class="col-sm-4 col-md-3 col-lg-3">
-                        <div class="well wellov well-sm" style="border: 1px solid rgb(130, 163, 187) ! important;">
-                            <a href="/video/63648/yenna-black-cheating-wifes-creampie-fuck">
-                                <div class="thumb-overlay" id="playvideo_63648">
-                                    <div class="hidden-xs">
-                                        <img src="/templates/frontend/porntrex/img/blank.gif"
-                                             data-original="http://www.porntrex.com/media/videos/tmb1/63648/thumb.jpg"
-                                             title="Yenna Black - Cheating Wifes Creampie Fuck"
-                                             alt="Yenna Black - Cheating Wifes Creampie Fuck"
-                                             class="img-responsive lazy"/>
-                                        <div class="hd-text-icon">HD</div>
-                                        <div class="viewsthumb">
-                                            39 views
-                                        </div>
-                                        <div class="duration">
-                                            <i class="fa fa-clock-o"></i>
-                                            18:48
-                                        </div>
-                                    </div>
-                                    <div class="visible-xs">
-                                        <img src="/templates/frontend/porntrex/img/blank.gif"
-                                             data-original="http://www.porntrex.com/media/videos/tmb1/63648/thumb.jpg"
-                                             title="Yenna Black - Cheating Wifes Creampie Fuck"
-                                             alt="Yenna Black - Cheating Wifes Creampie Fuck"
-                                             class="img-responsive lazy"/>
-                                        <div class="hd-text-icon">HD</div>
-                                        <div class="viewsthumb">
-                                            39 views
-                                        </div>
-                                        <div class="duration">
-                                            <i class="fa fa-clock-o"></i>
-                                            18:48
-                                        </div>
-                                    </div>
-                                </div>
-                                <span class="video-title title-truncate m-t-5">Yenna Black - Cheating Wifes Creampie Fuck</span>
-                            </a>
-                            <div class="clearfix"></div>
-
-                        </div>
-                    </div>
-                    <div class="col-sm-4 col-md-3 col-lg-3">
-                        <div class="well wellov well-sm" style="border: 1px solid rgb(130, 163, 187) ! important;">
-                            <a href="/video/63647/atk-galleria-kendra-heart-toys-2">
-                                <div class="thumb-overlay" id="playvideo_63647">
-                                    <div class="hidden-xs">
-                                        <img src="/templates/frontend/porntrex/img/blank.gif"
-                                             data-original="http://www.porntrex.com/media/videos/tmb1/63647/thumb.jpg"
-                                             title="ATK Galleria - Kendra Heart Toys 2"
-                                             alt="ATK Galleria - Kendra Heart Toys 2" class="img-responsive lazy"/>
-                                        <div class="hd-text-icon">HD</div>
-                                        <div class="viewsthumb">
-                                            17 views
-                                        </div>
-                                        <div class="duration">
-                                            <i class="fa fa-clock-o"></i>
-                                            16:18
-                                        </div>
-                                    </div>
-                                    <div class="visible-xs">
-                                        <img src="/templates/frontend/porntrex/img/blank.gif"
-                                             data-original="http://www.porntrex.com/media/videos/tmb1/63647/thumb.jpg"
-                                             title="ATK Galleria - Kendra Heart Toys 2"
-                                             alt="ATK Galleria - Kendra Heart Toys 2" class="img-responsive lazy"/>
-                                        <div class="hd-text-icon">HD</div>
-                                        <div class="viewsthumb">
-                                            17 views
-                                        </div>
-                                        <div class="duration">
-                                            <i class="fa fa-clock-o"></i>
-                                            16:18
-                                        </div>
-                                    </div>
-                                </div>
-                                <span class="video-title title-truncate m-t-5">ATK Galleria - Kendra Heart Toys 2</span>
-                            </a>
-                            <div class="clearfix"></div>
-
-                        </div>
-                    </div>
-                    <div class="col-sm-4 col-md-3 col-lg-3">
-                        <div class="well wellov well-sm" style="border: 1px solid rgb(130, 163, 187) ! important;">
-                            <a href="/video/63646/ihaveawife-moka-mora">
-                                <div class="thumb-overlay" id="playvideo_63646">
-                                    <div class="hidden-xs">
-                                        <img src="/templates/frontend/porntrex/img/blank.gif"
-                                             data-original="http://www.porntrex.com/media/videos/tmb1/63646/thumb.jpg"
-                                             title="IHaveAWife – Moka Mora" alt="IHaveAWife – Moka Mora"
-                                             class="img-responsive lazy"/>
-                                        <div class="hd-text-icon">HD</div>
-                                        <div class="viewsthumb">
-                                            107 views
-                                        </div>
-                                        <div class="duration">
-                                            <i class="fa fa-clock-o"></i>
-                                            35:29
-                                        </div>
-                                    </div>
-                                    <div class="visible-xs">
-                                        <img src="/templates/frontend/porntrex/img/blank.gif"
-                                             data-original="http://www.porntrex.com/media/videos/tmb1/63646/thumb.jpg"
-                                             title="IHaveAWife – Moka Mora" alt="IHaveAWife – Moka Mora"
-                                             class="img-responsive lazy"/>
-                                        <div class="hd-text-icon">HD</div>
-                                        <div class="viewsthumb">
-                                            107 views
-                                        </div>
-                                        <div class="duration">
-                                            <i class="fa fa-clock-o"></i>
-                                            35:29
-                                        </div>
-                                    </div>
-                                </div>
-                                <span class="video-title title-truncate m-t-5">IHaveAWife – Moka Mora</span>
-                            </a>
-                            <div class="clearfix"></div>
-
-                        </div>
-                    </div>
-                    <div class="col-sm-4 col-md-3 col-lg-3">
-                        <div class="well wellov well-sm" style="border: 1px solid rgb(130, 163, 187) ! important;">
-                            <a href="/video/63645/analteenclub-watch-her-fingering">
-                                <div class="thumb-overlay" id="playvideo_63645">
-                                    <div class="hidden-xs">
-                                        <img src="/templates/frontend/porntrex/img/blank.gif"
-                                             data-original="http://www.porntrex.com/media/videos/tmb1/63645/thumb.jpg"
-                                             title="AnalTeenClub - Watch Her Fingering"
-                                             alt="AnalTeenClub - Watch Her Fingering" class="img-responsive lazy"/>
-                                        <div class="hd-text-icon">HD</div>
-                                        <div class="viewsthumb">
-                                            38 views
-                                        </div>
-                                        <div class="duration">
-                                            <i class="fa fa-clock-o"></i>
-                                            21:15
-                                        </div>
-                                    </div>
-                                    <div class="visible-xs">
-                                        <img src="/templates/frontend/porntrex/img/blank.gif"
-                                             data-original="http://www.porntrex.com/media/videos/tmb1/63645/thumb.jpg"
-                                             title="AnalTeenClub - Watch Her Fingering"
-                                             alt="AnalTeenClub - Watch Her Fingering" class="img-responsive lazy"/>
-                                        <div class="hd-text-icon">HD</div>
-                                        <div class="viewsthumb">
-                                            38 views
-                                        </div>
-                                        <div class="duration">
-                                            <i class="fa fa-clock-o"></i>
-                                            21:15
-                                        </div>
-                                    </div>
-                                </div>
-                                <span class="video-title title-truncate m-t-5">AnalTeenClub - Watch Her Fingering</span>
-                            </a>
-                            <div class="clearfix"></div>
-
-                        </div>
-                    </div>
-                    <div class="col-sm-4 col-md-3 col-lg-3">
-                        <div class="well wellov well-sm" style="border: 1px solid rgb(130, 163, 187) ! important;">
-                            <a href="/video/63644/sisters-in-heat">
-                                <div class="thumb-overlay" id="playvideo_63644">
-                                    <div class="hidden-xs">
-                                        <img src="/templates/frontend/porntrex/img/blank.gif"
-                                             data-original="http://www.porntrex.com/media/videos/tmb1/63644/thumb.jpg"
-                                             title="Sisters in Heat" alt="Sisters in Heat" class="img-responsive lazy"/>
-                                        <div class="hd-text-icon">HD</div>
-                                        <div class="viewsthumb">
-                                            112 views
-                                        </div>
-                                        <div class="duration">
-                                            <i class="fa fa-clock-o"></i>
-                                            23:27
-                                        </div>
-                                    </div>
-                                    <div class="visible-xs">
-                                        <img src="/templates/frontend/porntrex/img/blank.gif"
-                                             data-original="http://www.porntrex.com/media/videos/tmb1/63644/thumb.jpg"
-                                             title="Sisters in Heat" alt="Sisters in Heat" class="img-responsive lazy"/>
-                                        <div class="hd-text-icon">HD</div>
-                                        <div class="viewsthumb">
-                                            112 views
-                                        </div>
-                                        <div class="duration">
-                                            <i class="fa fa-clock-o"></i>
-                                            23:27
-                                        </div>
-                                    </div>
-                                </div>
-                                <span class="video-title title-truncate m-t-5">Sisters in Heat</span>
-                            </a>
-                            <div class="clearfix"></div>
-
-                        </div>
-                    </div>
-                    <div class="col-sm-4 col-md-3 col-lg-3">
-                        <div class="well wellov well-sm" style="border: 1px solid rgb(130, 163, 187) ! important;">
-                            <a href="/video/63643/gina-devine-give-me-a-ride-i-ll-give-you-one-too">
-                                <div class="thumb-overlay" id="playvideo_63643">
-                                    <div class="hidden-xs">
-                                        <img src="/templates/frontend/porntrex/img/blank.gif"
-                                             data-original="http://www.porntrex.com/media/videos/tmb1/63643/thumb.jpg"
-                                             title="Gina Devine - Give Me a Ride, I’ll Give You One Too"
-                                             alt="Gina Devine - Give Me a Ride, I’ll Give You One Too"
-                                             class="img-responsive lazy"/>
-                                        <div class="hd-text-icon">HD</div>
-                                        <div class="viewsthumb">
-                                            75 views
-                                        </div>
-                                        <div class="duration">
-                                            <i class="fa fa-clock-o"></i>
-                                            24:26
-                                        </div>
-                                    </div>
-                                    <div class="visible-xs">
-                                        <img src="/templates/frontend/porntrex/img/blank.gif"
-                                             data-original="http://www.porntrex.com/media/videos/tmb1/63643/thumb.jpg"
-                                             title="Gina Devine - Give Me a Ride, I’ll Give You One Too"
-                                             alt="Gina Devine - Give Me a Ride, I’ll Give You One Too"
-                                             class="img-responsive lazy"/>
-                                        <div class="hd-text-icon">HD</div>
-                                        <div class="viewsthumb">
-                                            75 views
-                                        </div>
-                                        <div class="duration">
-                                            <i class="fa fa-clock-o"></i>
-                                            24:26
-                                        </div>
-                                    </div>
-                                </div>
-                                <span class="video-title title-truncate m-t-5">Gina Devine - Give Me a Ride, I’ll Give You One Too</span>
-                            </a>
-                            <div class="clearfix"></div>
-
-                        </div>
-                    </div>
-                    <div class="col-sm-4 col-md-3 col-lg-3">
-                        <div class="well wellov well-sm" style="border: 1px solid rgb(130, 163, 187) ! important;">
-                            <a href="/video/63642/czech-massage-323">
-                                <div class="thumb-overlay" id="playvideo_63642">
-                                    <div class="hidden-xs">
-                                        <img src="/templates/frontend/porntrex/img/blank.gif"
-                                             data-original="http://www.porntrex.com/media/videos/tmb1/63642/thumb.jpg"
-                                             title="Czech Massage 323" alt="Czech Massage 323"
-                                             class="img-responsive lazy"/>
-                                        <div class="hd-text-icon">HD</div>
-                                        <div class="viewsthumb">
-                                            126 views
-                                        </div>
-                                        <div class="duration">
-                                            <i class="fa fa-clock-o"></i>
-                                            19:24
-                                        </div>
-                                    </div>
-                                    <div class="visible-xs">
-                                        <img src="/templates/frontend/porntrex/img/blank.gif"
-                                             data-original="http://www.porntrex.com/media/videos/tmb1/63642/thumb.jpg"
-                                             title="Czech Massage 323" alt="Czech Massage 323"
-                                             class="img-responsive lazy"/>
-                                        <div class="hd-text-icon">HD</div>
-                                        <div class="viewsthumb">
-                                            126 views
-                                        </div>
-                                        <div class="duration">
-                                            <i class="fa fa-clock-o"></i>
-                                            19:24
-                                        </div>
-                                    </div>
-                                </div>
-                                <span class="video-title title-truncate m-t-5">Czech Massage 323</span>
-                            </a>
-                            <div class="clearfix"></div>
-
-                        </div>
-                    </div>
-                    <div class="col-sm-4 col-md-3 col-lg-3">
-                        <div class="well wellov well-sm" style="border: 1px solid rgb(130, 163, 187) ! important;">
-                            <a href="/video/63641/cosmid-chloe-parsa-chloes-washing-cars">
-                                <div class="thumb-overlay" id="playvideo_63641">
-                                    <div class="hidden-xs">
-                                        <img src="/templates/frontend/porntrex/img/blank.gif"
-                                             data-original="http://www.porntrex.com/media/videos/tmb1/63641/thumb.jpg"
-                                             title="Cosmid - Chloe Parsa Chloes Washing Cars"
-                                             alt="Cosmid - Chloe Parsa Chloes Washing Cars"
-                                             class="img-responsive lazy"/>
-                                        <div class="hd-text-icon">HD</div>
-                                        <div class="viewsthumb">
-                                            47 views
-                                        </div>
-                                        <div class="duration">
-                                            <i class="fa fa-clock-o"></i>
-                                            07:10
-                                        </div>
-                                    </div>
-                                    <div class="visible-xs">
-                                        <img src="/templates/frontend/porntrex/img/blank.gif"
-                                             data-original="http://www.porntrex.com/media/videos/tmb1/63641/thumb.jpg"
-                                             title="Cosmid - Chloe Parsa Chloes Washing Cars"
-                                             alt="Cosmid - Chloe Parsa Chloes Washing Cars"
-                                             class="img-responsive lazy"/>
-                                        <div class="hd-text-icon">HD</div>
-                                        <div class="viewsthumb">
-                                            47 views
-                                        </div>
-                                        <div class="duration">
-                                            <i class="fa fa-clock-o"></i>
-                                            07:10
-                                        </div>
-                                    </div>
-                                </div>
-                                <span class="video-title title-truncate m-t-5">Cosmid - Chloe Parsa Chloes Washing Cars</span>
-                            </a>
-                            <div class="clearfix"></div>
-
-                        </div>
-                    </div>
-                    <div class="col-sm-4 col-md-3 col-lg-3">
-                        <div class="well wellov well-sm" style="border: 1px solid rgb(130, 163, 187) ! important;">
-                            <a href="/video/63640/1by-day-day-alana-moon">
-                                <div class="thumb-overlay" id="playvideo_63640">
-                                    <div class="hidden-xs">
-                                        <img src="/templates/frontend/porntrex/img/blank.gif"
-                                             data-original="http://www.porntrex.com/media/videos/tmb1/63640/thumb.jpg"
-                                             title="1By-Day - Day Alana Moon" alt="1By-Day - Day Alana Moon"
-                                             class="img-responsive lazy"/>
-                                        <div class="hd-text-icon">HD</div>
-                                        <div class="viewsthumb">
-                                            34 views
-                                        </div>
-                                        <div class="duration">
-                                            <i class="fa fa-clock-o"></i>
-                                            17:09
-                                        </div>
-                                    </div>
-                                    <div class="visible-xs">
-                                        <img src="/templates/frontend/porntrex/img/blank.gif"
-                                             data-original="http://www.porntrex.com/media/videos/tmb1/63640/thumb.jpg"
-                                             title="1By-Day - Day Alana Moon" alt="1By-Day - Day Alana Moon"
-                                             class="img-responsive lazy"/>
-                                        <div class="hd-text-icon">HD</div>
-                                        <div class="viewsthumb">
-                                            34 views
-                                        </div>
-                                        <div class="duration">
-                                            <i class="fa fa-clock-o"></i>
-                                            17:09
-                                        </div>
-                                    </div>
-                                </div>
-                                <span class="video-title title-truncate m-t-5">1By-Day - Day Alana Moon</span>
-                            </a>
-                            <div class="clearfix"></div>
-
-                        </div>
-                    </div>
-                    <div class="col-sm-4 col-md-3 col-lg-3">
-                        <div class="well wellov well-sm" style="border: 1px solid rgb(130, 163, 187) ! important;">
-                            <a href="/video/63639/slutty-girl-swallow-a-hot-sticky-load-of-cum">
-                                <div class="thumb-overlay" id="playvideo_63639">
-                                    <div class="hidden-xs">
-                                        <img src="/templates/frontend/porntrex/img/blank.gif"
-                                             data-original="http://www.porntrex.com/media/videos/tmb1/63639/thumb.jpg"
-                                             title="Slutty Girl Swallow A Hot Sticky Load Of Cum"
-                                             alt="Slutty Girl Swallow A Hot Sticky Load Of Cum"
-                                             class="img-responsive lazy"/>
-                                        <div class="viewsthumb">
-                                            21 views
-                                        </div>
-                                        <div class="duration">
-                                            <i class="fa fa-clock-o"></i>
-                                            10:00
-                                        </div>
-                                    </div>
-                                    <div class="visible-xs">
-                                        <img src="/templates/frontend/porntrex/img/blank.gif"
-                                             data-original="http://www.porntrex.com/media/videos/tmb1/63639/thumb.jpg"
-                                             title="Slutty Girl Swallow A Hot Sticky Load Of Cum"
-                                             alt="Slutty Girl Swallow A Hot Sticky Load Of Cum"
-                                             class="img-responsive lazy"/>
-                                        <div class="viewsthumb">
-                                            21 views
-                                        </div>
-                                        <div class="duration">
-                                            <i class="fa fa-clock-o"></i>
-                                            10:00
-                                        </div>
-                                    </div>
-                                </div>
-                                <span class="video-title title-truncate m-t-5">Slutty Girl Swallow A Hot Sticky Load Of Cum</span>
-                            </a>
-                            <div class="clearfix"></div>
-
-                        </div>
-                    </div>
-                    <div class="col-sm-4 col-md-3 col-lg-3">
-                        <div class="well wellov well-sm" style="border: 1px solid rgb(130, 163, 187) ! important;">
-                            <a href="/video/63638/bigtitsatwork-romi-rain-anal-audit">
-                                <div class="thumb-overlay" id="playvideo_63638">
-                                    <div class="hidden-xs">
-                                        <img src="/templates/frontend/porntrex/img/blank.gif"
-                                             data-original="http://www.porntrex.com/media/videos/tmb1/63638/thumb.jpg"
-                                             title="BigTitsAtWork – Romi Rain – Anal Audit"
-                                             alt="BigTitsAtWork – Romi Rain – Anal Audit" class="img-responsive lazy"/>
-                                        <div class="hd-text-icon">HD</div>
-                                        <div class="viewsthumb">
-                                            312 views
-                                        </div>
-                                        <div class="duration">
-                                            <i class="fa fa-clock-o"></i>
-                                            34:13
-                                        </div>
-                                    </div>
-                                    <div class="visible-xs">
-                                        <img src="/templates/frontend/porntrex/img/blank.gif"
-                                             data-original="http://www.porntrex.com/media/videos/tmb1/63638/thumb.jpg"
-                                             title="BigTitsAtWork – Romi Rain – Anal Audit"
-                                             alt="BigTitsAtWork – Romi Rain – Anal Audit" class="img-responsive lazy"/>
-                                        <div class="hd-text-icon">HD</div>
-                                        <div class="viewsthumb">
-                                            312 views
-                                        </div>
-                                        <div class="duration">
-                                            <i class="fa fa-clock-o"></i>
-                                            34:13
-                                        </div>
-                                    </div>
-                                </div>
-                                <span class="video-title title-truncate m-t-5">BigTitsAtWork – Romi Rain – Anal Audit</span>
-                            </a>
-                            <div class="clearfix"></div>
-
-                        </div>
-                    </div>
-                    <div class="col-sm-4 col-md-3 col-lg-3">
-                        <div class="well wellov well-sm" style="border: 1px solid rgb(130, 163, 187) ! important;">
-                            <a href="/video/63637/bigtitsatschool-brandi-love-desperate-for-v-day-dick">
-                                <div class="thumb-overlay" id="playvideo_63637">
-                                    <div class="hidden-xs">
-                                        <img src="/templates/frontend/porntrex/img/blank.gif"
-                                             data-original="http://www.porntrex.com/media/videos/tmb1/63637/thumb.jpg"
-                                             title="BigTitsAtSchool – Brandi Love – Desperate For V-Day Dick"
-                                             alt="BigTitsAtSchool – Brandi Love – Desperate For V-Day Dick"
-                                             class="img-responsive lazy"/>
-                                        <div class="hd-text-icon">HD</div>
-                                        <div class="viewsthumb">
-                                            288 views
-                                        </div>
-                                        <div class="duration">
-                                            <i class="fa fa-clock-o"></i>
-                                            28:53
-                                        </div>
-                                    </div>
-                                    <div class="visible-xs">
-                                        <img src="/templates/frontend/porntrex/img/blank.gif"
-                                             data-original="http://www.porntrex.com/media/videos/tmb1/63637/thumb.jpg"
-                                             title="BigTitsAtSchool – Brandi Love – Desperate For V-Day Dick"
-                                             alt="BigTitsAtSchool – Brandi Love – Desperate For V-Day Dick"
-                                             class="img-responsive lazy"/>
-                                        <div class="hd-text-icon">HD</div>
-                                        <div class="viewsthumb">
-                                            288 views
-                                        </div>
-                                        <div class="duration">
-                                            <i class="fa fa-clock-o"></i>
-                                            28:53
-                                        </div>
-                                    </div>
-                                </div>
-                                <span class="video-title title-truncate m-t-5">BigTitsAtSchool – Brandi Love – Desperate For V-Day Dick</span>
-                            </a>
-                            <div class="clearfix"></div>
-
-                        </div>
-                    </div>
-                    <div class="col-sm-4 col-md-3 col-lg-3">
-                        <div class="well wellov well-sm" style="border: 1px solid rgb(130, 163, 187) ! important;">
-                            <a href="/video/63636/frida-sante-latin-lover-curvy-maid-with-perfect-tits-rides-big-cock">
-                                <div class="thumb-overlay" id="playvideo_63636">
-                                    <div class="hidden-xs">
-                                        <img src="/templates/frontend/porntrex/img/blank.gif"
-                                             data-original="http://www.porntrex.com/media/videos/tmb1/63636/thumb.jpg"
-                                             title="Frida Sante - Latin Lover Curvy Maid With Perfect Tits Rides Big Cock"
-                                             alt="Frida Sante - Latin Lover Curvy Maid With Perfect Tits Rides Big Cock"
-                                             class="img-responsive lazy"/>
-                                        <div class="hd-text-icon">HD</div>
-                                        <div class="viewsthumb">
-                                            119 views
-                                        </div>
-                                        <div class="duration">
-                                            <i class="fa fa-clock-o"></i>
-                                            26:24
-                                        </div>
-                                    </div>
-                                    <div class="visible-xs">
-                                        <img src="/templates/frontend/porntrex/img/blank.gif"
-                                             data-original="http://www.porntrex.com/media/videos/tmb1/63636/thumb.jpg"
-                                             title="Frida Sante - Latin Lover Curvy Maid With Perfect Tits Rides Big Cock"
-                                             alt="Frida Sante - Latin Lover Curvy Maid With Perfect Tits Rides Big Cock"
-                                             class="img-responsive lazy"/>
-                                        <div class="hd-text-icon">HD</div>
-                                        <div class="viewsthumb">
-                                            119 views
-                                        </div>
-                                        <div class="duration">
-                                            <i class="fa fa-clock-o"></i>
-                                            26:24
-                                        </div>
-                                    </div>
-                                </div>
-                                <span class="video-title title-truncate m-t-5">Frida Sante - Latin Lover Curvy Maid With Perfect Tits Rides Big Cock</span>
-                            </a>
-                            <div class="clearfix"></div>
-
-                        </div>
-                    </div>
-                    <div class="col-sm-4 col-md-3 col-lg-3">
-                        <div class="well wellov well-sm" style="border: 1px solid rgb(130, 163, 187) ! important;">
-                            <a href="/video/63634/beautiful-brunette-babe-ride-a-hard-cock">
-                                <div class="thumb-overlay" id="playvideo_63634">
-                                    <div class="hidden-xs">
-                                        <img src="/templates/frontend/porntrex/img/blank.gif"
-                                             data-original="http://www.porntrex.com/media/videos/tmb1/63634/thumb.jpg"
-                                             title="Beautiful Brunette Babe Ride A Hard Cock"
-                                             alt="Beautiful Brunette Babe Ride A Hard Cock"
-                                             class="img-responsive lazy"/>
-                                        <div class="viewsthumb">
-                                            34 views
-                                        </div>
-                                        <div class="duration">
-                                            <i class="fa fa-clock-o"></i>
-                                            10:00
-                                        </div>
-                                    </div>
-                                    <div class="visible-xs">
-                                        <img src="/templates/frontend/porntrex/img/blank.gif"
-                                             data-original="http://www.porntrex.com/media/videos/tmb1/63634/thumb.jpg"
-                                             title="Beautiful Brunette Babe Ride A Hard Cock"
-                                             alt="Beautiful Brunette Babe Ride A Hard Cock"
-                                             class="img-responsive lazy"/>
-                                        <div class="viewsthumb">
-                                            34 views
-                                        </div>
-                                        <div class="duration">
-                                            <i class="fa fa-clock-o"></i>
-                                            10:00
-                                        </div>
-                                    </div>
-                                </div>
-                                <span class="video-title title-truncate m-t-5">Beautiful Brunette Babe Ride A Hard Cock</span>
-                            </a>
-                            <div class="clearfix"></div>
-
-                        </div>
-                    </div>
-                    <div class="col-sm-4 col-md-3 col-lg-3">
-                        <div class="well wellov well-sm" style="border: 1px solid rgb(130, 163, 187) ! important;">
-                            <a href="/video/63633/tory-lane-you-think-you-can-psp-me-prove-it">
-                                <div class="thumb-overlay" id="playvideo_63633">
-                                    <div class="hidden-xs">
-                                        <img src="/templates/frontend/porntrex/img/blank.gif"
-                                             data-original="http://www.porntrex.com/media/videos/tmb1/63633/thumb.jpg"
-                                             title="Tory Lane - You Think You Can PSP, Me Prove It!"
-                                             alt="Tory Lane - You Think You Can PSP, Me Prove It!"
-                                             class="img-responsive lazy"/>
-                                        <div class="hd-text-icon">HD</div>
-                                        <div class="viewsthumb">
-                                            153 views
-                                        </div>
-                                        <div class="duration">
-                                            <i class="fa fa-clock-o"></i>
-                                            20:39
-                                        </div>
-                                    </div>
-                                    <div class="visible-xs">
-                                        <img src="/templates/frontend/porntrex/img/blank.gif"
-                                             data-original="http://www.porntrex.com/media/videos/tmb1/63633/thumb.jpg"
-                                             title="Tory Lane - You Think You Can PSP, Me Prove It!"
-                                             alt="Tory Lane - You Think You Can PSP, Me Prove It!"
-                                             class="img-responsive lazy"/>
-                                        <div class="hd-text-icon">HD</div>
-                                        <div class="viewsthumb">
-                                            153 views
-                                        </div>
-                                        <div class="duration">
-                                            <i class="fa fa-clock-o"></i>
-                                            20:39
-                                        </div>
-                                    </div>
-                                </div>
-                                <span class="video-title title-truncate m-t-5">Tory Lane - You Think You Can PSP, Me Prove It!</span>
-                            </a>
-                            <div class="clearfix"></div>
-
-                        </div>
-                    </div>
-                    <div class="col-sm-4 col-md-3 col-lg-3">
-                        <div class="well wellov well-sm" style="border: 1px solid rgb(130, 163, 187) ! important;">
-                            <a href="/video/63632/tory-lane-banned-in-boston">
-                                <div class="thumb-overlay" id="playvideo_63632">
-                                    <div class="hidden-xs">
-                                        <img src="/templates/frontend/porntrex/img/blank.gif"
-                                             data-original="http://www.porntrex.com/media/videos/tmb1/63632/thumb.jpg"
-                                             title="Tory Lane - Banned in Boston" alt="Tory Lane - Banned in Boston"
-                                             class="img-responsive lazy"/>
-                                        <div class="hd-text-icon">HD</div>
-                                        <div class="viewsthumb">
-                                            178 views
-                                        </div>
-                                        <div class="duration">
-                                            <i class="fa fa-clock-o"></i>
-                                            39:34
-                                        </div>
-                                    </div>
-                                    <div class="visible-xs">
-                                        <img src="/templates/frontend/porntrex/img/blank.gif"
-                                             data-original="http://www.porntrex.com/media/videos/tmb1/63632/thumb.jpg"
-                                             title="Tory Lane - Banned in Boston" alt="Tory Lane - Banned in Boston"
-                                             class="img-responsive lazy"/>
-                                        <div class="hd-text-icon">HD</div>
-                                        <div class="viewsthumb">
-                                            178 views
-                                        </div>
-                                        <div class="duration">
-                                            <i class="fa fa-clock-o"></i>
-                                            39:34
-                                        </div>
-                                    </div>
-                                </div>
-                                <span class="video-title title-truncate m-t-5">Tory Lane - Banned in Boston</span>
-                            </a>
-                            <div class="clearfix"></div>
-
-                        </div>
-                    </div>
-                    <div class="col-sm-4 col-md-3 col-lg-3">
-                        <div class="well wellov well-sm" style="border: 1px solid rgb(130, 163, 187) ! important;">
-                            <a href="/video/63631/tori-black-contraband-punishment">
-                                <div class="thumb-overlay" id="playvideo_63631">
-                                    <div class="hidden-xs">
-                                        <img src="/templates/frontend/porntrex/img/blank.gif"
-                                             data-original="http://www.porntrex.com/media/videos/tmb1/63631/thumb.jpg"
-                                             title="Tori Black - Contraband Punishment"
-                                             alt="Tori Black - Contraband Punishment" class="img-responsive lazy"/>
-                                        <div class="hd-text-icon">HD</div>
-                                        <div class="viewsthumb">
-                                            197 views
-                                        </div>
-                                        <div class="duration">
-                                            <i class="fa fa-clock-o"></i>
-                                            33:10
-                                        </div>
-                                    </div>
-                                    <div class="visible-xs">
-                                        <img src="/templates/frontend/porntrex/img/blank.gif"
-                                             data-original="http://www.porntrex.com/media/videos/tmb1/63631/thumb.jpg"
-                                             title="Tori Black - Contraband Punishment"
-                                             alt="Tori Black - Contraband Punishment" class="img-responsive lazy"/>
-                                        <div class="hd-text-icon">HD</div>
-                                        <div class="viewsthumb">
-                                            197 views
-                                        </div>
-                                        <div class="duration">
-                                            <i class="fa fa-clock-o"></i>
-                                            33:10
-                                        </div>
-                                    </div>
-                                </div>
-                                <span class="video-title title-truncate m-t-5">Tori Black - Contraband Punishment</span>
-                            </a>
-                            <div class="clearfix"></div>
-
-                        </div>
-                    </div>
-                    <div class="col-sm-4 col-md-3 col-lg-3">
-                        <div class="well wellov well-sm" style="border: 1px solid rgb(130, 163, 187) ! important;">
-                            <a href="/video/63630/tanya-tate-one-last-fuck-ii-enter-the-penis">
-                                <div class="thumb-overlay" id="playvideo_63630">
-                                    <div class="hidden-xs">
-                                        <img src="/templates/frontend/porntrex/img/blank.gif"
-                                             data-original="http://www.porntrex.com/media/videos/tmb1/63630/thumb.jpg"
-                                             title="Tanya Tate - One Last Fuck II, Enter the Penis"
-                                             alt="Tanya Tate - One Last Fuck II, Enter the Penis"
-                                             class="img-responsive lazy"/>
-                                        <div class="hd-text-icon">HD</div>
-                                        <div class="viewsthumb">
-                                            298 views
-                                        </div>
-                                        <div class="duration">
-                                            <i class="fa fa-clock-o"></i>
-                                            39:42
-                                        </div>
-                                    </div>
-                                    <div class="visible-xs">
-                                        <img src="/templates/frontend/porntrex/img/blank.gif"
-                                             data-original="http://www.porntrex.com/media/videos/tmb1/63630/thumb.jpg"
-                                             title="Tanya Tate - One Last Fuck II, Enter the Penis"
-                                             alt="Tanya Tate - One Last Fuck II, Enter the Penis"
-                                             class="img-responsive lazy"/>
-                                        <div class="hd-text-icon">HD</div>
-                                        <div class="viewsthumb">
-                                            298 views
-                                        </div>
-                                        <div class="duration">
-                                            <i class="fa fa-clock-o"></i>
-                                            39:42
-                                        </div>
-                                    </div>
-                                </div>
-                                <span class="video-title title-truncate m-t-5">Tanya Tate - One Last Fuck II, Enter the Penis</span>
-                            </a>
-                            <div class="clearfix"></div>
-
-                        </div>
-                    </div>
-                    <div class="col-sm-4 col-md-3 col-lg-3">
-                        <div class="well wellov well-sm" style="border: 1px solid rgb(130, 163, 187) ! important;">
-                            <a href="/video/63629/stephanie-cane-fuck-the-hmo">
-                                <div class="thumb-overlay" id="playvideo_63629">
-                                    <div class="hidden-xs">
-                                        <img src="/templates/frontend/porntrex/img/blank.gif"
-                                             data-original="http://www.porntrex.com/media/videos/tmb1/63629/thumb.jpg"
-                                             title="Stephanie Cane - Fuck the HMO" alt="Stephanie Cane - Fuck the HMO"
-                                             class="img-responsive lazy"/>
-                                        <div class="hd-text-icon">HD</div>
-                                        <div class="viewsthumb">
-                                            215 views
-                                        </div>
-                                        <div class="duration">
-                                            <i class="fa fa-clock-o"></i>
-                                            23:06
-                                        </div>
-                                    </div>
-                                    <div class="visible-xs">
-                                        <img src="/templates/frontend/porntrex/img/blank.gif"
-                                             data-original="http://www.porntrex.com/media/videos/tmb1/63629/thumb.jpg"
-                                             title="Stephanie Cane - Fuck the HMO" alt="Stephanie Cane - Fuck the HMO"
-                                             class="img-responsive lazy"/>
-                                        <div class="hd-text-icon">HD</div>
-                                        <div class="viewsthumb">
-                                            215 views
-                                        </div>
-                                        <div class="duration">
-                                            <i class="fa fa-clock-o"></i>
-                                            23:06
-                                        </div>
-                                    </div>
-                                </div>
-                                <span class="video-title title-truncate m-t-5">Stephanie Cane - Fuck the HMO</span>
-                            </a>
-                            <div class="clearfix"></div>
-
-                        </div>
-                    </div>
-                    <div class="col-sm-4 col-md-3 col-lg-3">
-                        <div class="well wellov well-sm" style="border: 1px solid rgb(130, 163, 187) ! important;">
-                            <a href="/video/63628/skylar-price-we-should-have-had-this-talk-a-long-time-ago">
-                                <div class="thumb-overlay" id="playvideo_63628">
-                                    <div class="hidden-xs">
-                                        <img src="/templates/frontend/porntrex/img/blank.gif"
-                                             data-original="http://www.porntrex.com/media/videos/tmb1/63628/thumb.jpg"
-                                             title="Skylar Price - We Should Have Had This Talk A Long Time Ago"
-                                             alt="Skylar Price - We Should Have Had This Talk A Long Time Ago"
-                                             class="img-responsive lazy"/>
-                                        <div class="hd-text-icon">HD</div>
-                                        <div class="viewsthumb">
-                                            157 views
-                                        </div>
-                                        <div class="duration">
-                                            <i class="fa fa-clock-o"></i>
-                                            32:54
-                                        </div>
-                                    </div>
-                                    <div class="visible-xs">
-                                        <img src="/templates/frontend/porntrex/img/blank.gif"
-                                             data-original="http://www.porntrex.com/media/videos/tmb1/63628/thumb.jpg"
-                                             title="Skylar Price - We Should Have Had This Talk A Long Time Ago"
-                                             alt="Skylar Price - We Should Have Had This Talk A Long Time Ago"
-                                             class="img-responsive lazy"/>
-                                        <div class="hd-text-icon">HD</div>
-                                        <div class="viewsthumb">
-                                            157 views
-                                        </div>
-                                        <div class="duration">
-                                            <i class="fa fa-clock-o"></i>
-                                            32:54
-                                        </div>
-                                    </div>
-                                </div>
-                                <span class="video-title title-truncate m-t-5">Skylar Price - We Should Have Had This Talk A Long Time Ago</span>
-                            </a>
-                            <div class="clearfix"></div>
-
-                        </div>
-                    </div>
-                    <div class="col-sm-4 col-md-3 col-lg-3">
-                        <div class="well wellov well-sm" style="border: 1px solid rgb(130, 163, 187) ! important;">
-                            <a href="/video/63627/skin-diamond-diamond-in-the-rough">
-                                <div class="thumb-overlay" id="playvideo_63627">
-                                    <div class="hidden-xs">
-                                        <img src="/templates/frontend/porntrex/img/blank.gif"
-                                             data-original="http://www.porntrex.com/media/videos/tmb1/63627/thumb.jpg"
-                                             title="Skin Diamond - Diamond in the Rough"
-                                             alt="Skin Diamond - Diamond in the Rough" class="img-responsive lazy"/>
-                                        <div class="hd-text-icon">HD</div>
-                                        <div class="viewsthumb">
-                                            213 views
-                                        </div>
-                                        <div class="duration">
-                                            <i class="fa fa-clock-o"></i>
-                                            38:33
-                                        </div>
-                                    </div>
-                                    <div class="visible-xs">
-                                        <img src="/templates/frontend/porntrex/img/blank.gif"
-                                             data-original="http://www.porntrex.com/media/videos/tmb1/63627/thumb.jpg"
-                                             title="Skin Diamond - Diamond in the Rough"
-                                             alt="Skin Diamond - Diamond in the Rough" class="img-responsive lazy"/>
-                                        <div class="hd-text-icon">HD</div>
-                                        <div class="viewsthumb">
-                                            213 views
-                                        </div>
-                                        <div class="duration">
-                                            <i class="fa fa-clock-o"></i>
-                                            38:33
-                                        </div>
-                                    </div>
-                                </div>
-                                <span class="video-title title-truncate m-t-5">Skin Diamond - Diamond in the Rough</span>
-                            </a>
-                            <div class="clearfix"></div>
-
-                        </div>
-                    </div>
-                    <div class="col-sm-4 col-md-3 col-lg-3">
-                        <div class="well wellov well-sm" style="border: 1px solid rgb(130, 163, 187) ! important;">
-                            <a href="/video/63626/sienna-west-guilty-by-association">
-                                <div class="thumb-overlay" id="playvideo_63626">
-                                    <div class="hidden-xs">
-                                        <img src="/templates/frontend/porntrex/img/blank.gif"
-                                             data-original="http://www.porntrex.com/media/videos/tmb1/63626/thumb.jpg"
-                                             title="Sienna West - Guilty By Association"
-                                             alt="Sienna West - Guilty By Association" class="img-responsive lazy"/>
-                                        <div class="hd-text-icon">HD</div>
-                                        <div class="viewsthumb">
-                                            319 views
-                                        </div>
-                                        <div class="duration">
-                                            <i class="fa fa-clock-o"></i>
-                                            42:56
-                                        </div>
-                                    </div>
-                                    <div class="visible-xs">
-                                        <img src="/templates/frontend/porntrex/img/blank.gif"
-                                             data-original="http://www.porntrex.com/media/videos/tmb1/63626/thumb.jpg"
-                                             title="Sienna West - Guilty By Association"
-                                             alt="Sienna West - Guilty By Association" class="img-responsive lazy"/>
-                                        <div class="hd-text-icon">HD</div>
-                                        <div class="viewsthumb">
-                                            319 views
-                                        </div>
-                                        <div class="duration">
-                                            <i class="fa fa-clock-o"></i>
-                                            42:56
-                                        </div>
-                                    </div>
-                                </div>
-                                <span class="video-title title-truncate m-t-5">Sienna West - Guilty By Association</span>
-                            </a>
-                            <div class="clearfix"></div>
-
-                        </div>
-                    </div>
-                    <div class="col-sm-4 col-md-3 col-lg-3">
-                        <div class="well wellov well-sm" style="border: 1px solid rgb(130, 163, 187) ! important;">
-                            <a href="/video/63625/shyla-stylez-i-deserve-what-s-mine">
-                                <div class="thumb-overlay" id="playvideo_63625">
-                                    <div class="hidden-xs">
-                                        <img src="/templates/frontend/porntrex/img/blank.gif"
-                                             data-original="http://www.porntrex.com/media/videos/tmb1/63625/thumb.jpg"
-                                             title="Shyla Stylez - I Deserve What&#039;s Mine!"
-                                             alt="Shyla Stylez - I Deserve What&#039;s Mine!"
-                                             class="img-responsive lazy"/>
-                                        <div class="hd-text-icon">HD</div>
-                                        <div class="viewsthumb">
-                                            415 views
-                                        </div>
-                                        <div class="duration">
-                                            <i class="fa fa-clock-o"></i>
-                                            32:37
-                                        </div>
-                                    </div>
-                                    <div class="visible-xs">
-                                        <img src="/templates/frontend/porntrex/img/blank.gif"
-                                             data-original="http://www.porntrex.com/media/videos/tmb1/63625/thumb.jpg"
-                                             title="Shyla Stylez - I Deserve What&#039;s Mine!"
-                                             alt="Shyla Stylez - I Deserve What&#039;s Mine!"
-                                             class="img-responsive lazy"/>
-                                        <div class="hd-text-icon">HD</div>
-                                        <div class="viewsthumb">
-                                            415 views
-                                        </div>
-                                        <div class="duration">
-                                            <i class="fa fa-clock-o"></i>
-                                            32:37
-                                        </div>
-                                    </div>
-                                </div>
-                                <span class="video-title title-truncate m-t-5">Shyla Stylez - I Deserve What&#039;s Mine!</span>
-                            </a>
-                            <div class="clearfix"></div>
-
-                        </div>
-                    </div>
-                    <div class="col-sm-4 col-md-3 col-lg-3">
-                        <div class="well wellov well-sm" style="border: 1px solid rgb(130, 163, 187) ! important;">
-                            <a href="/video/63624/shyla-stylez-give-me-liberty-or-give-me-anal">
-                                <div class="thumb-overlay" id="playvideo_63624">
-                                    <div class="hidden-xs">
-                                        <img src="/templates/frontend/porntrex/img/blank.gif"
-                                             data-original="http://www.porntrex.com/media/videos/tmb1/63624/thumb.jpg"
-                                             title="Shyla Stylez - Give Me Liberty or Give Me Anal"
-                                             alt="Shyla Stylez - Give Me Liberty or Give Me Anal"
-                                             class="img-responsive lazy"/>
-                                        <div class="hd-text-icon">HD</div>
-                                        <div class="viewsthumb">
-                                            588 views
-                                        </div>
-                                        <div class="duration">
-                                            <i class="fa fa-clock-o"></i>
-                                            40:11
-                                        </div>
-                                    </div>
-                                    <div class="visible-xs">
-                                        <img src="/templates/frontend/porntrex/img/blank.gif"
-                                             data-original="http://www.porntrex.com/media/videos/tmb1/63624/thumb.jpg"
-                                             title="Shyla Stylez - Give Me Liberty or Give Me Anal"
-                                             alt="Shyla Stylez - Give Me Liberty or Give Me Anal"
-                                             class="img-responsive lazy"/>
-                                        <div class="hd-text-icon">HD</div>
-                                        <div class="viewsthumb">
-                                            588 views
-                                        </div>
-                                        <div class="duration">
-                                            <i class="fa fa-clock-o"></i>
-                                            40:11
-                                        </div>
-                                    </div>
-                                </div>
-                                <span class="video-title title-truncate m-t-5">Shyla Stylez - Give Me Liberty or Give Me Anal</span>
-                            </a>
-                            <div class="clearfix"></div>
-
-                        </div>
-                    </div>
-                    <div class="col-sm-4 col-md-3 col-lg-3">
-                        <div class="well wellov well-sm" style="border: 1px solid rgb(130, 163, 187) ! important;">
-                            <a href="/video/63623/adriana-chechik-bad-medicine-sister">
-                                <div class="thumb-overlay" id="playvideo_63623">
-                                    <div class="hidden-xs">
-                                        <img src="/templates/frontend/porntrex/img/blank.gif"
-                                             data-original="http://www.porntrex.com/media/videos/tmb1/63623/thumb.jpg"
-                                             title="Adriana Chechik - Bad Medicine Sister"
-                                             alt="Adriana Chechik - Bad Medicine Sister" class="img-responsive lazy"/>
-                                        <div class="hd-text-icon">HD</div>
-                                        <div class="viewsthumb">
-                                            362 views
-                                        </div>
-                                        <div class="duration">
-                                            <i class="fa fa-clock-o"></i>
-                                            28:16
-                                        </div>
-                                    </div>
-                                    <div class="visible-xs">
-                                        <img src="/templates/frontend/porntrex/img/blank.gif"
-                                             data-original="http://www.porntrex.com/media/videos/tmb1/63623/thumb.jpg"
-                                             title="Adriana Chechik - Bad Medicine Sister"
-                                             alt="Adriana Chechik - Bad Medicine Sister" class="img-responsive lazy"/>
-                                        <div class="hd-text-icon">HD</div>
-                                        <div class="viewsthumb">
-                                            362 views
-                                        </div>
-                                        <div class="duration">
-                                            <i class="fa fa-clock-o"></i>
-                                            28:16
-                                        </div>
-                                    </div>
-                                </div>
-                                <span class="video-title title-truncate m-t-5">Adriana Chechik - Bad Medicine Sister</span>
-                            </a>
-                            <div class="clearfix"></div>
-
-                        </div>
-                    </div>
-                    <div class="col-sm-4 col-md-3 col-lg-3">
-                        <div class="well wellov well-sm" style="border: 1px solid rgb(130, 163, 187) ! important;">
-                            <a href="/video/63622/veronica-rodriguez-breakfast-at-veronicas">
-                                <div class="thumb-overlay" id="playvideo_63622">
-                                    <div class="hidden-xs">
-                                        <img src="/templates/frontend/porntrex/img/blank.gif"
-                                             data-original="http://www.porntrex.com/media/videos/tmb1/63622/thumb.jpg"
-                                             title="Veronica Rodriguez – Breakfast at Veronicas"
-                                             alt="Veronica Rodriguez – Breakfast at Veronicas"
-                                             class="img-responsive lazy"/>
-                                        <div class="hd-text-icon">HD</div>
-                                        <div class="viewsthumb">
-                                            598 views
-                                        </div>
-                                        <div class="duration">
-                                            <i class="fa fa-clock-o"></i>
-                                            31:51
-                                        </div>
-                                    </div>
-                                    <div class="visible-xs">
-                                        <img src="/templates/frontend/porntrex/img/blank.gif"
-                                             data-original="http://www.porntrex.com/media/videos/tmb1/63622/thumb.jpg"
-                                             title="Veronica Rodriguez – Breakfast at Veronicas"
-                                             alt="Veronica Rodriguez – Breakfast at Veronicas"
-                                             class="img-responsive lazy"/>
-                                        <div class="hd-text-icon">HD</div>
-                                        <div class="viewsthumb">
-                                            598 views
-                                        </div>
-                                        <div class="duration">
-                                            <i class="fa fa-clock-o"></i>
-                                            31:51
-                                        </div>
-                                    </div>
-                                </div>
-                                <span class="video-title title-truncate m-t-5">Veronica Rodriguez – Breakfast at Veronicas</span>
-                            </a>
-                            <div class="clearfix"></div>
-
-                        </div>
-                    </div>
-                    <div class="col-sm-4 col-md-3 col-lg-3">
-                        <div class="well wellov well-sm" style="border: 1px solid rgb(130, 163, 187) ! important;">
-                            <a href="/video/63612/momslickteens-kristin-love-samantha-sheridan-dear-diary">
-                                <div class="thumb-overlay" id="playvideo_63612">
-                                    <div class="hidden-xs">
-                                        <img src="/templates/frontend/porntrex/img/blank.gif"
-                                             data-original="http://www.porntrex.com/media/videos/tmb1/63612/thumb.jpg"
-                                             title="MomsLickTeens – Kristin Love, Samantha Sheridan – Dear Diary"
-                                             alt="MomsLickTeens – Kristin Love, Samantha Sheridan – Dear Diary"
-                                             class="img-responsive lazy"/>
-                                        <div class="hd-text-icon">HD</div>
-                                        <div class="viewsthumb">
-                                            766 views
-                                        </div>
-                                        <div class="duration">
-                                            <i class="fa fa-clock-o"></i>
-                                            35:54
-                                        </div>
-                                    </div>
-                                    <div class="visible-xs">
-                                        <img src="/templates/frontend/porntrex/img/blank.gif"
-                                             data-original="http://www.porntrex.com/media/videos/tmb1/63612/thumb.jpg"
-                                             title="MomsLickTeens – Kristin Love, Samantha Sheridan – Dear Diary"
-                                             alt="MomsLickTeens – Kristin Love, Samantha Sheridan – Dear Diary"
-                                             class="img-responsive lazy"/>
-                                        <div class="hd-text-icon">HD</div>
-                                        <div class="viewsthumb">
-                                            766 views
-                                        </div>
-                                        <div class="duration">
-                                            <i class="fa fa-clock-o"></i>
-                                            35:54
-                                        </div>
-                                    </div>
-                                </div>
-                                <span class="video-title title-truncate m-t-5">MomsLickTeens – Kristin Love, Samantha Sheridan – Dear Diary</span>
-                            </a>
-                            <div class="clearfix"></div>
-
-                        </div>
-                    </div>
-                    <div class="col-sm-4 col-md-3 col-lg-3">
-                        <div class="well wellov well-sm" style="border: 1px solid rgb(130, 163, 187) ! important;">
-                            <a href="/video/63608/momknowsbest-cherie-deville-kristen-scott-milf-bowl">
-                                <div class="thumb-overlay" id="playvideo_63608">
-                                    <div class="hidden-xs">
-                                        <img src="/templates/frontend/porntrex/img/blank.gif"
-                                             data-original="http://www.porntrex.com/media/videos/tmb1/63608/thumb.jpg"
-                                             title="MomKnowsBest – Cherie DeVille, Kristen Scott – MILF Bowl"
-                                             alt="MomKnowsBest – Cherie DeVille, Kristen Scott – MILF Bowl"
-                                             class="img-responsive lazy"/>
-                                        <div class="hd-text-icon">HD</div>
-                                        <div class="viewsthumb">
-                                            1058 views
-                                        </div>
-                                        <div class="duration">
-                                            <i class="fa fa-clock-o"></i>
-                                            30:42
-                                        </div>
-                                    </div>
-                                    <div class="visible-xs">
-                                        <img src="/templates/frontend/porntrex/img/blank.gif"
-                                             data-original="http://www.porntrex.com/media/videos/tmb1/63608/thumb.jpg"
-                                             title="MomKnowsBest – Cherie DeVille, Kristen Scott – MILF Bowl"
-                                             alt="MomKnowsBest – Cherie DeVille, Kristen Scott – MILF Bowl"
-                                             class="img-responsive lazy"/>
-                                        <div class="hd-text-icon">HD</div>
-                                        <div class="viewsthumb">
-                                            1058 views
-                                        </div>
-                                        <div class="duration">
-                                            <i class="fa fa-clock-o"></i>
-                                            30:42
-                                        </div>
-                                    </div>
-                                </div>
-                                <span class="video-title title-truncate m-t-5">MomKnowsBest – Cherie DeVille, Kristen Scott – MILF Bowl</span>
-                            </a>
-                            <div class="clearfix"></div>
-
-                        </div>
-                    </div>
-                    <div class="col-sm-4 col-md-3 col-lg-3">
-                        <div class="well wellov well-sm" style="border: 1px solid rgb(130, 163, 187) ! important;">
-                            <a href="/video/63606/ariella-seduces-her-niece">
-                                <div class="thumb-overlay" id="playvideo_63606">
-                                    <div class="hidden-xs">
-                                        <img src="/templates/frontend/porntrex/img/blank.gif"
-                                             data-original="http://www.porntrex.com/media/videos/tmb1/63606/thumb.jpg"
-                                             title="Ariella seduces her niece" alt="Ariella seduces her niece"
-                                             class="img-responsive lazy"/>
-                                        <div class="hd-text-icon">HD</div>
-                                        <div class="viewsthumb">
-                                            60 views
-                                        </div>
-                                        <div class="duration">
-                                            <i class="fa fa-clock-o"></i>
-                                            42:14
-                                        </div>
-                                    </div>
-                                    <div class="visible-xs">
-                                        <img src="/templates/frontend/porntrex/img/blank.gif"
-                                             data-original="http://www.porntrex.com/media/videos/tmb1/63606/thumb.jpg"
-                                             title="Ariella seduces her niece" alt="Ariella seduces her niece"
-                                             class="img-responsive lazy"/>
-                                        <div class="hd-text-icon">HD</div>
-                                        <div class="viewsthumb">
-                                            60 views
-                                        </div>
-                                        <div class="duration">
-                                            <i class="fa fa-clock-o"></i>
-                                            42:14
-                                        </div>
-                                    </div>
-                                </div>
-                                <span class="video-title title-truncate m-t-5">Ariella seduces her niece</span>
-                            </a>
-                            <div class="clearfix"></div>
-
-                        </div>
-                    </div>
-                    <div class="col-sm-4 col-md-3 col-lg-3">
-                        <div class="well wellov well-sm" style="border: 1px solid rgb(130, 163, 187) ! important;">
-                            <a href="/video/63602/foodbangers-patricia-kevin">
-                                <div class="thumb-overlay" id="playvideo_63602">
-                                    <div class="hidden-xs">
-                                        <img src="/templates/frontend/porntrex/img/blank.gif"
-                                             data-original="http://www.porntrex.com/media/videos/tmb1/63602/thumb.jpg"
-                                             title="FoodBangers - Patricia Kevin" alt="FoodBangers - Patricia Kevin"
-                                             class="img-responsive lazy"/>
-                                        <div class="hd-text-icon">HD</div>
-                                        <div class="viewsthumb">
-                                            199 views
-                                        </div>
-                                        <div class="duration">
-                                            <i class="fa fa-clock-o"></i>
-                                            10:47
-                                        </div>
-                                    </div>
-                                    <div class="visible-xs">
-                                        <img src="/templates/frontend/porntrex/img/blank.gif"
-                                             data-original="http://www.porntrex.com/media/videos/tmb1/63602/thumb.jpg"
-                                             title="FoodBangers - Patricia Kevin" alt="FoodBangers - Patricia Kevin"
-                                             class="img-responsive lazy"/>
-                                        <div class="hd-text-icon">HD</div>
-                                        <div class="viewsthumb">
-                                            199 views
-                                        </div>
-                                        <div class="duration">
-                                            <i class="fa fa-clock-o"></i>
-                                            10:47
-                                        </div>
-                                    </div>
-                                </div>
-                                <span class="video-title title-truncate m-t-5">FoodBangers - Patricia Kevin</span>
-                            </a>
-                            <div class="clearfix"></div>
-
-                        </div>
-                    </div>
-                    <div class="col-sm-4 col-md-3 col-lg-3">
-                        <div class="well wellov well-sm" style="border: 1px solid rgb(130, 163, 187) ! important;">
-                            <a href="/video/63601/foodbangers-monique-paul">
-                                <div class="thumb-overlay" id="playvideo_63601">
-                                    <div class="hidden-xs">
-                                        <img src="/templates/frontend/porntrex/img/blank.gif"
-                                             data-original="http://www.porntrex.com/media/videos/tmb1/63601/thumb.jpg"
-                                             title="FoodBangers - Monique Paul" alt="FoodBangers - Monique Paul"
-                                             class="img-responsive lazy"/>
-                                        <div class="hd-text-icon">HD</div>
-                                        <div class="viewsthumb">
-                                            358 views
-                                        </div>
-                                        <div class="duration">
-                                            <i class="fa fa-clock-o"></i>
-                                            23:19
-                                        </div>
-                                    </div>
-                                    <div class="visible-xs">
-                                        <img src="/templates/frontend/porntrex/img/blank.gif"
-                                             data-original="http://www.porntrex.com/media/videos/tmb1/63601/thumb.jpg"
-                                             title="FoodBangers - Monique Paul" alt="FoodBangers - Monique Paul"
-                                             class="img-responsive lazy"/>
-                                        <div class="hd-text-icon">HD</div>
-                                        <div class="viewsthumb">
-                                            358 views
-                                        </div>
-                                        <div class="duration">
-                                            <i class="fa fa-clock-o"></i>
-                                            23:19
-                                        </div>
-                                    </div>
-                                </div>
-                                <span class="video-title title-truncate m-t-5">FoodBangers - Monique Paul</span>
-                            </a>
-                            <div class="clearfix"></div>
-
-                        </div>
-                    </div>
-
-                </div>
-
-
-                <div style="text-align: center;" class="visible-xs">
-                    <ul class="pagination pagination-lg">
-                        <li class="active"><span>1</span></li>
-                        <li class="hidden-xs"><a href="http://www.porntrex.com/videos?page=2">2</a></li>
-                        <li class="hidden-xs"><a href="http://www.porntrex.com/videos?page=3">3</a></li>
-                        <li class="hidden-xs"><a href="http://www.porntrex.com/videos?page=4">4</a></li>
-                        <li class="disabled hidden-xs"><span>&nbsp;...&nbsp;</span>
-                        <li>
-                        <li class="hidden-xs"><a href="http://www.porntrex.com/videos?page=1016">1016</a></li>
-                        <li class="hidden-xs"><a href="http://www.porntrex.com/videos?page=1017">1017</a></li>
-                        <li><a href="http://www.porntrex.com/videos?page=2" class="prevnext">Next page
-                            <i class="fa fa-chevron-right"></i></a></li>
-                    </ul>
-                </div>
-
-            </div>
-
-        </div>
-
-        <div style="text-align: center;" class="hidden-xs">
-            <ul class="pagination">
-                <li class="active"><span>1</span></li>
-                <li class="hidden-xs"><a href="http://www.porntrex.com/videos?page=2">2</a></li>
-                <li class="hidden-xs"><a href="http://www.porntrex.com/videos?page=3">3</a></li>
-                <li class="hidden-xs"><a href="http://www.porntrex.com/videos?page=4">4</a></li>
-                <li class="disabled hidden-xs"><span>&nbsp;...&nbsp;</span>
-                <li>
-                <li class="hidden-xs"><a href="http://www.porntrex.com/videos?page=1016">1016</a></li>
-                <li class="hidden-xs"><a href="http://www.porntrex.com/videos?page=1017">1017</a></li>
-                <li><a href="http://www.porntrex.com/videos?page=2" class="prevnext">Next page
-                    <i class="fa fa-chevron-right"></i></a></li>
-            </ul>
+        <div class="txt">
+            All HD Porn here 100% free porn.
         </div>
     </div>
 
-    <div class="visible-xs">
-
-        <script type="text/javascript"
-                src="http://syndication.exoclick.com/splash.php?idzone=1684646&type=12&capping=0"></script>
-
-    </div>
-    <script type="text/javascript">
-        $(function () {
-            $("img.lazy").lazyload();
-        });
-        $("img.lazy").lazyload({
-            effect: "fadeIn"
-        });
-        $("img.lazy").show().lazyload();
-        $("img.lazy").lazyload({
-            threshold: 144
-        });
-    </script>
-
-
-    <div class="footer-container">
-        <div class="footer-links">
-            <div class="container">
-                <div class="row">
-                    <div class="col-sm-3">
-                        <ul class="list-unstyled">
-                            <li><a href="/static/terms" rel="nofollow"><i class="fa fa-fw fa-file-text"
-                                                                          style="color:#962d22"></i> Terms and
-                                Conditions</a></li>
-                            <li><a href="/static/privacy" rel="nofollow"><i class="fa fa-fw fa-file-text"
-                                                                            style="color:#962d22"></i> Privacy
-                                Policy</a></li>
-                            <li><a href="/static/dmca" rel="nofollow"><i class="fa fa-fw fa-chain-broken"
-                                                                         style="color:#962d22"></i> DMCA</a></li>
-                            <li><a href="/static/_2257" rel="nofollow"><i class="fa fa-fw fa-asterisk"
-                                                                          style="color:#962d22"></i> 2257 Statement</a>
-                            </li>
-                            <li><a href="/invite" rel="nofollow"><i class="fa fa-fw fa-envelope"
-                                                                    style="color:#962d22"></i> Invite Friends</a></li>
-                            <li><a href="/static/referral" rel="nofollow"><i class="fa fa-fw fa-heart"
-                                                                             style="color:#962d22"></i> Referral</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="col-sm-3">
-                        <ul class="list-unstyled">
-                            <li><a href="http://www.pornfun.com"
-                                   onclick="_gaq.push(['_trackEvent', 'PornFun', 'Click', 'http://www.pornfun.com/']);"
-                                   target="_blank"><img src="/templates/frontend/porntrex/img/pornfun.ico"> PornFun</a>
-                            </li>
-                            <li><a href="http://pron.tv/pornstars"
-                                   onclick="_gaq.push(['_trackEvent', 'Pron', 'Click', 'http://pron.tv/pornstars']);"
-                                   title="best pornstars toplist on pron.tv" target="_blank"><img width="16px"
-                                                                                                  alt="pron.tv"
-                                                                                                  src="/templates/frontend/porntrex/img/pron.ico">
-                                Pron</a></li>
-                            <li><a onclick="_gaq.push(['_trackEvent', '0xxx', 'Click', 'http://0xxx.ws/']);"
-                                   href="http://0xxx.ws/" title="0xxx" target="_blank"><img width="16px" alt="0xxx"
-                                                                                            src="/templates/frontend/porntrex/img/0xxx.ico">
-                                0xxx</a></li>
-                            <li>
-                                <a onclick="_gaq.push(['_trackEvent', 'Camwhores', 'Click', 'http://www.camwhores.tv/']);"
-                                   href="http://www.camwhores.tv/" title="Camwhores" target="_blank"><img width="16px"
-                                                                                                          alt="camwhores"
-                                                                                                          src="/templates/frontend/porntrex/img/camw.ico">
-                                    Camwhores</a></li>
-                            <li><a onclick="_gaq.push(['_trackEvent', 'Veporn', 'Click', 'http://www.veporn.net/']);"
-                                   href="http://www.veporn.net/" title="HD Porn" target="_blank"><img width="16px"
-                                                                                                      alt="HD Porn"
-                                                                                                      src="/templates/frontend/porntrex/img/veporn.ico">
-                                Veporn</a></li>
-                            <li><a onclick="_gaq.push(['_trackEvent', 'Anon-V', 'Click', 'http://anon-v.com/']);"
-                                   href="http://anon-v.com/" title="anon-v" target="_blank"><img width="16px"
-                                                                                                 alt="anon-v"
-                                                                                                 src="/templates/frontend/porntrex/img/anon-v.ico">
-                                Anon-v</a></li>
-                            <li><a onclick="_gaq.push(['_trackEvent', 'Bongacams', 'Click', 'https://bongacams.com/']);"
-                                   href="https://bongacams.com/" title="bongacams" target="_blank"><img width="16px"
-                                                                                                        alt="bongacams"
-                                                                                                        src="/templates/frontend/porntrex/img/bongacams.ico">
-                                Free Live Sex</a></li>
-                        </ul>
-                    </div>
-                    <div class="col-sm-3">
-                        <ul class="list-unstyled">
-                            <li><a href="/chat" rel="nofollow"><i class="fa fa-fw fa-weixin" style="color:#962d22"></i>
-                                Chat</a></li>
-                            <li><a href="/static/faq" rel="nofollow"><i class="fa fa-fw fa-question-circle"
-                                                                        style="color:#962d22"></i> FAQ</a></li>
-                            <li><a href="/feedback" rel="nofollow"><i class="fa fa-fw fa-life-ring"
-                                                                      style="color:#962d22"></i> Support</a></li>
-                            <li><a data-toggle="modal" href="#login-modal"><i class="fa fa-fw fa-sign-in"
-                                                                              style="color:#962d22"></i> Login</a></li>
-                            <li><a href="/signup" rel="nofollow"><i class="fa fa-fw fa-star" style="color:#962d22"></i>
-                                Sign up</a></li>
-                            <li><a href="/maps/videositemap.xml" rel="nofollow"><i class="fa fa-fw fa-sitemap"
-                                                                                   style="color:#962d22"></i> Site
-                                Map</a></li>
-                        </ul>
-                    </div>
-                    <div class="col-sm-3">
-                        <a rel="nofollow" href="https://twitter.com/PornTrex" target="_blank"><img
-                                src="/templates/frontend/porntrex/img/twitter.png"></a>
-                        <p style="padding-top:10px"><a rel="nofollow" href="http://www.rtalabel.org"
-                                                       target="_blank"><img
-                                src="/templates/frontend/porntrex/img/rta.png"></a></p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="footer">
-            <div class="container">
-                <div class="hidden-xs">
-                    <div class="pull-left">
-                        <span>&#169; 2016</span> PornTrex, All Rights Reserved
-                    </div>
-                </div>
-                <div class="visible-xs"><span>&#169; 2016</span> PornTrex, All Rights Reserved
-                </div>
-            </div>
-        </div>
-
-        <script src="/templates/frontend/porntrex/js/bootstrap.min.js"></script>
-        <script type="text/javascript" src="/templates/frontend/porntrex/js/jquery.rotator-0.2.js"></script>
-        <script type="text/javascript" src="/templates/frontend/porntrex/js/jquery.avs-0.2.js"></script>
-
-
-        <script>
-            if (navigator.userAgent.match(/IEMobile\/10\.0/)) {
-                var msViewportStyle = document.createElement('style')
-                msViewportStyle.appendChild(
-                    document.createTextNode(
-                        '@-ms-viewport{width:auto!important}'
-                    )
-                )
-                document.querySelector('head').appendChild(msViewportStyle)
-            }
-        </script>
-
-
-        <script type="text/javascript">
-            var _gaq = _gaq || [];
-            _gaq.push(['_setAccount', 'UA-60469958-1']);
-            _gaq.push(['_setDomainName', 'porntrex.com']);
-            _gaq.push(['_trackPageview']);
-            (function () {
-                var ga = document.createElement('script');
-                ga.type = 'text/javascript';
-                ga.async = true;
-                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-                var s = document.getElementsByTagName('script')[0];
-                s.parentNode.insertBefore(ga, s);
-            })();
-        </script>
-
-
+    <script src="http://www.24videos.tv/js/main.min.js?v=2.0"></script>
+</div>
 </body>
 </html>

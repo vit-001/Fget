@@ -37,7 +37,7 @@ def load(url, fname, cookies=None, headers=None):
 
 if __name__ == "__main__":
 
-    url1 = 'http://www.porntrex.com/videos'
+    url1 = 'http://www.24videos.tv/latest-updates/'
     url1a = 'http://www.porntrex.com/video/63634/beautiful-brunette-babe-ride-a-hard-cock'
     url2 = 'http://www.porntrex.com/album/45/ukraine-women'
     url3 = 'http://www.drtuber.com/player_config/?h=503093cfbeaa558180554133b2315358%26check_speed=1%26t=1480701894%26vkey=676d54293b2629388734&project_name=drtuber&id=player&javascriptid=player&enablejs=true'
@@ -56,8 +56,8 @@ if __name__ == "__main__":
 
     headers = {'Referer': 'http://her69.net/massagerooms-daphne-angel-daisy-lee/'}
 
-    # r=load(url1,fname1)
-    r = load(url2, fname2a)
+    r=load(url1,fname1)
+    # r = load(url2, fname2a)
     # r = load(url1a, fname1a)
     # r = load(url1a, fname1a,headers=headers)
     # r = load(url2, fname2)

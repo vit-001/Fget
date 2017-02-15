@@ -64,7 +64,7 @@ class MLvideoSoupSite(BaseSoupSite):
         content = soup.find('div', {'id': 'content'})
         if content is not None:
             urls = UrlList()
-            script =content.find('script', text=lambda x: 'jwplayer(' in x)
+            script =content.find('script', text=lambda x: 'jwplayer(' in str(x))
             if script is not None:
                 data = str(script.string).replace(' ', '')
                 file = quotes(data, '"file":"', '"')
