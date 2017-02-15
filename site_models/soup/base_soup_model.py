@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 
 from base_classes import URL
 from site_models.base_site_model import BaseSite, ParseResult, ControlInfo
-from site_models.util import get_url
+from site_models.util import get_url,psp
 
 def _iter(source):
     if source is None:
@@ -56,7 +56,8 @@ class BaseSoupSite(BaseSite):
     def parse_pagination(self,soup:BeautifulSoup, result:ParseResult, base_url:URL):
         container=self.get_pagination_container(soup)
         if container is not None:
-            for page in container.find_all('a'):
+            for page in container.find_all('a',{'href':True}):
+                # psp(page.prettify())
                 if page.string is not None and page.string.isdigit():
                     result.add_page(ControlInfo(page.string, get_url(page.attrs['href'],base_url)))
 

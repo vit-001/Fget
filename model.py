@@ -71,7 +71,6 @@ class SiteVewerModel(AbstractModel):
         self.models = [
             # work on
 
-            SMvideoSoupSite(self),
 
             # classic
             SpaceSite(self, text='Classic:'),
@@ -90,7 +89,7 @@ class SiteVewerModel(AbstractModel):
 
             # s/m
             SpaceSite(self, text='Deviant:'),
-            SMvideoSite(self), GBvideoSite(self), EXTvideoSite(self),
+            SMvideoSoupSite(self), GBvideoSite(self), EXTvideoSite(self),
 
             # deviant
             HRvideoSite(self), DCvideoSite(self), PSvideoSite(self),
