@@ -1,12 +1,13 @@
 __author__ = 'Vit'
+from bs4 import BeautifulSoup
 
-from base_classes import URL, ControlInfo
-from setting import Setting
-from site_models.base_site_model import *
-from site_models.site_parser import SiteParser, ParserRule
+from base_classes import UrlList,URL
+from site_models.base_site_model import ParseResult,ControlInfo, ThumbInfo
+from site_models.soup.base_soup_model import BaseSoupSite,_iter
+from site_models.util import get_href,get_url,quotes
 
 
-class SMvideoSite(BaseSite):
+class SMvideoSoupSite(BaseSoupSite):
     def start_button_name(self):
         return "SMvid"
 
@@ -35,7 +36,7 @@ class SMvideoSite(BaseSite):
         # print(base_url.get() + txt)
         return base_url.get().rpartition('/')[0] + '/' + txt
 
-    def parse_index_file(self, fname, base_url=URL()):
+    def parse_index_file1(self, fname, base_url=URL()):
         parser = SiteParser()
 
         startpage_rule = ParserRule()

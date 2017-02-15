@@ -62,7 +62,7 @@ from site_models.video.t8_video_model import T8videoSite
 from site_models.video.tz_video_model import TZvideoSite
 from site_models.video.vp_video_model import VPvideoSite
 from site_models.soup.video.script.v24_soup_video_model import V24videoSoupSite
-
+from site_models.soup.video.simple.sm_soup_video_model import SMvideoSoupSite
 
 class SiteVewerModel(AbstractModel):
     def __init__(self, controller=PresenterFromModelInterface()):
@@ -71,6 +71,7 @@ class SiteVewerModel(AbstractModel):
         self.models = [
             # work on
 
+            SMvideoSoupSite(self),
 
             # classic
             SpaceSite(self, text='Classic:'),
