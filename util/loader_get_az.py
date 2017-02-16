@@ -9,7 +9,11 @@ from urllib.parse import urlparse,urlsplit
 def load(url, fname, cookies=None, headers=None):
     print('Loading', url, 'to', fname)
     try:
-        response = requests.get(url, cookies=cookies, headers=headers)
+        proxies = {
+            'http': 'proxy.antizapret.prostovpn.org:3128',
+            'https': 'proxy.antizapret.prostovpn.org:3128',
+        }
+        response = requests.get(url, cookies=cookies, headers=headers,proxies=proxies)
         response.raise_for_status()
         with open(fname, 'wb') as fd:
             for chunk in response.iter_content(chunk_size=128):
@@ -37,6 +41,10 @@ def load(url, fname, cookies=None, headers=None):
         return response
 
 def _dpi_send(host, port, data, fragment_size=0, fragment_count=0):
+
+    print(host,port,data)
+
+
     sock = socket.create_connection((host, port), 10)
     if fragment_count:
         sock.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, True)
@@ -57,6 +65,43 @@ def _dpi_send(host, port, data, fragment_size=0, fragment_count=0):
             pass
         sock.close()
     return recv#.decode(errors='replace')
+
+def _dpi_build_tests1(host, urn, ip, lookfor):
+    dpi_built_list = {
+            'дополнительный пробел после GET':
+                {'data': "GET  {} HTTP/1.0\r\n".format(urn) + "Host: {}\r\nConnection: close\r\n\r\n".format(host),
+                'lookfor': lookfor, 'ip': ip,
+                'fragment_size': 0, 'fragment_count': 0},
+            'перенос строки перед GET':
+                {'data': "\nGET {} HTTP/1.0\r\n".format(urn) + "Host: {}\r\nConnection: close\r\n\r\n".format(host),
+                'lookfor': lookfor, 'ip': ip,
+                'fragment_size': 0, 'fragment_count': 0},
+            'табуляция в конце домена':
+                {'data': "GET {} HTTP/1.0\r\n".format(urn) + "Host: {}\t\r\nConnection: close\r\n\r\n".format(host),
+                'lookfor': lookfor, 'ip': ip,
+                'fragment_size': 0, 'fragment_count': 0},
+            'фрагментирование заголовка':
+                {'data': "GET {} HTTP/1.0\r\n".format(urn) + "Host: {}\r\nConnection: close\r\n\r\n".format(host),
+                'lookfor': lookfor, 'ip': ip,
+                'fragment_size': 2, 'fragment_count': 6},
+            'точка в конце домена':
+                {'data': "GET {} HTTP/1.0\r\n".format(urn) + "Host: {}.\r\nConnection: close\r\n\r\n".format(host),
+                'lookfor': lookfor, 'ip': ip,
+                'fragment_size': 0, 'fragment_count': 0},
+            'заголовок host вместо Host':
+                {'data': "GET {} HTTP/1.0\r\n".format(urn) + "host: {}\r\nConnection: close\r\n\r\n".format(host),
+                'lookfor': lookfor, 'ip': ip,
+                'fragment_size': 0, 'fragment_count': 0},
+            'перенос строки в заголовках в UNIX-стиле':
+                {'data': "GET {} HTTP/1.0\n".format(urn) + "Host: {}\nConnection: close\n\n".format(host),
+                'lookfor': lookfor, 'ip': ip,
+                'fragment_size': 0, 'fragment_count': 0},
+            'необычный порядок заголовков':
+                {'data': "GET {} HTTP/1.0\r\n".format(urn) + "Connection: close\r\nHost: {}\r\n\r\n".format(host),
+                'lookfor': lookfor, 'ip': ip,
+                'fragment_size': 0, 'fragment_count': 0},
+        }
+    return dpi_built_list
 
 def _dpi_build_tests(host, urn, ip):
     dpi_built_list = {
@@ -143,26 +188,83 @@ def load2(url, fname):
             print('AZ loaded ok')
             with open(fname, 'w+b') as fd:
                 fd.write(result)
-    return
+
+def load3(url, fname, az_method=None):
+    if az_method is None:
+        load(url,fname)
+        return
+
+    us=urlsplit(url)
+    # print(us)
+    hostname = us[1]
+    addr = socket.gethostbyname(hostname)
+    if us[2] is not '':
+        uri=us[2]
+    else:
+        uri='/'
+
+    if us[3] is not '':
+        uri+='?'+us[3]
+    print('The address of ', hostname, 'is', addr)
+    try:
+        result=_dpi_send(addr,80,az_method(hostname,uri))
+
+    except Exception as e:
+        print("Ошибка:", repr(e))
+    else:
+        print('Loaded Ok')
+        with open(fname, 'w+b') as fd:
+            fd.write(result)
+
+
+def sp_method(hostname, uri):
+    return "GET  {} HTTP/1.0\r\n".format(uri) + "Host: {}\r\nConnection: close\r\n\r\n".format(hostname)
+
+def cr_method(hostname, uri):
+    return "\nGET {} HTTP/1.0\r\n".format(uri) + "Host: {}\r\nConnection: close\r\n\r\n".format(hostname)
+
+def tab_method(hostname, uri):
+    return "GET {} HTTP/1.0\r\n".format(uri) + "Host: {}\t\r\nConnection: close\r\n\r\n".format(hostname)
+
+
+def point_method(hostname, uri):
+    return "GET {} HTTP/1.0\r\n".format(uri) + "Host: {}.\r\nConnection: close\r\n\r\n".format(hostname)
+
+def host_method(hostname, uri):
+    return "GET {} HTTP/1.0\r\n".format(uri) + "host: {}\r\nConnection: close\r\n\r\n".format(hostname)
+
+def unix_method(hostname, uri):
+    return "GET {} HTTP/1.0\n".format(uri) + "Host: {}\nConnection: close\n\n".format(hostname)
+
+def order_method(hostname, uri):
+    return "GET {} HTTP/1.0\r\n".format(uri) + "Connection: close\r\nHost: {}\r\n\r\n".format(hostname)
 
 
 if __name__ == "__main__":
 
     from bs4 import BeautifulSoup
 
-    url1 = 'http://motherless.com/videos/recent?page=1?xxx=1'
+    url1 = 'http://motherless.com/videos/recent?page=1'
     url1a = 'http://www.pornhub.com/'
     url2= 'http://google.com'
     url3='http://scs.spb.ru'
 
+    url_jpeg='http://cdn4.thumbs.motherlessmedia.com/thumbs/FD067C3-small.jpg?from_helper'
+
     fname1 = 'out/plain.html'
     fname2 = 'out/az.html'
 
-    url=url1a
+    fname1_jpeg='out/plain.jpg'
+    fname2_jpeg='out/az.jpg'
+
+    url=url1
+
 
     r=load(url,fname1)
 
-    load2(url,fname2)
+    # load2(url,fname2)
+
+    load3(url,fname2, az_method=order_method)
 
     print(r.history)
 
