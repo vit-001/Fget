@@ -55,10 +55,20 @@ def config():
     except:
         data = ""
 
+    # l=re.findall(b"\"(.*?)\",", data)
+    # print(fnmatch.translate(l[0]))
+
+    # print(map(fnmatch.translate,re.findall(b"\"(.*?)\",", data)))
+
+
     r = re.search(b"\"PROXY (.*); DIRECT", data)
+
     pac = {"server": None,"domains": []}
+
+
     if r:
         pac["server"] = r.group(1)
+        print(pac['server'])
         pac["domains"] = map(lambda x: x.replace(b"\Z(?ms)", "").replace("\\", ""), map(fnmatch.translate, re.findall(b"\"(.*?)\",", data)))
 
     _config = pac
@@ -86,7 +96,8 @@ class AntizapretProxyHandler(ProxyHandler, object):
         global _custom_hosts
 
         host = req.get_host().split(":")[0]
-        # if self.config["server"] and (host in self.config["domains"] or socket.gethostbyname(host) in self.config["domains"] or host in _custom_hosts):
+        if self.config["server"] and (host in self.config["domains"] or socket.gethostbyname(host) in self.config["domains"] or host in _custom_hosts):
+            pass
             # xbmc.log("[script.module.antizapret]: Pass request through proxy " + self.config["server"], level=xbmc.LOGDEBUG)
         return ProxyHandler.proxy_open(self, req, self.config["server"], type)
 

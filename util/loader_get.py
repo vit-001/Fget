@@ -17,7 +17,7 @@ def load(url, fname, cookies=None, headers=None):
 
     except requests.exceptions.HTTPError as err:  # todo Тестировать сообщения об ошибках
         print('HTTP error: {0}'.format(err.response.status_code))
-        return response
+        # return response
 
     except requests.exceptions.ConnectTimeout:
         print('Connection timeout')
@@ -50,6 +50,7 @@ if __name__ == "__main__":
     fname2a = 'out/2.html'
     fname3 = 'out/3.json'
     fname4 = 'out/1.js'
+
 
     # coockies={'_gat':'1',
     # '_ga' :'GA1.2.1045758528.1480589656'}
