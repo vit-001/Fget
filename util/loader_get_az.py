@@ -246,6 +246,7 @@ if __name__ == "__main__":
 
     url1 = 'http://motherless.com/videos/recent?page=1'
     url1a = 'http://www.pornhub.com/'
+    url1b = 'http://yourporn.sexy/'
     url2= 'http://google.com'
     url3='http://scs.spb.ru'
 
@@ -257,14 +258,25 @@ if __name__ == "__main__":
     fname1_jpeg='out/plain.jpg'
     fname2_jpeg='out/az.jpg'
 
-    url=url1
+    url=url1b
+    f1=fname1
+    f2=fname2
+
+    # metod=sp_method
+    # metod=cr_method
+    # metod=tab_method
+    # metod=point_method
+    # metod=host_method
+    # metod=unix_method
+    # metod=order_method
 
 
-    r=load(url,fname1)
 
-    # load2(url,fname2)
+    r=load(url,f1)
 
-    load3(url,fname2, az_method=order_method)
+
+
+
 
     print(r.history)
 
@@ -279,12 +291,20 @@ if __name__ == "__main__":
     with open(fname1,encoding='UTF-8',errors='ignore') as fs:
         bs=BeautifulSoup(fs,'html.parser')
         print('=======plain=========')
-        print(bs.head.title.string)
-        print('================')
+        if bs.head is not None:
+            if bs.head.title is not None:
+                print(bs.head.title.string)
+        print('======================================================')
+
+    # load2(url,f2)
+    load3(url,f2, az_method=metod)
 
     with open(fname2,encoding='UTF-8',errors='ignore') as fs:
         bs=BeautifulSoup(fs,'html.parser')
         print('========az========')
-        print(bs.head.title.string)
+        if bs.head is not None:
+            if bs.head.title is not None:
+                print(bs.head.title.string)
+
         print('================')
 
