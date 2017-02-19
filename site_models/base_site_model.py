@@ -1,7 +1,9 @@
 __author__ = 'Vit'
 
-from base_classes import AbstractModelFromSiteInterface, URL, ControlInfo, MediaData
-from requests_loader import FLData, PictureCollector
+from base_classes import AbstractModelFromSiteInterface, ControlInfo, MediaData
+from loader.base_loader import URL
+from loader.az_loader import AZLoader
+from loader.multi_thread_loader import FLData, PictureCollector
 
 
 class ThumbInfo(FLData):
@@ -208,7 +210,11 @@ class BaseSite(AbstractSite):
         return False
 
     def text_color(self):
-        return None
+        print(self.startpage())
+        if AZLoader.test_url_az(self.startpage()):
+            return 'darkorange'
+        else:
+            return None
 
     def get_href(self, txt:str, base_url:URL):
         txt = txt.strip()

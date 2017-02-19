@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 __author__ = 'Nikitin'
 
-from base_classes import URL
+from loader.base_loader import URL
+
 
 def get_href( txt:str, base_url:URL):
     txt = txt.strip()
@@ -17,9 +18,9 @@ def get_href( txt:str, base_url:URL):
         return 'http://' + base_url.domain() + txt
     # print(base_url.get() + txt)
     return base_url.get().rpartition('/')[0] + '/' + txt
-
-def get_url(txt:str, base_url:URL):
-    return URL(get_href(txt,base_url))
+#
+# def get_url(txt:str, base_url:URL):
+#     return URL(get_href(txt,base_url))
 
 def quotes(text:str, from_lex:str, to_lex:str):
     return text.partition(from_lex)[2].partition(to_lex)[0]

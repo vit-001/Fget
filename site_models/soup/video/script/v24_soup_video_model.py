@@ -1,10 +1,11 @@
 __author__ = 'Vit'
 from bs4 import BeautifulSoup
 
-from base_classes import UrlList,URL
+from base_classes import UrlList
+from loader.base_loader import URL
 from site_models.base_site_model import ParseResult,ControlInfo, ThumbInfo
 from site_models.soup.base_soup_model import BaseSoupSite,_iter
-from site_models.util import get_href,get_url,quotes,psp
+from site_models.util import quotes,psp
 
 class V24videoSoupSite(BaseSoupSite):
     def start_button_name(self):
@@ -28,8 +29,8 @@ class V24videoSoupSite(BaseSoupSite):
             for thumbnail in _iter(container.find_all('div',{'class':'item'})):
                 psp(thumbnail.prettify())
 
-                href = get_url(thumbnail.a.attrs['href'], base_url)
-                thumb_url = get_url(thumbnail.img.attrs['data-original'], base_url)
+                href = URL(thumbnail.a.attrs['href'], base_url=base_url)
+                thumb_url = URL(thumbnail.img.attrs['data-original'], base_url=base_url)
                 label=thumbnail.img.attrs.get('alt','')
 
                 duration = thumbnail.find('div', {'class': 'duration'})

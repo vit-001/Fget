@@ -1,7 +1,6 @@
 __author__ = 'Vit'
 
-from base_classes import URL, ControlInfo
-from requests_loader import load
+from loader.simple_loader import load
 from site_models.base_site_model import *
 from site_models.site_parser import SiteParser, ParserRule
 
@@ -33,6 +32,7 @@ class YPvideoSite(BaseSite):
         startpage_rule.add_process_rule_level('a', {'href', 'title'})
         # startpage_rule.set_attribute_filter_function('src',lambda x: '.jpg' in x)
         startpage_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x, base_url))
+        startpage_rule.set_attribute_modifier_function('src', lambda x: self.get_href(x, base_url))
         # startpage_rule.set_attribute_modifier_function('title', lambda x: x.partition('#')[0])
         parser.add_rule(startpage_rule)
 
@@ -44,6 +44,7 @@ class YPvideoSite(BaseSite):
         # startpage_rule.set_attribute_filter_function('src',lambda x: '.jpg' in x)
         # startpage_combo_rule.set_attribute_modifier_function('title', lambda x: x.partition('#')[0])
         startpage_combo_rule.set_attribute_modifier_function('href', lambda x: self.get_href(x, base_url))
+        startpage_combo_rule.set_attribute_modifier_function('src', lambda x: self.get_href(x, base_url))
         parser.add_rule(startpage_combo_rule)
 
         startpage_pages_rule = ParserRule()
@@ -63,6 +64,7 @@ class YPvideoSite(BaseSite):
         video_rule.add_activate_rule_level([('div', 'itemprop', 'video')])
         # video_rule.add_process_rule_level('a', {'href'})
         video_rule.add_process_rule_level('video', {'src'})
+        video_rule.set_attribute_modifier_function('src', lambda x: self.get_href(x, base_url))
         parser.add_rule(video_rule)
 
         video_multipart_rule = ParserRule()
@@ -165,12 +167,12 @@ class YPvideoSite(BaseSite):
             # result.set_type('hrefs')
 
             for item in startpage_combo_rule.get_result():
-                # print(item)
+                print(item)
                 result.add_thumb(
                     ThumbInfo(thumb_url=URL(item['src']), href=URL(item['href']), popup=item.get('title', '')))
 
             for item in startpage_rule.get_result(['href']):
-                # print(item)
+                print(item)
                 result.add_thumb(
                     ThumbInfo(thumb_url=URL(item['src']), href=URL(item['href']), popup=item.get('title', '')))
 

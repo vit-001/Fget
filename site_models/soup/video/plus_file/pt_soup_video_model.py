@@ -1,12 +1,13 @@
 __author__ = 'Vit'
-from bs4 import BeautifulSoup,BeautifulStoneSoup
+from bs4 import BeautifulSoup
 
-from base_classes import UrlList,URL
+from base_classes import UrlList
+from loader.base_loader import URL
+from loader.simple_loader import load
+from setting import Setting
 from site_models.base_site_model import ParseResult,ControlInfo, ThumbInfo,FullPictureInfo
 from site_models.soup.base_soup_model import BaseSoupSite, _iter
-from site_models.util import get_href,get_url,quotes,sp,psp
-from requests_loader import load
-from setting import Setting
+from site_models.util import quotes
 
 class PTvideoSoupSite(BaseSoupSite):
     def start_button_name(self):
@@ -31,9 +32,9 @@ class PTvideoSoupSite(BaseSoupSite):
 
     def parse_thumbs(self, soup: BeautifulSoup, result: ParseResult, base_url: URL):
         for thumbnail in _iter(soup.find_all('div',{'class':'thumb-overlay'})):
-            href=get_url(thumbnail.parent.attrs['href'],base_url)
+            href=URL(thumbnail.parent.attrs['href'],base_url=base_url)
             description=thumbnail.img.attrs['alt']
-            thumb_url = get_url(thumbnail.img.attrs['data-original'], base_url)
+            thumb_url = URL(thumbnail.img.attrs['data-original'], base_url=base_url)
 
             duration=thumbnail.find('div',{'class':'duration'}).contents[-1]
             dur_time= '' if duration is None else str(duration.string).strip()
@@ -50,7 +51,7 @@ class PTvideoSoupSite(BaseSoupSite):
         for tags_container in _iter(soup.find_all('div',{'class':'btn-group'})):
             if tags_container is not None:
                 for tag in _iter(tags_container.find_all('a')):
-                    result.add_control(ControlInfo(str(tag.string), get_url(tag.attrs['href'],base_url)))
+                    result.add_control(ControlInfo(str(tag.string), URL(tag.attrs['href'],base_url=base_url)))
 
     def get_pagination_container(self, soup: BeautifulSoup) -> BeautifulSoup:
         return soup.find('ul', {'class': 'pagination'})
@@ -60,13 +61,13 @@ class PTvideoSoupSite(BaseSoupSite):
         if wrapper is not None:
             script = wrapper.find('script', text=lambda x: 'SWFObject(' in str(x))
             if script is not None:
-                config_xml_url=get_url(quotes(str(script.string),'?config=','"'),base_url)
+                config_xml_url=URL(quotes(str(script.string),'?config=','"'),base_url=base_url)
                 r=load(config_xml_url)
                 bs=BeautifulSoup(r.text, 'html.parser')
                 files=bs.find_all(lambda tag: tag.name.startswith('file'))
                 urls = UrlList()
                 for item in _iter(files):
-                    urls.add(item.name, get_url(item.string,base_url))
+                    urls.add(item.name, URL(item.string,base_url=base_url))
 
                 result.set_video(urls.get_media_data(-1))
 
@@ -74,7 +75,7 @@ class PTvideoSoupSite(BaseSoupSite):
         # adding user to video
         user_container = soup.find('table', {'class': 'user-tab'})
         username_span = user_container.find('span')
-        href = get_url(username_span.parent.attrs['href'] + '/videos', base_url)
+        href = URL(username_span.parent.attrs['href'] + '/videos', base_url=base_url)
         username = str(username_span.string)
         result.add_control(ControlInfo(username, href, text_color='blue'))
 
@@ -82,7 +83,7 @@ class PTvideoSoupSite(BaseSoupSite):
         for item in _iter(soup.find_all('div', {'class': 'catmenu'})):
             for href in _iter(item.find_all('a')):
                 if href.string is not None:
-                    result.add_control(ControlInfo(str(href.string), get_url(href.attrs['href'], base_url)))
+                    result.add_control(ControlInfo(str(href.string), URL(href.attrs['href'], base_url=base_url)))
 
     def parse_pictures(self, soup: BeautifulSoup, result: ParseResult, base_url: URL):
         photo_container=soup.find('div',{'class':'panel-body'})
@@ -100,7 +101,7 @@ class PTvideoSoupSite(BaseSoupSite):
 
             for number in range(first_num,first_num+num_of_photos):
                 name=str(number)+'.'+ext
-                url=get_url(part[0]+'/'+name,base_url)
+                url=URL(part[0]+'/'+name,base_url=base_url)
                 picture = FullPictureInfo(abs_href=url, rel_name=name)
                 picture.set_base(base_dir)
                 result.add_full(picture)

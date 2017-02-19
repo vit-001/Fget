@@ -2,7 +2,7 @@ __author__ = 'Vit'
 
 import os
 
-from base_classes import URL
+from loader.base_loader import URL
 from setting import Setting
 
 

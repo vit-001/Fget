@@ -258,7 +258,7 @@ if __name__ == "__main__":
     fname1_jpeg='out/plain.jpg'
     fname2_jpeg='out/az.jpg'
 
-    url=url1b
+    url=url1
     f1=fname1
     f2=fname2
 

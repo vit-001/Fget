@@ -114,11 +114,11 @@ class EXTvideoSite(BaseSite):
                     if p_to > last_page: p_to = last_page
 
                     for x in range(p_from, p_to):
-                        url = URL(pattern.format(x), xhr_data=xhr_data)
+                        url = URL(pattern.format(x), any_data=xhr_data)
                         if x == curr_page: x = str(x) + '(this)'
                         result.add_page(ControlInfo(str(x), url))
 
-                    last_url = URL(pattern.format(last_page), xhr_data=xhr_data)
+                    last_url = URL(pattern.format(last_page), any_data=xhr_data)
                     result.add_page(ControlInfo(str(last_page), last_url))
                     buttons_added = True
 
@@ -148,7 +148,7 @@ class EXTvideoSite(BaseSite):
 
             xhr_data = {'base_url': base_url}
 
-            next_url = URL(base_url.get() + '*', xhr_data=xhr_data)  # +'?format=json&number_pages=1&page=2*'
+            next_url = URL(base_url.get() + '*', any_data=xhr_data)  # +'?format=json&number_pages=1&page=2*'
             next_url.add_query([('format', 'json'), ('number_pages', '1'), ('page', '2')])
             result.add_page(ControlInfo('next', next_url))
 

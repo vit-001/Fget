@@ -4,7 +4,8 @@ from PyQt5 import QtCore
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QLabel
 
-from base_classes import AbstractPictureView, AbstractViewManager, URL
+from base_classes import AbstractPictureView, AbstractViewManager
+from loader.base_loader import URL
 from favorites import FavoriteRecord
 from view.qt_full_view import FullView
 from view.qt_widget.qt_progress_line import QProgressHLine

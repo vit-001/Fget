@@ -31,8 +31,10 @@ from site_models.soup.video.script.pc_soup_video_model import PCvideoSoupSite
 from site_models.soup.video.script.px_soup_video_model import PXvideoSoupSite
 from site_models.soup.video.script.rgf_video_model import RGFvideoSite
 from site_models.soup.video.script.rt_soup_video_model import RTvideoSoupSite
+from site_models.soup.video.script.v24_soup_video_model import V24videoSoupSite
 from site_models.soup.video.simple.cbp_soup_video_model import CBPvideoSoupSite
 from site_models.soup.video.simple.hdep_soup_video_model import HDEPvideoSoupSite
+from site_models.soup.video.simple.sm_soup_video_model import SMvideoSoupSite
 from site_models.soup.video.simple.ver_soup_video_model import VERvideoSoupSite
 from site_models.video.ajax.ext_video_model import EXTvideoSite
 from site_models.video.nfl_video_model import NFLvideoSite
@@ -48,7 +50,6 @@ from site_models.video.plus_file.yp_video_model import YPvideoSite
 from site_models.video.script.cls_video_model import CLSvideoSite
 from site_models.video.script.dc_video_model import DCvideoSite
 from site_models.video.script.syf_video_model import SYFPvideoSite
-from site_models.video.script.v24_video_model import V24videoSite
 from site_models.video.simple.bmt_video_model import BMTvideoSite
 from site_models.video.simple.gb_video_model import GBvideoSite
 from site_models.video.simple.hr_video_model import HRvideoSite
@@ -57,12 +58,12 @@ from site_models.video.simple.p4k_video_model import P4KvideoSite
 from site_models.video.simple.pb_video_model import PBvideoSite
 from site_models.video.simple.ps_video_model import PSvideoSite
 from site_models.video.skw_video_model import SKWvideoSite
-from site_models.video.sm_video_model import SMvideoSite
+from site_models.video.su_video_model import SUvideoSite
 from site_models.video.t8_video_model import T8videoSite
 from site_models.video.tz_video_model import TZvideoSite
 from site_models.video.vp_video_model import VPvideoSite
-from site_models.soup.video.script.v24_soup_video_model import V24videoSoupSite
-from site_models.soup.video.simple.sm_soup_video_model import SMvideoSoupSite
+from site_models.video.xm_model import XMvideoSite
+
 
 class SiteVewerModel(AbstractModel):
     def __init__(self, controller=PresenterFromModelInterface()):
@@ -70,6 +71,9 @@ class SiteVewerModel(AbstractModel):
         self.debug = Setting.model_debug
         self.models = [
             # work on
+
+            XMvideoSite(self),
+            SUvideoSite(self),
 
 
             # classic

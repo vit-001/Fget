@@ -4,7 +4,8 @@ from tkinter import *
 from tkinter.messagebox import askokcancel
 from tkinter.ttk import *
 
-from base_classes import PresenterFromViewInterface, AbstractPictureView, AbstractThumbView, URL
+from base_classes import PresenterFromViewInterface, AbstractPictureView, AbstractThumbView
+from loader.base_loader import URL
 from view.tk_classes.widgets.button_line import HScrolledButtonLine
 from view.tk_classes.widgets.dir_viewer import DirViewer
 from view.tk_classes.widgets.progress_line import ProgressLine

@@ -2,10 +2,11 @@ __author__ = 'Vit'
 
 from bs4 import BeautifulSoup
 
-from base_classes import UrlList,URL
+from base_classes import UrlList
+from loader.base_loader import URL
 from site_models.base_site_model import ParseResult,ControlInfo, ThumbInfo
 from site_models.soup.base_soup_model import BaseSoupSite,_iter
-from site_models.util import get_href,get_url,quotes
+from site_models.util import quotes
 
 class MLvideoSoupSite(BaseSoupSite):
     def start_button_name(self):
@@ -33,8 +34,8 @@ class MLvideoSoupSite(BaseSoupSite):
     def parse_thumbs(self, soup: BeautifulSoup, result: ParseResult, base_url: URL):
         for item in _iter(soup.find_all('div', {'class': ['content-inner']})):
             for thumbnail in _iter(item.find_all('div', {'class': 'thumb'})):
-                href = get_url(thumbnail.a.attrs['href'], base_url)
-                thumb_url = get_url(thumbnail.img.attrs['src'], base_url)
+                href = URL(thumbnail.a.attrs['href'], base_url=base_url)
+                thumb_url = URL(thumbnail.img.attrs['src'], base_url=base_url)
 
                 duration = thumbnail.find('div', {'class': 'caption left'})
                 dur_time = '' if duration is None else str(duration.string)
@@ -55,7 +56,7 @@ class MLvideoSoupSite(BaseSoupSite):
         tags = soup.find('div', {'class': 'dark-menu'})
         if tags is not None:
             for tag in _iter(tags.find_all('a')):
-                result.add_control(ControlInfo(str(tag.string).strip(), get_url(tag.attrs['href'], base_url)))
+                result.add_control(ControlInfo(str(tag.string).strip(), URL(tag.attrs['href'], base_url=base_url)))
 
     def get_pagination_container(self,soup:BeautifulSoup):
         return  soup.find('div', {'class': 'pagination_link'})
@@ -68,7 +69,7 @@ class MLvideoSoupSite(BaseSoupSite):
             if script is not None:
                 data = str(script.string).replace(' ', '')
                 file = quotes(data, '"file":"', '"')
-                urls.add('DEFAULT', get_url(file, base_url))
+                urls.add('DEFAULT', URL(file, base_url=base_url))
                 result.set_video(urls.get_media_data())
 
     def parse_video_tags(self, soup: BeautifulSoup, result: ParseResult, base_url: URL):
@@ -89,7 +90,7 @@ class MLvideoSoupSite(BaseSoupSite):
             for href in _iter(item.find_all('a')):
                 if href.string is not None:
                     result.add_control(
-                        ControlInfo(str(href.string), get_url(href.attrs['href'], base_url)))
+                        ControlInfo(str(href.string), URL(href.attrs['href'], base_url=base_url)))
 
 if __name__ == "__main__":
     pass

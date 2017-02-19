@@ -2,10 +2,15 @@
 __author__ = 'Nikitin'
 
 if __name__ == "__main__":
-    import sys
 
-    print(sys.path)
-    from model.data import Data
+    import datetime
 
-    d = Data
-    print(d.__dict__)
+    t=datetime.datetime.now()
+    print(t)
+    print(t.timestamp())
+
+    ts=t.timestamp()
+
+    t1=datetime.datetime.fromtimestamp(ts)
+
+    print(t1)

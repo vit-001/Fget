@@ -1,10 +1,11 @@
 __author__ = 'Vit'
 from bs4 import BeautifulSoup
 
-from base_classes import UrlList,URL
+from base_classes import UrlList
+from loader.base_loader import URL
 from site_models.base_site_model import ParseResult,ControlInfo, ThumbInfo
 from site_models.soup.base_soup_model import BaseSoupSite,_iter
-from site_models.util import get_href,get_url,quotes,psp
+from site_models.util import quotes,psp
 
 
 class SMvideoSoupSite(BaseSoupSite):
@@ -29,9 +30,9 @@ class SMvideoSoupSite(BaseSoupSite):
         for thumbnail in _iter(soup.find_all('a',{'class':'video-box'})):
             # psp(thumbnail.prettify())
 
-            href=get_url(thumbnail.attrs['href'],base_url)
+            href=URL(thumbnail.attrs['href'],base_url=base_url)
             description=thumbnail.img.attrs['alt']
-            thumb_url = get_url(thumbnail.img.attrs['src'], base_url)
+            thumb_url = URL(thumbnail.img.attrs['src'], base_url=base_url)
 
             duration = thumbnail.find('span', {'class': "video-length"})
             dur_time= '' if duration is None else str(duration.string)
@@ -44,7 +45,7 @@ class SMvideoSoupSite(BaseSoupSite):
         for tag in _iter(soup.find_all('li', {'class': 'main-nav-item '})):
             href=tag.find('a',href=lambda x: '/channels/' in str(x))
             if href is not None:
-                result.add_control(ControlInfo(str(href.string).strip(), get_url(href.attrs['href'], base_url)))
+                result.add_control(ControlInfo(str(href.string).strip(), URL(href.attrs['href'], base_url=base_url)))
 
     def get_pagination_container(self, soup: BeautifulSoup) -> BeautifulSoup:
         return soup.find('div',{'class':'pagination-block'})
@@ -54,7 +55,7 @@ class SMvideoSoupSite(BaseSoupSite):
         # psp(script)
         if script is not None:
             urls = UrlList()
-            urls.add('DEFAULT', get_url(quotes(str(script.string),'file:"','"'),base_url))
+            urls.add('DEFAULT', URL(quotes(str(script.string),'file:"','"'),base_url=base_url))
             result.set_video(urls.get_media_data())
 
     def parse_video_tags(self, soup: BeautifulSoup, result: ParseResult, base_url: URL):
@@ -63,13 +64,13 @@ class SMvideoSoupSite(BaseSoupSite):
             for href in _iter(item.find_all('a')):
                 if href.string is not None:
                     result.add_control(ControlInfo(str(href.string).strip(',\n').replace('/user/','/uploads-by-user/'),
-                                                   get_url(href.attrs['href'], base_url),text_color='blue'))
+                                                   URL(href.attrs['href'], base_url=base_url),text_color='blue'))
 
         # adding tags to video
         for item in _iter(soup.find_all('div', {'class': 'tag-list-block'})):
             for href in _iter(item.find_all('a')):
                 if href.string is not None:
-                    result.add_control(ControlInfo(str(href.string).strip(',\n'), get_url(href.attrs['href'], base_url)))
+                    result.add_control(ControlInfo(str(href.string).strip(',\n'), URL(href.attrs['href'], base_url=base_url)))
 
 if __name__ == "__main__":
     pass

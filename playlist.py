@@ -1,6 +1,6 @@
 __author__ = 'Vit'
 
-from base_classes import URL
+from loader.base_loader import URL
 
 
 class PlaylistEntry():

@@ -2,9 +2,10 @@ __author__ = 'Vit'
 
 from bs4 import BeautifulSoup
 
-from base_classes import URL
+from loader.base_loader import URL
+from loader.az_loader import AZLoader
 from site_models.base_site_model import BaseSite, ParseResult, ControlInfo
-from site_models.util import get_url,psp
+from site_models.util import psp
 
 def _iter(source):
     if source is None:
@@ -14,7 +15,11 @@ def _iter(source):
 
 class BaseSoupSite(BaseSite):
     def text_color(self):
-        return 'mediumvioletred'
+        print(self.startpage())
+        if AZLoader.test_url_az(self.startpage()):
+            return 'mediumvioletred'
+        else:
+            return 'green'
 
     def parse_index_file(self, fname, base_url=URL())->ParseResult:
         result = ParseResult()
@@ -59,7 +64,7 @@ class BaseSoupSite(BaseSite):
             for page in container.find_all('a',{'href':True}):
                 # psp(page.prettify())
                 if page.string is not None and page.string.isdigit():
-                    result.add_page(ControlInfo(page.string, get_url(page.attrs['href'],base_url)))
+                    result.add_page(ControlInfo(page.string, URL(page.attrs['href'],base_url=base_url)))
 
     def get_pagination_container(self,soup:BeautifulSoup)->BeautifulSoup:
         return None

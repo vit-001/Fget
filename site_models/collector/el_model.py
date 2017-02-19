@@ -1,6 +1,5 @@
 __author__ = 'Vit'
 
-from base_classes import URL, ControlInfo
 from site_models.base_site_model import *
 from site_models.site_parser import SiteParser, ParserRule
 
@@ -105,7 +104,7 @@ class ELSite(BaseSite):
 
 
 class ELSitePictureCollector(PictureCollector):
-    def parse_index(self, request, url):
+    def parse_index(self, iter_line, url):
         parser = SiteParser()
 
         picture_rule = ParserRule()
@@ -114,7 +113,7 @@ class ELSitePictureCollector(PictureCollector):
         picture_rule.add_process_rule_level('img', {'src'})
         parser.add_rule(picture_rule)
 
-        for data in request:
+        for data in iter_line:
             parser.feed(data.decode('utf-8'))
 
         # print(picture_rule.get_result()[0]['src'])

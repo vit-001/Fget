@@ -1,10 +1,11 @@
 __author__ = 'Vit'
 from bs4 import BeautifulSoup
 
-from base_classes import UrlList,URL
+from base_classes import UrlList
+from loader.base_loader import URL
 from site_models.base_site_model import ParseResult,ControlInfo, ThumbInfo
 from site_models.soup.base_soup_model import BaseSoupSite,_iter
-from site_models.util import get_href,get_url,quotes
+from site_models.util import quotes
 
 
 class RTvideoSoupSite(BaseSoupSite):
@@ -44,8 +45,8 @@ class RTvideoSoupSite(BaseSoupSite):
             # parce thumbnail page
             for thumbnail_container in thumbnail_containers:
                 for thumbnail in _iter(thumbnail_container.find_all('li')):
-                    href = get_url(thumbnail.a.attrs['href'], base_url)
-                    thumb_url = get_url(thumbnail.img.attrs['data-src'], base_url)
+                    href = URL(thumbnail.a.attrs['href'], base_url=base_url)
+                    thumb_url = URL(thumbnail.img.attrs['data-src'], base_url=base_url)
                     label=thumbnail.img.attrs.get('alt','')
 
                     duration = thumbnail.find('span', {'class': 'video-duration'})
@@ -63,12 +64,12 @@ class RTvideoSoupSite(BaseSoupSite):
             # parce channels page
             for channel_container in channel_containers:
                 for channel in _iter(channel_container.find_all('li')):
-                    href = get_url(channel.a.attrs['href'], base_url)
+                    href = URL(channel.a.attrs['href'], base_url=base_url)
                     logo=channel.find('span',{'class':'channel-logo'})
                     img=logo.find('img')
                     if img is None:
                         img = channel.find('img')
-                    thumb_url = get_url(img.attrs.get('data-src',img.attrs['src']), base_url)
+                    thumb_url = URL(img.attrs.get('data-src',img.attrs['src']), base_url=base_url)
                     label = channel.img.attrs.get('alt', '')
 
                     num_videos_span = channel.find('span', text=lambda x: 'videos' in str(x))
@@ -84,9 +85,9 @@ class RTvideoSoupSite(BaseSoupSite):
             for stars_container in stars_containers:
                 for star in _iter(stars_container.find_all('li')):
 
-                    href = get_url(star.a.attrs['href'], base_url)
+                    href = URL(star.a.attrs['href'], base_url=base_url)
                     img = star.find('img')
-                    thumb_url = get_url(img.attrs['src'], base_url)
+                    thumb_url = URL(img.attrs['src'], base_url=base_url)
                     label = img.attrs.get('alt', '')
 
                     num_videos_span = star.find('span', text=lambda x: 'Videos' in str(x))
@@ -101,13 +102,13 @@ class RTvideoSoupSite(BaseSoupSite):
             for tags_container in tags_containers:
                 for tag in _iter(tags_container.find_all('a')):
                     # print(tag)
-                    result.add_control(ControlInfo(str(tag.string), get_url(tag.attrs['href'], base_url)))
+                    result.add_control(ControlInfo(str(tag.string), URL(tag.attrs['href'], base_url=base_url)))
 
     def parse_thumbs_tags(self, soup: BeautifulSoup, result: ParseResult, base_url: URL):
         tags_containers = _iter(soup.find_all('ul', {'class': ['categories-listing','categories-popular-listing']}))
         for tags_container in tags_containers:
             for tag in _iter(tags_container.find_all('a')):
-                result.add_control(ControlInfo(str(tag.attrs['title']), get_url(tag.attrs['href'], base_url)))
+                result.add_control(ControlInfo(str(tag.attrs['title']), URL(tag.attrs['href'], base_url=base_url)))
 
     def parse_pagination(self, soup: BeautifulSoup, result: ParseResult, base_url: URL):
         pagination = soup.find('div', {'class': 'pages'})
@@ -115,7 +116,7 @@ class RTvideoSoupSite(BaseSoupSite):
             for page in _iter(pagination.find_all('a')):
                 num='' if page.string is None else str(page.string)
                 if num.isdigit():
-                    result.add_page(ControlInfo(num, get_url(page.attrs['href'], base_url)))
+                    result.add_page(ControlInfo(num, URL(page.attrs['href'], base_url=base_url)))
 
     def parse_video(self, soup: BeautifulSoup, result: ParseResult, base_url: URL):
         video = soup.find('div', {'class': 'watch'})
@@ -128,7 +129,7 @@ class RTvideoSoupSite(BaseSoupSite):
                 for item in sources:
                     file = quotes(item, '":"', '"')
                     label=quotes(item,'"','"')
-                    urls.add(label, get_url(file, base_url))
+                    urls.add(label, URL(file, base_url=base_url))
 
                 urls.sort()
                 result.set_video(urls.get_media_data(-1))
@@ -143,7 +144,7 @@ class RTvideoSoupSite(BaseSoupSite):
             if user is not None:
                 href = user.attrs['href']
                 username = user.string
-                result.add_control(ControlInfo(username, get_url(href, base_url), text_color='blue'))
+                result.add_control(ControlInfo(username, URL(href, base_url=base_url), text_color='blue'))
         # stars in video adding
         stars_container = video_detail.find('ul', {'class': 'pornstars-in-video'})
         stars = _iter(stars_container.find_all('li', {'class': None}, recursive=False))
@@ -152,14 +153,14 @@ class RTvideoSoupSite(BaseSoupSite):
             if href is not None:
                 info = list(star.find('span', {'class': 'pornstar-info'}).stripped_strings)
                 name = info[0] + ' ' + info[1]
-                url = get_url(href.attrs['href'], base_url)
+                url = URL(href.attrs['href'], base_url=base_url)
                 result.add_control(ControlInfo(name, url, text_color='magenta'))
         # other tags
         for links_container in _iter(video_detail.find_all('td', {'class': 'links'})):
             for href in _iter(links_container.find_all('a', {'href': lambda x: 'javascript' not in x})):
                 if href.string is not None:
                     result.add_control(
-                        ControlInfo(str(href.string), get_url(href.attrs['href'], base_url)))
+                        ControlInfo(str(href.string), URL(href.attrs['href'], base_url=base_url)))
 
 if __name__ == "__main__":
     pass

@@ -3,7 +3,7 @@ __author__ = 'Vit'
 import urllib.parse as up
 
 import site_models.util as util
-from base_classes import URL, ControlInfo, UrlList
+from base_classes import UrlList
 from setting import Setting
 from site_models.base_site_model import *
 from site_models.site_parser import SiteParser, ParserRule

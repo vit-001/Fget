@@ -1,10 +1,11 @@
 __author__ = 'Vit'
 from bs4 import BeautifulSoup
 
-from base_classes import UrlList,URL
+from base_classes import UrlList
+from loader.base_loader import URL
 from site_models.base_site_model import ParseResult,ControlInfo, ThumbInfo
 from site_models.soup.base_soup_model import BaseSoupSite,_iter
-from site_models.util import get_href,get_url,quotes
+from site_models.util import quotes
 
 
 class PXvideoSoupSite(BaseSoupSite):
@@ -26,8 +27,8 @@ class PXvideoSoupSite(BaseSoupSite):
 
     def parse_thumbs(self, soup: BeautifulSoup, result: ParseResult, base_url: URL):
         for thumbnail in _iter(soup.find_all('li', {'class': 'thumb-item'})):
-            href = get_url(thumbnail.a.attrs['href'], base_url)
-            thumb_url = get_url(thumbnail.img.attrs['src'], base_url)
+            href = URL(thumbnail.a.attrs['href'], base_url=base_url)
+            thumb_url = URL(thumbnail.img.attrs['src'], base_url=base_url)
             label=thumbnail.img.attrs.get('alt','')
 
             duration = thumbnail.find('span', {'class': 'fs11 viddata flr'})
@@ -45,14 +46,14 @@ class PXvideoSoupSite(BaseSoupSite):
         tags_container = soup.find('div', {'class': 'left-menu-box-wrapper'})
         if tags_container is not None:
             for tag in _iter(tags_container.find_all('a',{'href':lambda x: '/videos/' in x})):
-                result.add_control(ControlInfo(str(tag.string).strip(), get_url(tag.attrs['href'], base_url)))
+                result.add_control(ControlInfo(str(tag.string).strip(), URL(tag.attrs['href'], base_url=base_url)))
 
     def parse_pagination(self, soup: BeautifulSoup, result: ParseResult, base_url: URL):
         pagination = soup.find('div', {'class': 'pagination'})
         if pagination is not None:
             for page in _iter(pagination.find_all('a',{'class': None})):
                 if page.string.isdigit():
-                    result.add_page(ControlInfo(page.string, get_url(page.attrs['href'], base_url)))
+                    result.add_page(ControlInfo(page.string, URL(page.attrs['href'], base_url=base_url)))
 
     def parse_video(self, soup: BeautifulSoup, result: ParseResult, base_url: URL):
         video = soup.find('div', {'class': 'videoDetail'})
@@ -66,10 +67,10 @@ class PXvideoSoupSite(BaseSoupSite):
                     for item in sources:
                         file = quotes(item, 'file:"', '"')
                         label=quotes(item,'label:"','"')
-                        urls.add(label, get_url(file, base_url))
+                        urls.add(label, URL(file, base_url=base_url))
                 elif "filefallback':" in data:
                     file=quotes(data,'filefallback\':"','"')
-                    urls.add('DEFAULT', get_url(file, base_url))
+                    urls.add('DEFAULT', URL(file, base_url=base_url))
 
                 result.set_video(urls.get_media_data(-1))
 
@@ -79,13 +80,13 @@ class PXvideoSoupSite(BaseSoupSite):
         if user is not None:
             href = user.find('a').attrs['href']
             username = user.find('span', {'class': 'name'}).string
-            result.add_control(ControlInfo(username, get_url(href, base_url), text_color='blue'))
+            result.add_control(ControlInfo(username, URL(href, base_url=base_url), text_color='blue'))
 
         # adding tags to video
         for item in _iter(soup.find_all('div', {'class': 'content-tags'})):
             for href in _iter(item.find_all('a')):
                 if href.string is not None:
-                    result.add_control(ControlInfo(str(href.string), get_url(href.attrs['href'], base_url)))
+                    result.add_control(ControlInfo(str(href.string), URL(href.attrs['href'], base_url=base_url)))
 
 if __name__ == "__main__":
     pass

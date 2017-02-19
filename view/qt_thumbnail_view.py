@@ -3,7 +3,8 @@ __author__ = 'Vit'
 from PyQt5 import QtCore
 from PyQt5.QtWidgets import *
 
-from base_classes import AbstractThumbView, URL, AbstractViewManager
+from base_classes import AbstractThumbView, AbstractViewManager
+from loader.base_loader import URL
 from history import History, HistoryRecord, HistoryException
 from view.qt_ui.thumb_viewer_ui import Ui_MainWindow
 from view.qt_widget.qt_button_line import QButtonLine

@@ -1,10 +1,11 @@
 __author__ = 'Vit'
 from bs4 import BeautifulSoup
 
-from base_classes import UrlList,URL
+from base_classes import UrlList
+from loader.base_loader import URL
 from site_models.base_site_model import ParseResult,ControlInfo, ThumbInfo
 from site_models.soup.base_soup_model import BaseSoupSite,_iter
-from site_models.util import get_href,get_url,quotes
+from site_models.util import quotes
 
 class PCvideoSoupSite(BaseSoupSite):
     def start_button_name(self):
@@ -39,13 +40,13 @@ class PCvideoSoupSite(BaseSoupSite):
         if thumbs_list is not None:
             for thumbnail in _iter(thumbs_list.find_all('li')):
                 href = thumbnail.a.attrs['href']
-                url=get_url(href,base_url)
+                url=URL(href,base_url=base_url)
 
                 hd_span = thumbnail.find('span', {'class': 'hd'})
                 hd = '' if hd_span is None else '  HD'
 
                 if '/videos/' in href or '/pornstars/' in href:
-                    thumb_url = get_url(thumbnail.img.attrs['src'], base_url)
+                    thumb_url = URL(thumbnail.img.attrs['src'], base_url=base_url)
 
                     duration = thumbnail.find('span', {'class': 'added'})
                     dur_time = '' if duration is None else str(duration.string)
@@ -59,7 +60,7 @@ class PCvideoSoupSite(BaseSoupSite):
                                                        {'text': hd, 'align': 'top left','bold':True}]))
                 elif '/channels/' in href:
                     logo=thumbnail.find('img',{'class':'logo'})
-                    thumb_url = get_url(logo.attrs['src'], base_url)
+                    thumb_url = URL(logo.attrs['src'], base_url=base_url)
 
                     title = thumbnail.find('span', {'class': 'title'})
                     label = '' if title is None else str(title.string)
@@ -81,13 +82,13 @@ class PCvideoSoupSite(BaseSoupSite):
                 title = tag.attrs.get('title', '')
                 count = tag.find('span', {'class': 'count'})
                 count_str = '' if count is None else count.string
-                result.add_control(ControlInfo('{0}({1})'.format(title, count_str), get_url(tag.attrs['href'], base_url)))
+                result.add_control(ControlInfo('{0}({1})'.format(title, count_str), URL(tag.attrs['href'], base_url=base_url)))
 
         # adding alpha to thumbs
         alpha_container = soup.find('div', {'class': 'alpha'})
         if alpha_container is not None:
             for alpha in _iter(alpha_container.find_all('a')):
-                result.add_control(ControlInfo(str(alpha.string), get_url(alpha.attrs['href'], base_url)))
+                result.add_control(ControlInfo(str(alpha.string), URL(alpha.attrs['href'], base_url=base_url)))
 
     def get_pagination_container(self, soup: BeautifulSoup) -> BeautifulSoup:
         return soup.find('div', {'class': 'pager'})
@@ -103,7 +104,7 @@ class PCvideoSoupSite(BaseSoupSite):
                 sources = quotes(data, 'streams:[{', '}]').split('},{')
                 for f in sources:
                     label = quotes(f, 'id:"', '"')
-                    url = get_url(quotes(f, 'url:"', '"'),base_url)
+                    url = URL(quotes(f, 'url:"', '"'),base_url=base_url)
                     if url.contain('.mp4'):
                         urls.add(label, url)
 
@@ -123,7 +124,7 @@ class PCvideoSoupSite(BaseSoupSite):
             if '/channels/' in href:
                 color= 'blue'
             label = str(item.string)
-            result.add_control(ControlInfo(label, get_url(href, base_url), text_color=color))
+            result.add_control(ControlInfo(label, URL(href, base_url=base_url), text_color=color))
 
 if __name__ == "__main__":
     pass
