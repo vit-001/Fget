@@ -27,7 +27,7 @@ class V24videoSoupSite(BaseSoupSite):
         container=soup.find('div',{'class':'list-videos'})
         if container is not None:
             for thumbnail in _iter(container.find_all('div',{'class':'item'})):
-                psp(thumbnail.prettify())
+                # psp(thumbnail.prettify())
 
                 href = URL(thumbnail.a.attrs['href'], base_url=base_url)
                 thumb_url = URL(thumbnail.img.attrs['data-original'], base_url=base_url)
@@ -53,7 +53,7 @@ class V24videoSoupSite(BaseSoupSite):
                 flashvars = self.quotes(data,'flashvars={', '};').split(',')
                 fv = dict()
                 for flashvar in flashvars:
-                    print(flashvar)
+                    # print(flashvar)
                     split = flashvar.partition(':')
                     fv[split[0]] = split[2].strip("'\"")
                 files = dict()

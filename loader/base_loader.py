@@ -36,7 +36,8 @@ class URL:
                  post_data=None,
                  any_data=None,
 
-                 forced_proxy=False
+                 forced_proxy=False,
+                 forced_unproxy=False
                  ):
 
         self.method = method
@@ -46,6 +47,7 @@ class URL:
         self.post_data = post_data
         self.xhr_data = any_data
         self.forced_proxy=forced_proxy
+        self.forced_unproxy=forced_unproxy
 
         if base_url:
             url=get_href(url,base_url)

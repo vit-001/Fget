@@ -15,7 +15,6 @@ def _iter(source):
 
 class BaseSoupSite(BaseSite):
     def text_color(self):
-        print(self.startpage())
         if AZLoader.test_url_az(self.startpage()):
             return 'mediumvioletred'
         else:

@@ -210,7 +210,6 @@ class BaseSite(AbstractSite):
         return False
 
     def text_color(self):
-        print(self.startpage())
         if AZLoader.test_url_az(self.startpage()):
             return 'darkorange'
         else:

@@ -35,14 +35,16 @@ class AZLoader():
         self.read_proxy_pac()
         # self.proxies = {'http': self.free_http_proxy}
         AZLoader.initialized=True
+        # print(len(AZLoader.proxy_domains))
 
     @staticmethod
     def test_url_az(url:URL)->bool:
-        # print('testing',url)
+        if url.forced_unproxy:
+            return False
         domain=url.domain()
         for item in AZLoader.proxy_domains:
             if '.' + item in domain or item == domain:
-                print(item,domain)
+                # print(item,domain)
                 return True
         return False
 
@@ -57,7 +59,6 @@ class AZLoader():
     def load(self, url:URL, fname: str = '', overwrite=True):
         self.requests_load(url,fname,overwrite)
 
-
     def requests_load(self, url:URL, fname: str = '', overwrite=True):
         # print('Loading',url.get(),'to',fname)
         filename = ''
@@ -69,6 +70,7 @@ class AZLoader():
                 proxies=AZLoader.proxies
             else:
                 proxies=None
+
             # print(proxies)
             try:
                 if url.method == 'GET':
@@ -121,7 +123,6 @@ class AZLoader():
 
     def read_proxy_pac(self):
         if AZLoader.last_loaded:
-            print(datetime.datetime.now()-AZLoader.last_loaded)
             if datetime.datetime.now()-AZLoader.last_loaded<datetime.timedelta(hours=2):
                 return
         try:
@@ -150,7 +151,6 @@ class AZLoader():
                 AZLoader.proxy_domains=data.get('proxy_domains',list())
                 if AZLoader.free_http_proxy:
                     AZLoader.proxies = {'http': AZLoader.free_http_proxy}
-                print(AZLoader.last_loaded)
 
         except EnvironmentError as err:
             print('Read '+AZLoader.config_filename+' error: ',err)
@@ -158,8 +158,6 @@ class AZLoader():
             print('AZLoader config error, using default')
             AZLoader.pac_url = "http://antizapret.prostovpn.org/proxy.pac"
             AZLoader.last_loaded=None
-
-
 
     def write_config(self):
         try:
@@ -178,7 +176,7 @@ class AZLoader():
                 data['proxy_domains']=AZLoader.proxy_domains
 
                 json.dump(data,config)
-                print(json.dumps(data))
+                # print(json.dumps(data))
         except EnvironmentError as err:
             print('Writing '+AZLoader.config_filename+' error: ',err)
 
