@@ -6,13 +6,10 @@ import socket
 from urllib.parse import urlparse,urlsplit
 
 
-def load(url, fname, cookies=None, headers=None):
+def load(url, fname, cookies=None, headers=None, proxies=None):
     print('Loading', url, 'to', fname)
     try:
-        proxies = {
-            'http': 'proxy.antizapret.prostovpn.org:3128',
-            'https': 'proxy.antizapret.prostovpn.org:3128',
-        }
+
         response = requests.get(url, cookies=cookies, headers=headers,proxies=proxies)
         response.raise_for_status()
         with open(fname, 'wb') as fd:
@@ -42,7 +39,8 @@ def load(url, fname, cookies=None, headers=None):
 
 def _dpi_send(host, port, data, fragment_size=0, fragment_count=0):
 
-    print(host,port,data)
+    print(host, port)
+    print(data.__repr__())
 
 
     sock = socket.create_connection((host, port), 10)
@@ -217,28 +215,49 @@ def load3(url, fname, az_method=None):
             fd.write(result)
 
 
-def sp_method(hostname, uri):
+def sp_method1(hostname, uri):
     return "GET  {} HTTP/1.0\r\n".format(uri) + "Host: {}\r\nConnection: close\r\n\r\n".format(hostname)
 
-def cr_method(hostname, uri):
+def cr_method1(hostname, uri):
     return "\nGET {} HTTP/1.0\r\n".format(uri) + "Host: {}\r\nConnection: close\r\n\r\n".format(hostname)
 
-def tab_method(hostname, uri):
+def tab_method1(hostname, uri):
     return "GET {} HTTP/1.0\r\n".format(uri) + "Host: {}\t\r\nConnection: close\r\n\r\n".format(hostname)
 
 
-def point_method(hostname, uri):
+def point_method1(hostname, uri):
     return "GET {} HTTP/1.0\r\n".format(uri) + "Host: {}.\r\nConnection: close\r\n\r\n".format(hostname)
 
-def host_method(hostname, uri):
+def host_method1(hostname, uri):
     return "GET {} HTTP/1.0\r\n".format(uri) + "host: {}\r\nConnection: close\r\n\r\n".format(hostname)
 
-def unix_method(hostname, uri):
+def unix_method1(hostname, uri):
     return "GET {} HTTP/1.0\n".format(uri) + "Host: {}\nConnection: close\n\n".format(hostname)
 
-def order_method(hostname, uri):
+def order_method1(hostname, uri):
     return "GET {} HTTP/1.0\r\n".format(uri) + "Connection: close\r\nHost: {}\r\n\r\n".format(hostname)
 
+def sp_method(hostname, uri):
+    return "GET  {0} HTTP/1.0\r\nHost: {1}\r\nConnection: close\r\n\r\n".format(uri, hostname)
+
+def cr_method(hostname, uri):
+    return "\nGET {0} HTTP/1.0\r\nHost: {1}\r\nConnection: close\r\n\r\n".format(uri, hostname)
+
+def tab_method(hostname, uri):
+    return "GET {0} HTTP/1.0\r\nHost: {1}\t\r\nConnection: close\r\n\r\n".format(uri, hostname)
+
+
+def point_method(hostname, uri):
+    return "GET {0} HTTP/1.0\r\nHost: {1}.\r\nConnection: close\r\n\r\n".format(uri, hostname)
+
+def host_method(hostname, uri):
+    return "GET {0} HTTP/1.0\r\nhost: {1}\r\nConnection: close\r\n\r\n".format(uri, hostname)
+
+def unix_method(hostname, uri):
+    return "GET {0} HTTP/1.0\nHost: {1}\nConnection: close\n\n".format(uri, hostname)
+
+def order_method(hostname, uri):
+    return "GET {0} HTTP/1.0\r\nConnection: close\r\nHost: {1}\r\n\r\n".format(uri, hostname)
 
 if __name__ == "__main__":
 
@@ -262,8 +281,20 @@ if __name__ == "__main__":
     f1=fname1
     f2=fname2
 
+    import os
+
+    try:
+        os.remove(f1)
+    except:
+        pass
+    try:
+        os.remove(f2)
+    except:
+        pass
+
+
     # metod=sp_method
-    # metod=cr_method
+    metod=cr_method
     # metod=tab_method
     # metod=point_method
     # metod=host_method
@@ -271,40 +302,54 @@ if __name__ == "__main__":
     # metod=order_method
 
 
+    print('========request========')
+    proxies = {
+        'http': 'proxy.antizapret.prostovpn.org:3128',
+        'https': 'proxy.antizapret.prostovpn.org:3128',
+    }
 
-    r=load(url,f1)
-
-
-
-
+    r=load(url,f1, proxies=proxies)
 
     print(r.history)
 
     for item in r.headers:
         print(item, ':', r.headers[item])
 
-    print('========request========')
+
     for item in r.request.headers:
         print(item, ':', r.request.headers[item])
 
+    try:
+        with open(fname1,encoding='UTF-8',errors='ignore') as fs:
+            bs=BeautifulSoup(fs,'html.parser')
+            print('=======plain=========')
+            if bs.head is not None:
+                if bs.head.title is not None:
+                    print(bs.head.title.string)
+            print('======================================================')
+    except:
+        pass
 
-    with open(fname1,encoding='UTF-8',errors='ignore') as fs:
-        bs=BeautifulSoup(fs,'html.parser')
-        print('=======plain=========')
-        if bs.head is not None:
-            if bs.head.title is not None:
-                print(bs.head.title.string)
-        print('======================================================')
 
+    print('========az========')
     # load2(url,f2)
     load3(url,f2, az_method=metod)
 
-    with open(fname2,encoding='UTF-8',errors='ignore') as fs:
-        bs=BeautifulSoup(fs,'html.parser')
-        print('========az========')
-        if bs.head is not None:
-            if bs.head.title is not None:
-                print(bs.head.title.string)
+    try:
+        with open(fname2,encoding='UTF-8',errors='ignore') as fs:
+            bs=BeautifulSoup(fs,'html.parser')
+
+            if bs.head is not None:
+                if bs.head.title is not None:
+                    print(bs.head.title.string)
+                else:
+                    print('No TITLE')
+            else:
+                print('No HEAD')
+    except:
+        pass
 
         print('================')
 
+# '\nGET motherless.com HTTP/1.0\r\nHost: /videos/recent?page=1\r\nConnection: close\r\n\r\n'
+# '\nGET /videos/recent?page=1 HTTP/1.0\r\nHost: motherless.com\r\nConnection: close\r\n\r\n'

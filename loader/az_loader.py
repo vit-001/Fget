@@ -6,6 +6,9 @@ import json
 import requests
 import re
 import datetime
+import socket
+from urllib.parse import urlparse,urlsplit
+from io import BytesIO
 
 from loader.base_loader import URL
 
@@ -26,6 +29,15 @@ class AZLoader():
     free_http_proxy=None
     proxies=None
 
+    trick_headers={
+    'sp_method': "GET  {0} HTTP/1.0\r\nHost: {1}\r\nConnection: close\r\n\r\n",
+    'cr_method': "\nGET {0} HTTP/1.0\r\nHost: {1}\r\nConnection: close\r\n\r\n",
+    'tab_method': "GET {0} HTTP/1.0\r\nHost: {1}\t\r\nConnection: close\r\n\r\n",
+    'point_method': "GET {0} HTTP/1.0\r\nHost: {1}.\r\nConnection: close\r\n\r\n",
+    'host_method': "GET {0} HTTP/1.0\r\nhost: {1}\r\nConnection: close\r\n\r\n",
+    'unix_method': "GET {0} HTTP/1.0\nHost: {1}\nConnection: close\n\n",
+    'order_method': "GET {0} HTTP/1.0\r\nConnection: close\r\nHost: {1}\r\n\r\n",
+    }
 
     def __init__(self):
         if AZLoader.initialized:
@@ -41,6 +53,8 @@ class AZLoader():
     def test_url_az(url:URL)->bool:
         if url.forced_unproxy:
             return False
+        if url.forced_proxy:
+            return True
         domain=url.domain()
         for item in AZLoader.proxy_domains:
             if '.' + item in domain or item == domain:
@@ -48,25 +62,50 @@ class AZLoader():
                 return True
         return False
 
-    def safe_load(self, url, fname: str, overwrite=True):
+    def _inspect_availability(self,url:URL)->str:
+        if url.test_string is None:
+            return 'plain'
+
+        url.forced_unproxy=True
+        string=self.requests_load(url)
+        # print(string)
+        if url.test_string in string:
+            return 'plain'
+
+        url.forced_unproxy=False
+        url.forced_proxy=True
+        string=self.requests_load(url)
+        # print(string)
+        if url.test_string in string:
+            return 'proxy'
+
+        for method_name in AZLoader.trick_headers:
+            # print(method_name)
+            string = self.trick_load(url,trick_name=method_name)
+            # print(string)
+            if url.test_string in string:
+                return method_name
+
+        return 'none'
+
+    def safe_load(self, url, fname: str, overwrite=True)->str:
         try:
-            self.load(url, fname, overwrite)
-            return fname
+            return self.load(url, fname, overwrite)
         except (ValueError, LoaderError) as Error:
             print(url.get() + ' not loaded: ', Error)
-            return None
+            return ''
 
-    def load(self, url:URL, fname: str = '', overwrite=True):
-        self.requests_load(url,fname,overwrite)
+    def load(self, url:URL, fname: str = '', overwrite=True)->str:
+        return self.requests_load(url,fname,overwrite)
 
-    def requests_load(self, url:URL, fname: str = '', overwrite=True):
+    def requests_load(self, url:URL, fname: str = '', overwrite=True)->str:
         # print('Loading',url.get(),'to',fname)
         filename = ''
 
         if overwrite or (not os.path.exists(fname)):
             # print(self.test_url_az(url))
-            if url.forced_proxy or self.test_url_az(url):
-                print('Proxy ON')
+            if self.test_url_az(url):
+                # print('Proxy ON')
                 proxies=AZLoader.proxies
             else:
                 proxies=None
@@ -119,7 +158,69 @@ class AZLoader():
                                 # print(item,c[item])
                                 fd.write(item + ':' + c[item] + '\n')
 
-                return response
+                response.encoding='UTF-8'
+                return response.text
+
+    def _send(self, host, port, data)->bytes:
+        recv=''
+        sock = socket.create_connection((host, port), 10)
+        try:
+            sock.sendall(data.encode())
+            recvdata = sock.recv(8192)
+            recv = recvdata
+            while recvdata:
+                recvdata = sock.recv(8192)
+                recv += recvdata
+        finally:
+            try:
+                sock.shutdown(socket.SHUT_RDWR)
+            except:
+                pass
+            sock.close()
+        return recv
+
+
+    def trick_load(self, url:URL, fname: str = '', overwrite=True, trick_name=None)->str:
+        if trick_name is None:
+            return ''
+
+        if overwrite or (not os.path.exists(fname)):
+            us = urlsplit(url.get())
+            hostname = us[1]
+            addr = socket.gethostbyname(hostname)
+
+            if us[2] is not '':
+                uri = us[2]
+            else:
+                uri = '/'
+
+            if us[3] is not '':
+                uri += '?' + us[3]
+
+            try:
+                result = self._send(addr, 80, AZLoader.trick_headers[trick_name].format( uri, hostname))
+
+            except Exception as e:
+                raise LoaderError(e.__repr__())
+            else:
+                (head,sp,body)=result.partition(b'\r\n\r\n')
+
+                # print(head)
+                # print(len(body))
+
+                if fname is not '':
+                    path = os.path.dirname(fname)
+
+                    if not os.path.exists(path):
+                        os.makedirs(path)
+
+                    buf=BytesIO(body)
+                    with open(fname, 'wb') as fd:
+                        chunk=buf.read(256)
+                        while len(chunk)>0:
+                            fd.write(chunk)
+                            chunk=buf.read(256)
+                return body.decode(encoding='UTF-8',errors='ignore')
 
     def read_proxy_pac(self):
         if AZLoader.last_loaded:
@@ -127,10 +228,10 @@ class AZLoader():
                 return
         try:
             pac=self.requests_load(URL(AZLoader.pac_url + '*'))
-            r = re.search('\"PROXY (.*); DIRECT', pac.text)
+            r = re.search('\"PROXY (.*); DIRECT', pac)
             if r:
                 AZLoader.free_http_proxy = r.group(1)
-                p = re.findall("\"(.*?)\",", pac.text)
+                p = re.findall("\"(.*?)\",", pac)
                 for item in p:
                     AZLoader.proxy_domains.append(item)
 
@@ -184,9 +285,18 @@ if __name__ == "__main__":
 
     az=AZLoader()
 
+    print('starting')
+    # print('reult:', az._inspect_availability(URL('http://motherless.com/videos/recent?page=1*',test_string='MOTHERLESS.COM')))
+    # print(az.inspect_availability(URL('http://motherless.com/videos/recent?page=1')))
+
+    time = datetime.datetime.now()
+    print(az.trick_load(URL('http://cdn4.images.motherlessmedia.com/images/55FCE1C.jpg*'),fname='util/out/az.jpg',overwrite=False, trick_name='cr_method'))
+    print(datetime.datetime.now()-time)
+    exit()
+
 
     print('starting')
-    time = datetime.datetime.now()
+
 
     print(az.test_url_az(URL('http://amotherless.com/videos/recent?page=1')))
     print(az.test_url_az(URL('http://motherless.com/videos/recent?page=1')))
@@ -194,7 +304,7 @@ if __name__ == "__main__":
 
 
 
-    print(datetime.datetime.now()-time)
+
 
 
     from bs4 import BeautifulSoup

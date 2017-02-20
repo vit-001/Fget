@@ -3,14 +3,13 @@ __author__ = 'Nikitin'
 
 if __name__ == "__main__":
 
-    import datetime
+    import io
 
-    t=datetime.datetime.now()
-    print(t)
-    print(t.timestamp())
+    myString="""1
+2
+3
+"""
 
-    ts=t.timestamp()
-
-    t1=datetime.datetime.fromtimestamp(ts)
-
-    print(t1)
+    s = io.StringIO(myString)
+    for line in s:
+        print(line, end='')

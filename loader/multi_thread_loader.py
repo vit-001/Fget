@@ -4,6 +4,7 @@ from multiprocessing import Process, Queue, Event
 
 from loader.az_loader import AZLoader, LoaderError
 from loader.base_loader import URL
+from io import StringIO
 
 class FLEvent():
     def __init__(self, type:str, data=None):
@@ -58,9 +59,9 @@ class LoadServer(Process):
         for item in self.filelist:
             try:
                 if self.collector is not None:
-                    # print(item.get_url().get())
-                    response = self.az_loader.requests_load(item.get_url().get())
-                    picture_url = URL(self.collector.parse_index(response.iter_lines(), item.get_url()))
+                    print(item.get_url().get())
+                    response = self.az_loader.load(item.get_url())
+                    picture_url = URL(self.collector.parse_index(StringIO(response), item.get_url()))
                     if self.collector.get_type() == 'iter':
                         self.filelist.append(self.collector.next())
                 else:
