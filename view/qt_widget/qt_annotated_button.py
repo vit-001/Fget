@@ -2,7 +2,7 @@
 __author__ = 'Nikitin'
 
 from PyQt5.QtCore import QPoint, QRect, QSize, Qt
-from PyQt5.QtGui import QPixmap, QIcon
+from PyQt5.QtGui import QPixmap, QIcon,QFont
 from PyQt5.QtWidgets import QToolButton,QWidget,QPushButton,QLayout,QSizePolicy,QApplication,QVBoxLayout,QLabel
 
 from bs4 import BeautifulStoneSoup
@@ -36,6 +36,11 @@ class QAnnotatedButton(QToolButton):
             label.setAlignment(get_align(item.get('align','bottom')) )
             label.setMargin(5)
             self.labels.append(label)
+            if item.get('bold',False):
+                font=QFont()
+                font.setBold(True)
+                label.setFont(font)
+            # label.setFont(QFont("Times", 8, QFont.Bold))
 
     def setFixedSize(self, *__args):
         super().setFixedSize(*__args)

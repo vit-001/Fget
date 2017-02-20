@@ -3,7 +3,8 @@ __author__ = 'Vit'
 from PyQt5 import QtCore
 from PyQt5.QtWidgets import *
 
-from base_classes import AbstractThumbView, URL, AbstractViewManager
+from base_classes import AbstractThumbView, AbstractViewManager
+from loader.base_loader import URL
 from history import History, HistoryRecord, HistoryException
 from view.qt_ui.thumb_viewer_ui import Ui_MainWindow
 from view.qt_widget.qt_button_line import QButtonLine
@@ -71,22 +72,22 @@ class QTThumbViewer(QMainWindow, AbstractThumbView):
         self.add_button_with_menu(self.sites, text, action, menu_items, tooltip, bold=bold, underline=underline,
                                   autoraise=autoraise, text_color=text_color)
 
-    def add_site_nested(self, text='', action=lambda: 0, menu_items=dict(), tooltip='', bold=False, underline=False,
+    def add_site_nested(self, text='', action=lambda: 0, menu_items:dict=None, tooltip='', bold=False, underline=False,
                         autoraise=False, text_color=None):
         self.add_button_with_menu(self.nested_sites, text, action, menu_items, tooltip, bold=bold, underline=underline,
                                   autoraise=autoraise)
 
-    def add_control(self, text='', action=lambda: 0, menu_items=None, tooltip='', bold=False, underline=False,
+    def add_control(self, text='', action=lambda: 0, menu_items:dict=None, tooltip='', bold=False, underline=False,
                     autoraise=False, text_color=None):
         self.add_button_with_menu(self.controls, text, action, menu_items, tooltip, bold=bold, underline=underline,
                                   autoraise=autoraise)
 
-    def add_page(self, text='', action=lambda: 0, menu_items=None, tooltip='', bold=False, underline=False,
+    def add_page(self, text='', action=lambda: 0, menu_items:dict=None, tooltip='', bold=False, underline=False,
                  autoraise=False, text_color=None):
         self.add_button_with_menu(self.pages, text, action, menu_items, tooltip, bold=bold, underline=underline,
                                   autoraise=autoraise)
 
-    def add_button_with_menu(self, button_line, text='', action=lambda: 0, menu_items=None, tooltip='', bold=False,
+    def add_button_with_menu(self, button_line, text='', action=lambda: 0, menu_items:dict=None, tooltip='', bold=False,
                              underline=False, autoraise=False, text_color=None):
         if menu_items is not None:
             menu = QMenu(self)
@@ -97,7 +98,7 @@ class QTThumbViewer(QMainWindow, AbstractThumbView):
             menu = None
         button_line.add_button(text, action, menu, tooltip, bold=bold, underline=underline, autoraise=autoraise, text_color=text_color)
 
-    def add_preview(self, picture_fname:str, action=lambda: 0, popup_text='', labels=''):
+    def add_preview(self, picture_fname:str, action=lambda: 0, popup_text='', labels:list=tuple()):
         self.thumbs.add(picture_fname, action, popup_text, labels)
         self.setWindowTitle(self.url.get() + ' (' + str(self.thumbs.count) + ' thumbs)')
         QtCore.QEventLoop().processEvents(QtCore.QEventLoop.AllEvents)

@@ -82,7 +82,9 @@ class PDGvideoSite(BaseSite):
             frame = URL(video_rule.get_result()[0]['src'])
             print(frame)
 
-            from requests_loader import load, LoaderError, get_last_index_cookie
+            from loader.multi_thread_loader import LoaderError
+            from loader.simple_loader import get_last_index_cookie
+            from loader.simple_loader import load
 
             frame_file = Setting.base_dir + 'frame.html'
             cookie = get_last_index_cookie()
@@ -194,18 +196,18 @@ class PDGvideoSite(BaseSite):
             for method in ['date', 'views', 'rating', 'duration', 'ctr']:
                 data = sorted_data.copy()
                 data['filters[filter_type]'] = method
-                sorted_url = URL(xhr_href, method='POST', post_data=data, xhr_data=xhr_data)
+                sorted_url = URL(xhr_href, method='POST', post_data=data, any_data=xhr_data)
                 result.add_page(ControlInfo('Sorted by {0}(0)'.format(method), sorted_url))
 
                 if prev_data is not None:
                     data = prev_data.copy()
                     data['filters[filter_type]'] = method
-                    prev_url = URL(xhr_href, method='POST', post_data=data, xhr_data=xhr_data)
+                    prev_url = URL(xhr_href, method='POST', post_data=data, any_data=xhr_data)
                     result.add_page(ControlInfo('Prev {0}({1})'.format(method, data['offset']), prev_url))
                 if has_more:
                     data = next_data.copy()
                     data['filters[filter_type]'] = method
-                    next_url = URL(xhr_href, method='POST', post_data=data, xhr_data=xhr_data)
+                    next_url = URL(xhr_href, method='POST', post_data=data, any_data=xhr_data)
                     result.add_page(ControlInfo('Next {0}({1})'.format(method, data['offset']), next_url))
 
         return result

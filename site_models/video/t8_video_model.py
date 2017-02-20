@@ -1,6 +1,5 @@
 __author__ = 'Vit'
 
-from base_classes import URL, ControlInfo
 from site_models.base_site_model import *
 from site_models.site_parser import SiteParser, ParserRule
 
@@ -20,7 +19,7 @@ class T8videoSite(BaseSite):
                     Featured_short=URL('http://www.tube8.com/latest.html?filter_duration=short*'))
 
     def startpage(self):
-        return URL("http://www.tube8.com/newest.html*")
+        return URL("http://www.tube8.com/newest.html*",forced_unproxy=True)
 
     def can_accept_index_file(self, base_url=URL()):
         return base_url.contain('tube8.com/')
@@ -135,7 +134,7 @@ class T8videoSite(BaseSite):
 
             for item in startpage_rule.get_result(['href']):
                 result.add_thumb(
-                    ThumbInfo(thumb_url=URL(item['src']), href=URL(item['href']), popup=item.get('alt', '')))
+                    ThumbInfo(thumb_url=URL(item['src']), href=URL(item['href'],forced_unproxy=True), popup=item.get('alt', '')))
 
             for item in startpage_pages_rule.get_result(['href', 'data']):
                 result.add_page(ControlInfo(item['data'], URL(item['href'])))

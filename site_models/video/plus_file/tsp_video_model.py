@@ -1,6 +1,5 @@
 __author__ = 'Vit'
 
-from base_classes import URL, ControlInfo
 from setting import Setting
 from site_models.base_site_model import *
 from site_models.site_parser import SiteParser, ParserRule
@@ -74,7 +73,8 @@ class TSPvideoSite(BaseSite):
             json_file_url = self.get_href(self.quotes(script, "host:'", "'"), base_url)
             # print(json_file_url)
 
-            from requests_loader import load, LoaderError
+            from loader.multi_thread_loader import LoaderError
+            from loader.simple_loader import load
 
             json_file = Setting.base_dir + 'tsp_video.json'
 

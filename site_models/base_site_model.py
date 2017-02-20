@@ -1,11 +1,13 @@
 __author__ = 'Vit'
 
-from base_classes import AbstractModelFromSiteInterface, URL, ControlInfo, MediaData
-from requests_loader import FLData, PictureCollector
+from base_classes import AbstractModelFromSiteInterface, ControlInfo, MediaData
+from loader.base_loader import URL
+from loader.az_loader import AZLoader
+from loader.multi_thread_loader import FLData, PictureCollector
 
 
 class ThumbInfo(FLData):
-    def __init__(self, thumb_url:URL, filename:str='', href:URL=URL(), popup='', labels=''):
+    def __init__(self, thumb_url:URL, filename:str='', href:URL=URL(), popup='', labels:list=tuple()):
         FLData.__init__(self, url=thumb_url, filename=filename)
         self.href = href
         self.popup = popup
@@ -60,114 +62,6 @@ class FullPictureInfo(FLData):
 
     def __str__(self):
         return 'full: HREF ' + self.get_url().get() + '  FNAME ' + self.get_filename()
-
-class AbstractSite:
-    def start_button_name(self):
-        return ''
-
-    def get_start_button_menu_text_url_dict(self):
-        return None
-
-    def startpage(self):
-        return URL()
-
-    def parse_index_file(self, fname:str, base_url:URL):
-        pass
-
-    def can_accept_index_file(self, base_url:URL):
-        return False
-
-
-class BaseSite(AbstractSite):
-    def __init__(self, model:AbstractModelFromSiteInterface, base_addr='e:/out/'):
-        self.model = model
-        self.base_addr = base_addr
-        self.model.register_site_model(ControlInfo(text=self.start_button_name(),
-                                                   url=self.startpage(),
-                                                   menu_text_url_dict=self.get_start_button_menu_text_url_dict(),
-                                                   bold=self.bold(), underline=self.underline(),
-                                                   autoraise=self.autoraise(),text_color=self.text_color()))
-
-    def bold(self):
-        return False
-
-    def underline(self):
-        return False
-
-    def autoraise(self):
-        return False
-
-    def text_color(self):
-        return None
-
-    def get_href(self, txt:str, base_url:URL):
-        txt = txt.strip()
-        if not txt.endswith('/'):
-            txt = txt + "*"
-        if txt.startswith('http://'):
-            return txt
-        if txt.startswith('//'):
-            return 'http:' + txt
-        if txt.startswith('https://'):
-            return txt
-        if txt.startswith('/'):
-            return 'http://' + base_url.domain() + txt
-        # print(base_url.get() + txt)
-        return base_url.get().rpartition('/')[0] + '/' + txt
-
-    def get_url(self, txt:str, base_url:URL):
-        return URL(self.get_href(txt,base_url))
-
-    def proceed_parcing(self, parser, fname):
-        # for s in open(fname, encoding='utf-8', errors='ignore'):
-        #     parser.feed(s)  # .replace('</b>','</a>'))
-
-        with open(fname,encoding='utf-8', errors='ignore') as fd:
-            for s in fd:
-                parser.feed(s)
-
-    def quotes(self, text:str, from_lex:str, to_lex:str):
-        return text.partition(from_lex)[2].partition(to_lex)[0]
-
-class BaseNest(BaseSite, AbstractModelFromSiteInterface):
-    def __init__(self, model:AbstractModelFromSiteInterface, base_addr='e:/out/'):
-        BaseSite.__init__(self, model, base_addr)
-        self.sites = list()
-        self.controls = list()
-
-    def add_site(self, site:BaseSite):
-        self.sites.append(site)
-
-    def register_site_model(self, control:ControlInfo):
-        self.controls.append(control)
-
-    def can_accept_index_file(self, url:URL):
-        for s in self.sites:
-            if s.can_accept_index_file(url):
-                return True
-        return False
-
-    def parse_index_file(self, fname:str, url:URL):
-        site = None
-        for s in self.sites:
-            if s.can_accept_index_file(url):
-                site = s
-                break
-        if site is None:
-            print(url.to_save(), ' rejected')
-            return
-
-        result = site.parse_index_file(fname, url)
-
-        for i in self.controls:
-            result.add_site(i)
-
-        return result
-
-
-class BaseNestedSite(BaseSite):
-    pass
-
 
 class ParseResult():
     def __init__(self):
@@ -276,6 +170,120 @@ class ParseResult():
             print(i)
 
         print('~~~~~~~~~~~~~~PARSER RESULT~~~~~~~~~~~~~~')
+
+
+
+class AbstractSite:
+    def start_button_name(self):
+        return ''
+
+    def get_start_button_menu_text_url_dict(self):
+        return None
+
+    def startpage(self):
+        return URL()
+
+    def parse_index_file(self, fname:str, base_url:URL)->ParseResult:
+        pass
+
+    def can_accept_index_file(self, base_url:URL):
+        return False
+
+
+class BaseSite(AbstractSite):
+    def __init__(self, model:AbstractModelFromSiteInterface, base_addr='e:/out/'):
+        self.model = model
+        self.base_addr = base_addr
+        self.model.register_site_model(ControlInfo(text=self.start_button_name(),
+                                                   url=self.startpage(),
+                                                   menu_text_url_dict=self.get_start_button_menu_text_url_dict(),
+                                                   bold=self.bold(), underline=self.underline(),
+                                                   autoraise=self.autoraise(),text_color=self.text_color()))
+
+    def bold(self):
+        return False
+
+    def underline(self):
+        return False
+
+    def autoraise(self):
+        return False
+
+    def text_color(self):
+        if AZLoader.test_url_az(self.startpage()):
+            return 'darkorange'
+        else:
+            return None
+
+    def get_href(self, txt:str, base_url:URL):
+        txt = txt.strip()
+        if not txt.endswith('/'):
+            txt = txt + "*"
+        if txt.startswith('http://'):
+            return txt
+        if txt.startswith('//'):
+            return 'http:' + txt
+        if txt.startswith('https://'):
+            return txt
+        if txt.startswith('/'):
+            return 'http://' + base_url.domain() + txt
+        # print(base_url.get() + txt)
+        return base_url.get().rpartition('/')[0] + '/' + txt
+
+    def get_url(self, txt:str, base_url:URL):
+        return URL(self.get_href(txt,base_url))
+
+    def proceed_parcing(self, parser, fname):
+        # for s in open(fname, encoding='utf-8', errors='ignore'):
+        #     parser.feed(s)  # .replace('</b>','</a>'))
+
+        with open(fname,encoding='utf-8', errors='ignore') as fd:
+            for s in fd:
+                parser.feed(s)
+
+    def quotes(self, text:str, from_lex:str, to_lex:str):
+        return text.partition(from_lex)[2].partition(to_lex)[0]
+
+class BaseNest(BaseSite, AbstractModelFromSiteInterface):
+    def __init__(self, model:AbstractModelFromSiteInterface, base_addr='e:/out/'):
+        BaseSite.__init__(self, model, base_addr)
+        self.sites = list()
+        self.controls = list()
+
+    def add_site(self, site:BaseSite):
+        self.sites.append(site)
+
+    def register_site_model(self, control:ControlInfo):
+        self.controls.append(control)
+
+    def can_accept_index_file(self, url:URL):
+        for s in self.sites:
+            if s.can_accept_index_file(url):
+                return True
+        return False
+
+    def parse_index_file(self, fname:str, url:URL):
+        site = None
+        for s in self.sites:
+            if s.can_accept_index_file(url):
+                site = s
+                break
+        if site is None:
+            print(url.to_save(), ' rejected')
+            return
+
+        result = site.parse_index_file(fname, url)
+
+        for i in self.controls:
+            result.add_site(i)
+
+        return result
+
+
+class BaseNestedSite(BaseSite):
+    pass
+
+
 
 
 if __name__ == "__main__":

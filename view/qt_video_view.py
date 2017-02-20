@@ -1,6 +1,7 @@
 from urllib.parse import urlparse
 
-from base_classes import AbstractVideoView, AbstractViewManager, URL, MediaData
+from base_classes import AbstractVideoView, AbstractViewManager, MediaData
+from loader.base_loader import URL
 from favorites import FavoriteRecord
 from playlist import PlaylistEntry, PlaylistException
 from setting import Setting

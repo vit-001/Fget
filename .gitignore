@@ -132,3 +132,4 @@ ENV/
 .idea/modules.xml
 .idea/workspace.xml
 .idea/FGet.iml
+.idea/vcs.xml

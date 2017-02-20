@@ -5,9 +5,10 @@ import os
 from base_classes import *
 from favorites import Favorites, FavoriteRecord
 from history import History, HistoryException
+from loader.multi_thread_loader import Loader
 from playlist import PlaylistEntry, Playlist
-from requests_loader import Loader
 from setting import Setting
+from loader.az_loader import AZLoader
 
 
 class Presenter(AbstractPresenter):
@@ -20,12 +21,14 @@ class Presenter(AbstractPresenter):
         self.picture_view = self.view.get_picture_view()
         self.video_view = self.view.get_video_view()
 
-        self.model = model_class(self)
-        self.history = History()
         self.loader = Loader()
 
         self.thumb_loader = self.loader.get_new_thread(self.on_thumb_load, self.thumb_view.progress_stop)
         self.picture_loader = self.loader.get_new_thread(lambda x: self.picture_view.refresh())
+
+
+        self.model = model_class(self)
+        self.history = History()
 
         self.thumb_view.set_cycle_handler(self.cycle_handler)
 
@@ -111,14 +114,14 @@ class Presenter(AbstractPresenter):
         self.view.show_full_view(self.picture_view)
 
         for item in controls:
-            self.picture_view.add_control(item.text, self.get_goto_url_handler(item.url))
+            self.add_button_on_view(self.picture_view.add_control, item)
         self.current_full_view = self.picture_view
 
     def show_video_view(self, page_url:URL, video:MediaData, controls=list()):
         self.video_view.playback(video, page_url, autoplay=True)
         self.view.show_full_view(self.video_view)
         for item in controls:
-            self.video_view.add_control(item.text, self.get_goto_url_handler(item.url))
+            self.add_button_on_view(self.video_view.add_control, item)
         self.current_full_view = self.video_view
 
     def add_button_on_view(self, view_add_function, button_data:ControlInfo):
@@ -197,6 +200,7 @@ class Presenter(AbstractPresenter):
         saving(Setting.setting_file, Setting.save_setting)
 
         self.loader.terminate_all()
+        AZLoader().write_config()
 
 
 if __name__ == "__main__":

@@ -2,8 +2,7 @@ __author__ = 'Vit'
 
 from urllib.parse import urlparse, parse_qs
 
-from base_classes import URL, ControlInfo
-from requests_loader import load
+from loader.simple_loader import load
 from site_models.base_site_model import *
 from site_models.site_parser import SiteParser, ParserRule
 

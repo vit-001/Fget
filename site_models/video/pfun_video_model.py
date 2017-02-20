@@ -1,6 +1,5 @@
 __author__ = 'Vit'
 
-from base_classes import URL, ControlInfo
 from setting import Setting
 from site_models.base_site_model import *
 from site_models.site_parser import SiteParser, ParserRule

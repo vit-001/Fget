@@ -1,6 +1,5 @@
 __author__ = 'Vit'
 
-from base_classes import URL
 from site_models.base_site_model import *
 from site_models.simple.vp_nest.bb_model import BBSite
 from site_models.simple.vp_nest.nn_model import NNSite
