@@ -232,6 +232,8 @@ class AZLoader():
             if r:
                 AZLoader.free_http_proxy = r.group(1)
                 p = re.findall("\"(.*?)\",", pac)
+
+                AZLoader.proxy_domains = list()
                 for item in p:
                     AZLoader.proxy_domains.append(item)
 
@@ -284,13 +286,13 @@ class AZLoader():
 if __name__ == "__main__":
 
     az=AZLoader()
-
+    time = datetime.datetime.now()
     print('starting')
-    # print('reult:', az._inspect_availability(URL('http://motherless.com/videos/recent?page=1*',test_string='MOTHERLESS.COM')))
+    print('result:', az._inspect_availability(URL('http://motherless.com/videos/recent?page=1*',test_string='MOTHERLESS.COM')))
     # print(az.inspect_availability(URL('http://motherless.com/videos/recent?page=1')))
 
-    time = datetime.datetime.now()
-    print(az.trick_load(URL('http://cdn4.images.motherlessmedia.com/images/55FCE1C.jpg*'),fname='util/out/az.jpg',overwrite=False, trick_name='cr_method'))
+
+    # print(az.trick_load(URL('http://cdn4.images.motherlessmedia.com/images/55FCE1C.jpg*'),fname='util/out/az.jpg',overwrite=False, trick_name='cr_method'))
     print(datetime.datetime.now()-time)
     exit()
 
