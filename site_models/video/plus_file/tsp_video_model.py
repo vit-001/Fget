@@ -73,7 +73,7 @@ class TSPvideoSite(BaseSite):
             json_file_url = self.get_href(self.quotes(script, "host:'", "'"), base_url)
             # print(json_file_url)
 
-            from loader.multi_thread_loader import LoaderError
+            from loader.multi_process_loader import LoaderError
             from loader.simple_loader import load
 
             json_file = Setting.base_dir + 'tsp_video.json'

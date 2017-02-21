@@ -3,7 +3,7 @@ __author__ = 'Vit'
 from base_classes import AbstractModelFromSiteInterface, ControlInfo, MediaData
 from loader.base_loader import URL
 from loader.az_loader import AZLoader
-from loader.multi_thread_loader import FLData, PictureCollector
+from loader.multi_process_loader import FLData, PictureCollector
 
 
 class ThumbInfo(FLData):

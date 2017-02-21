@@ -55,7 +55,8 @@ class LoadServer(Process):
 
     def run(self):
         self.events.put(FLEvent('start'))
-        # print('Starting load')
+        print('Starting load', len(AZLoader.proxy_domains),len(AZLoader.trick_headers))
+
         for item in self.filelist:
             try:
                 if self.collector is not None:

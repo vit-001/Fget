@@ -9,6 +9,7 @@ import datetime
 import socket
 from urllib.parse import urlparse,urlsplit
 from io import BytesIO
+from multiprocessing import Lock
 
 from loader.base_loader import URL
 
@@ -41,13 +42,14 @@ class AZLoader():
 
     def __init__(self):
         if AZLoader.initialized:
+            print('AZ loader init\'ed')
             return
         print('Requests version: ' + requests.__version__)
         self.read_config()
         self.read_proxy_pac()
         # self.proxies = {'http': self.free_http_proxy}
         AZLoader.initialized=True
-        # print(len(AZLoader.proxy_domains))
+        print('AZ loader read', len(AZLoader.proxy_domains), 'domains')
 
     @staticmethod
     def test_url_az(url:URL)->bool:

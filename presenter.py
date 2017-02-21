@@ -5,7 +5,7 @@ import os
 from base_classes import *
 from favorites import Favorites, FavoriteRecord
 from history import History, HistoryException
-from loader.multi_thread_loader import Loader
+from loader.multi_process_loader import Loader
 from playlist import PlaylistEntry, Playlist
 from setting import Setting
 from loader.az_loader import AZLoader
