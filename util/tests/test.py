@@ -14,8 +14,8 @@ class DataServer:
         self.manager=Manager()
         self.data = self.manager.dict()
 
-        self.data['list']=['a','b','c']
-        self.data['count']=list([0 for i in range(5)])
+        self.data['list']=[]
+        self.data['count']=list([0 for i in range(10)])
 
     def get_data(self):
         return self.data
@@ -45,22 +45,25 @@ class AZ:
 
 
 class Server(Process):
-    def __init__(self, i, data_server):
+    def __init__(self, i, data_server, lock):
         self.data=data_server.get_data()
         self.a=AZ(i)
         print('init process', i)
+        self.lock=lock
         Process.__init__(self)
 
     def run(self):
         self.a.set_data(self.data)
         for iter in range(5):
+            self.lock.acquire()
             self.a.prnt(iter)
-            wait(5000000)
+            self.lock.release()
+            wait(500000)
 
 
 class Thread():
-    def start(self, i,data_server):
-        self.server=Server(i, data_server)
+    def start(self, i,data_server, lock):
+        self.server=Server(i, data_server, lock)
         self.server.daemon=True
         self.server.start()
 
@@ -71,11 +74,11 @@ if __name__ == '__main__':
     ds=DataServer()
 
 
-    # l=Lock()
+    l=Lock()
 
-    for num in range(5):
-        wait(2000000)
-        Thread().start(num,ds)
+    for num in range(10):
+        wait(200000)
+        Thread().start(num,ds,l)
 
 
     time.sleep(10)

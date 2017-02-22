@@ -5,7 +5,7 @@ import os
 from base_classes import *
 from favorites import Favorites, FavoriteRecord
 from history import History, HistoryException
-from loader.multi_process_loader import Loader
+from loader.multi_process_loader import Loader,FLData
 from playlist import PlaylistEntry, Playlist
 from setting import Setting
 from loader.az_loader import AZLoader
@@ -23,8 +23,8 @@ class Presenter(AbstractPresenter):
 
         self.loader = Loader()
 
-        self.thumb_loader = self.loader.get_new_thread(self.on_thumb_load, self.thumb_view.progress_stop)
-        self.picture_loader = self.loader.get_new_thread(lambda x: self.picture_view.refresh())
+        self.thumb_loader = self.loader.get_new_load_process(self.on_thumb_load, self.thumb_view.progress_stop)
+        self.picture_loader = self.loader.get_new_load_process(lambda x: self.picture_view.refresh())
 
 
         self.model = model_class(self)
@@ -33,7 +33,7 @@ class Presenter(AbstractPresenter):
         self.thumb_view.set_cycle_handler(self.cycle_handler)
 
     def cycle_handler(self):
-        self.loader.update()
+        self.loader.on_update()
 
     def add_startpage(self, control:ControlInfo):
         self.add_button_on_view(self.thumb_view.add_site_button, control)
@@ -55,7 +55,7 @@ class Presenter(AbstractPresenter):
         index = Setting.base_dir + 'index.html'
 
         self.thumb_view.progress_init(1)
-        self.loader.load_file(url, index, self.on_index_load)
+        self.loader.start_load_file(FLData(url, index), self.on_index_load)
 
     def uget_file(self, filename='', url=URL()):
         if Setting.controller_debug: print('Presenter: uGet file ', url.get(), 'to', filename)
@@ -199,7 +199,7 @@ class Presenter(AbstractPresenter):
         saving(Setting.playlist_filename, self.playlist.save)
         saving(Setting.setting_file, Setting.save_setting)
 
-        self.loader.terminate_all()
+        self.loader.on_exit()
         AZLoader().write_config()
 
 

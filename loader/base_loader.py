@@ -152,3 +152,38 @@ class URL:
         return False
 
 
+class FLData:
+    def __init__(self, url:URL, filename:str):
+        self._url = url
+        self._filename = filename
+
+    def get_url(self):
+        return self._url
+
+    def get_filename(self):
+        return self._filename
+
+class BaseLoadProcess:
+    def load_list(self, fldata_list:list, picture_collector:PictureCollector=None):
+        self.loader = LoadServer(fldata_list, self.events, picture_collector)
+        self.loader.start()
+
+    def abort(self):
+        pass
+
+    def update(self):
+        pass
+
+
+class BaseLoader:
+    def get_new_load_process(self, on_load_handler=lambda x: None, on_end_handler=lambda: None)->BaseLoadProcess:
+        pass
+
+    def start_load_file(self, filedata:FLData, on_result=lambda filedata: None):
+        pass
+
+    def on_update(self):
+        pass
+
+    def on_exit(self):
+        pass

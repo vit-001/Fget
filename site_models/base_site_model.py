@@ -1,9 +1,9 @@
 __author__ = 'Vit'
 
 from base_classes import AbstractModelFromSiteInterface, ControlInfo, MediaData
-from loader.base_loader import URL
+from loader.base_loader import URL, FLData
 from loader.az_loader import AZLoader
-from loader.multi_process_loader import FLData, PictureCollector
+from loader.multi_process_loader import  PictureCollector
 
 
 class ThumbInfo(FLData):
@@ -30,11 +30,11 @@ class ThumbInfo(FLData):
         return popup_text
 
     def get_filename(self):
-        if self.filename == '':
+        if self._filename == '':
             return self.get_url().get_short_path(base=self.base_dir)
             # return self.base_dir+self.get_address().rpartition('/')[2]
         else:
-            return self.filename
+            return self._filename
 
     def __str__(self):
         return 'thumb: HREF ' + self.get_href().get() + '  SRC ' + self.get_url().get()
