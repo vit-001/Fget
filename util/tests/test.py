@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 __author__ = 'Nikitin'
 
-from multiprocessing import Process, Lock
+from multiprocessing import Process, Lock, Manager, freeze_support
 
 def wait(i):
     x=0
@@ -9,49 +9,78 @@ def wait(i):
         x+=k
     return x
 
-class A:
+class DataServer:
+    def __init__(self):
+        self.manager=Manager()
+        self.data = self.manager.dict()
 
-    n=0
-    lock=Lock()
+        self.data['list']=['a','b','c']
+        self.data['count']=list([0 for i in range(5)])
 
+    def get_data(self):
+        return self.data
+
+    def stop(self):
+        self.manager.shutdown()
+
+class AZ:
     def __init__(self, i):
-        A.n+=1
-        self.i=i
-        print('init',i, A.n)
 
-    def prnt(self, i):
-        # A.lock.acquire()
-        print('hello world ',self.n)
-        wait(10000)
-        print('               ', self.i)
-        wait(10000)
-        print('                          ', i)
-        # A.lock.release()
+        self.i=i
+
+    def set_data(self, data):
+        self.data=data
+
+    def prnt(self, iter):
+
+        lst=self.data['list']
+        lst.append('a')
+        self.data['list']=lst
+
+        count=self.data['count']
+        count[self.i]+=1
+        self.data['count']=count
+
+        print('process',self.i , 'iteration',iter, self.data['count'], self.data['list'])
+
 
 class Server(Process):
-
-    def __init__(self, i, lock):
-        self.a=A(i)
-        self.lock=lock
-        print('init', i)
+    def __init__(self, i, data_server):
+        self.data=data_server.get_data()
+        self.a=AZ(i)
+        print('init process', i)
         Process.__init__(self)
 
     def run(self):
-        for i in range(5):
-            self.lock.acquire()
-            self.a.prnt(i)
-            self.lock.release()
+        self.a.set_data(self.data)
+        for iter in range(5):
+            self.a.prnt(iter)
+            wait(5000000)
+
 
 class Thread():
-    def start(self, i, lock):
-        self.server=Server(i, lock)
+    def start(self, i,data_server):
+        self.server=Server(i, data_server)
+        self.server.daemon=True
         self.server.start()
 
 if __name__ == '__main__':
+    import time
 
-    l=Lock()
+
+    ds=DataServer()
+
+
+    # l=Lock()
 
     for num in range(5):
-        wait(1500)
-        Thread().start(num,l)
+        wait(2000000)
+        Thread().start(num,ds)
 
+
+    time.sleep(10)
+
+
+    # print(ds.data)
+    print(len(ds.data['list']))
+    ds.stop()
