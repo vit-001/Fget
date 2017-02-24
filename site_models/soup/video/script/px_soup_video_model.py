@@ -20,7 +20,7 @@ class PXvideoSoupSite(BaseSoupSite):
                     Longest=URL('http://www.pornoxo.com/longest/page1.html?s*'))
 
     def startpage(self):
-        return URL("http://www.pornoxo.com/")
+        return URL("http://www.pornoxo.com/", test_string='PornoXO')
 
     def can_accept_index_file(self, base_url=URL()):
         return base_url.contain('pornoxo.com/')

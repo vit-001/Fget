@@ -5,12 +5,8 @@ import os
 
 import requests
 
-from loader.az_loader import LoaderError
+from loader.old.az_loader import LoaderError
 from setting import Setting
-
-
-
-
 
 def safe_load(url, fname:str, overwrite=True):
     try:
@@ -19,7 +15,6 @@ def safe_load(url, fname:str, overwrite=True):
     except (ValueError, LoaderError) as Error:
         print(url.get() + ' not loaded: ', Error)
         return None
-
 
 def load(url, fname:str='', overwrite=True, cookie=None):
     # print('Loading',url.get(),'to',fname)
@@ -74,7 +69,6 @@ def load(url, fname:str='', overwrite=True, cookie=None):
                             fd.write(item + ':' + c[item] + '\n')
 
             return response
-
 
 def get_last_index_cookie():
     cookie = dict()

@@ -1,14 +1,15 @@
+from loader.old.multiprocess_loader import PictureCollector
+
 __author__ = 'Vit'
 
 from base_classes import AbstractModelFromSiteInterface, ControlInfo, MediaData
-from loader.base_loader import URL
-from loader.az_loader import AZLoader
-from loader.multi_thread_loader import FLData, PictureCollector
+from loader.base_loader import URL, FLData
+from loader.old.az_loader import AZLoader
 
 
 class ThumbInfo(FLData):
     def __init__(self, thumb_url:URL, filename:str='', href:URL=URL(), popup='', labels:list=tuple()):
-        FLData.__init__(self, url=thumb_url, filename=filename)
+        FLData.__init__(self, url=thumb_url, filename=filename, overwrite=False)
         self.href = href
         self.popup = popup
         self.labels=labels
@@ -30,11 +31,11 @@ class ThumbInfo(FLData):
         return popup_text
 
     def get_filename(self):
-        if self.filename == '':
+        if self._filename == '':
             return self.get_url().get_short_path(base=self.base_dir)
             # return self.base_dir+self.get_address().rpartition('/')[2]
         else:
-            return self.filename
+            return self._filename
 
     def __str__(self):
         return 'thumb: HREF ' + self.get_href().get() + '  SRC ' + self.get_url().get()
@@ -63,6 +64,7 @@ class FullPictureInfo(FLData):
     def __str__(self):
         return 'full: HREF ' + self.get_url().get() + '  FNAME ' + self.get_filename()
 
+
 class ParseResult():
     def __init__(self):
         self._type = 'none'
@@ -76,6 +78,7 @@ class ParseResult():
         self.sites = []
         self.gallery_path = None
         self.picture_collector = None
+        self.waiting=False
 
     def is_no_result(self):
         return self._type == 'none'
@@ -101,45 +104,45 @@ class ParseResult():
     def get_gallery_path(self):
         return self.gallery_path
 
-    def set_video(self, media:MediaData):
+    def set_video(self, media: MediaData=None):
         self.video = media
-        if media is not None:
-            self._type = 'video'
+        self._type = 'video'
 
     def get_video(self):
         return self.video
 
     def set_type(self, type):  # todo  убрать совсем
-        pass
+        raise(RuntimeWarning('Delete ParseResult.set_type()'))
+
     #     # self._type = type
 
-    def set_picture_collector(self, collector:PictureCollector):
+    def set_picture_collector(self, collector: PictureCollector):
         self.picture_collector = collector
 
-    def set_redirect(self, url:URL):
+    def set_redirect(self, url: URL):
         self.redirect = url
 
-    def add_thumb(self, thumb:ThumbInfo):
+    def add_thumb(self, thumb: ThumbInfo):
         self.thumbs.append(thumb)
         self._type = 'hrefs'
 
-    def add_full(self, full:FullPictureInfo):
+    def add_full(self, full: FullPictureInfo):
         self.full.append(full)
         self._type = 'pictures'
 
-    def add_control(self, control:ControlInfo):
+    def add_control(self, control: ControlInfo):
         for c in self.controls:
             if control.url == c.url:
                 return
         self.controls.append(control)
 
-    def add_page(self, control:ControlInfo):
+    def add_page(self, control: ControlInfo):
         for c in self.pages:
             if control.url == c.url:
                 return
         self.pages.append(control)
 
-    def add_site(self, control:ControlInfo):
+    def add_site(self, control: ControlInfo):
         for c in self.sites:
             if control.url == c.url:
                 return
@@ -147,6 +150,12 @@ class ParseResult():
 
     def set_caption_visible(self, visible=False):
         self.caption_visible = visible
+
+    def set_waiting_file(self):
+        self.waiting=True
+
+    def is_waiting_file(self)->bool:
+        return self.waiting
 
     def print_result(self):
         print('==============PARSER RESULT=============')
@@ -171,6 +180,8 @@ class ParseResult():
 
         print('~~~~~~~~~~~~~~PARSER RESULT~~~~~~~~~~~~~~')
 
+    def __str__(self):
+        return '<Parser result: {}>'.format(self._type)
 
 
 class AbstractSite:
@@ -183,7 +194,10 @@ class AbstractSite:
     def startpage(self):
         return URL()
 
-    def parse_index_file(self, fname:str, base_url:URL)->ParseResult:
+    def start_parsing(self, filedata:FLData):
+        pass
+
+    def parse_index_file(self, fname:str, base_url:URL)-> ParseResult:
         pass
 
     def can_accept_index_file(self, base_url:URL):
@@ -199,6 +213,12 @@ class BaseSite(AbstractSite):
                                                    menu_text_url_dict=self.get_start_button_menu_text_url_dict(),
                                                    bold=self.bold(), underline=self.underline(),
                                                    autoraise=self.autoraise(),text_color=self.text_color()))
+
+    def start_parsing(self, filedata: FLData):
+        result=self.parse_index_file(filedata.get_filename(),filedata.get_url())
+        if result.is_waiting_file():
+            return
+        self.model.on_file_parsed(filedata, result)
 
     def bold(self):
         return False
@@ -288,3 +308,6 @@ class BaseNestedSite(BaseSite):
 
 if __name__ == "__main__":
     pass
+
+
+

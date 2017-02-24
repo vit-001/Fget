@@ -31,11 +31,11 @@ if __name__ == "__main__":
     # os.spawnl(os.P_DETACH, Setting.uget_path+'uget.exe','-gtk')
 
     print('Todo:')
+    print('http://www.gotporn.com/', 'verifyed')
     print('')
     print('Thats all')
-    print('')
-    print('http://www.gotporn.com/', 'verifyed')
     print("Let's go..")
+    print('')
 
     from PyQt5.QtWidgets import QApplication
 

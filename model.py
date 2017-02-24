@@ -1,6 +1,10 @@
 __author__ = 'Vit'
 
-from base_classes import *
+
+import bs4
+from base_classes import AbstractModel, PresenterFromModelInterface, ControlInfo
+from site_models.base_site_model import ParseResult
+from loader.base_loader import FLData, URL
 from setting import Setting
 from site_models.base_site_model import ParseResult
 from site_models.collector.el_model import ELSite
@@ -66,8 +70,8 @@ from site_models.video.xm_model import XMvideoSite
 
 
 class SiteVewerModel(AbstractModel):
-    def __init__(self, controller=PresenterFromModelInterface()):
-        self.controller = controller
+    def __init__(self, presenter:PresenterFromModelInterface):
+        self.presenter = presenter
         self.debug = Setting.model_debug
         self.models = [
             # work on
@@ -119,6 +123,7 @@ class SiteVewerModel(AbstractModel):
             DudeSite(self),
         ]
 
+        print('BeautifulSoup version:',bs4.__version__)
         if Setting.show_sites:
             print('Sites:')
             sites_list = list()
@@ -129,7 +134,7 @@ class SiteVewerModel(AbstractModel):
             print('=============================')
 
     def register_site_model(self, control:ControlInfo):
-        self.controller.add_startpage(control)
+        self.presenter.add_startpage(control)
 
     def can_accept_url(self, url: URL):
         for s in self.models:
@@ -137,47 +142,48 @@ class SiteVewerModel(AbstractModel):
                 return True
         return False
 
-    def accept_index(self, url:URL, index_fname:str):
-        if self.debug: print('accept index file, URL:', url.get(), 'index:', index_fname)
+    def accept_index(self, filedata:FLData):
+        if self.debug: print('accept index file, URL:', filedata.get_url().get(), 'index:', filedata.get_filename())
 
         site = None
         for s in self.models:
-            if s.can_accept_index_file(url):
+            if s.can_accept_index_file(filedata.get_url()):
                 site = s
                 break
         if site is None:
-            print(url.to_save(), ' rejected')
+            print(filedata.get_url(), ' rejected')
             return
 
-        result = site.parse_index_file(index_fname, url)
+        site.start_parsing(filedata)
 
-        if self.debug: print('Result type:', result.type)
+    def on_file_parsed(self, filedata:FLData, result: ParseResult):
+        if self.debug: print(result)
 
         if result.is_no_result():
             print('Parsing has no result')
-            self.controller.show_status('Parsing has no result')
+            self.presenter.show_status('Parsing has no result')
             return
 
         if result.is_hrefs():
             if self.debug: print('Generating thumb view')
             result.set_base(Setting.base_dir + 'thumbs/')
-            self.generate_thumb_view(url, thumb_list=result)
+            self.generate_thumb_view(filedata.get_url(), thumb_list=result)
 
         if result.is_pictures():
             if self.debug: print('Generating full view')
             if result.get_gallery_path() is None:
-                page_dir = url.get_path(base=Setting.base_dir)
+                page_dir = filedata.get_url().get_path(base=Setting.base_dir)
                 if self.debug: print(page_dir)
-                result.set_base(page_dir, url)
+                result.set_base(page_dir, filedata.get_url())
             else:
                 page_dir = result.get_gallery_path()
                 if self.debug: print(page_dir)
             # result.set_base(page_dir, url)
-            self.controller.show_picture_view(url, page_dir, result.controls, result.full, result.picture_collector)
+            self.presenter.show_picture_view(filedata.get_url(), page_dir, result.controls, result.full, result.picture_collector)
 
         if result.is_video():
             if self.debug: print('Generating video view')
-            self.controller.show_video_view(url, result.get_video(), result.controls)
+            self.presenter.show_video_view(filedata.get_url(), result.get_video(), result.controls)
 
     def generate_thumb_view(self, url:URL, thumb_list:ParseResult):
         thumbs = []
@@ -205,12 +211,16 @@ class SiteVewerModel(AbstractModel):
             for item in self.domains:
                 message = '  {0} in domain {1}'.format(self.domains[item], item)
                 print(message)
-                self.controller.show_status(message)
+                self.presenter.show_status(message)
             print()
 
-        self.controller.show_thumb_view(url=url,
-                                        controls=thumb_list.controls,
-                                        pages=thumb_list.pages,
-                                        thumbs=thumbs,
-                                        sites=thumb_list.sites,
-                                        caption_visible=thumb_list.caption_visible)
+        self.presenter.show_thumb_view(url=url,
+                                       controls=thumb_list.controls,
+                                       pages=thumb_list.pages,
+                                       thumbs=thumbs,
+                                       sites=thumb_list.sites,
+                                       caption_visible=thumb_list.caption_visible)
+
+    def request_file(self, filedata: FLData, on_load=lambda filedata: None):
+        self.presenter.request_file(filedata,on_load)
+

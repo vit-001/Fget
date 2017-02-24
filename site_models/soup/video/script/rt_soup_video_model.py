@@ -3,8 +3,8 @@ from bs4 import BeautifulSoup
 
 from base_classes import UrlList
 from loader.base_loader import URL
-from site_models.base_site_model import ParseResult,ControlInfo, ThumbInfo
-from site_models.soup.base_soup_model import BaseSoupSite,_iter
+from site_models.base_site_model import ParseResult, ControlInfo, ThumbInfo
+from site_models.soup.base_soup_model import BaseSoupSite, _iter
 from site_models.util import quotes
 
 
@@ -31,23 +31,23 @@ class RTvideoSoupSite(BaseSoupSite):
                     )
 
     def startpage(self):
-        return URL("http://www.redtube.com/")
+        return URL("http://www.redtube.com/", test_string='Redtube')
 
     def can_accept_index_file(self, base_url=URL()):
         return base_url.contain('redtube.com/')
 
     def parse_thumbs(self, soup: BeautifulSoup, result: ParseResult, base_url: URL):
-        thumbnail_containers=soup.find_all('ul', {'class': ['video-listing']})
-        channel_containers =soup.find_all('ul', {'class': ['channels-list']})
-        stars_containers=soup.find_all('ul', {'class': ['pornStarsThumbs']})
+        thumbnail_containers = soup.find_all('ul', {'class': ['video-listing']})
+        channel_containers = soup.find_all('ul', {'class': ['channels-list']})
+        stars_containers = soup.find_all('ul', {'class': ['pornStarsThumbs']})
 
-        if thumbnail_containers is not None and len(thumbnail_containers)>0:
+        if thumbnail_containers is not None and len(thumbnail_containers) > 0:
             # parce thumbnail page
             for thumbnail_container in thumbnail_containers:
                 for thumbnail in _iter(thumbnail_container.find_all('li')):
                     href = URL(thumbnail.a.attrs['href'], base_url=base_url)
                     thumb_url = URL(thumbnail.img.attrs['data-src'], base_url=base_url)
-                    label=thumbnail.img.attrs.get('alt','')
+                    label = thumbnail.img.attrs.get('alt', '')
 
                     duration = thumbnail.find('span', {'class': 'video-duration'})
                     dur_time = '' if duration is None else str(duration.string).strip()
@@ -56,20 +56,20 @@ class RTvideoSoupSite(BaseSoupSite):
                     hd = '' if hd_span is None else '  HD'
 
                     result.add_thumb(ThumbInfo(thumb_url=thumb_url, href=href, popup=label,
-                                               labels=[{'text':dur_time, 'align':'top right'},
-                                                       {'text':label, 'align':'bottom center'},
+                                               labels=[{'text': dur_time, 'align': 'top right'},
+                                                       {'text': label, 'align': 'bottom center'},
                                                        {'text': hd, 'align': 'top left'}]))
 
-        elif channel_containers is not None and len(channel_containers)>0:
+        elif channel_containers is not None and len(channel_containers) > 0:
             # parce channels page
             for channel_container in channel_containers:
                 for channel in _iter(channel_container.find_all('li')):
                     href = URL(channel.a.attrs['href'], base_url=base_url)
-                    logo=channel.find('span',{'class':'channel-logo'})
-                    img=logo.find('img')
+                    logo = channel.find('span', {'class': 'channel-logo'})
+                    img = logo.find('img')
                     if img is None:
                         img = channel.find('img')
-                    thumb_url = URL(img.attrs.get('data-src',img.attrs['src']), base_url=base_url)
+                    thumb_url = URL(img.attrs.get('data-src', img.attrs['src']), base_url=base_url)
                     label = channel.img.attrs.get('alt', '')
 
                     num_videos_span = channel.find('span', text=lambda x: 'videos' in str(x))
@@ -79,12 +79,11 @@ class RTvideoSoupSite(BaseSoupSite):
                                                labels=[{'text': num_videos, 'align': 'top right'},
                                                        {'text': label, 'align': 'bottom center'}]))
 
-        elif stars_containers is not None and len(stars_containers)>0:
+        elif stars_containers is not None and len(stars_containers) > 0:
             # parce stars page
             print(' Pornhub server blocked. Stars image unavailable')
             for stars_container in stars_containers:
                 for star in _iter(stars_container.find_all('li')):
-
                     href = URL(star.a.attrs['href'], base_url=base_url)
                     img = star.find('img')
                     thumb_url = URL(img.attrs['src'], base_url=base_url)
@@ -105,7 +104,7 @@ class RTvideoSoupSite(BaseSoupSite):
                     result.add_control(ControlInfo(str(tag.string), URL(tag.attrs['href'], base_url=base_url)))
 
     def parse_thumbs_tags(self, soup: BeautifulSoup, result: ParseResult, base_url: URL):
-        tags_containers = _iter(soup.find_all('ul', {'class': ['categories-listing','categories-popular-listing']}))
+        tags_containers = _iter(soup.find_all('ul', {'class': ['categories-listing', 'categories-popular-listing']}))
         for tags_container in tags_containers:
             for tag in _iter(tags_container.find_all('a')):
                 result.add_control(ControlInfo(str(tag.attrs['title']), URL(tag.attrs['href'], base_url=base_url)))
@@ -114,7 +113,7 @@ class RTvideoSoupSite(BaseSoupSite):
         pagination = soup.find('div', {'class': 'pages'})
         if pagination is not None:
             for page in _iter(pagination.find_all('a')):
-                num='' if page.string is None else str(page.string)
+                num = '' if page.string is None else str(page.string)
                 if num.isdigit():
                     result.add_page(ControlInfo(num, URL(page.attrs['href'], base_url=base_url)))
 
@@ -122,18 +121,17 @@ class RTvideoSoupSite(BaseSoupSite):
         video = soup.find('div', {'class': 'watch'})
         if video is not None:
             urls = UrlList()
-            script=video.find('script', text=lambda x: 'redtube_flv_player' in str(x))
+            script = video.find('script', text=lambda x: 'redtube_flv_player' in str(x))
             if script is not None:
                 data = str(script.string).replace(' ', '').replace('\\', '')
-                sources=quotes(data,'sources:{','}').split(',')
+                sources = quotes(data, 'sources:{', '}').split(',')
                 for item in sources:
                     file = quotes(item, '":"', '"')
-                    label=quotes(item,'"','"')
+                    label = quotes(item, '"', '"')
                     urls.add(label, URL(file, base_url=base_url))
 
                 urls.sort()
                 result.set_video(urls.get_media_data(-1))
-
 
     def parse_video_tags(self, soup: BeautifulSoup, result: ParseResult, base_url: URL):
         video_detail = soup.find('div', {'class': 'video-details'})
@@ -161,6 +159,7 @@ class RTvideoSoupSite(BaseSoupSite):
                 if href.string is not None:
                     result.add_control(
                         ControlInfo(str(href.string), URL(href.attrs['href'], base_url=base_url)))
+
 
 if __name__ == "__main__":
     pass

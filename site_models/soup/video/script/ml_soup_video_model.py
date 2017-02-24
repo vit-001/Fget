@@ -4,9 +4,10 @@ from bs4 import BeautifulSoup
 
 from base_classes import UrlList
 from loader.base_loader import URL
-from site_models.base_site_model import ParseResult,ControlInfo, ThumbInfo
-from site_models.soup.base_soup_model import BaseSoupSite,_iter
+from site_models.base_site_model import ParseResult, ControlInfo, ThumbInfo
+from site_models.soup.base_soup_model import BaseSoupSite, _iter
 from site_models.util import quotes
+
 
 class MLvideoSoupSite(BaseSoupSite):
     def start_button_name(self):
@@ -26,7 +27,7 @@ class MLvideoSoupSite(BaseSoupSite):
                     Videos_Archived=URL('http://motherless.com/videos/archives*'))
 
     def startpage(self):
-        return URL("http://motherless.com/videos/recent?page=1*")
+        return URL("http://motherless.com/videos/recent?page=1*", test_string='MOTHERLESS.COM')
 
     def can_accept_index_file(self, base_url=URL()):
         return base_url.contain('motherless.com/')
@@ -48,8 +49,8 @@ class MLvideoSoupSite(BaseSoupSite):
 
                 if not 'x' in dur_time:
                     result.add_thumb(ThumbInfo(thumb_url=thumb_url, href=href, popup=label,
-                                               labels=[{'text':dur_time, 'align':'top right'},
-                                                       {'text':label, 'align':'bottom center'},
+                                               labels=[{'text': dur_time, 'align': 'top right'},
+                                                       {'text': label, 'align': 'bottom center'},
                                                        {'text': username, 'align': 'top left'}]))
 
     def parse_thumbs_tags(self, soup: BeautifulSoup, result: ParseResult, base_url: URL):
@@ -58,14 +59,14 @@ class MLvideoSoupSite(BaseSoupSite):
             for tag in _iter(tags.find_all('a')):
                 result.add_control(ControlInfo(str(tag.string).strip(), URL(tag.attrs['href'], base_url=base_url)))
 
-    def get_pagination_container(self,soup:BeautifulSoup):
-        return  soup.find('div', {'class': 'pagination_link'})
+    def get_pagination_container(self, soup: BeautifulSoup):
+        return soup.find('div', {'class': 'pagination_link'})
 
     def parse_video(self, soup: BeautifulSoup, result: ParseResult, base_url: URL):
         content = soup.find('div', {'id': 'content'})
         if content is not None:
             urls = UrlList()
-            script =content.find('script', text=lambda x: 'jwplayer(' in str(x))
+            script = content.find('script', text=lambda x: 'jwplayer(' in str(x))
             if script is not None:
                 data = str(script.string).replace(' ', '')
                 file = quotes(data, '"file":"', '"')
@@ -91,6 +92,7 @@ class MLvideoSoupSite(BaseSoupSite):
                 if href.string is not None:
                     result.add_control(
                         ControlInfo(str(href.string), URL(href.attrs['href'], base_url=base_url)))
+
 
 if __name__ == "__main__":
     pass

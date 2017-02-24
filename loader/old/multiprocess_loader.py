@@ -1,9 +1,10 @@
 __author__ = 'Vit'
 
+from io import StringIO
 from multiprocessing import Process, Queue, Event
 
-from loader.az_loader import AZLoader, LoaderError
-from loader.base_loader import URL
+from loader.base_loader import URL, FLData, BaseLoader
+from loader.old.az_loader import AZLoader, LoaderError
 
 class FLEvent():
     def __init__(self, type:str, data=None):
@@ -16,16 +17,16 @@ class FLEvent():
     def data(self):
         return self.event_data
 
-class FLData():
-    def __init__(self, url:URL, filename:str):
-        self.url = url
-        self.filename = filename
-
-    def get_url(self):
-        return self.url
-
-    def get_filename(self):
-        return self.filename
+# class FLData():
+#     def __init__(self, url:URL, filename:str):
+#         self.url = url
+#         self.filename = filename
+#
+#     def get_url(self):
+#         return self.url
+#
+#     def get_filename(self):
+#         return self.filename
 
 class PictureCollectorException(Exception):
     pass
@@ -54,13 +55,14 @@ class LoadServer(Process):
 
     def run(self):
         self.events.put(FLEvent('start'))
-        # print('Starting load')
+        print('Starting load', len(AZLoader.proxy_domains),len(AZLoader.trick_headers))
+
         for item in self.filelist:
             try:
                 if self.collector is not None:
-                    # print(item.get_url().get())
-                    response = self.az_loader.requests_load(item.get_url().get())
-                    picture_url = URL(self.collector.parse_index(response.iter_lines(), item.get_url()))
+                    print(item.get_url().get())
+                    response = self.az_loader.load(item.get_url())
+                    picture_url = URL(self.collector.parse_index(StringIO(response), item.get_url()))
                     if self.collector.get_type() == 'iter':
                         self.filelist.append(self.collector.next())
                 else:
@@ -154,7 +156,7 @@ class SingleFileLoadThread():
         return self.url
 
 
-class Loader():
+class Loader(BaseLoader):
     def __init__(self):
         self.threads = []
         self.single_thread = SingleFileLoadThread()
@@ -162,7 +164,7 @@ class Loader():
         AZLoader()
 
 
-    def get_new_thread(self, on_load_handler=lambda x: None, on_end_handler=lambda: None):
+    def get_new_load_process(self, on_load_handler=lambda x: None, on_end_handler=lambda: None):
         thread = LoadThread(on_load_handler, on_end_handler)
         self.threads.append(thread)
         return thread
@@ -170,19 +172,19 @@ class Loader():
     def load_list(self, thread=LoadThread(), lst=list(), picture_collector=None):
         thread.load_list(lst, picture_collector)
 
-    def load_file(self, url=URL(), fname='', on_result=lambda url, fname: None):
+    def start_load_file(self, filedata:FLData, on_result=lambda filedata: None):
         # print('loading', url.get())
         self.single_thread.abort()
         self.on_result = on_result
-        self.single_thread.load_file(url, fname)
+        self.single_thread.load_file(filedata.get_url(), filedata.get_filename())
 
-    def update(self):
+    def on_update(self):
         for item in self.threads:
             item.update()
         if self.single_thread.is_loaded():
             self.on_result(self.single_thread.get_url(), self.single_thread.get_filename())
 
-    def terminate_all(self):
+    def on_exit(self):
         for thread in self.threads:
             thread.abort()
 

@@ -114,8 +114,8 @@ class ELSitePictureCollector(PictureCollector):
         parser.add_rule(picture_rule)
 
         for data in iter_line:
-            parser.feed(data.decode('utf-8'))
+            parser.feed(data)
 
-        # print(picture_rule.get_result()[0]['src'])
+        print(picture_rule.get_result()[0]['src'])
 
-        return picture_rule.get_result()[0]['src']
+        return picture_rule.get_result()[0]['src'].rstrip('/')+'*'
