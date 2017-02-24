@@ -5,10 +5,9 @@ import os
 from base_classes import *
 from favorites import Favorites, FavoriteRecord
 from history import History, HistoryException
-from loader.multi_process_loader import Loader,FLData
+from loader.multiprocess_az_loader import MultiprocessAZloader,FLData
 from playlist import PlaylistEntry, Playlist
 from setting import Setting
-from loader.az_loader import AZLoader
 
 
 class Presenter(AbstractPresenter):
@@ -21,7 +20,7 @@ class Presenter(AbstractPresenter):
         self.picture_view = self.view.get_picture_view()
         self.video_view = self.view.get_video_view()
 
-        self.loader = Loader()
+        self.loader = MultiprocessAZloader()
 
         self.thumb_loader = self.loader.get_new_load_process(self.on_thumb_load, self.thumb_view.progress_stop)
         self.picture_loader = self.loader.get_new_load_process(lambda x: self.picture_view.refresh())
@@ -57,6 +56,9 @@ class Presenter(AbstractPresenter):
         self.thumb_view.progress_init(1)
         self.loader.start_load_file(FLData(url, index), self.on_index_load)
 
+    def request_file(self, filedata: FLData, on_load=lambda filedata: None):
+        self.loader.start_load_file(filedata, on_load)
+
     def uget_file(self, filename='', url=URL()):
         if Setting.controller_debug: print('Presenter: uGet file ', url.get(), 'to', filename)
         if Setting.download_method == 'uget':
@@ -80,9 +82,10 @@ class Presenter(AbstractPresenter):
         file = open(fname, 'w')
         file.write(filename + ' ' + url + '\n')
 
-    def on_index_load(self, url=URL(), fname=''):
+    def on_index_load(self, filedata:FLData):
+        # print('on_index_load')
         self.thumb_view.progress_stop()
-        self.model.accept_index(url, fname)
+        self.model.accept_index(filedata)
 
     def show_thumb_view(self, url=URL(), controls=list(), pages=list(), thumbs=list(), sites=list(),
                         caption_visible=False):
@@ -200,7 +203,7 @@ class Presenter(AbstractPresenter):
         saving(Setting.setting_file, Setting.save_setting)
 
         self.loader.on_exit()
-        AZLoader().write_config()
+        # AZLoader().write_config()
 
 
 if __name__ == "__main__":

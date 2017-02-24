@@ -1,6 +1,6 @@
 __author__ = 'Vit'
 
-from loader.simple_loader import load
+from loader.old.simple_loader import load
 from site_models.base_site_model import *
 from site_models.site_parser import SiteParser, ParserRule
 
@@ -17,7 +17,7 @@ class YPvideoSite(BaseSite):
                     )
 
     def startpage(self):
-        return URL("http://yourporn.sexy/blog/all/0.html*")
+        return URL("http://yourporn.sexy/blog/all/0.html*", test_string='YourPorn')
 
     def can_accept_index_file(self, base_url=URL()):
         return base_url.contain('yourporn.sexy/')

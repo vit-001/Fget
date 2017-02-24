@@ -3,9 +3,10 @@ __author__ = 'Vit'
 from bs4 import BeautifulSoup
 
 from loader.base_loader import URL
-from loader.az_loader import AZLoader
-from site_models.base_site_model import BaseSite, ParseResult, ControlInfo
-from site_models.util import psp
+from loader.old.az_loader import AZLoader
+from site_models.base_site_model import BaseSite, ControlInfo, ParseResult
+
+
 
 def _iter(source):
     if source is None:

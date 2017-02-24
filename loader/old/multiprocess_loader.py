@@ -1,10 +1,10 @@
 __author__ = 'Vit'
 
+from io import StringIO
 from multiprocessing import Process, Queue, Event
 
-from loader.az_loader import AZLoader, LoaderError
 from loader.base_loader import URL, FLData, BaseLoader
-from io import StringIO
+from loader.old.az_loader import AZLoader, LoaderError
 
 class FLEvent():
     def __init__(self, type:str, data=None):

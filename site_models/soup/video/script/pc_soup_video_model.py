@@ -3,9 +3,10 @@ from bs4 import BeautifulSoup
 
 from base_classes import UrlList
 from loader.base_loader import URL
-from site_models.base_site_model import ParseResult,ControlInfo, ThumbInfo
-from site_models.soup.base_soup_model import BaseSoupSite,_iter
+from site_models.base_site_model import ParseResult, ControlInfo, ThumbInfo
+from site_models.soup.base_soup_model import BaseSoupSite, _iter
 from site_models.util import quotes
+
 
 class PCvideoSoupSite(BaseSoupSite):
     def start_button_name(self):
@@ -29,18 +30,18 @@ class PCvideoSoupSite(BaseSoupSite):
                     )
 
     def startpage(self):
-        return URL("http://www.porn.com/videos*")
+        return URL("http://www.porn.com/videos*", test_string='PORN.COM')
 
     def can_accept_index_file(self, base_url=URL()):
         return base_url.contain('.porn.com/')
 
     def parse_thumbs(self, soup: BeautifulSoup, result: ParseResult, base_url: URL):
         mainw = soup.find('div', {'class': ['mainw', 'profileContent']})
-        thumbs_list = mainw.find('ul', {'class': ['listThumbs', 'listChannels','listProfiles','listTags']})
+        thumbs_list = mainw.find('ul', {'class': ['listThumbs', 'listChannels', 'listProfiles', 'listTags']})
         if thumbs_list is not None:
             for thumbnail in _iter(thumbs_list.find_all('li')):
                 href = thumbnail.a.attrs['href']
-                url=URL(href,base_url=base_url)
+                url = URL(href, base_url=base_url)
 
                 hd_span = thumbnail.find('span', {'class': 'hd'})
                 hd = '' if hd_span is None else '  HD'
@@ -51,15 +52,15 @@ class PCvideoSoupSite(BaseSoupSite):
                     duration = thumbnail.find('span', {'class': 'added'})
                     dur_time = '' if duration is None else str(duration.string)
 
-                    caption = thumbnail.find('a', {'class': ['title','name']})
+                    caption = thumbnail.find('a', {'class': ['title', 'name']})
                     label = '' if caption is None else str(caption.string)
 
                     result.add_thumb(ThumbInfo(thumb_url=thumb_url, href=url, popup=label,
                                                labels=[{'text': dur_time, 'align': 'top right'},
                                                        {'text': label, 'align': 'bottom center'},
-                                                       {'text': hd, 'align': 'top left','bold':True}]))
+                                                       {'text': hd, 'align': 'top left', 'bold': True}]))
                 elif '/channels/' in href:
-                    logo=thumbnail.find('img',{'class':'logo'})
+                    logo = thumbnail.find('img', {'class': 'logo'})
                     thumb_url = URL(logo.attrs['src'], base_url=base_url)
 
                     title = thumbnail.find('span', {'class': 'title'})
@@ -73,16 +74,16 @@ class PCvideoSoupSite(BaseSoupSite):
                                                        {'text': label, 'align': 'bottom center'},
                                                        {'text': hd, 'align': 'top left'}]))
 
-
     def parse_thumbs_tags(self, soup: BeautifulSoup, result: ParseResult, base_url: URL):
         # adding tags to thumbs
         tags_container = soup.find('div', {'class': 'listFilters'})
         if tags_container is not None:
-            for tag in _iter(tags_container.find_all('a',{'class':None})):
+            for tag in _iter(tags_container.find_all('a', {'class': None})):
                 title = tag.attrs.get('title', '')
                 count = tag.find('span', {'class': 'count'})
                 count_str = '' if count is None else count.string
-                result.add_control(ControlInfo('{0}({1})'.format(title, count_str), URL(tag.attrs['href'], base_url=base_url)))
+                result.add_control(
+                    ControlInfo('{0}({1})'.format(title, count_str), URL(tag.attrs['href'], base_url=base_url)))
 
         # adding alpha to thumbs
         alpha_container = soup.find('div', {'class': 'alpha'})
@@ -97,14 +98,14 @@ class PCvideoSoupSite(BaseSoupSite):
         head = soup.find('head')
         if head is not None:
 
-            script=head.find('script',text=lambda x:'streams:' in str(x))
+            script = head.find('script', text=lambda x: 'streams:' in str(x))
             if script is not None:
                 urls = UrlList()
                 data = str(script).replace(' ', '')
                 sources = quotes(data, 'streams:[{', '}]').split('},{')
                 for f in sources:
                     label = quotes(f, 'id:"', '"')
-                    url = URL(quotes(f, 'url:"', '"'),base_url=base_url)
+                    url = URL(quotes(f, 'url:"', '"'), base_url=base_url)
                     if url.contain('.mp4'):
                         urls.add(label, url)
 
@@ -122,9 +123,10 @@ class PCvideoSoupSite(BaseSoupSite):
                 color = 'blue'
                 href += '/videos'
             if '/channels/' in href:
-                color= 'blue'
+                color = 'blue'
             label = str(item.string)
             result.add_control(ControlInfo(label, URL(href, base_url=base_url), text_color=color))
+
 
 if __name__ == "__main__":
     pass

@@ -1,6 +1,5 @@
-from loader.base_loader import URL
-
 __author__ = 'Vit'
+from loader.base_loader import URL,FLData
 
 
 # from favorites import FavoritesNEW
@@ -27,16 +26,44 @@ class ControlInfo:
         self.autorise = autoraise
         self.text_color=text_color
 
+
+class UrlList:
+    def __init__(self):
+        self.urls = list()
+
+    def add(self, label:str, url:URL):
+        self.urls.append(dict(text=label, url=url))
+
+    def sort(self):
+        self.urls.sort(key=lambda x:int(x['text']))
+
+
+    def get_media_data(self, default=0):
+        video = None
+        if len(self.urls) == 1:
+            video = MediaData(self.urls[0]['url'])
+        elif len(self.urls) > 1:
+            video = MediaData(self.urls[default]['url'])
+            for item in self.urls:
+                video.add_alternate(item)
+        return video
+
+
 class AbstractModelFromControllerInterface():
     def can_accept_url(self, url: URL): pass
 
-    def accept_index(self, url: URL, index_fname:str): pass
+    def accept_index(self, filedata:FLData): pass
 
 
 class AbstractModelFromSiteInterface():
-    def register_site_model(self, control:ControlInfo): pass
+    def register_site_model(self, control:ControlInfo):
+        pass
 
-    # def load_file(self,url=URL,filename='',on_load=lambda success:None):pass
+    def request_file(self,filedata:FLData, on_load=lambda filedata:None):
+        pass
+
+    def on_file_parsed(self, filedata:FLData, result):
+        pass
 
 
 class AbstractModel(AbstractModelFromControllerInterface, AbstractModelFromSiteInterface):
@@ -146,7 +173,8 @@ class PresenterFromModelInterface():
     def show_video_view(self, page_url: URL, video:MediaData, controls:list): pass
 
     # def refresh_picture_view(self): pass
-    # def load_file(self,url=URL,filename='',on_load=lambda success:None):pass
+    def request_file(self, filedata: FLData, on_load=lambda filedata: None):pass
+
     def show_status(self, txt:str): pass
 
 
@@ -190,24 +218,3 @@ if __name__ == "__main__":
     url.add_query([('qqq', '1'), ('page', '5')])
     print(url.get())
 
-
-class UrlList:
-    def __init__(self):
-        self.urls = list()
-
-    def add(self, label:str, url:URL):
-        self.urls.append(dict(text=label, url=url))
-
-    def sort(self):
-        self.urls.sort(key=lambda x:int(x['text']))
-
-
-    def get_media_data(self, default=0):
-        video = None
-        if len(self.urls) == 1:
-            video = MediaData(self.urls[0]['url'])
-        elif len(self.urls) > 1:
-            video = MediaData(self.urls[default]['url'])
-            for item in self.urls:
-                video.add_alternate(item)
-        return video

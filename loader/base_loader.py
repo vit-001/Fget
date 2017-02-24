@@ -1,13 +1,12 @@
 # -*- coding: utf-8 -*-
-from urllib import parse as up
-from urllib.parse import urlparse
-
 __author__ = 'Vit'
 
-if __name__ == "__main__":
-    pass
+import io
+import os
+import urllib.parse as up
 
-def get_href( txt:str, base_url):
+
+def get_href(txt: str, base_url):
     txt = txt.strip()
     if not txt.endswith('/'):
         txt = txt + "*"
@@ -21,6 +20,7 @@ def get_href( txt:str, base_url):
         return 'http://' + base_url.domain() + txt
     # print(base_url.get() + txt)
     return base_url.get().rpartition('/')[0] + '/' + txt
+
 
 class URL:
     SUFFIXES = ['.html', '.jpg', '.gif', '.JPG', '.mp4', '.flv', 'png']
@@ -43,16 +43,16 @@ class URL:
 
         self.method = method
         self.coockies = coockies
-        self.user_agent=user_agent
-        self.referer=referer
+        self.user_agent = user_agent
+        self.referer = referer
         self.post_data = post_data
         self.xhr_data = any_data
-        self.forced_proxy=forced_proxy
-        self.forced_unproxy=forced_unproxy
-        self.test_string=test_string
+        self.forced_proxy = forced_proxy
+        self.forced_unproxy = forced_unproxy
+        self.test_string = test_string
 
         if base_url:
-            url=get_href(url,base_url)
+            url = get_href(url, base_url)
 
         if url == '':
             self.url = ''
@@ -74,18 +74,18 @@ class URL:
         return self.url.rstrip('/') + '/'
 
     def get_short_path(self, base=''):
-        p = urlparse(self.get())
+        p = up.urlparse(self.get())
         return base.rstrip('/') + '/' + p[1] + '/' + p[2].strip(' /').replace('/', '..')
 
     def get_path(self, base=''):
-        p = urlparse(self.get())
+        p = up.urlparse(self.get())
         p2 = p[2]
         if p2.endswith('.html') or p2.endswith('.jpg'):
             p2 = p2.rpartition('/')[0] + '/'
         return base.rstrip('/') + '/' + p[1] + p2.rstrip('/') + '/'
 
     def domain(self):
-        p = urlparse(self.get())
+        p = up.urlparse(self.get())
         return p[1]
 
     def contain(self, text=''):
@@ -153,20 +153,84 @@ class URL:
 
 
 class FLData:
-    def __init__(self, url:URL, filename:str):
+    def __init__(self, url: URL, filename: str, overwrite=True):
         self._url = url
         self._filename = filename
+        self.overwrite = overwrite
+        self.text=''
 
     def get_url(self):
         return self._url
 
+    def set_url(self, url:URL):
+        self._url=url
+
     def get_filename(self):
         return self._filename
 
+
+class PictureCollectorException(Exception):
+    pass
+
+
+class PictureCollector():
+    def __init__(self):
+        self.type = 'simple'
+
+    def get_type(self):
+        return self.type
+
+    def next(self):
+        raise PictureCollectorException()
+
+    def parse_index(self, iter_line, url: URL):
+        raise PictureCollectorException()
+
+
+class LoaderError(RuntimeError):
+    def __init__(self, description):
+        self.txt = description
+
+    def __str__(self):
+        return self.txt
+
+
+class BaseLoadProcedure:
+    def open(self, url: URL) -> bytes:
+        'Open a network object denoted by a URL and return his bytes representstive.'
+        pass
+
+    def load_to_file(self, file: FLData) -> FLData:
+        """
+        Load a network object denoted by a URL to a local file.
+        :param file - url and local file name:
+        :return same object, but if file.get_filendme() is '' or None file don't write and
+                in file.text will returned decoded neteork object:
+        """
+        if file.overwrite or (not os.path.exists(file.get_filename())):
+            result = self.open(file.get_url())
+
+            if file.get_filename() is None or file.get_filename() is '':
+                file.text = result.decode()
+                return file
+
+            path = os.path.dirname(file.get_filename())
+
+            if not os.path.exists(path):
+                os.makedirs(path)
+
+            buf = io.BytesIO(result)
+            with open(file.get_filename(), 'wb') as fd:
+                chunk = buf.read(256)
+                while len(chunk) > 0:
+                    fd.write(chunk)
+                    chunk = buf.read(256)
+        return file
+
+
 class BaseLoadProcess:
-    def load_list(self, fldata_list:list, picture_collector:PictureCollector=None):
-        self.loader = LoadServer(fldata_list, self.events, picture_collector)
-        self.loader.start()
+    def load_list(self, fldata_list: list, picture_collector: PictureCollector = None):
+        pass
 
     def abort(self):
         pass
@@ -176,10 +240,10 @@ class BaseLoadProcess:
 
 
 class BaseLoader:
-    def get_new_load_process(self, on_load_handler=lambda x: None, on_end_handler=lambda: None)->BaseLoadProcess:
+    def get_new_load_process(self, on_load_handler=lambda x: None, on_end_handler=lambda: None) -> BaseLoadProcess:
         pass
 
-    def start_load_file(self, filedata:FLData, on_result=lambda filedata: None):
+    def start_load_file(self, filedata: FLData, on_result=lambda filedata: None):
         pass
 
     def on_update(self):
@@ -187,3 +251,7 @@ class BaseLoader:
 
     def on_exit(self):
         pass
+
+
+if __name__ == "__main__":
+    raise LoaderError('test')

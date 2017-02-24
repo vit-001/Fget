@@ -18,7 +18,7 @@ class V24videoSoupSite(BaseSoupSite):
                     )
 
     def startpage(self):
-        return URL("http://www.24videos.tv/latest-updates/")
+        return URL("http://www.24videos.tv/latest-updates/", test_string='24Videos.TV')
 
     def can_accept_index_file(self, base_url=URL()):
         return base_url.contain('24videos.tv/')
