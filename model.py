@@ -1,9 +1,8 @@
 __author__ = 'Vit'
 
-
 import bs4
+
 from base_classes import AbstractModel, PresenterFromModelInterface, ControlInfo
-from site_models.base_site_model import ParseResult
 from loader.base_loader import FLData, URL
 from setting import Setting
 from site_models.base_site_model import ParseResult
@@ -36,6 +35,7 @@ from site_models.soup.video.script.px_soup_video_model import PXvideoSoupSite
 from site_models.soup.video.script.rgf_video_model import RGFvideoSite
 from site_models.soup.video.script.rt_soup_video_model import RTvideoSoupSite
 from site_models.soup.video.script.v24_soup_video_model import V24videoSoupSite
+from site_models.soup.video.script.xm_soup_model import XMvideoSoupSite
 from site_models.soup.video.simple.cbp_soup_video_model import CBPvideoSoupSite
 from site_models.soup.video.simple.hdep_soup_video_model import HDEPvideoSoupSite
 from site_models.soup.video.simple.sm_soup_video_model import SMvideoSoupSite
@@ -66,7 +66,6 @@ from site_models.video.su_video_model import SUvideoSite
 from site_models.video.t8_video_model import T8videoSite
 from site_models.video.tz_video_model import TZvideoSite
 from site_models.video.vp_video_model import VPvideoSite
-from site_models.video.xm_model import XMvideoSite
 
 
 class SiteVewerModel(AbstractModel):
@@ -76,13 +75,13 @@ class SiteVewerModel(AbstractModel):
         self.models = [
             # work on
 
-            XMvideoSite(self),
+
             SUvideoSite(self),
 
 
             # classic
             SpaceSite(self, text='Classic:'),
-            HDEPvideoSoupSite(self),CBPvideoSoupSite(self),PCvideoSoupSite(self),
+            XMvideoSoupSite(self), HDEPvideoSoupSite(self),CBPvideoSoupSite(self),PCvideoSoupSite(self),
             YPvideoSite(self), SXXvideoSite(self),  NFLvideoSite(self), V24videoSoupSite(self),PTvideoSoupSite(self),
             PXvideoSoupSite(self), RTvideoSoupSite(self), CLSvideoSite(self),
             VERvideoSoupSite(self), PBZvideoSite(self),

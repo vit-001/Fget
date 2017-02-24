@@ -14,7 +14,7 @@ class SUvideoSite(BaseSite):
                     Popular_today=URL('http://sexu.com/top/today/'))
 
     def startpage(self):
-        return URL("http://sexu.com/")
+        return URL("http://sexu.com/", test_string='Sexu.Com')
 
     def can_accept_index_file(self, base_url=URL()):
         return base_url.contain('sexu.com/')
@@ -99,7 +99,6 @@ class SUvideoSite(BaseSite):
             else:
                 return result
 
-            result.set_type('video')
             result.set_video(video)
             #
             # for f in gallery_channel_rule.get_result(['data', 'href']):
@@ -110,7 +109,6 @@ class SUvideoSite(BaseSite):
             return result
 
         if len(startpage_rule.get_result()) > 0:
-            result.set_type('hrefs')
 
             for item in startpage_rule.get_result(['href', 'data-original']):
                 result.add_thumb(ThumbInfo(thumb_url=URL(item['data-original']), href=URL(item['href']),

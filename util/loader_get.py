@@ -4,10 +4,10 @@ import requests
 import requests.exceptions
 
 
-def load(url, fname, cookies=None, headers=None):
+def load(url, fname, cookies=None, headers=None, proxies=None):
     print('Loading', url, 'to', fname)
     try:
-        response = requests.get(url, cookies=cookies, headers=headers)
+        response = requests.get(url, cookies=cookies, headers=headers, proxies=proxies)
         response.raise_for_status()
         with open(fname, 'wb') as fd:
             for chunk in response.iter_content(chunk_size=128):
@@ -37,8 +37,10 @@ def load(url, fname, cookies=None, headers=None):
 
 if __name__ == "__main__":
 
-    url1 = 'http://yourporn.sexy/blog/all/0.html'
-    url1a = 'http://www.porntrex.com/video/63634/beautiful-brunette-babe-ride-a-hard-cock'
+    proxies={'http': 'proxy.antizapret.prostovpn.org:3128'}
+
+    url1 = 'http://ru.xhamster.com/'
+    url1a = 'https://ru.xhamster.com/movies/7308392/busty_pornstar_sara_jay_fucks_big_black_dildo.html'
     url2 = 'http://shockingmovies.com/video/big-boobed-slut-getting-a-golden-shower-in-a-bathtub-14880282.html'
     url3 = 'http://www.drtuber.com/player_config/?h=503093cfbeaa558180554133b2315358%26check_speed=1%26t=1480701894%26vkey=676d54293b2629388734&project_name=drtuber&id=player&javascriptid=player&enablejs=true'
 
@@ -57,7 +59,7 @@ if __name__ == "__main__":
 
     headers = {'Referer': 'http://her69.net/massagerooms-daphne-angel-daisy-lee/'}
 
-    r=load(url1,fname1)
+    r=load(url1,fname1, proxies=proxies)
     # r = load(url2, fname2a)
     # r = load(url1a, fname1a)
     # r = load(url1a, fname1a,headers=headers)

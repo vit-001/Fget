@@ -113,7 +113,7 @@ class ParseResult():
 
     def set_type(self, type):  # todo  убрать совсем
         raise(RuntimeWarning('Delete ParseResult.set_type()'))
-
+        # pass
     #     # self._type = type
 
     def set_picture_collector(self, collector: PictureCollector):
@@ -122,9 +122,10 @@ class ParseResult():
     def set_redirect(self, url: URL):
         self.redirect = url
 
-    def add_thumb(self, thumb: ThumbInfo):
-        self.thumbs.append(thumb)
+    def add_thumb(self, thumb: ThumbInfo=None):
         self._type = 'hrefs'
+        if thumb:
+            self.thumbs.append(thumb)
 
     def add_full(self, full: FullPictureInfo):
         self.full.append(full)

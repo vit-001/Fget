@@ -263,7 +263,7 @@ if __name__ == "__main__":
 
     from bs4 import BeautifulSoup
 
-    url1 = 'http://motherless.com/videos/recent?page=1'
+    url1 = 'https://ru.xhamster.com/'
     url1a = 'http://www.pornhub.com/'
     url1b = 'http://yourporn.sexy/'
     url2= 'http://google.com'
@@ -271,7 +271,7 @@ if __name__ == "__main__":
 
     url_jpeg='http://cdn4.thumbs.motherlessmedia.com/thumbs/FD067C3-small.jpg?from_helper'
 
-    fname1 = 'out/plain.html'
+    fname1 = 'out/index.html'
     fname2 = 'out/az.html'
 
     fname1_jpeg='out/plain.jpg'

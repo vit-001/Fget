@@ -83,7 +83,7 @@ class DataServer:
 
         try:
             with open(config_filename, 'w') as config:
-                print('Writing DataServer config to ' + config_filename)
+                # print('Writing DataServer config to ' + config_filename)
 
                 data = dict()
                 data['free_http_proxy'] = self.data['free_http_proxy']
@@ -130,7 +130,7 @@ class AZloaderMP(BaseLoadProcedure):
 
         self.lock.acquire()
         domain_cash = self.data.get('domain_cash', dict())
-        domain_cash[domain] = method
+        domain_cash[domain.strip('www.')] = method
         self.data['domain_cash'] = domain_cash
         # print(domain_cash)
         self.lock.release()

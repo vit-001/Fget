@@ -2,7 +2,7 @@ __author__ = 'Vit'
 from bs4 import BeautifulSoup
 
 from base_classes import UrlList
-from loader.base_loader import URL
+from loader.base_loader import URL, FLData
 from site_models.base_site_model import ParseResult, ControlInfo, ThumbInfo
 from site_models.soup.base_soup_model import BaseSoupSite, _iter
 from site_models.util import quotes
@@ -80,21 +80,12 @@ class RTvideoSoupSite(BaseSoupSite):
                                                        {'text': label, 'align': 'bottom center'}]))
 
         elif stars_containers is not None and len(stars_containers) > 0:
-            # parce stars page
-            print(' Pornhub server blocked. Stars image unavailable')
-            for stars_container in stars_containers:
-                for star in _iter(stars_container.find_all('li')):
-                    href = URL(star.a.attrs['href'], base_url=base_url)
-                    img = star.find('img')
-                    thumb_url = URL(img.attrs['src'], base_url=base_url)
-                    label = img.attrs.get('alt', '')
 
-                    num_videos_span = star.find('span', text=lambda x: 'Videos' in str(x))
-                    num_videos = '' if num_videos_span is None else str(num_videos_span.string)
-
-                    result.add_thumb(ThumbInfo(thumb_url=thumb_url, href=href, popup=label,
-                                               labels=[{'text': num_videos, 'align': 'top right'},
-                                                       {'text': label, 'align': 'bottom center'}]))
+            # unlock http://www.pornhub.com/
+            result.set_waiting_file()
+            result.add_thumb()
+            self.model.request_file(FLData(URL('http://pornhub.com/',test_string='Tube'), ''),
+                                    on_load=lambda x: self.continue_with_stars(FLData(base_url,''), soup, result))
 
             # adding tags to stars page
             tags_containers = _iter(soup.find_all('ul', {'class': ['abc-categories']}))
@@ -102,6 +93,24 @@ class RTvideoSoupSite(BaseSoupSite):
                 for tag in _iter(tags_container.find_all('a')):
                     # print(tag)
                     result.add_control(ControlInfo(str(tag.string), URL(tag.attrs['href'], base_url=base_url)))
+
+    def continue_with_stars(self, filedata:FLData, soup:BeautifulSoup, result:ParseResult):
+        # parce stars page
+        for stars_container in soup.find_all('ul', {'class': ['pornStarsThumbs']}):
+            for star in _iter(stars_container.find_all('li')):
+                href = URL(star.a.attrs['href'], base_url=filedata.get_url())
+                img = star.find('img')
+                thumb_url = URL(img.attrs['src'], base_url=filedata.get_url())
+                label = img.attrs.get('alt', '')
+
+                num_videos_span = star.find('span', text=lambda x: 'Videos' in str(x))
+                num_videos = '' if num_videos_span is None else str(num_videos_span.string)
+
+                result.add_thumb(ThumbInfo(thumb_url=thumb_url, href=href, popup=label,
+                                           labels=[{'text': num_videos, 'align': 'top right'},
+                                                   {'text': label, 'align': 'bottom center'}]))
+        self.model.on_file_parsed(filedata,result)
+
 
     def parse_thumbs_tags(self, soup: BeautifulSoup, result: ParseResult, base_url: URL):
         tags_containers = _iter(soup.find_all('ul', {'class': ['categories-listing', 'categories-popular-listing']}))
