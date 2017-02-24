@@ -82,9 +82,9 @@ class PDGvideoSite(BaseSite):
             frame = URL(video_rule.get_result()[0]['src'])
             print(frame)
 
-            from loader.multi_process_loader import LoaderError
-            from loader.simple_loader import get_last_index_cookie
-            from loader.simple_loader import load
+            from loader.old.multiprocess_loader import LoaderError
+            from loader.old.simple_loader import get_last_index_cookie
+            from loader.old.simple_loader import load
 
             frame_file = Setting.base_dir + 'frame.html'
             cookie = get_last_index_cookie()

@@ -1,8 +1,8 @@
 __author__ = 'Vit'
 
 from base_classes import UrlList
-from loader.multi_process_loader import LoaderError
-from loader.simple_loader import load
+from loader.old.multiprocess_loader import LoaderError
+from loader.old.simple_loader import load
 from site_models.base_site_model import *
 from site_models.site_parser import SiteParser, ParserRule
 
