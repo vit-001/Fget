@@ -130,9 +130,11 @@ class AZloaderMP(BaseLoadProcedure):
 
         self.lock.acquire()
         domain_cash = self.data.get('domain_cash', dict())
-        domain_cash[domain.strip('www.')] = method
+        if domain.startswith('www.'):
+            domain=domain.partition('.')[2]
+        domain_cash[domain] = method
         self.data['domain_cash'] = domain_cash
-        # print(domain_cash)
+        print(domain_cash)
         self.lock.release()
 
         return method

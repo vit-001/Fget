@@ -26,6 +26,9 @@ class SUvideoSite(BaseSite):
             return base_url.domain() + txt
 
     def parse_index_file(self, fname, base_url=URL()):
+
+        print ('================Cookie for view video & proxy protect===============')
+
         parser = SiteParser()
 
         def star_get_url(txt=''):

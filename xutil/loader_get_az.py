@@ -18,7 +18,7 @@ def load(url, fname, cookies=None, headers=None, proxies=None):
 
 
 
-    except requests.exceptions.HTTPError as err:  # todo Тестировать сообщения об ошибках
+    except requests.exceptions.HTTPError as err:
         print('HTTP error: {0}'.format(err.response.status_code))
         return response
 

@@ -136,7 +136,7 @@ class AZLoader():
 
                             # print(fname,'loaded')
 
-            except requests.exceptions.HTTPError as err:  # todo Тестировать сообщения об ошибках
+            except requests.exceptions.HTTPError as err:
                 raise LoaderError('HTTP error: {0}'.format(err.response.status_code))
 
             except requests.exceptions.ConnectTimeout:
@@ -294,7 +294,7 @@ if __name__ == "__main__":
     # print(az.inspect_availability(URL('http://motherless.com/videos/recent?page=1')))
 
 
-    # print(az.trick_load(URL('http://cdn4.images.motherlessmedia.com/images/55FCE1C.jpg*'),fname='util/out/az.jpg',overwrite=False, trick_name='cr_method'))
+    # print(az.trick_load(URL('http://cdn4.images.motherlessmedia.com/images/55FCE1C.jpg*'),fname='xutil/out/az.jpg',overwrite=False, trick_name='cr_method'))
     print(datetime.datetime.now()-time)
     exit()
 
@@ -321,11 +321,11 @@ if __name__ == "__main__":
 
     url_jpeg='http://c2.trafficdeposit.com/bvideo/dOGa0-piG0qiYhDQhdjreQ/1487417906/58164a71a4195/58a7ec2224f03.mp4'
 
-    fname1 = 'util/out/plain.html'
-    fname2 = 'util/out/az.html'
+    fname1 = 'xutil/out/plain.html'
+    fname2 = 'xutil/out/az.html'
 
-    fname1_jpeg='util/out/plain.mp4'
-    fname2_jpeg='util/out/az.jpg'
+    fname1_jpeg='xutil/out/plain.mp4'
+    fname2_jpeg='xutil/out/az.jpg'
 
     url=url_jpeg
     f1=fname1_jpeg

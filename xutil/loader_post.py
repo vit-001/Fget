@@ -14,7 +14,7 @@ def load(url, fname, data=None):
                 # print(chunk)
                 fd.write(chunk)
 
-    except requests.exceptions.HTTPError as err:  # todo Тестировать сообщения об ошибках
+    except requests.exceptions.HTTPError as err:
         print('HTTP error: {0}'.format(err.response.status_code))
 
     except requests.exceptions.ConnectTimeout:

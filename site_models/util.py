@@ -29,8 +29,8 @@ def quotes(text:str, from_lex:str, to_lex:str):
 def sp():
     print('=========================================')
 
-def psp(s:str):
-    print(s)
+def psp(*arguments, **keywords):
+    print(*arguments, **keywords)
     sp()
 
 decode_table = dict()

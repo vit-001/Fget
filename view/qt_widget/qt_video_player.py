@@ -5,8 +5,10 @@ __all__ = ['QThumbViewVS']
 import os
 import sys
 from urllib.parse import urlparse
+from loader.base_loader import URL
 
 from PyQt5.QtCore import QUrl
+from PyQt5.QtNetwork import QNetworkRequest
 from PyQt5.QtGui import QPixmap, QIcon
 from PyQt5.QtMultimedia import QMediaContent, QMediaPlayer
 from PyQt5.QtMultimediaWidgets import QVideoWidget
@@ -68,7 +70,7 @@ class VideoPlayer(QWidget):
         # self.ui.spin_volume.valueChanged.connect(self.media_player.setVolume)
         self.ui.dial_volume.valueChanged.connect(self.media_player.setVolume)
 
-        self.url = ''
+        self.url = URL()
         self.altermate = list()
         self.duration = '0:00'
         self.change_position = None
@@ -114,22 +116,38 @@ class VideoPlayer(QWidget):
     def on_uget_pressed(self, url=None):
         self.uget_handler(fname=urlparse(url.rstrip('/'))[2].rpartition('/')[2], url=url)
 
-    def set_url(self, url=''):
+    def set_url(self, url:URL):
         self.url = url
         self.altermate = list()
         self.ui.bn_size.hide()
-        self.media_player.setMedia(QMediaContent(QUrl(url)))
+        self._set_url_to_player(url)
+        # self.media_player.setMedia(QMediaContent(QUrl(url.get())))
         uget_menu = QMenu(self)
-        uget_menu_action = QAction('Standart quality', self, triggered=self.get_handler(self.on_uget_pressed, url))
+        uget_menu_action = QAction('Standart quality', self, triggered=self.get_handler(self.on_uget_pressed, url.get()))
         uget_menu.addAction(uget_menu_action)
         self.ui.bn_uget.setMenu(uget_menu)
 
-    def change_url(self, url):
+    def change_url(self, url:URL):
         position = self.media_player.position()
         self.media_player.stop()
-        self.media_player.setMedia(QMediaContent(QUrl(url)))
+        # self.media_player.setMedia(QMediaContent(QUrl(url.get())))
+        self._set_url_to_player(url)
         self.media_player.play()
         self.change_position = position
+
+    def _set_url_to_player(self,url:URL):
+        request = QNetworkRequest(QUrl(url.get()))
+        # todo: сделать добавление cookie и подготовку proxу
+
+        # proxy=QNetworkProxy()
+        # proxy.setType(QNetworkProxy.HttpProxy)
+        # proxy.setHostName("proxy.antizapret.prostovpn.org")
+        # proxy.setPort(3128)
+
+        # proxy.setApplicationProxy(proxy)
+
+
+        self.media_player.setMedia(QMediaContent(request))
 
     def add_alternate_url(self, caption='', url=''):
         self.ui.bn_size.show()
@@ -217,7 +235,7 @@ class VideoPlayer(QWidget):
         return '%d:%02d' % (minutes, secundes)
 
     def handleError(self):
-        print("Error in " + self.url + ': ' + self.media_player.errorString())
+        print("Error in " + self.url.get() + ': ' + self.media_player.errorString())
         self.error_handler('Player error: ' + self.media_player.errorString())
 
 

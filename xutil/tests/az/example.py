@@ -4,7 +4,7 @@ from urllib.request import build_opener,install_opener,Request,urlopen
 
 from bs4 import BeautifulSoup
 
-from util.tests.az.antizapret import AntizapretProxyHandler
+from xutil.tests.az.antizapret import AntizapretProxyHandler
 
 install_opener(build_opener(AntizapretProxyHandler()))
 

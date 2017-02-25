@@ -51,12 +51,12 @@ class VideoView(FullView, AbstractVideoView):
 
         self.player_url = media.url
         self.url = page_url
-        self.video_player.set_url(self.player_url.get())
+        self.video_player.set_url(self.player_url)
         self.setWindowTitle(self.player_url.get())
         self.controls.clear()
 
         for item in media.alternate:
-            self.video_player.add_alternate_url(item['text'], item['url'].get())
+            self.video_player.add_alternate_url(item['text'], item['url'])
         if autoplay:
             self.video_player.play()
 

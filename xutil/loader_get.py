@@ -15,7 +15,7 @@ def load(url, fname, cookies=None, headers=None, proxies=None):
 
 
 
-    except requests.exceptions.HTTPError as err:  # todo Тестировать сообщения об ошибках
+    except requests.exceptions.HTTPError as err:
         print('HTTP error: {0}'.format(err.response.status_code))
         # return response
 
@@ -40,8 +40,8 @@ if __name__ == "__main__":
     proxies={'http': 'proxy.antizapret.prostovpn.org:3128'}
 
     url1 = 'http://ru.xhamster.com/'
-    url1a = 'https://ru.xhamster.com/movies/7308392/busty_pornstar_sara_jay_fucks_big_black_dildo.html'
-    url2 = 'http://shockingmovies.com/video/big-boobed-slut-getting-a-golden-shower-in-a-bathtub-14880282.html'
+    url1a = 'http://www.pornhub.com/view_video.php?viewkey=ph589b654af3976'
+    url2 = 'http://cdn2b.video.pornhub.phncdn.com/videos/201702/08/105400762/480P_600K_105400762.mp4?ipa=51.15.39.201&rs=154&ri=1400&s=1488021010&e=1488028210&h=c7e730ff01d8c9c8b58449757479c40c'
     url3 = 'http://www.drtuber.com/player_config/?h=503093cfbeaa558180554133b2315358%26check_speed=1%26t=1480701894%26vkey=676d54293b2629388734&project_name=drtuber&id=player&javascriptid=player&enablejs=true'
 
     fname1 = 'out/1.html'
@@ -54,14 +54,13 @@ if __name__ == "__main__":
     fname4 = 'out/1.js'
 
 
-    # coockies={'_gat':'1',
-    # '_ga' :'GA1.2.1045758528.1480589656'}
+    # coockies={'_gat':'1', 'protect':'BPJvGkuwOdy0D4amF44YTA', '_ga':'GA1.2.638382635.1487974825'}
 
-    headers = {'Referer': 'http://her69.net/massagerooms-daphne-angel-daisy-lee/'}
+    # headers = {'Referer': 'http://her69.net/massagerooms-daphne-angel-daisy-lee/'}
 
-    r=load(url1,fname1, proxies=proxies)
+    r=load(url2,fname2)#, proxies=proxies)
     # r = load(url2, fname2a)
-    # r = load(url1a, fname1a)
+    # r = load(url1a, fname1a, proxies=proxies)
     # r = load(url1a, fname1a,headers=headers)
     # r = load(url2, fname2)
 

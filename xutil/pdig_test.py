@@ -3,8 +3,8 @@ __author__ = 'Nikitin'
 
 import json
 
-import util.loader_get as lg
-import util.loader_post as lp
+import xutil.loader_get as lg
+import xutil.loader_post as lp
 
 dir = 'e:/out/pdig/'
 

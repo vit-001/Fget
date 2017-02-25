@@ -74,7 +74,7 @@ if __name__ == "__main__":
     # print(l.open(url,trick='sp_method').decode())
 
     url_jpeg = URL('http://cherrysoft.ru/uploads/posts/2017-02/thumbs/1487443797_51.jpg*')
-    fname2_jpeg = 'util/out/az.jpg'
+    fname2_jpeg = 'xutil/out/az.jpg'
 
     l.default_trick = 'sp_method'
     l.load_to_file(FLData(url_jpeg, fname2_jpeg))
