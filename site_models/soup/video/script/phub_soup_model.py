@@ -46,15 +46,13 @@ class PHUBvideoSoupSite(BaseSoupSite):
                                                    {'text': description, 'align': 'bottom center'},
                                                    {'text': qual, 'align': 'top left', 'bold': True}]))
 
-    # def parse_thumbs_tags(self, soup: BeautifulSoup, result: ParseResult, base_url: URL):
-    #     menu=soup.find('div', {'id':'menuLeft'})
-    #     hrefs=menu.find_all('a',{'href':lambda x: '/channels/' in x})
-    #     for item in _iter(hrefs):
-    #         label=''
-    #         for s in item.stripped_strings:
-    #             label +=s
-    #         href = item.attrs['href']
-    #         result.add_control(ControlInfo(label.strip(), URL(href, base_url=base_url)))
+    def parse_thumbs_tags(self, soup: BeautifulSoup, result: ParseResult, base_url: URL):
+        for sidebar in _iter(soup.find_all('div',{'class':'sidebar_wrapper'})):
+            for category in _iter(sidebar.find_all('a',{'href':lambda x: '/video?c' in x})):
+                label = ''
+                for s in category.stripped_strings:
+                    label += s
+                result.add_control(ControlInfo(label, URL(category.attrs['href'], base_url=base_url)))
 
     def get_pagination_container(self, soup: BeautifulSoup) -> BeautifulSoup:
         return soup.find('div', {'class': 'pagination3'})
@@ -72,29 +70,44 @@ class PHUBvideoSoupSite(BaseSoupSite):
                     part=item.partition('="')
                     file = part[2].strip('"')
                     label=quotes(part[0],'quality_','p')
-                    # psp(label,file)
-                    urls.add(label, URL(file, base_url=base_url))
+                    psp(label,file)
+
+                    if 'pornhub.com/' in file:
+                        forced_proxy=True
+                        print('=============== Need proxy ===============')
+                    else:
+                        forced_proxy=False
+                    urls.add(label, URL(file, base_url=base_url, forced_proxy=True))
                 urls.sort()
                 result.set_video(urls.get_media_data(-1))
 
-    # def parse_video_tags(self, soup: BeautifulSoup, result: ParseResult, base_url: URL):
-    #     info_box = soup.find('div', {'id': 'videoInfoBox'})
-    #     for item in _iter(info_box.find_all('a')):
-    #         # psp(item)
-    #         label=''
-    #         for s in item.stripped_strings:
-    #             label +=s
-    #         color = None
-    #         href = item.attrs['href']
-    #         if '/pornstars/' in href:
-    #             color = 'magenta'
-    #             # href += '/videos'
-    #         if '/user/' in href:
-    #             color = 'blue'
-    #             href = href.replace('/user/','/user/video/')+'/new-1.html'
-    #
-    #         result.add_control(ControlInfo(label.strip(), URL(href, base_url=base_url), text_color=color))
+    def parse_video_tags(self, soup: BeautifulSoup, result: ParseResult, base_url: URL):
+        info_box = soup.find('div', {'class': 'video-detailed-info'})
+        # psp(info_box)
+        for item in _iter(info_box.find_all('div',{'class':'usernameWrap'})):
+            user=item.find('a')
+            if user:
+                # psp(user)
+                result.add_control(ControlInfo(user.string, URL(user.attrs['href'], base_url=base_url), text_color='blue'))
 
+        for item in _iter(info_box.find_all('div', {'class': 'pornstarsWrapper'})):
+            for star in _iter(item.find_all('a',{'class':'pstar-list-btn'})):
+                # psp(star)
+                label=''
+                for s in star.stripped_strings:
+                    label +=s
+                result.add_control(
+                    ControlInfo(label, URL(star.attrs['href'], base_url=base_url), text_color='magenta'))
+
+        for item in _iter(info_box.find_all('div', {'class': 'categoriesWrapper'})):
+            for category in _iter(item.find_all('a',{'href':True})):
+                # psp(category)
+                result.add_control(ControlInfo(category.string, URL(category.attrs['href'], base_url=base_url)))
+
+        for item in _iter(info_box.find_all('div', {'class': 'tagsWrapper'})):
+            for tag in _iter(item.find_all('a',{'href':True})):
+                # psp(tag)
+                result.add_control(ControlInfo(tag.string, URL(tag.attrs['href'], base_url=base_url)))
 
 if __name__ == "__main__":
     pass

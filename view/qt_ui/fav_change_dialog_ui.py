@@ -1,14 +1,13 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'E:/Dropbox/Hobby/PRG/PyWork/FGet/view/ui/fav_change_dialog_ui.ui'
+# Form implementation generated from reading ui file 'E:/Repository/PyWork/fget/view/ui/fav_change_dialog_ui.ui'
 #
-# Created: Wed Mar 25 17:24:43 2015
+# Created: Sun Feb 26 17:21:15 2017
 #      by: PyQt5 UI code generator 5.4
 #
 # WARNING! All changes made in this file will be lost!
 
-from PyQt5 import QtCore, QtWidgets
-
+from PyQt5 import QtCore, QtGui, QtWidgets
 
 class Ui_EditDialog(object):
     def setupUi(self, EditDialog):
@@ -59,7 +58,7 @@ class Ui_EditDialog(object):
         self.verticalLayout.addWidget(self.frame)
         self.buttons_ok_cancel = QtWidgets.QDialogButtonBox(EditDialog)
         self.buttons_ok_cancel.setOrientation(QtCore.Qt.Horizontal)
-        self.buttons_ok_cancel.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel | QtWidgets.QDialogButtonBox.Ok)
+        self.buttons_ok_cancel.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Ok)
         self.buttons_ok_cancel.setObjectName("buttons_ok_cancel")
         self.verticalLayout.addWidget(self.buttons_ok_cancel)
 
@@ -76,3 +75,4 @@ class Ui_EditDialog(object):
         self.label_2.setText(_translate("EditDialog", "Category"))
         self.label_3.setText(_translate("EditDialog", "URL"))
         self.label_4.setText(_translate("EditDialog", "Type"))
+

@@ -1,14 +1,13 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'E:/Dropbox/Hobby/PRG/PyWork/FGet/view/ui/dialog_base_ui.ui'
+# Form implementation generated from reading ui file 'E:/Repository/PyWork/fget/view/ui/dialog_base_ui.ui'
 #
-# Created: Wed Mar 25 17:24:44 2015
+# Created: Sun Feb 26 17:21:16 2017
 #      by: PyQt5 UI code generator 5.4
 #
 # WARNING! All changes made in this file will be lost!
 
-from PyQt5 import QtCore, QtWidgets
-
+from PyQt5 import QtCore, QtGui, QtWidgets
 
 class Ui_DialogBase(object):
     def setupUi(self, DialogBase):
@@ -40,7 +39,7 @@ class Ui_DialogBase(object):
         sizePolicy.setHeightForWidth(self.buttonBox.sizePolicy().hasHeightForWidth())
         self.buttonBox.setSizePolicy(sizePolicy)
         self.buttonBox.setOrientation(QtCore.Qt.Vertical)
-        self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel | QtWidgets.QDialogButtonBox.Ok)
+        self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Ok)
         self.buttonBox.setCenterButtons(False)
         self.buttonBox.setObjectName("buttonBox")
         self.horizontalLayout.addWidget(self.buttonBox)
@@ -53,3 +52,4 @@ class Ui_DialogBase(object):
     def retranslateUi(self, DialogBase):
         _translate = QtCore.QCoreApplication.translate
         DialogBase.setWindowTitle(_translate("DialogBase", "Dialog"))
+

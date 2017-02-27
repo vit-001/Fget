@@ -1,14 +1,13 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'E:/Dropbox/Hobby/PRG/PyWork/FGet/view/ui/scroll_bar_widget_ui.ui'
+# Form implementation generated from reading ui file 'E:/Repository/PyWork/fget/view/ui/scroll_bar_widget_ui.ui'
 #
-# Created: Wed Mar 25 17:24:43 2015
+# Created: Sun Feb 26 17:21:14 2017
 #      by: PyQt5 UI code generator 5.4
 #
 # WARNING! All changes made in this file will be lost!
 
-from PyQt5 import QtCore, QtWidgets
-
+from PyQt5 import QtCore, QtGui, QtWidgets
 
 class Ui_ScrollBarWidget(object):
     def setupUi(self, ScrollBarWidget):
@@ -38,3 +37,4 @@ class Ui_ScrollBarWidget(object):
     def retranslateUi(self, ScrollBarWidget):
         _translate = QtCore.QCoreApplication.translate
         ScrollBarWidget.setWindowTitle(_translate("ScrollBarWidget", "Form"))
+

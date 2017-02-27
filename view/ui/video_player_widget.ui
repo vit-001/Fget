@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>701</width>
+    <width>744</width>
     <height>532</height>
    </rect>
   </property>
@@ -224,6 +224,9 @@
           <height>30</height>
          </size>
         </property>
+        <property name="checkable">
+         <bool>false</bool>
+        </property>
         <property name="autoRaise">
          <bool>true</bool>
         </property>
@@ -243,6 +246,30 @@
           <width>30</width>
           <height>30</height>
          </size>
+        </property>
+        <property name="autoRaise">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QToolButton" name="bn_proxy">
+        <property name="text">
+         <string>Proxy on/off</string>
+        </property>
+        <property name="icon">
+         <iconset>
+          <normaloff>../qt_ui/files/icons/simple/proxy_server_off.png</normaloff>
+          <normalon>../qt_ui/files/icons/simple/proxy_server_on.png</normalon>../qt_ui/files/icons/simple/proxy_server_off.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>30</width>
+          <height>30</height>
+         </size>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
         </property>
         <property name="autoRaise">
          <bool>true</bool>

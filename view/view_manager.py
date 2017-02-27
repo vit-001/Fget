@@ -115,7 +115,7 @@ class QTViewManager(AbstractViewManager):
     def recompile_interfaces(self):
         interfaces = ['thumb_viewer_ui', 'full_view_base_ui', 'scroll_bar_widget_ui', 'favorite_line_ui', 'tool_box_ui',
                       'fav_change_dialog_ui', 'video_player_widget', 'playlist_ui', 'dialog_base_ui', 'setting_ui']
-        base_dir = 'E:/Dropbox/Hobby/PRG/PyWork/FGet'
+        base_dir = 'E:/Repository/PyWork/fget'
         source_dir = base_dir + '/view/ui/'
         dest_dir = base_dir + '/view/qt_ui/'
 

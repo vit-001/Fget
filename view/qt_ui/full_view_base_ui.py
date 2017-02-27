@@ -1,14 +1,13 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'E:/Dropbox/Hobby/PRG/PyWork/FGet/view/ui/full_view_base_ui.ui'
+# Form implementation generated from reading ui file 'E:/Repository/PyWork/fget/view/ui/full_view_base_ui.ui'
 #
-# Created: Wed Mar 25 17:24:42 2015
+# Created: Sun Feb 26 17:21:14 2017
 #      by: PyQt5 UI code generator 5.4
 #
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-
 
 class Ui_FullView(object):
     def setupUi(self, FullView):
@@ -93,3 +92,4 @@ class Ui_FullView(object):
     def retranslateUi(self, FullView):
         _translate = QtCore.QCoreApplication.translate
         FullView.setWindowTitle(_translate("FullView", "full_view"))
+

@@ -1,19 +1,18 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'E:/Dropbox/Hobby/PRG/PyWork/FGet/view/ui/video_player_widget.ui'
+# Form implementation generated from reading ui file 'E:/Repository/PyWork/fget/view/ui/video_player_widget.ui'
 #
-# Created: Wed Mar 25 17:24:44 2015
+# Created: Sun Feb 26 17:21:15 2017
 #      by: PyQt5 UI code generator 5.4
 #
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
-
 class Ui_VideoPlayer(object):
     def setupUi(self, VideoPlayer):
         VideoPlayer.setObjectName("VideoPlayer")
-        VideoPlayer.resize(988, 587)
+        VideoPlayer.resize(744, 532)
         self.verticalLayout = QtWidgets.QVBoxLayout(VideoPlayer)
         self.verticalLayout.setObjectName("verticalLayout")
         self.top_frame = QtWidgets.QFrame(VideoPlayer)
@@ -29,8 +28,7 @@ class Ui_VideoPlayer(object):
         self.top_frame_layout.setContentsMargins(-1, 4, -1, 4)
         self.top_frame_layout.setObjectName("top_frame_layout")
         self.mid_frame = QtWidgets.QFrame(self.top_frame)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.MinimumExpanding,
-                                           QtWidgets.QSizePolicy.MinimumExpanding)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.MinimumExpanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.mid_frame.sizePolicy().hasHeightForWidth())
@@ -52,8 +50,7 @@ class Ui_VideoPlayer(object):
         self.bottom_frame_layout.setObjectName("bottom_frame_layout")
         self.bn_play = QtWidgets.QToolButton(self.bottom_frame)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("../qt_ui/files/icons/simple/gtk_media_play_ltr.png"), QtGui.QIcon.Normal,
-                       QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("../qt_ui/files/icons/simple/gtk_media_play_ltr.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.bn_play.setIcon(icon)
         self.bn_play.setIconSize(QtCore.QSize(30, 30))
         self.bn_play.setCheckable(False)
@@ -62,8 +59,7 @@ class Ui_VideoPlayer(object):
         self.bottom_frame_layout.addWidget(self.bn_play)
         self.bn_pause = QtWidgets.QToolButton(self.bottom_frame)
         icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap("../qt_ui/files/icons/simple/gtk_media_pause.png"), QtGui.QIcon.Normal,
-                        QtGui.QIcon.Off)
+        icon1.addPixmap(QtGui.QPixmap("../qt_ui/files/icons/simple/gtk_media_pause.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.bn_pause.setIcon(icon1)
         self.bn_pause.setIconSize(QtCore.QSize(30, 30))
         self.bn_pause.setAutoRaise(True)
@@ -71,8 +67,7 @@ class Ui_VideoPlayer(object):
         self.bottom_frame_layout.addWidget(self.bn_pause)
         self.bn_stop = QtWidgets.QToolButton(self.bottom_frame)
         icon2 = QtGui.QIcon()
-        icon2.addPixmap(QtGui.QPixmap("../qt_ui/files/icons/simple/gtk-media-stop_1950.png"), QtGui.QIcon.Normal,
-                        QtGui.QIcon.Off)
+        icon2.addPixmap(QtGui.QPixmap("../qt_ui/files/icons/simple/gtk-media-stop_1950.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.bn_stop.setIcon(icon2)
         self.bn_stop.setIconSize(QtCore.QSize(30, 32))
         self.bn_stop.setAutoRaise(True)
@@ -89,8 +84,7 @@ class Ui_VideoPlayer(object):
         self.horizontalLayout.setObjectName("horizontalLayout")
         self.bn_prev = QtWidgets.QToolButton(self.playlist_frame)
         icon3 = QtGui.QIcon()
-        icon3.addPixmap(QtGui.QPixmap("../qt_ui/files/icons/simple/gtk_media_next_rtl.png"), QtGui.QIcon.Normal,
-                        QtGui.QIcon.Off)
+        icon3.addPixmap(QtGui.QPixmap("../qt_ui/files/icons/simple/gtk_media_next_rtl.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.bn_prev.setIcon(icon3)
         self.bn_prev.setIconSize(QtCore.QSize(30, 30))
         self.bn_prev.setAutoRaise(True)
@@ -98,8 +92,7 @@ class Ui_VideoPlayer(object):
         self.horizontalLayout.addWidget(self.bn_prev)
         self.bn_next = QtWidgets.QToolButton(self.playlist_frame)
         icon4 = QtGui.QIcon()
-        icon4.addPixmap(QtGui.QPixmap("../qt_ui/files/icons/simple/gtk_media_next_ltr.png"), QtGui.QIcon.Normal,
-                        QtGui.QIcon.Off)
+        icon4.addPixmap(QtGui.QPixmap("../qt_ui/files/icons/simple/gtk_media_next_ltr.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.bn_next.setIcon(icon4)
         self.bn_next.setIconSize(QtCore.QSize(30, 30))
         self.bn_next.setAutoRaise(True)
@@ -111,31 +104,40 @@ class Ui_VideoPlayer(object):
         icon5.addPixmap(QtGui.QPixmap("../qt_ui/files/icons/simple/add_4471.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.bn_add.setIcon(icon5)
         self.bn_add.setIconSize(QtCore.QSize(30, 30))
+        self.bn_add.setCheckable(False)
         self.bn_add.setAutoRaise(True)
         self.bn_add.setObjectName("bn_add")
         self.bottom_frame_layout.addWidget(self.bn_add)
         self.bn_minus = QtWidgets.QToolButton(self.bottom_frame)
         icon6 = QtGui.QIcon()
-        icon6.addPixmap(QtGui.QPixmap("../qt_ui/files/icons/simple/gtk-remove_7385.png"), QtGui.QIcon.Normal,
-                        QtGui.QIcon.Off)
+        icon6.addPixmap(QtGui.QPixmap("../qt_ui/files/icons/simple/gtk-remove_7385.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.bn_minus.setIcon(icon6)
         self.bn_minus.setIconSize(QtCore.QSize(30, 30))
         self.bn_minus.setAutoRaise(True)
         self.bn_minus.setObjectName("bn_minus")
         self.bottom_frame_layout.addWidget(self.bn_minus)
-        self.bn_playlist = QtWidgets.QToolButton(self.bottom_frame)
+        self.bn_proxy = QtWidgets.QToolButton(self.bottom_frame)
         icon7 = QtGui.QIcon()
-        icon7.addPixmap(QtGui.QPixmap("../qt_ui/files/icons/simple/editcut_2753.png"), QtGui.QIcon.Normal,
-                        QtGui.QIcon.Off)
-        self.bn_playlist.setIcon(icon7)
+        icon7.addPixmap(QtGui.QPixmap("../qt_ui/files/icons/simple/proxy_server_off.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon7.addPixmap(QtGui.QPixmap("../qt_ui/files/icons/simple/proxy_server_on.png"), QtGui.QIcon.Normal, QtGui.QIcon.On)
+        self.bn_proxy.setIcon(icon7)
+        self.bn_proxy.setIconSize(QtCore.QSize(30, 30))
+        self.bn_proxy.setCheckable(True)
+        self.bn_proxy.setAutoRaise(True)
+        self.bn_proxy.setObjectName("bn_proxy")
+        self.bottom_frame_layout.addWidget(self.bn_proxy)
+        self.bn_playlist = QtWidgets.QToolButton(self.bottom_frame)
+        icon8 = QtGui.QIcon()
+        icon8.addPixmap(QtGui.QPixmap("../qt_ui/files/icons/simple/editcut_2753.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.bn_playlist.setIcon(icon8)
         self.bn_playlist.setIconSize(QtCore.QSize(30, 30))
         self.bn_playlist.setAutoRaise(True)
         self.bn_playlist.setObjectName("bn_playlist")
         self.bottom_frame_layout.addWidget(self.bn_playlist)
         self.bn_uget = QtWidgets.QToolButton(self.bottom_frame)
-        icon8 = QtGui.QIcon()
-        icon8.addPixmap(QtGui.QPixmap("../qt_ui/files/icons/uget/icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.bn_uget.setIcon(icon8)
+        icon9 = QtGui.QIcon()
+        icon9.addPixmap(QtGui.QPixmap("../qt_ui/files/icons/uget/icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.bn_uget.setIcon(icon9)
         self.bn_uget.setIconSize(QtCore.QSize(30, 30))
         self.bn_uget.setPopupMode(QtWidgets.QToolButton.InstantPopup)
         self.bn_uget.setAutoRaise(True)
@@ -171,9 +173,9 @@ class Ui_VideoPlayer(object):
         self.lbl_time.setObjectName("lbl_time")
         self.bottom_frame_layout.addWidget(self.lbl_time)
         self.bn_size = QtWidgets.QToolButton(self.bottom_frame)
-        icon9 = QtGui.QIcon()
-        icon9.addPixmap(QtGui.QPixmap("../qt_ui/files/icons/simple/size.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.bn_size.setIcon(icon9)
+        icon10 = QtGui.QIcon()
+        icon10.addPixmap(QtGui.QPixmap("../qt_ui/files/icons/simple/size.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.bn_size.setIcon(icon10)
         self.bn_size.setIconSize(QtCore.QSize(30, 30))
         self.bn_size.setPopupMode(QtWidgets.QToolButton.InstantPopup)
         self.bn_size.setAutoRaise(True)
@@ -190,16 +192,17 @@ class Ui_VideoPlayer(object):
         self.dial_volume.setMaximum(100)
         self.dial_volume.setSingleStep(1)
         self.dial_volume.setPageStep(5)
+        self.dial_volume.setTracking(True)
         self.dial_volume.setOrientation(QtCore.Qt.Horizontal)
         self.dial_volume.setWrapping(False)
         self.dial_volume.setNotchesVisible(False)
         self.dial_volume.setObjectName("dial_volume")
         self.bottom_frame_layout.addWidget(self.dial_volume)
         self.bn_mute = QtWidgets.QToolButton(self.bottom_frame)
-        icon10 = QtGui.QIcon()
-        icon10.addPixmap(QtGui.QPixmap("../qt_ui/files/icons/simple/mute_on.png"), QtGui.QIcon.Normal, QtGui.QIcon.On)
-        icon10.addPixmap(QtGui.QPixmap("../qt_ui/files/icons/simple/mute_off.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.bn_mute.setIcon(icon10)
+        icon11 = QtGui.QIcon()
+        icon11.addPixmap(QtGui.QPixmap("../qt_ui/files/icons/simple/mute_off.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon11.addPixmap(QtGui.QPixmap("../qt_ui/files/icons/simple/mute_on.png"), QtGui.QIcon.Normal, QtGui.QIcon.On)
+        self.bn_mute.setIcon(icon11)
         self.bn_mute.setIconSize(QtCore.QSize(30, 30))
         self.bn_mute.setCheckable(True)
         self.bn_mute.setAutoRaise(True)
@@ -220,8 +223,10 @@ class Ui_VideoPlayer(object):
         self.bn_next.setText(_translate("VideoPlayer", "NEXT"))
         self.bn_add.setText(_translate("VideoPlayer", "Add to playlist"))
         self.bn_minus.setText(_translate("VideoPlayer", "Remove"))
+        self.bn_proxy.setText(_translate("VideoPlayer", "Proxy on/off"))
         self.bn_playlist.setText(_translate("VideoPlayer", "..."))
         self.bn_uget.setText(_translate("VideoPlayer", "uGet"))
         self.lbl_time.setText(_translate("VideoPlayer", "0:00"))
         self.bn_size.setText(_translate("VideoPlayer", "Size"))
         self.bn_mute.setText(_translate("VideoPlayer", "MUTE"))
+

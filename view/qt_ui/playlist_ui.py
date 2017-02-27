@@ -1,14 +1,13 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'E:/Dropbox/Hobby/PRG/PyWork/FGet/view/ui/playlist_ui.ui'
+# Form implementation generated from reading ui file 'E:/Repository/PyWork/fget/view/ui/playlist_ui.ui'
 #
-# Created: Wed Mar 25 17:24:44 2015
+# Created: Sun Feb 26 17:21:15 2017
 #      by: PyQt5 UI code generator 5.4
 #
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-
 
 class Ui_Playlist(object):
     def setupUi(self, Playlist):
@@ -28,8 +27,7 @@ class Ui_Playlist(object):
         self.top_layout.setObjectName("top_layout")
         self.bn_open = QtWidgets.QToolButton(self.top_frame)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("../qt_ui/files/icons/basic-application/open127.png"), QtGui.QIcon.Normal,
-                       QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("../qt_ui/files/icons/basic-application/open127.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.bn_open.setIcon(icon)
         self.bn_open.setIconSize(QtCore.QSize(32, 32))
         self.bn_open.setAutoRaise(True)
@@ -37,8 +35,7 @@ class Ui_Playlist(object):
         self.top_layout.addWidget(self.bn_open)
         self.bn_save = QtWidgets.QToolButton(self.top_frame)
         icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap("../qt_ui/files/icons/basic-application/floppy13.png"), QtGui.QIcon.Normal,
-                        QtGui.QIcon.Off)
+        icon1.addPixmap(QtGui.QPixmap("../qt_ui/files/icons/basic-application/floppy13.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.bn_save.setIcon(icon1)
         self.bn_save.setIconSize(QtCore.QSize(32, 32))
         self.bn_save.setAutoRaise(True)
@@ -46,8 +43,7 @@ class Ui_Playlist(object):
         self.top_layout.addWidget(self.bn_save)
         self.bn_add_from_fav = QtWidgets.QToolButton(self.top_frame)
         icon2 = QtGui.QIcon()
-        icon2.addPixmap(QtGui.QPixmap("../qt_ui/files/icons/basic-application/star82.png"), QtGui.QIcon.Normal,
-                        QtGui.QIcon.Off)
+        icon2.addPixmap(QtGui.QPixmap("../qt_ui/files/icons/basic-application/star82.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.bn_add_from_fav.setIcon(icon2)
         self.bn_add_from_fav.setIconSize(QtCore.QSize(32, 32))
         self.bn_add_from_fav.setAutoRaise(True)
@@ -55,8 +51,7 @@ class Ui_Playlist(object):
         self.top_layout.addWidget(self.bn_add_from_fav)
         self.bn_delete = QtWidgets.QToolButton(self.top_frame)
         icon3 = QtGui.QIcon()
-        icon3.addPixmap(QtGui.QPixmap("../qt_ui/files/icons/basic-application/delete30.png"), QtGui.QIcon.Normal,
-                        QtGui.QIcon.Off)
+        icon3.addPixmap(QtGui.QPixmap("../qt_ui/files/icons/basic-application/delete30.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.bn_delete.setIcon(icon3)
         self.bn_delete.setIconSize(QtCore.QSize(32, 32))
         self.bn_delete.setAutoRaise(True)
@@ -93,8 +88,7 @@ class Ui_Playlist(object):
         self.bottom_layout.setObjectName("bottom_layout")
         self.bn_prev = QtWidgets.QToolButton(self.bottom_frame)
         icon4 = QtGui.QIcon()
-        icon4.addPixmap(QtGui.QPixmap("../qt_ui/files/icons/basic-application/navigate5.png"), QtGui.QIcon.Normal,
-                        QtGui.QIcon.Off)
+        icon4.addPixmap(QtGui.QPixmap("../qt_ui/files/icons/basic-application/navigate5.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.bn_prev.setIcon(icon4)
         self.bn_prev.setIconSize(QtCore.QSize(32, 32))
         self.bn_prev.setAutoRaise(True)
@@ -102,8 +96,7 @@ class Ui_Playlist(object):
         self.bottom_layout.addWidget(self.bn_prev)
         self.bn_play = QtWidgets.QToolButton(self.bottom_frame)
         icon5 = QtGui.QIcon()
-        icon5.addPixmap(QtGui.QPixmap("../qt_ui/files/icons/basic-application/arrow487.png"), QtGui.QIcon.Normal,
-                        QtGui.QIcon.Off)
+        icon5.addPixmap(QtGui.QPixmap("../qt_ui/files/icons/basic-application/arrow487.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.bn_play.setIcon(icon5)
         self.bn_play.setIconSize(QtCore.QSize(32, 32))
         self.bn_play.setAutoRaise(True)
@@ -111,8 +104,7 @@ class Ui_Playlist(object):
         self.bottom_layout.addWidget(self.bn_play)
         self.bn_next = QtWidgets.QToolButton(self.bottom_frame)
         icon6 = QtGui.QIcon()
-        icon6.addPixmap(QtGui.QPixmap("../qt_ui/files/icons/basic-application/navigate4.png"), QtGui.QIcon.Normal,
-                        QtGui.QIcon.Off)
+        icon6.addPixmap(QtGui.QPixmap("../qt_ui/files/icons/basic-application/navigate4.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.bn_next.setIcon(icon6)
         self.bn_next.setIconSize(QtCore.QSize(32, 32))
         self.bn_next.setAutoRaise(True)
@@ -142,3 +134,4 @@ class Ui_Playlist(object):
         self.bn_prev.setText(_translate("Playlist", "Prev"))
         self.bn_play.setText(_translate("Playlist", "Play"))
         self.bn_next.setText(_translate("Playlist", "Next"))
+

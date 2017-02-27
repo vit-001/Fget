@@ -1,14 +1,13 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'E:/Dropbox/Hobby/PRG/PyWork/FGet/view/ui/tool_box_ui.ui'
+# Form implementation generated from reading ui file 'E:/Repository/PyWork/fget/view/ui/tool_box_ui.ui'
 #
-# Created: Wed Mar 25 17:24:43 2015
+# Created: Sun Feb 26 17:21:14 2017
 #      by: PyQt5 UI code generator 5.4
 #
 # WARNING! All changes made in this file will be lost!
 
-from PyQt5 import QtCore, QtWidgets
-
+from PyQt5 import QtCore, QtGui, QtWidgets
 
 class Ui_ToolBox(object):
     def setupUi(self, ToolBox):
@@ -117,3 +116,4 @@ class Ui_ToolBox(object):
         self.bn_go.setText(_translate("ToolBox", "GO"))
         self.bn_add_thumb.setText(_translate("ToolBox", "Add thumbs"))
         self.bn_config.setText(_translate("ToolBox", "Config"))
+

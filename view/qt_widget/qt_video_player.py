@@ -8,7 +8,7 @@ from urllib.parse import urlparse
 from loader.base_loader import URL
 
 from PyQt5.QtCore import QUrl
-from PyQt5.QtNetwork import QNetworkRequest
+from PyQt5.QtNetwork import QNetworkRequest, QNetworkProxy
 from PyQt5.QtGui import QPixmap, QIcon
 from PyQt5.QtMultimedia import QMediaContent, QMediaPlayer
 from PyQt5.QtMultimediaWidgets import QVideoWidget
@@ -65,6 +65,7 @@ class VideoPlayer(QWidget):
         self.ui.bn_prev.clicked.connect(self.prev)
         self.ui.bn_playlist.clicked.connect(self.show_playlist)
         self.ui.bn_uget.clicked.connect(self.on_uget_pressed)
+        self.ui.bn_proxy.toggled.connect(self.on_proxy_triggered)
 
         self.ui.progress_slider.sliderMoved.connect(self.media_player.setPosition)
         # self.ui.spin_volume.valueChanged.connect(self.media_player.setVolume)
@@ -76,6 +77,26 @@ class VideoPlayer(QWidget):
         self.change_position = None
         self.uget_handler = lambda fname='', url='': None
         # self.on_end_of_playing=lambda :None
+
+    def on_proxy_triggered(self, checked:bool):
+        position = self.media_player.position()
+        self.media_player.stop()
+
+        if checked:
+            print('Proxy on')
+            proxy=QNetworkProxy()
+            proxy.setType(QNetworkProxy.DefaultProxy)
+            proxy.setHostName("proxy.antizapret.prostovpn.org")
+            proxy.setPort(3128)
+            proxy.setApplicationProxy(proxy)
+        else:
+            print('Proxy off')
+            proxy=QNetworkProxy()
+            proxy.setType(QNetworkProxy.NoProxy)
+            proxy.setApplicationProxy(proxy)
+
+        self.media_player.play()
+        self.change_position = position
 
     def set_error_handler(self, handler):
         self.error_handler = handler
@@ -139,14 +160,9 @@ class VideoPlayer(QWidget):
         request = QNetworkRequest(QUrl(url.get()))
         # todo: сделать добавление cookie и подготовку proxу
 
-        # proxy=QNetworkProxy()
-        # proxy.setType(QNetworkProxy.HttpProxy)
-        # proxy.setHostName("proxy.antizapret.prostovpn.org")
-        # proxy.setPort(3128)
-
-        # proxy.setApplicationProxy(proxy)
 
 
+        self.ui.bn_proxy.setChecked(url.forced_proxy)
         self.media_player.setMedia(QMediaContent(request))
 
     def add_alternate_url(self, caption='', url=''):
