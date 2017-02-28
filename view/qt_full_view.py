@@ -10,7 +10,7 @@ __author__ = 'Vit'
 
 
 class FullView(QMainWindow, AbstractFullView):
-    def __init__(self, parent=None, view_manager=AbstractViewManager):
+    def __init__(self, parent=None, view_manager=AbstractViewManager()):
         QMainWindow.__init__(self, parent)
         self.manager = view_manager
         self.controller = view_manager.get_controller()

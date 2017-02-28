@@ -43,7 +43,8 @@ class ThumbInfo(FLData):
 
 class FullPictureInfo(FLData):
     # noinspection PyMissingConstructor
-    def __init__(self, rel_name='', abs_name='', abs_href=URL()):
+    def __init__(self, rel_name='', abs_name='', abs_href=URL(), overwrite=False):
+        self.overwrite = overwrite
         self.rel_name = rel_name
         self.abs_name = abs_name
         self.abs_href = abs_href

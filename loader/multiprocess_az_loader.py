@@ -100,10 +100,13 @@ class AZloaderMP(BaseLoadProcedure):
         self.data = data
         self.lock = lock
         self.request_load = RequestLoad()
-        self.trick_load = TrickLoad
+        self.trick_load = TrickLoad()
 
     def open(self, url: URL) -> bytes:
         method = self.get_load_method(url)
+
+        if method == 'none':
+            raise LoaderError('No way to open, connection not established or content filtered.')
 
         if method == 'plain':
             self.request_load.proxies = None
@@ -111,8 +114,8 @@ class AZloaderMP(BaseLoadProcedure):
         elif method == 'proxy':
             self.request_load.proxies = {'http': self.data.get('free_http_proxy', '')}
             return self.request_load.open(url)
-
-        return b''
+        else:
+            return self.trick_load.open(url,method)
 
     def get_load_method(self, url: URL) -> str:
         domain_cash = self.data.get('domain_cash', dict())
@@ -141,23 +144,29 @@ class AZloaderMP(BaseLoadProcedure):
 
     def _inspect_availability(self, url: URL) -> str:
         self.request_load.proxies = None
-        string = self.request_load.open(url).decode()
+        try:
+            string = self.request_load.open(url).decode()
 
-        if url.test_string in string:
-            return 'plain'
+            if url.test_string in string:
+                return 'plain'
+        except LoaderError:
+            pass
 
-        self.request_load.proxies = {'http': self.data.get('free_http_proxy', '')}
-        string = self.request_load.open(url).decode()
+        try:
+            self.request_load.proxies = {'http': self.data.get('free_http_proxy', '')}
+            string = self.request_load.open(url).decode()
 
-        if url.test_string in string:
-            return 'proxy'
+            if url.test_string in string:
+                return 'proxy'
+        except LoaderError:
+            pass
 
-        # for method_name in AZLoader.trick_headers:
-        #     # print(method_name)
-        #     string = self.trick_load(url,trick_name=method_name)
-        #     # print(string)
-        #     if url.test_string in string:
-        #         return method_name
+        for method_name in self.trick_load.trick_headers:
+            # print(method_name)
+            string = self.trick_load.open(url,trick=method_name).decode()
+            # print(string)
+            if url.test_string in string:
+                return method_name
 
         return 'none'
 

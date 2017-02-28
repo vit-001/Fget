@@ -93,7 +93,7 @@ class BESite(BaseSite):
 
             video = MediaData(URL(self.get_attr_from_script(video_rule.get_result()[0]['data'])))
             result.set_video(video)
-            result.set_type('video')
+
 
             for f in picture_href_rule.get_result():
                 # print(f)
@@ -102,7 +102,7 @@ class BESite(BaseSite):
 
         if len(startpage_rule.get_result()) > 0:
             # print('Startpage rule')
-            result.set_type('hrefs')
+
             for item in startpage_rule.get_result():
                 result.add_thumb(
                     ThumbInfo(thumb_url=URL(item['src']), href=URL(item['href']), popup=item.get('alt', '')))
@@ -114,7 +114,7 @@ class BESite(BaseSite):
                 result.add_control(ControlInfo(item['data'], URL(item['href'])))
 
         if len(picture_rule.get_result()) > 0:
-            result.set_type('pictures')
+
             for f in picture_rule.get_result():
                 result.add_full(FullPictureInfo(rel_name=f['src']))
 

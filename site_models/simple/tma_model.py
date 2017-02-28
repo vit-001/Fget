@@ -70,7 +70,7 @@ class TMASite(BaseSite):
         result = ParseResult()
 
         if len(href_rule.get_result()) > 0:
-            result.set_type('hrefs')
+
             for item in href_rule.get_result():
                 result.add_thumb(
                     ThumbInfo(thumb_url=URL(item['src']), href=URL(item['href']), popup=item.get('alt', '')))
@@ -82,7 +82,7 @@ class TMASite(BaseSite):
                 result.add_page(ControlInfo(item['data'], URL(item['href'])))
 
         if len(picture_rule.get_result()) > 0:
-            result.set_type('pictures')
+
             for f in picture_rule.get_result():
                 x = FullPictureInfo(abs_href=URL(f['href']), rel_name=f['href'].rpartition('/')[2])
                 result.add_full(x)

@@ -11,7 +11,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 
 class Ui_VideoPlayer(object):
     def setupUi(self, VideoPlayer):
-        VideoPlayer.setObjectName("VideoPlayer")
+        VideoPlayer.setObjectName("VideoPlayerWidget")
         VideoPlayer.resize(744, 532)
         self.verticalLayout = QtWidgets.QVBoxLayout(VideoPlayer)
         self.verticalLayout.setObjectName("verticalLayout")
