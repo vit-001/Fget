@@ -297,7 +297,8 @@ if __name__ == "__main__":
 
     print()
 
-    ds = DataServer()
+    l=MultiprocessAZloader()
+    # ds = DataServer()
     time.sleep(5)
 
     for item in ds.data['proxy_domains']:
