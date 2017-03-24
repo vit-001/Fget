@@ -39,9 +39,9 @@ if __name__ == "__main__":
 
     proxies={'http': 'proxy.antizapret.prostovpn.org:3128'}
 
-    url1 = 'http://ru.xhamster.com/'
-    url1a = 'http://www.pornhub.com/view_video.php?viewkey=ph58b2cd0bcd448'
-    url2 = 'http://cdn2b.video.pornhub.phncdn.com/videos/201702/27/107746912/480P_600K_107746912.mp4?ip=163.172.173.40/8&rs=106&ri=1000&s=1488179361&e=1488186561&h=405881cd40941cf7d64938db638a204c'
+    url1 = 'http://www.tube8.com/newest/page/3/'
+    url1a = 'https://www.xvideos.com/video19103917/sexy_busty_lucy_li_thinks_this_porn_casting...'
+    url2 = 'http://www.porntrex.com/get_file/6/69703cf4f1a4cf4afc7496527211aa8e/67000/67222/67222_360p.mp4/'
     url3 = 'http://www.drtuber.com/player_config/?h=503093cfbeaa558180554133b2315358%26check_speed=1%26t=1480701894%26vkey=676d54293b2629388734&project_name=drtuber&id=player&javascriptid=player&enablejs=true'
 
     fname1 = 'out/1.html'
@@ -58,11 +58,11 @@ if __name__ == "__main__":
 
     # headers = {'Referer': 'http://her69.net/massagerooms-daphne-angel-daisy-lee/'}
 
-    # r=load(url2,fname2)#, proxies=proxies)
-    # r = load(url2, fname2a)
+    # r=load(url1,fname1)#, proxies=proxies)
+    # r = load(url2, fname2)
     # r = load(url1a, fname1a, proxies=proxies)
-    # r = load(url1a, fname1a,headers=headers)
-    r = load(url2, fname2, proxies=proxies)
+    r = load(url1a, fname1a)
+    # r = load(url2, fname2, proxies=proxies)
 
     # r=load('https://assets.porndig.com/assets/porndig/js/bundle.js?ver=1481122807','e:/out/bundle.js')
 

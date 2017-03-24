@@ -17,7 +17,7 @@ class HRvideoSite(BaseSite):
                     featured=URL('http://www.heavy-r.com/videos/featured/'))
 
     def startpage(self):
-        return URL("http://www.heavy-r.com/videos/")
+        return URL("http://www.heavy-r.com/videos/",test_string='Heavy-R')
 
     def can_accept_index_file(self, base_url=URL()):
         return base_url.contain('heavy-r.com/')

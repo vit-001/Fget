@@ -63,7 +63,6 @@ class VPSite(BaseSite):
 
         if len(startpage_rule.get_result()) > 0:
             # print('Startpage rule')
-            result.set_type('hrefs')
             for item in startpage_rule.get_result():
                 result.add_thumb(
                     ThumbInfo(thumb_url=URL(item['src']), href=URL(item['href'] + '*'),

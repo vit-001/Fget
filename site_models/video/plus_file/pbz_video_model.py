@@ -103,7 +103,7 @@ class PBZvideoSite(BaseSite):
                             urls.append(data)
                 elif 'sources:' in script:
                     if video2_rule.is_result(['src']):
-                        # print(video2_rule.get_result())
+                        print(video2_rule.get_result())
                         php_url = URL(video2_rule.get_result(['src'])[0]['src'])
                         # print(php_url)
                         res = load(php_url)

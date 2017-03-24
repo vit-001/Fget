@@ -6,7 +6,7 @@ def watch(d, evt):
     while True:
         evt.wait()
         print(d)
-        evt.clear()
+        evt.prepare()
 
 if __name__ =='__main__':
     m = multiprocessing.Manager()

@@ -68,7 +68,6 @@ class NPSite(BaseSite):
                 result.add_page(ControlInfo(item['data'], URL(item['href'])))
 
         if len(picture_rule.get_result()) > 0:
-            result.set_type('pictures')
             i = 1
             for f in picture_rule.get_result(['src', 'class']):
                 # print(f)

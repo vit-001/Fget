@@ -99,7 +99,7 @@ class ExtendedThumbView(Frame):
     def add(self, fname, scroll=False):
         if len(self.free_thumbs) > 0:
             bn = self.free_thumbs.pop()
-            bn.re_init(picture=fname)
+            bn.prepare(picture=fname)
         else:
             bn = FramedButton(self.canvas, size=self.thumbsize, picture=fname, text='loading...', borderwidth=0)
         # bn.show_image()

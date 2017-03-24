@@ -113,8 +113,8 @@ class ParseResult():
         return self.video
 
     def set_type(self, type):  # todo  убрать совсем
-        raise(RuntimeWarning('Delete ParseResult.set_type()'))
-        # pass
+        # raise(RuntimeWarning('Delete ParseResult.set_type()'))
+        pass
     #     # self._type = type
 
     def set_picture_collector(self, collector: PictureCollector):

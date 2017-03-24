@@ -88,7 +88,7 @@ class FGetMain(Frame):
         self.on_input_data_change()
 
     def on_input_data_change(self):
-        self.file_list.clear()
+        self.file_list.prepare()
 
         url = self.url.get()
         path = urlparse(url)

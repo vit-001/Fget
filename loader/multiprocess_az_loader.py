@@ -23,7 +23,7 @@ class DataServer:
         self.data = self.manager.dict()
         self.last_load_proxy_pack = None
         self.init_data()
-        # print('Proxy pack', len(self.data['proxy_domains']))
+        print('Requests version: ' + requests.__version__)
 
     def get_data(self):
         return self.data
@@ -33,10 +33,10 @@ class DataServer:
         self.manager.shutdown()
 
     def init_data(self):
-        print('Requests version: ' + requests.__version__)
         self.read_config(Setting.base_dir + 'az.json')
         self.read_proxy_pac(URL("http://antizapret.prostovpn.org/proxy.pac*"))
         self.data['domain_cash'] = dict()
+
 
     def read_proxy_pac(self, pac_url):
         if self.last_load_proxy_pack:

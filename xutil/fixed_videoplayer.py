@@ -68,11 +68,11 @@ class VideoPlayer(QWidget):
             # coockies = {'_gat': '1', 'protect': 'BPJvGkuwOdy0D4amF44YTA', '_ga': 'GA1.2.638382635.1487974825'}
 
 
-            nc=[
-                QNetworkCookie('_gat'.encode(),'1'.encode()),
-                QNetworkCookie('protect'.encode(), 'BPJvGkuwOdy0D4amF44YTA'.encode()),
-                QNetworkCookie('_ga'.encode(), 'GA1.2.638382635.1487974825'.encode())
-                ]
+            # nc=[
+            #     QNetworkCookie('_gat'.encode(),'1'.encode()),
+            #     QNetworkCookie('protect'.encode(), 'BPJvGkuwOdy0D4amF44YTA'.encode()),
+            #     QNetworkCookie('_ga'.encode(), 'GA1.2.638382635.1487974825'.encode())
+            #     ]
 
 
             # request.setHeader(QNetworkRequest.CookieHeader,nc)
@@ -83,7 +83,7 @@ class VideoPlayer(QWidget):
             # proxy.setType(QNetworkProxy.HttpProxy)
             # proxy.setHostName("proxy.antizapret.prostovpn.org")
             # proxy.setPort(3128)
-
+            #
             # proxy.setApplicationProxy(proxy)
 
             # QNetworkProxy.setApplicationProxy(proxy)
@@ -125,11 +125,11 @@ if __name__ == '__main__':
 
     app = QApplication(sys.argv)
 
-    url = 'http://v.sexu.com/key=gTDWpa94BjwUYALCAlQxLA,end=1488017296,ip=79.214.77.244/sec=protect/sexu/3a/2512707-720p-x.mp4'
+    url = 'https://cluster8b.heavy-r.com/v/05689c5250aed81763a50ffe1baa5d71/58ca8dac/vid/0a/04/a4/0a04a4cf943928d.mp4'
     url2= 'http://media.collectionofbestporn.com:8080/videos/5/8/a/6/b/58a6b3d600d8a.mp4'
     url3='http://cdn4.videos.motherlessmedia.com/videos/E5C4682.mp4?fs=opencloud'
 
-    q_url = QUrl(url3)
+    q_url = QUrl(url)
 
     player = VideoPlayer(url=q_url)
     player.resize(320, 240)
